@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -12,7 +12,7 @@ import { auth, db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
-export default function SignupPage() {
+function SignupContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, loading } = useAuth();
@@ -46,7 +46,7 @@ export default function SignupPage() {
         email,
         name,
         uid: userCred.user.uid,
-        plan: 'free',
+        plan: plan as 'free' | 'pro' | 'power',
         createdAt: Date.now(),
         settings: {
           theme: 'dark',
@@ -56,7 +56,7 @@ export default function SignupPage() {
 
       // Create subscription document
       await setDoc(doc(db, 'subscriptions', userCred.user.uid), {
-        plan: 'free',
+        plan: plan as 'free' | 'pro' | 'power',
         status: 'active',
         createdAt: Date.now(),
       });
@@ -87,7 +87,7 @@ export default function SignupPage() {
           email: userCred.user.email,
           name: userCred.user.displayName || 'User',
           uid: userCred.user.uid,
-          plan: 'free',
+          plan: plan as 'free' | 'pro' | 'power',
           createdAt: Date.now(),
           settings: {
             theme: 'dark',
@@ -97,7 +97,7 @@ export default function SignupPage() {
 
         // Create subscription document
         await setDoc(doc(db, 'subscriptions', userCred.user.uid), {
-          plan: 'free',
+          plan: plan as 'free' | 'pro' | 'power',
           status: 'active',
           createdAt: Date.now(),
         });
@@ -193,5 +193,13 @@ export default function SignupPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignupContent />
+    </Suspense>
   );
 }
