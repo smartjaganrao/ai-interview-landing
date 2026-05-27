@@ -1,0 +1,200 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+
+export default function PricingPage() {
+  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
+  const { user } = useAuth();
+  const router = useRouter();
+
+  const handleSelectPlan = (plan: string) => {
+    if (!user) {
+      router.push(`/auth/signup?plan=${plan}`);
+    } else if (plan === 'free') {
+      router.push('/dashboard');
+    } else {
+      router.push(`/checkout?plan=${plan}&billing=${billing}`);
+    }
+  };
+
+  const plans = [
+    {
+      id: 'free',
+      name: 'Free',
+      tagline: 'Try it out',
+      price: { monthly: 0, yearly: 0 },
+      features: [
+        '10 AI answers/day',
+        '20 voice minutes/day',
+        '3 screenshots/day',
+        'Basic feedback',
+        'Email support',
+      ],
+      cta: 'Start Free',
+      popular: false,
+      gradient: 'from-slate-600 to-slate-700',
+    },
+    {
+      id: 'pro',
+      name: 'Pro',
+      tagline: 'For serious candidates',
+      price: { monthly: 499, yearly: 4990 },
+      features: [
+        'Unlimited AI answers',
+        'Unlimited voice minutes',
+        'Unlimited screenshots',
+        'Advanced feedback & insights',
+        'Cloud history sync',
+        'Priority support',
+        'Performance analytics',
+      ],
+      cta: 'Get Pro',
+      popular: true,
+      gradient: 'from-indigo-500 to-purple-600',
+    },
+    {
+      id: 'power',
+      name: 'Power',
+      tagline: 'Maximum advantage',
+      price: { monthly: 999, yearly: 9990 },
+      features: [
+        'Everything in Pro',
+        'Priority AI models (faster)',
+        'GPT-4 + Claude integration',
+        'Custom interview scenarios',
+        '1-on-1 coaching session',
+        'Resume review (monthly)',
+        'White-glove onboarding',
+      ],
+      cta: 'Go Power',
+      popular: false,
+      gradient: 'from-purple-600 to-pink-600',
+    },
+  ];
+
+  return (
+    <>
+      <Navbar />
+
+      <section className="pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="badge mb-4">💎 Pricing</div>
+            <h1 className="text-5xl md:text-6xl font-black mb-6">
+              Choose Your <span className="text-gradient">Path to Success</span>
+            </h1>
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+              Start free, upgrade when you&apos;re ready. Cancel anytime.
+            </p>
+
+            {/* Billing toggle */}
+            <div className="inline-flex items-center gap-2 p-1 rounded-full glass-heavy">
+              <button
+                onClick={() => setBilling('monthly')}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-smooth ${
+                  billing === 'monthly'
+                    ? 'gradient-primary text-white'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setBilling('yearly')}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-smooth flex items-center gap-2 ${
+                  billing === 'yearly'
+                    ? 'gradient-primary text-white'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Yearly
+                <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs">
+                  Save 17%
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {/* Pricing cards */}
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {plans.map((plan) => (
+              <div
+                key={plan.id}
+                className={`relative card card-glow ${plan.popular ? 'md:scale-105 border-indigo-500/50' : ''}`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <div className="px-4 py-1 rounded-full gradient-primary text-white text-xs font-semibold">
+                      ⭐ MOST POPULAR
+                    </div>
+                  </div>
+                )}
+
+                <div className="text-center mb-6">
+                  <div className={`inline-flex w-16 h-16 rounded-2xl bg-gradient-to-br ${plan.gradient} items-center justify-center text-3xl mb-4`}>
+                    {plan.id === 'free' ? '🎯' : plan.id === 'pro' ? '🚀' : '⚡'}
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-1">{plan.name}</h3>
+                  <p className="text-sm text-slate-400 mb-4">{plan.tagline}</p>
+
+                  <div className="flex items-baseline justify-center gap-1 mb-1">
+                    <span className="text-5xl font-black text-white">
+                      ₹{billing === 'yearly' ? Math.round(plan.price.yearly / 12) : plan.price.monthly}
+                    </span>
+                    <span className="text-slate-400">/mo</span>
+                  </div>
+                  {billing === 'yearly' && plan.price.yearly > 0 && (
+                    <p className="text-xs text-slate-500">Billed ₹{plan.price.yearly} yearly</p>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => handleSelectPlan(plan.id)}
+                  className={`w-full mb-6 ${plan.popular ? 'btn btn-primary' : 'btn btn-secondary'}`}
+                >
+                  {plan.cta} →
+                </button>
+
+                <ul className="space-y-3">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm">
+                      <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-green-400 text-xs">✓</span>
+                      </div>
+                      <span className="text-slate-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* FAQ */}
+          <div className="mt-20 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-8">Common Questions</h2>
+            <div className="space-y-4">
+              {[
+                { q: 'Can I switch plans anytime?', a: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we&apos;ll prorate any charges.' },
+                { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan to try the basics. Upgrade to Pro for a 7-day free trial of all premium features.' },
+                { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.' },
+                { q: 'Do you offer refunds?', a: 'Yes, we offer a 30-day money-back guarantee. If you&apos;re not satisfied, contact support for a full refund.' },
+              ].map((item, i) => (
+                <div key={i} className="card">
+                  <h4 className="text-lg font-semibold text-white mb-2">{item.q}</h4>
+                  <p className="text-slate-400">{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </>
+  );
+}
