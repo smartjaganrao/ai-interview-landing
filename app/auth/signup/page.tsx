@@ -3,14 +3,11 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import {
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, getRedirectResult } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
+import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
 
 function SignupContent() {
   const router = useRouter();
@@ -24,6 +21,18 @@ function SignupContent() {
   const [isLoading, setIsLoading] = useState(false);
 
   const plan = searchParams.get('plan') || 'free';
+
+  // Handle Google redirect result (when popup falls back to redirect)
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (cred) => {
+        if (cred) {
+          await ensureUserDocs(cred);
+          router.push(plan === 'pro' || plan === 'power' ? `/checkout?plan=${plan}` : '/dashboard');
+        }
+      })
+      .catch((err) => setError(friendlyAuthError(err)));
+  }, [router, plan]);
 
   useEffect(() => {
     if (!loading && user) {
@@ -75,28 +84,10 @@ function SignupContent() {
     setIsLoading(true);
 
     try {
-      const provider = new GoogleAuthProvider();
-      const userCred = await signInWithPopup(auth, provider);
+      const cred = await googleSignIn();
+      if (!cred) return; // redirect in progress; result handled on return
 
-      const userDocRef = doc(db, 'users', userCred.user.uid);
-      const userSnapshot = await getDoc(userDocRef);
-
-      if (!userSnapshot.exists()) {
-        await setDoc(userDocRef, {
-          email: userCred.user.email,
-          name: userCred.user.displayName || 'User',
-          uid: userCred.user.uid,
-          plan: 'free' as const,
-          createdAt: Date.now(),
-          settings: { theme: 'dark', language: 'en' },
-        });
-
-        await setDoc(doc(db, 'subscriptions', userCred.user.uid), {
-          plan: 'free' as const,
-          status: 'active',
-          createdAt: Date.now(),
-        });
-      }
+      await ensureUserDocs(cred);
 
       if (plan === 'pro' || plan === 'power') {
         router.push(`/checkout?plan=${plan}`);
@@ -104,7 +95,7 @@ function SignupContent() {
         router.push('/dashboard');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign up with Google');
+      setError(friendlyAuthError(err));
     } finally {
       setIsLoading(false);
     }

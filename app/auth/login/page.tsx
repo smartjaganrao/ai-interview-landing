@@ -3,13 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
+import { signInWithEmailAndPassword, getRedirectResult } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
+import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,6 +16,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Handle Google redirect result (when popup falls back to redirect)
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (cred) => {
+        if (cred) {
+          await ensureUserDocs(cred);
+          router.push('/dashboard');
+        }
+      })
+      .catch((err) => setError(friendlyAuthError(err)));
+  }, [router]);
 
   useEffect(() => {
     if (!loading && user) {
@@ -46,11 +55,12 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const cred = await googleSignIn();
+      if (!cred) return; // redirect in progress; result handled on return
+      await ensureUserDocs(cred);
       router.push('/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to login with Google');
+      setError(friendlyAuthError(err));
     } finally {
       setIsLoading(false);
     }
