@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getCountFromServer } from 'firebase/firestore';
 import Navbar from '@/components/Navbar';
 
 interface UserData {
@@ -21,6 +21,21 @@ interface UsageData {
   screenshotsUsed: number;
 }
 
+interface SubscriptionData {
+  plan: 'free' | 'pro' | 'power';
+  status: string;
+  billing?: 'monthly' | 'yearly';
+  amount?: number;
+  startedAt?: number;
+  renewalDate?: number;
+  paymentId?: string;
+}
+
+interface ActivityData {
+  totalSessions: number;
+  totalQuestions: number;
+}
+
 const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
 const DIRECT_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.1.0-beta.1/AI.Interview.Helper.v1.1.0-beta.1.exe';
 
@@ -31,6 +46,8 @@ function DashboardContent() {
 
   const [userData, setUserData] = useState<UserData | null>(null);
   const [usageData, setUsageData] = useState<UsageData | null>(null);
+  const [subData, setSubData] = useState<SubscriptionData | null>(null);
+  const [activity, setActivity] = useState<ActivityData>({ totalSessions: 0, totalQuestions: 0 });
   const [loading, setLoading] = useState(true);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
 
@@ -58,6 +75,9 @@ function DashboardContent() {
           }
           setUserData(ud);
         }
+        if (subSnap.exists()) {
+          setSubData(subSnap.data() as SubscriptionData);
+        }
         if (usageSnap.exists()) {
           setUsageData(usageSnap.data() as UsageData);
         } else {
@@ -65,6 +85,21 @@ function DashboardContent() {
         }
         setLoading(false);
       });
+
+      // Interview activity counts (best-effort — won't block dashboard)
+      Promise.all([
+        getCountFromServer(query(collection(db, 'interview_sessions'), where('userId', '==', user.uid))),
+        getCountFromServer(query(collection(db, 'interview_messages'), where('userId', '==', user.uid))),
+      ])
+        .then(([sessSnap, msgSnap]) => {
+          setActivity({
+            totalSessions: sessSnap.data().count,
+            totalQuestions: msgSnap.data().count,
+          });
+        })
+        .catch(() => {
+          // collections may not exist yet for new users; ignore
+        });
     }
   }, [user, authLoading, router, searchParams]);
 
@@ -103,13 +138,35 @@ function DashboardContent() {
       <section className="pt-32 pb-20 min-h-screen">
         <div className="max-w-7xl mx-auto px-6">
           {/* Welcome Header */}
-          <div className="mb-10">
+          <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-3xl md:text-4xl font-black">
                 Welcome back, <span className="text-gradient">{userData?.name || 'Friend'}</span> 👋
               </h1>
             </div>
             <p className="text-slate-400">Ready to ace your next interview?</p>
+          </div>
+
+          {/* Activity Summary Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            {[
+              { icon: '🧠', value: activity.totalQuestions, label: 'Questions Practiced' },
+              { icon: '🎯', value: activity.totalSessions, label: 'Interview Sessions' },
+              {
+                icon: '📅',
+                value: userData?.createdAt ? Math.max(1, Math.floor((Date.now() - userData.createdAt) / 86400000)) : 1,
+                label: 'Days as Member',
+              },
+              { icon: planConfig[plan].emoji, value: planConfig[plan].label, label: 'Current Plan' },
+            ].map((stat, i) => (
+              <div key={i} className="card flex items-center gap-4 py-4">
+                <div className="text-3xl">{stat.icon}</div>
+                <div>
+                  <div className="text-2xl font-black text-white">{stat.value}</div>
+                  <div className="text-xs text-slate-400">{stat.label}</div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Top Row: Plan + Download */}
@@ -250,6 +307,46 @@ function DashboardContent() {
                   </div>
                 ))}
               </div>
+
+              {/* Billing Details */}
+              {subData && (
+                <div className="card mt-6">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span>🧾</span> Subscription &amp; Billing
+                  </h3>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div>
+                      <div className="text-sm text-slate-400 mb-1">Status</div>
+                      <div className="inline-flex items-center gap-2 text-green-400 font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-green-400"></span>
+                        {subData.status === 'active' ? 'Active' : subData.status}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-slate-400 mb-1">Billing Cycle</div>
+                      <div className="text-white font-semibold capitalize">{subData.billing || 'Monthly'}</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-slate-400 mb-1">Amount</div>
+                      <div className="text-white font-semibold">{subData.amount ? `₹${subData.amount}` : '—'}</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-slate-400 mb-1">Renews On</div>
+                      <div className="text-white font-semibold">
+                        {subData.renewalDate ? new Date(subData.renewalDate).toLocaleDateString() : '—'}
+                      </div>
+                    </div>
+                  </div>
+                  {subData.paymentId && (
+                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between flex-wrap gap-3">
+                      <div className="text-xs text-slate-500 font-mono">Payment ID: {subData.paymentId}</div>
+                      <Link href="/pricing" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">
+                        Change Plan →
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
