@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { createUserWithEmailAndPassword, getRedirectResult } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getRedirectResult, sendEmailVerification } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -51,6 +51,14 @@ function SignupContent() {
 
     try {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
+
+      // Kick off email verification — non-blocking. The dashboard shows a banner
+      // until verified, and offers a "resend" button.
+      sendEmailVerification(userCred.user, {
+        url: typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : 'https://ai-interview-landing-phi.vercel.app/dashboard',
+      }).catch(() => {
+        // Swallow — verification is best-effort; banner offers resend.
+      });
 
       await setDoc(doc(db, 'users', userCred.user.uid), {
         email,
