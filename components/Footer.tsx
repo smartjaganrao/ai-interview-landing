@@ -48,10 +48,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-3 text-sm">
-              <li><a href="#" className="text-slate-400 hover:text-white transition">About</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition">Privacy</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition">Terms</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition">Contact</a></li>
+              <li><Link href="/privacy" className="text-slate-400 hover:text-white transition">Privacy</Link></li>
+              <li><Link href="/terms" className="text-slate-400 hover:text-white transition">Terms</Link></li>
+              <li><a href="mailto:support@aiinterview.com" className="text-slate-400 hover:text-white transition">Contact</a></li>
             </ul>
           </div>
         </div>
