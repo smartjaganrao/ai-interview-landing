@@ -404,14 +404,14 @@ function DashboardContent() {
               <div className="text-3xl mb-3">📖</div>
               <h3 className="text-lg font-bold mb-2">Getting Started</h3>
               <p className="text-slate-400 text-sm mb-4">Learn how to use the desktop app effectively</p>
-              <a href="#" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">Read Guide →</a>
+              <a href="https://github.com/smartjaganrao/ai-interview-helper#readme" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">Read Guide →</a>
             </div>
 
             <div className="card">
               <div className="text-3xl mb-3">🎓</div>
               <h3 className="text-lg font-bold mb-2">Interview Tips</h3>
               <p className="text-slate-400 text-sm mb-4">Expert tips to ace your next interview</p>
-              <a href="#" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">View Tips →</a>
+              <Link href="/pricing" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">View Plans →</Link>
             </div>
 
             <div className="card">

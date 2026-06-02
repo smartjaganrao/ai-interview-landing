@@ -63,22 +63,26 @@ function CheckoutContent() {
     }
   }, [user, loading, router, plan]);
 
-  /** Probe the server to see if Razorpay is configured. */
+  /** Probe the server to see if Razorpay is configured (5s timeout). */
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
     fetch('/api/razorpay/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ plan, billing, userId: user.uid }),
+      signal: controller.signal,
     })
       .then((res) => {
         if (cancelled) return;
-        if (res.status === 503) setBillingConfigured(false);
-        else setBillingConfigured(true);
+        setBillingConfigured(res.status !== 503);
       })
-      .catch(() => !cancelled && setBillingConfigured(false));
-    return () => { cancelled = true; };
+      .catch(() => { if (!cancelled) setBillingConfigured(false); })
+      .finally(() => clearTimeout(timeout));
+    return () => { cancelled = true; controller.abort(); };
   }, [user, plan, billing]);
 
   const handlePay = async () => {

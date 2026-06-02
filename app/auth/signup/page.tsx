@@ -81,7 +81,7 @@ function SignupContent() {
         router.push('/dashboard');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign up');
+      setError(friendlyAuthError(err));
     } finally {
       setIsLoading(false);
     }
@@ -263,7 +263,7 @@ function SignupContent() {
             </p>
 
             <p className="text-center text-xs text-slate-500 mt-4">
-              By signing up, you agree to our <a href="#" className="text-slate-400 underline">Terms</a> and <a href="#" className="text-slate-400 underline">Privacy Policy</a>
+              By signing up, you agree to our <Link href="/terms" className="text-slate-400 underline hover:text-slate-300">Terms</Link> and <Link href="/privacy" className="text-slate-400 underline hover:text-slate-300">Privacy Policy</Link>
             </p>
           </div>
         </div>

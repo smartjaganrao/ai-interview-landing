@@ -44,7 +44,7 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to login');
+      setError(friendlyAuthError(err));
     } finally {
       setIsLoading(false);
     }

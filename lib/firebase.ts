@@ -28,8 +28,8 @@ try {
   auth = getAuth(app);
   db = getFirestore(app);
 
-  if (typeof window !== 'undefined') {
-    console.log('[Firebase] Initialized successfully for project:', firebaseConfig.projectId);
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+    console.log('[Firebase] Initialized for project:', firebaseConfig.projectId);
   }
 } catch (error) {
   console.error('[Firebase] Initialization error:', error);
