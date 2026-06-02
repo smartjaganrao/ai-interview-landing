@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyPaymentSignature, isRazorpayConfigured } from '@/lib/razorpay-server';
+import { verifyPaymentSignature, isRazorpayConfigured, PLAN_CATALOG } from '@/lib/razorpay-server';
+import { persistSubscription } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * POST { orderId, paymentId, signature }
- * Verifies the HMAC signature returned by Razorpay Checkout.
- * Returns { verified: true } on success so the client can safely write the
- * subscription document to Firestore as the authenticated user.
+ * POST { orderId, paymentId, signature, userId, plan, billing }
  *
- * (Firestore rules ensure the user can only update their OWN subscription doc.)
+ * 1. Verifies the HMAC signature from Razorpay Checkout.
+ * 2. Persists the subscription to Firestore server-side via Admin SDK so the
+ *    plan is saved even if the client closes before completing its own write.
+ *    The client still does a belt-and-suspenders setDoc, but this is authoritative.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -20,22 +21,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { orderId, paymentId, signature } = (await request.json()) as {
+    const { orderId, paymentId, signature, userId, plan, billing } = (await request.json()) as {
       orderId: string;
       paymentId: string;
       signature: string;
+      userId?: string;
+      plan?: 'pro' | 'power';
+      billing?: 'monthly' | 'yearly';
     };
 
     if (!orderId || !paymentId || !signature) {
       return NextResponse.json({ error: 'Missing payment fields' }, { status: 400 });
     }
 
+    // 1) Verify Razorpay HMAC signature
     const ok = verifyPaymentSignature({ orderId, paymentId, signature });
     if (!ok) {
       return NextResponse.json({ verified: false, error: 'Signature mismatch' }, { status: 400 });
     }
 
-    return NextResponse.json({ verified: true, orderId, paymentId });
+    // 2) Server-side Firestore write — best-effort, client write is the fallback
+    let savedToFirestore = false;
+    if (userId && plan && billing) {
+      const amount = PLAN_CATALOG[plan]?.[billing] ?? 0;
+      savedToFirestore = await persistSubscription({
+        userId, plan, billing, amount, paymentId, orderId, source: 'checkout',
+      });
+    }
+
+    return NextResponse.json({ verified: true, orderId, paymentId, savedToFirestore });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Verification failed';
     console.error('[razorpay/verify-payment]', message);

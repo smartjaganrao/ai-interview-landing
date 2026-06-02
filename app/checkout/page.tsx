@@ -119,6 +119,7 @@ function CheckoutContent() {
         handler: async (response) => {
           // 4) Verify signature on the server.
           try {
+            // 4a) Verify signature AND persist server-side in one call.
             const verifyRes = await fetch('/api/razorpay/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -126,23 +127,31 @@ function CheckoutContent() {
                 orderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,
                 signature: response.razorpay_signature,
+                // Context for server-side Firestore write
+                userId: user.uid,
+                plan,
+                billing,
               }),
             });
             if (!verifyRes.ok) throw new Error('Payment verification failed');
 
-            // 5) Persist subscription on Firestore as the authenticated user.
-            const renewalDate = Date.now() + (billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
-            await setDoc(
-              doc(db, 'subscriptions', user.uid),
-              {
-                plan, status: 'active', billing, amount: price,
-                startedAt: Date.now(), renewalDate,
-                paymentId: response.razorpay_payment_id,
-                orderId: response.razorpay_order_id,
-              },
-              { merge: true }
-            );
-            await setDoc(doc(db, 'users', user.uid), { plan, updatedAt: Date.now() }, { merge: true });
+            // 5) Belt-and-suspenders: also write from client in case Admin SDK
+            //    is not configured on the server (FIREBASE_ADMIN_SDK_JSON missing).
+            const verifyData = await verifyRes.json();
+            if (!verifyData.savedToFirestore) {
+              const renewalDate = Date.now() + (billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
+              await setDoc(
+                doc(db, 'subscriptions', user.uid),
+                {
+                  plan, status: 'active', billing, amount: price,
+                  startedAt: Date.now(), renewalDate,
+                  paymentId: response.razorpay_payment_id,
+                  orderId: response.razorpay_order_id,
+                },
+                { merge: true }
+              );
+              await setDoc(doc(db, 'users', user.uid), { plan, updatedAt: Date.now() }, { merge: true });
+            }
 
             setStep('success');
             setTimeout(() => router.push('/dashboard?upgraded=true'), 2500);

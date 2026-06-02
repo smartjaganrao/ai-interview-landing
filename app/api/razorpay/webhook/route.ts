@@ -1,40 +1,121 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyWebhookSignature } from '@/lib/razorpay-server';
+import { persistSubscription, db } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * Razorpay → server webhook receiver.
- * Configure this URL in Razorpay Dashboard → Settings → Webhooks:
- *   https://<your-domain>/api/razorpay/webhook
- * With events: payment.captured, payment.failed, subscription.charged
- * And set RAZORPAY_WEBHOOK_SECRET in your environment.
+ * Razorpay → server webhook receiver (safety-net for the checkout happy path).
  *
- * The client-side verify-payment endpoint already covers the happy path;
- * this webhook is the safety net for cases where the client closes their
- * browser mid-flow (e.g., reconciliation of "paid but no Firestore record").
+ * Configure in Razorpay Dashboard → Settings → Webhooks:
+ *   URL:    https://<your-domain>/api/razorpay/webhook
+ *   Events: payment.captured, payment.failed, subscription.charged, subscription.cancelled
+ *   Secret: RAZORPAY_WEBHOOK_SECRET env var
  *
- * For full reliability, this should write to Firestore via Firebase Admin SDK
- * (not yet wired here to avoid bundling a service account key client-side).
- * Currently it logs + acknowledges; pair with Admin SDK in a future iteration.
+ * Flow:
+ *  1. Verify HMAC signature (rejects anything not from Razorpay)
+ *  2. On payment.captured → persist/update subscription in Firestore
+ *  3. On payment.failed   → mark subscription as failed
+ *  4. On subscription.cancelled → set status to cancelled
+ *
+ * The verify-payment client endpoint covers the normal flow; this webhook
+ * handles reconciliation when the browser closes before the client write.
  */
+
+interface RazorpayPaymentEntity {
+  id: string;
+  order_id?: string;
+  amount?: number;
+  currency?: string;
+  notes?: Record<string, string>;
+}
+
+interface RazorpaySubscriptionEntity {
+  id: string;
+  plan_id?: string;
+  notes?: Record<string, string>;
+}
+
+interface RazorpayEvent {
+  event?: string;
+  payload?: {
+    payment?: { entity?: RazorpayPaymentEntity };
+    subscription?: { entity?: RazorpaySubscriptionEntity };
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const signature = request.headers.get('x-razorpay-signature') || '';
     const rawBody = await request.text();
 
     if (!verifyWebhookSignature(rawBody, signature)) {
-      console.warn('[razorpay/webhook] signature mismatch — ignoring');
+      console.warn('[razorpay/webhook] signature mismatch — rejecting');
       return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
     }
 
-    const event = JSON.parse(rawBody) as { event?: string; payload?: unknown };
-    console.log('[razorpay/webhook] verified event:', event.event);
+    const event = JSON.parse(rawBody) as RazorpayEvent;
+    const eventName = event.event ?? 'unknown';
+    console.log('[razorpay/webhook] verified event:', eventName);
 
-    // TODO: when Firebase Admin SDK is wired, write/update subscription doc here
-    // for events: payment.captured, subscription.charged, subscription.cancelled.
+    switch (eventName) {
+      case 'payment.captured': {
+        const payment = event.payload?.payment?.entity;
+        if (!payment) break;
 
-    return NextResponse.json({ received: true });
+        const notes = payment.notes ?? {};
+        const userId = notes.userId;
+        const plan = notes.plan as 'pro' | 'power' | undefined;
+        const billing = notes.billing as 'monthly' | 'yearly' | undefined;
+
+        if (userId && plan && billing) {
+          const amount = payment.amount ? Math.round(payment.amount / 100) : 0;
+          const saved = await persistSubscription({
+            userId, plan, billing, amount,
+            paymentId: payment.id,
+            orderId: payment.order_id ?? '',
+            source: 'webhook',
+          });
+          console.log('[razorpay/webhook] payment.captured → Firestore write:', saved ? 'ok' : 'skipped (no Admin SDK)');
+        } else {
+          console.warn('[razorpay/webhook] payment.captured missing userId/plan/billing in notes — cannot update Firestore');
+        }
+        break;
+      }
+
+      case 'payment.failed': {
+        const payment = event.payload?.payment?.entity;
+        const userId = payment?.notes?.userId;
+        if (userId && db) {
+          await db.collection('subscriptions').doc(userId).set(
+            { status: 'payment_failed', updatedAt: Date.now() },
+            { merge: true }
+          );
+        }
+        break;
+      }
+
+      case 'subscription.cancelled': {
+        const sub = event.payload?.subscription?.entity;
+        const userId = sub?.notes?.userId;
+        if (userId && db) {
+          await db.collection('subscriptions').doc(userId).set(
+            { status: 'cancelled', updatedAt: Date.now() },
+            { merge: true }
+          );
+          await db.collection('users').doc(userId).set(
+            { plan: 'free', updatedAt: Date.now() },
+            { merge: true }
+          );
+        }
+        break;
+      }
+
+      default:
+        console.log('[razorpay/webhook] unhandled event type:', eventName);
+    }
+
+    return NextResponse.json({ received: true, event: eventName });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Webhook handler failed';
     console.error('[razorpay/webhook]', message);
