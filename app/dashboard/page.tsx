@@ -38,7 +38,7 @@ interface ActivityData {
 }
 
 const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
-const DIRECT_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.1.0-beta.2/AI-Interview-Helper-v1.1.0-beta.2-portable-win-x64.zip';
+const DIRECT_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.0/AI-Interview-Helper-v1.2.0-portable-win-x64.zip';
 
 function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
@@ -286,11 +286,11 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
-                  <span>v1.1.0-beta.2</span>
+                  <span>v1.2.0</span>
                   <span>•</span>
                   <span>Windows 10/11</span>
                   <span>•</span>
-                  <span>202 MB</span>
+                  <span>212 MB</span>
                 </div>
               </div>
             </div>
