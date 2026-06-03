@@ -55,7 +55,9 @@ function SignupContent() {
       // Kick off email verification — non-blocking. The dashboard shows a banner
       // until verified, and offers a "resend" button.
       sendEmailVerification(userCred.user, {
-        url: typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : 'https://ai-interview-landing-phi.vercel.app/dashboard',
+        url: typeof window !== 'undefined'
+          ? `${window.location.origin}/dashboard`
+          : `${process.env.NEXT_PUBLIC_APP_URL || 'https://javihai.in'}/dashboard`,
       }).catch(() => {
         // Swallow — verification is best-effort; banner offers resend.
       });

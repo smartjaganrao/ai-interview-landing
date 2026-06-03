@@ -18,7 +18,9 @@ export default function ResetPasswordPage() {
     try {
       await sendPasswordResetEmail(auth, email, {
         // Land users back on the login page after they reset
-        url: typeof window !== 'undefined' ? `${window.location.origin}/auth/login` : 'https://ai-interview-landing-phi.vercel.app/auth/login',
+        url: typeof window !== 'undefined'
+          ? `${window.location.origin}/auth/login`
+          : `${process.env.NEXT_PUBLIC_APP_URL || 'https://javihai.in'}/auth/login`,
       });
       setStatus('sent');
     } catch (err) {
