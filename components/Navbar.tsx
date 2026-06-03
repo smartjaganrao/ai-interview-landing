@@ -30,15 +30,13 @@ export default function Navbar() {
     }`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative">
-            <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-bounce">
-              AI
-            </div>
-            <div className="absolute -inset-1 gradient-primary rounded-xl opacity-30 blur-md group-hover:opacity-50 transition-smooth"></div>
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="relative h-10 w-10 group-hover:scale-110 transition-bounce">
+            <img src="/logo.svg" alt="JavihAI" className="h-10 w-10 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+            <div className="absolute inset-0 h-10 w-10 rounded-xl gradient-primary flex items-center justify-center text-white font-bold text-lg" style={{display:'none'}} id="logo-fallback">J</div>
           </div>
           <div>
-            <div className="font-bold text-lg text-white">Interview AI</div>
+            <div className="font-bold text-lg text-white">JavihAI</div>
             <div className="text-xs text-slate-400 -mt-1">Master Every Question</div>
           </div>
         </Link>

@@ -2,7 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Terms of Service — AI Interview Helper',
+  title: 'Terms of Service — JavihAI',
   description: 'The rules of using our service.',
 };
 
@@ -19,7 +19,7 @@ export default function TermsPage() {
 
           <div className="prose-content space-y-8 text-slate-300 leading-relaxed">
             <p className="text-lg">
-              These terms govern your use of AI Interview Helper. Using the service means you agree to them.
+              These terms govern your use of JavihAI. Using the service means you agree to them.
               Read carefully — and ping us if anything is unclear.
             </p>
 

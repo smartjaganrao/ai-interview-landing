@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { doc, getDoc, collection, query, where, getCountFromServer } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
 import { sendEmailVerification } from 'firebase/auth';
 import Navbar from '@/components/Navbar';
 
@@ -52,6 +52,13 @@ function DashboardContent() {
   const [loading, setLoading] = useState(true);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
   const [verifyStatus, setVerifyStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  // Support ticket
+  const [showSupport, setShowSupport] = useState(false);
+  const [ticketTitle, setTicketTitle] = useState('');
+  const [ticketDesc, setTicketDesc] = useState('');
+  const [ticketCategory, setTicketCategory] = useState('technical');
+  const [ticketSending, setTicketSending] = useState(false);
+  const [ticketStatus, setTicketStatus] = useState('');
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -418,9 +425,71 @@ function DashboardContent() {
               <div className="text-3xl mb-3">💬</div>
               <h3 className="text-lg font-bold mb-2">Need Help?</h3>
               <p className="text-slate-400 text-sm mb-4">Our team is here to help you succeed</p>
-              <a href="mailto:support@aiinterview.com" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">Contact Support →</a>
+              <button onClick={() => setShowSupport(true)} className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">Contact Support →</button>
             </div>
           </div>
+
+          {/* Support Ticket Form */}
+          {showSupport && (
+            <div className="mt-6 card border border-indigo-500/30">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold">Submit a Support Ticket</h3>
+                <button onClick={() => { setShowSupport(false); setTicketStatus(''); }} className="text-slate-400 hover:text-white text-xl">✕</button>
+              </div>
+              {ticketStatus === 'sent' ? (
+                <div className="text-center py-6">
+                  <div className="text-4xl mb-3">✅</div>
+                  <p className="text-green-400 font-semibold">Ticket submitted!</p>
+                  <p className="text-slate-400 text-sm mt-1">We&apos;ll reply to {user?.email} within 24 hours.</p>
+                </div>
+              ) : (
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!user || !ticketTitle.trim() || !ticketDesc.trim()) return;
+                  setTicketSending(true);
+                  try {
+                    await addDoc(collection(db, 'support_tickets'), {
+                      userId: user.uid,
+                      userEmail: user.email,
+                      title: ticketTitle.trim(),
+                      description: ticketDesc.trim(),
+                      category: ticketCategory,
+                      status: 'open',
+                      priority: 'medium',
+                      createdAt: Date.now(),
+                      updatedAt: Date.now(),
+                      messageCount: 1,
+                      messages: [{ senderType: 'user', senderUid: user.uid, senderEmail: user.email, message: ticketDesc.trim(), timestamp: Date.now() }],
+                    });
+                    setTicketStatus('sent');
+                    setTicketTitle(''); setTicketDesc('');
+                  } catch { setTicketStatus('error'); }
+                  setTicketSending(false);
+                }} className="space-y-4">
+                  <input
+                    type="text" placeholder="Subject / Title" required
+                    value={ticketTitle} onChange={(e) => setTicketTitle(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                  />
+                  <select value={ticketCategory} onChange={(e) => setTicketCategory(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500">
+                    <option value="technical">Technical Issue</option>
+                    <option value="billing">Billing / Payment</option>
+                    <option value="feature-request">Feature Request</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <textarea placeholder="Describe your issue in detail…" required rows={4}
+                    value={ticketDesc} onChange={(e) => setTicketDesc(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"
+                  />
+                  {ticketStatus === 'error' && <p className="text-red-400 text-sm">⚠ Failed to submit. Try again.</p>}
+                  <button type="submit" disabled={ticketSending} className="w-full btn btn-primary disabled:opacity-50">
+                    {ticketSending ? 'Submitting…' : 'Submit Ticket →'}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
 
           {/* Account Settings */}
           <div className="mt-10 card">

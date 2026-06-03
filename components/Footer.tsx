@@ -8,11 +8,9 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center text-white font-bold text-lg">
-                AI
-              </div>
+              <img src="/logo.svg" alt="JavihAI" className="h-10 w-10 object-contain" />
               <div>
-                <div className="font-bold text-lg text-white">Interview AI</div>
+                <div className="font-bold text-lg text-white">JavihAI</div>
                 <div className="text-xs text-slate-400 -mt-1">Master Every Question</div>
               </div>
             </div>
@@ -21,13 +19,21 @@ export default function Footer() {
               practice with real questions, and land your dream job.
             </p>
             <div className="flex gap-3 mt-6">
-              {['🐦', '💼', '📘', '📷'].map((icon, i) => (
+              {[
+                { icon: '🐦', href: 'https://twitter.com/javihai_in', label: 'Twitter' },
+                { icon: '💼', href: 'https://linkedin.com/company/javihai', label: 'LinkedIn' },
+                { icon: '💬', href: 'mailto:support@javihai.in', label: 'Email' },
+                { icon: '⭐', href: 'https://github.com/smartjaganrao/ai-interview-helper', label: 'GitHub' },
+              ].map((s, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href={s.href}
+                  aria-label={s.label}
+                  target={s.href.startsWith('http') ? '_blank' : undefined}
+                  rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="w-10 h-10 rounded-lg glass flex items-center justify-center text-lg hover:scale-110 transition-bounce"
                 >
-                  {icon}
+                  {s.icon}
                 </a>
               ))}
             </div>
@@ -50,14 +56,14 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li><Link href="/privacy" className="text-slate-400 hover:text-white transition">Privacy</Link></li>
               <li><Link href="/terms" className="text-slate-400 hover:text-white transition">Terms</Link></li>
-              <li><a href="mailto:support@aiinterview.com" className="text-slate-400 hover:text-white transition">Contact</a></li>
+              <li><a href="mailto:support@javihai.in" className="text-slate-400 hover:text-white transition">Contact</a></li>
             </ul>
           </div>
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-400">
-            © 2026 AI Interview Helper. All rights reserved.
+            © 2026 JavihAI. All rights reserved.
           </p>
           <p className="text-sm text-slate-400">
             Made with 💜 for interview success

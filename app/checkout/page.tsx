@@ -112,7 +112,7 @@ function CheckoutContent() {
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,
-        name: 'AI Interview Helper',
+        name: 'JavihAI',
         description: `${planDetails[plan].name} plan (${billing})`,
         order_id: order.orderId,
         prefill: { email: user.email || '', name: user.displayName || '' },

@@ -67,7 +67,7 @@ export default function LandingPage() {
                       <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
                     </div>
-                    <div className="text-xs text-slate-500 ml-2">AI Interview Helper • Live Session</div>
+                    <div className="text-xs text-slate-500 ml-2">JavihAI • Live Session</div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">

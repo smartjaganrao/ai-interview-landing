@@ -2,7 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Privacy Policy — AI Interview Helper',
+  title: 'Privacy Policy — JavihAI',
   description: 'How we collect, use, and protect your data.',
 };
 

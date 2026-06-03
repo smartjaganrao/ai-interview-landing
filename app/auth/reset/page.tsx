@@ -40,7 +40,7 @@ export default function ResetPasswordPage() {
             AI
           </div>
           <div>
-            <div className="font-bold text-xl text-white">Interview AI</div>
+            <div className="font-bold text-xl text-white">JavihAI</div>
             <div className="text-xs text-slate-400">Master Every Question</div>
           </div>
         </Link>

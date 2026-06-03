@@ -125,7 +125,7 @@ function SignupContent() {
               AI
             </div>
             <div>
-              <div className="font-bold text-xl text-white">Interview AI</div>
+              <div className="font-bold text-xl text-white">JavihAI</div>
               <div className="text-xs text-slate-400">Master Every Question</div>
             </div>
           </Link>
@@ -173,7 +173,7 @@ function SignupContent() {
           <div className="card-glow card w-full max-w-md">
             <Link href="/" className="lg:hidden flex items-center justify-center gap-3 mb-6">
               <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center text-white font-bold">AI</div>
-              <span className="font-bold text-lg">Interview AI</span>
+              <span className="font-bold text-lg">JavihAI</span>
             </Link>
 
             <div className="text-center mb-6">
