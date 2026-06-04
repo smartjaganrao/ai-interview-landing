@@ -35,6 +35,17 @@ init();
 
 export { db };
 
+/** Verify a Firebase ID token (from the desktop app). Returns the uid or null. */
+export async function verifyIdToken(token: string): Promise<{ uid: string; email?: string } | null> {
+  if (!admin.apps.length) return null;
+  try {
+    const decoded = await admin.auth().verifyIdToken(token);
+    return { uid: decoded.uid, email: decoded.email };
+  } catch {
+    return null;
+  }
+}
+
 /** Write (or update) a subscription document server-side. */
 export async function persistSubscription(params: {
   userId: string;
