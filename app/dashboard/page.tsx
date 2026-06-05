@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc, collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
-import { sendEmailVerification } from 'firebase/auth';
+// email-only auth removed — Google sign-in only
 import Navbar from '@/components/Navbar';
 
 interface UserData {
@@ -38,7 +38,7 @@ interface ActivityData {
 }
 
 const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
-const DIRECT_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.1/JavihAI-v1.2.1-portable-win-x64.zip';
+const DIRECT_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.2/JavihAI-v1.2.2-portable-win-x64.exe';
 
 function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
@@ -51,7 +51,6 @@ function DashboardContent() {
   const [activity, setActivity] = useState<ActivityData>({ totalSessions: 0, totalQuestions: 0 });
   const [loading, setLoading] = useState(true);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
-  const [verifyStatus, setVerifyStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   // Support ticket
   const [showSupport, setShowSupport] = useState(false);
   const [ticketTitle, setTicketTitle] = useState('');
@@ -121,19 +120,6 @@ function DashboardContent() {
   }
 
   const plan = userData?.plan || 'free';
-  const needsVerification = !!user && !user.emailVerified;
-
-  const resendVerification = async () => {
-    if (!user) return;
-    setVerifyStatus('sending');
-    try {
-      await sendEmailVerification(user, { url: `${window.location.origin}/dashboard` });
-      setVerifyStatus('sent');
-    } catch {
-      setVerifyStatus('error');
-    }
-  };
-
   const planConfig = {
     free: { emoji: '🎯', color: 'from-slate-600 to-slate-700', label: 'Free' },
     pro: { emoji: '🚀', color: 'from-indigo-500 to-purple-600', label: 'Pro' },
@@ -158,39 +144,6 @@ function DashboardContent() {
 
       <section className="pt-32 pb-20 min-h-screen">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Email verification banner */}
-          {needsVerification && verifyStatus !== 'sent' && (
-            <div className="mb-6 card border-yellow-500/40 bg-yellow-500/5 flex items-center justify-between flex-wrap gap-4">
-              <div className="flex items-center gap-3">
-                <div className="text-2xl">📧</div>
-                <div>
-                  <div className="font-semibold text-white">Verify your email address</div>
-                  <div className="text-sm text-slate-400">
-                    We sent a link to <span className="text-white">{user?.email}</span>. Click it to unlock the full experience.
-                  </div>
-                </div>
-              </div>
-              <button
-                onClick={resendVerification}
-                disabled={verifyStatus === 'sending'}
-                className="btn btn-secondary"
-                style={{ opacity: verifyStatus === 'sending' ? 0.6 : 1 }}
-              >
-                {verifyStatus === 'sending' ? 'Sending…' : 'Resend email'}
-              </button>
-              {verifyStatus === 'error' && (
-                <p className="text-sm text-red-400 w-full">⚠ Couldn&apos;t send — try again in a minute.</p>
-              )}
-            </div>
-          )}
-          {verifyStatus === 'sent' && (
-            <div className="mb-6 card border-green-500/40 bg-green-500/5 flex items-center gap-3">
-              <div className="text-xl text-green-400">✓</div>
-              <div className="text-sm text-slate-200">
-                Verification email re-sent. Check your inbox (and spam folder).
-              </div>
-            </div>
-          )}
 
           {/* Welcome Header */}
           <div className="mb-8">
@@ -286,7 +239,7 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
-                  <span>v1.2.1</span>
+                  <span>v1.2.2</span>
                   <span>•</span>
                   <span>Windows 10/11</span>
                   <span>•</span>
