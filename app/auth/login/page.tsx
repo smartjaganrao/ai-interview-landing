@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { signInWithEmailAndPassword, getRedirectResult } from 'firebase/auth';
+import { getRedirectResult } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
@@ -12,8 +12,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,25 +33,9 @@ export default function LoginPage() {
     }
   }, [user, loading, router]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push('/dashboard');
-    } catch (err) {
-      setError(friendlyAuthError(err));
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleGoogleLogin = async () => {
     setError('');
     setIsLoading(true);
-
     try {
       const cred = await googleSignIn();
       if (!cred) return; // redirect in progress; result handled on return
@@ -110,7 +92,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Right: Form */}
+        {/* Right: Sign In */}
         <div className="flex items-center justify-center">
           <div className="card-glow card w-full max-w-md">
             <Link href="/" className="lg:hidden flex items-center justify-center gap-3 mb-6">
@@ -118,15 +100,21 @@ export default function LoginPage() {
               <span className="font-bold text-lg">JavihAI</span>
             </Link>
 
-            <div className="text-center mb-6">
+            <div className="text-center mb-8">
               <h2 className="text-3xl font-black mb-2">Welcome back 👋</h2>
               <p className="text-slate-400">Sign in to continue practicing</p>
             </div>
 
+            {error && (
+              <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-400">
+                ⚠️ {error}
+              </div>
+            )}
+
             <button
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full btn btn-secondary mb-4 flex items-center justify-center gap-3 disabled:opacity-50"
+              className="w-full btn btn-secondary flex items-center justify-center gap-3 disabled:opacity-50 py-4"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -134,60 +122,10 @@ export default function LoginPage() {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
-              <span>Sign in with Google</span>
+              <span className="text-base font-semibold">{isLoading ? 'Signing in…' : 'Continue with Google'}</span>
             </button>
 
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-3 bg-slate-900 text-slate-400">or with email</span>
-              </div>
-            </div>
-
-            {error && (
-              <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-400">
-                ⚠️ {error}
-              </div>
-            )}
-
-            <form onSubmit={handleLogin} className="space-y-4">
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input"
-                required
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="input"
-                required
-              />
-
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-2 text-slate-400 cursor-pointer">
-                  <input type="checkbox" className="rounded" />
-                  Remember me
-                </label>
-                <Link href="/auth/reset" className="text-indigo-400 hover:text-indigo-300">Forgot password?</Link>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full btn btn-primary disabled:opacity-50"
-              >
-                {isLoading ? 'Signing in...' : 'Sign In →'}
-              </button>
-            </form>
-
-            <p className="text-center text-slate-400 text-sm mt-6">
+            <p className="text-center text-slate-500 text-xs mt-8">
               Don&apos;t have an account?{' '}
               <Link href="/auth/signup" className="text-indigo-400 hover:text-indigo-300 font-semibold">
                 Sign Up Free
