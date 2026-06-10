@@ -167,7 +167,7 @@ export default function LandingPage() {
 
             {[
               { num: '01', title: 'Sign Up Free', desc: 'Create your account in 30 seconds. No credit card required.' },
-              { num: '02', title: 'Download Desktop App', desc: 'Get our powerful desktop app for Windows. Mac coming soon.' },
+              { num: '02', title: 'Download Desktop App', desc: 'Get our powerful desktop app for Windows or Mac.' },
               { num: '03', title: 'Start Practicing', desc: 'Begin practicing with real interview questions and AI feedback.' },
             ].map((step, i) => (
               <div key={i} className="text-center relative z-10">
@@ -251,7 +251,7 @@ export default function LandingPage() {
               { q: 'How does the AI interview helper work?', a: 'Our desktop app uses advanced AI to analyze your voice, suggest answers in real-time, and provide instant feedback on your interview performance. It works during live interviews or practice sessions.' },
               { q: 'Is my data private and secure?', a: 'Yes, absolutely. All audio is processed in real-time and never stored unless you opt-in. Your data is encrypted end-to-end and we never share it with third parties.' },
               { q: 'Can I use it during a real interview?', a: 'Yes! The app runs in stealth mode and provides discreet suggestions. Many users find it helpful as a confidence booster during high-stakes interviews.' },
-              { q: 'What platforms are supported?', a: 'Currently we support Windows 10/11. Mac and Linux versions are coming in Q2 2026.' },
+              { q: 'What platforms are supported?', a: 'We support Windows 10/11 and macOS (Apple Silicon + Intel). A Linux version is on the roadmap.' },
               { q: 'How much does it cost?', a: 'We have a free tier with 10 questions per day. Pro is ₹499/month for unlimited usage. Power tier is ₹999/month with priority AI models.' },
               { q: 'Can I cancel anytime?', a: 'Yes, cancel anytime with one click. No questions asked. You can also pause your subscription if you need a break.' },
             ].map((item, i) => (

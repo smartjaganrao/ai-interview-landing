@@ -38,7 +38,8 @@ interface ActivityData {
 }
 
 const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
-const DIRECT_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.2/JavihAI-v1.2.2-portable-win-x64.exe';
+const WINDOWS_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.2/JavihAI-v1.2.2-portable-win-x64.exe';
+const MAC_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.2/JavihAI-v1.2.2-mac-universal.dmg';
 
 function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
@@ -216,17 +217,23 @@ function DashboardContent() {
                   <div>
                     <div className="badge mb-2">💻 Desktop App</div>
                     <h3 className="text-2xl font-black mb-2">Get the Desktop App</h3>
-                    <p className="text-slate-400">Download our powerful Windows app to start practicing</p>
+                    <p className="text-slate-400">Download our powerful desktop app for Windows or Mac to start practicing</p>
                   </div>
                   <div className="text-6xl">🖥️</div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 mt-6">
                   <a
-                    href={DIRECT_DOWNLOAD_URL}
+                    href={WINDOWS_DOWNLOAD_URL}
                     className="btn btn-primary btn-lg flex-1 animate-pulse-glow"
                   >
                     ⬇ Download for Windows
+                  </a>
+                  <a
+                    href={MAC_DOWNLOAD_URL}
+                    className="btn btn-primary btn-lg flex-1"
+                  >
+                    ⬇ Download for Mac
                   </a>
                   <a
                     href={DESKTOP_DOWNLOAD_URL}
@@ -241,9 +248,7 @@ function DashboardContent() {
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
                   <span>v1.2.2</span>
                   <span>•</span>
-                  <span>Windows 10/11</span>
-                  <span>•</span>
-                  <span>212 MB</span>
+                  <span>Windows 10/11 · macOS (Apple Silicon + Intel)</span>
                 </div>
               </div>
             </div>
