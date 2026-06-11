@@ -133,12 +133,12 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { icon: '🎤', title: 'Real-Time Voice Analysis', desc: 'Get instant feedback on your tone, pace, and clarity. Our AI listens like a hiring manager.', gradient: 'from-blue-500 to-cyan-500' },
-              { icon: '🧠', title: 'Smart Answer Suggestions', desc: 'AI-powered suggestions during your responses. Never blank out on a question again.', gradient: 'from-indigo-500 to-purple-500' },
-              { icon: '📸', title: 'Screen Capture & Analysis', desc: 'Share code or diagrams. AI analyzes everything you show on your screen instantly.', gradient: 'from-purple-500 to-pink-500' },
-              { icon: '📊', title: 'Performance Tracking', desc: 'Track your progress over time. See where you improve and what to focus on.', gradient: 'from-pink-500 to-rose-500' },
-              { icon: '🎯', title: 'Industry-Specific Prep', desc: 'Tailored questions for tech, finance, consulting, and more. Practice what matters.', gradient: 'from-orange-500 to-red-500' },
-              { icon: '🔒', title: 'Private & Secure', desc: 'Your data stays yours. End-to-end encryption. No recordings stored without consent.', gradient: 'from-green-500 to-emerald-500' },
+              { icon: '💬', title: 'Live Captions', desc: 'Your words appear on screen within about a second as you speak, then snap to a clean, accurate transcript when you pause — so you always know it heard you right.', gradient: 'from-blue-500 to-cyan-500' },
+              { icon: '🧠', title: 'Instant AI Answers', desc: 'Speak a question and get a structured, model answer in seconds, powered by the latest LLMs — never blank out on a question again.', gradient: 'from-indigo-500 to-purple-500' },
+              { icon: '🎧', title: 'Smart Question Detection', desc: 'Listening to the interviewer? JavihAI auto-detects the actual questions and answers them, while ignoring greetings and small talk.', gradient: 'from-teal-500 to-emerald-500' },
+              { icon: '📸', title: 'Screen Capture & Analysis', desc: 'Share a coding problem or diagram and AI reads what is on your screen, then explains the solution step by step.', gradient: 'from-purple-500 to-pink-500' },
+              { icon: '🥷', title: 'Stealth Overlay', desc: 'A frameless, always-on-top window that stays hidden from screen captures — keep it open beside your notes without it showing in recordings.', gradient: 'from-orange-500 to-red-500' },
+              { icon: '🔒', title: 'Private & Secure', desc: 'Local-first by default with opt-in cloud sync. Bring your own API keys — they stay on your device, never in the app bundle.', gradient: 'from-green-500 to-emerald-500' },
             ].map((feature, i) => (
               <div key={i} className="card card-glow group">
                 <div className={`inline-flex w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-bounce`}>
