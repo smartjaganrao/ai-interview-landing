@@ -250,6 +250,39 @@ function DashboardContent() {
                   <span>•</span>
                   <span>Windows 10/11 · macOS (Apple Silicon + Intel)</span>
                 </div>
+
+                {/* Install instructions — self-serve, covers the security warnings */}
+                <div className="mt-6 pt-6 border-t border-slate-700/60">
+                  <h4 className="text-sm font-bold text-slate-200 mb-4">📥 How to install (2 minutes)</h4>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Windows */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-3 font-semibold text-slate-100">
+                        <span className="text-lg">🪟</span> Windows 10/11
+                      </div>
+                      <ol className="space-y-2.5 text-sm text-slate-400 list-decimal list-inside marker:text-indigo-400 marker:font-bold">
+                        <li>Click <span className="text-slate-200 font-medium">Download for Windows</span> and run the downloaded <code className="text-indigo-300">.exe</code>.</li>
+                        <li>If you see a blue <span className="text-slate-200">&quot;Windows protected your PC&quot;</span> box, click <span className="text-slate-200 font-medium">More info → Run anyway</span>. <span className="text-slate-500">(It&apos;s safe — the app just isn&apos;t code-signed yet.)</span></li>
+                        <li>The app opens near the top of your screen. Press <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs">Alt</kbd>+<kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs">H</kbd> to show/hide it.</li>
+                      </ol>
+                    </div>
+                    {/* Mac */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-3 font-semibold text-slate-100">
+                        <span className="text-lg">🍎</span> macOS
+                      </div>
+                      <ol className="space-y-2.5 text-sm text-slate-400 list-decimal list-inside marker:text-indigo-400 marker:font-bold">
+                        <li>Click <span className="text-slate-200 font-medium">Download for Mac</span>, open the <code className="text-indigo-300">.dmg</code>, and drag <span className="text-slate-200">JavihAI</span> into <span className="text-slate-200">Applications</span>.</li>
+                        <li>In Applications, <span className="text-slate-200 font-medium">right-click JavihAI → Open → Open</span>. <span className="text-slate-500">(Needed once — the app isn&apos;t notarized yet.)</span></li>
+                        <li>Still blocked? Open <span className="text-slate-200 font-medium">System Settings → Privacy &amp; Security</span>, scroll down and click <span className="text-slate-200 font-medium">Open Anyway</span>.</li>
+                        <li>Press <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs">⌥ Option</kbd>+<kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs">H</kbd> to show/hide the window.</li>
+                      </ol>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-xs text-slate-500">
+                    💡 When you start a voice session, click <span className="text-slate-400">Allow</span> on the microphone prompt. Both apps run fully offline — your keys stay on your device.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

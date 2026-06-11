@@ -252,6 +252,7 @@ export default function LandingPage() {
               { q: 'Is my data private and secure?', a: 'Yes, absolutely. All audio is processed in real-time and never stored unless you opt-in. Your data is encrypted end-to-end and we never share it with third parties.' },
               { q: 'Can I use it during a real interview?', a: 'Yes! The app runs in stealth mode and provides discreet suggestions. Many users find it helpful as a confidence booster during high-stakes interviews.' },
               { q: 'What platforms are supported?', a: 'We support Windows 10/11 and macOS (Apple Silicon + Intel). A Linux version is on the roadmap.' },
+              { q: 'How do I install it? My computer shows a security warning.', a: 'It installs in about 2 minutes. On Windows, run the .exe and if you see "Windows protected your PC", click More info → Run anyway. On Mac, drag the app to Applications, then right-click it → Open → Open (or System Settings → Privacy & Security → Open Anyway). The warning just means the app isn\'t code-signed yet — it\'s safe. Full step-by-step instructions appear on your dashboard after you sign in.' },
               { q: 'How much does it cost?', a: 'We have a free tier with 10 questions per day. Pro is ₹499/month for unlimited usage. Power tier is ₹999/month with priority AI models.' },
               { q: 'Can I cancel anytime?', a: 'Yes, cancel anytime with one click. No questions asked. You can also pause your subscription if you need a break.' },
             ].map((item, i) => (
