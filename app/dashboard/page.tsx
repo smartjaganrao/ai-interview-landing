@@ -38,8 +38,8 @@ interface ActivityData {
 }
 
 const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
-const WINDOWS_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.3/JavihAI-v1.2.3-portable-win-x64.exe';
-const MAC_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.3/JavihAI-v1.2.3-mac-universal.dmg';
+const WINDOWS_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.4/JavihAI-v1.2.4-portable-win-x64.exe';
+const MAC_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.4/JavihAI-v1.2.4-mac-universal.dmg';
 
 function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
@@ -246,7 +246,7 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
-                  <span>v1.2.3</span>
+                  <span>v1.2.4</span>
                   <span>•</span>
                   <span>Windows 10/11 · macOS (Apple Silicon + Intel)</span>
                 </div>
