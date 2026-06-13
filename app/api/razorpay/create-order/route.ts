@@ -52,8 +52,12 @@ export async function POST(request: NextRequest) {
       keyId: process.env.RAZORPAY_KEY_ID,
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to create order';
-    console.error('[razorpay/create-order]', message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    // Razorpay SDK throws plain objects like { statusCode, error: { description } }
+    const rzpErr = error as { error?: { description?: string }; statusCode?: number };
+    const message =
+      rzpErr?.error?.description ||
+      (error instanceof Error ? error.message : 'Failed to create order');
+    console.error('[razorpay/create-order]', JSON.stringify(error));
+    return NextResponse.json({ error: message }, { status: rzpErr?.statusCode ?? 500 });
   }
 }
