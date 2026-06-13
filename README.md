@@ -1,111 +1,162 @@
-# AI Interview Landing Page & Customer Dashboard
+# ai-interview-landing
 
-Customer-facing landing page, authentication, and account dashboard for the AI Interview Helper SaaS.
+Next.js 15 web app for JavihAI — handles auth, billing, dashboard, and app download.
 
-## Getting Started
+**Production:** https://javihai.in | **Hosting:** Vercel (auto-deploys from `main`) | **Firebase:** `ai-interview-tutor`
 
-### Prerequisites
+---
 
-- Node.js 18+ and npm/pnpm
-- Firebase project credentials
+## Stack
 
-### Installation
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Auth | Firebase Auth — Google sign-in only |
+| Database | Firestore (client + Admin SDK) |
+| Payments | Razorpay Standard Checkout |
+| Styles | Tailwind CSS |
 
-1. Clone the repository
-2. Install dependencies:
+---
 
-```bash
-pnpm install
-```
-
-3. Set up environment variables:
-
-```bash
-cp .env.example .env.local
-# Edit .env.local with your Firebase credentials
-```
-
-### Development
+## Local setup
 
 ```bash
-pnpm run dev
+npm install
+cp .env.example .env.local   # fill in values — see Environment section
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+---
 
-## Environment Variables
+## Scripts
 
-Create a `.env.local` file with the following:
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start dev server on port 3000 |
+| `npm run build` | Production build |
+| `npm run start` | Serve production build locally |
+| `npm run lint` | ESLint |
+| `npm run type-check` | TypeScript check (no emit) |
 
-```
+---
+
+## Environment variables
+
+```bash
+# .env.local — never commit this file
+
+# Firebase web client (public-safe, can be in client bundle)
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
+
+# Razorpay — server-only (no NEXT_PUBLIC_ prefix = never sent to browser)
+RAZORPAY_KEY_ID=rzp_test_...
+RAZORPAY_KEY_SECRET=
+RAZORPAY_WEBHOOK_SECRET=
+
+# Razorpay key for client-side Checkout modal
+NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_...
+
+# Firebase Admin SDK — paste minified single-line JSON of service account file
+FIREBASE_ADMIN_SDK_JSON={"type":"service_account","project_id":"..."}
+
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-Get these values from Firebase Console > Project Settings > Web App
+Production values are set directly in Vercel. Never commit `.env.local`.
 
-## Features
+---
 
-- 🎯 Landing page with hero, pricing, and FAQ sections
-- 👤 User authentication (email/password + Google OAuth)
-- 📊 Account dashboard with usage stats
-- 💳 Plan management and upgrade options
-- 🔐 Secure Firebase integration
-- 📱 Responsive design with Tailwind CSS
-
-## Project Structure
+## Project structure
 
 ```
 app/
-├── page.tsx           # Landing page (hero, pricing, FAQ)
-├── layout.tsx         # Root layout
-├── globals.css        # Global styles
-├── auth/
-│   ├── login/         # Login page
-│   └── signup/        # Signup page
-└── dashboard/         # Protected account dashboard
-      └── page.tsx
+  page.tsx                  Landing / home
+  pricing/page.tsx          Plan selection (monthly / yearly toggle)
+  checkout/page.tsx         Razorpay checkout — blocks double-payment
+  dashboard/page.tsx        User dashboard, plan status, app download
+  auth/
+    login/page.tsx          Google sign-in
+    signup/page.tsx         Google sign-up → redirects to checkout if plan selected
+  api/
+    razorpay/
+      create-order/         POST {plan, billing, userId} → Razorpay order
+      verify-payment/       POST — HMAC verify + write subscription to Firestore
+      webhook/              POST — payment.captured / payment.failed events
+  privacy/page.tsx
+  terms/page.tsx
+  not-found.tsx
+  robots.ts
+  sitemap.ts
 
-lib/
-└── firebase.ts        # Firebase configuration
+components/
+  Navbar.tsx
+  Footer.tsx
 
 hooks/
-└── useAuth.ts         # Auth state management
+  useAuth.ts                Firebase auth state
+
+lib/
+  firebase.ts               Client SDK init
+  firebase-admin.ts         Admin SDK init (server only)
+  auth.ts                   googleSignIn, ensureUserDocs, friendlyAuthError
+  razorpay-server.ts        getRazorpayClient, verifyPaymentSignature, PLAN_CATALOG
 ```
 
-## Building for Production
+---
 
+## Payment flow
+
+```
+/pricing → select plan
+  → unauthenticated: redirect to /auth/signup?plan=pro
+  → authenticated, same/higher plan: button disabled
+  → authenticated, upgrade: /checkout?plan=pro&billing=monthly
+
+/checkout
+  → reads Firestore subscription — blocks if already on same or higher plan
+  → POST /api/razorpay/create-order  → { orderId, amount, keyId }
+  → Razorpay modal (CDN script loaded at runtime)
+  → payment success → POST /api/razorpay/verify-payment
+  → HMAC-SHA256 verify → write subscriptions/{uid} to Firestore
+  → redirect /dashboard?upgraded=true
+```
+
+### Plan pricing (server-side source of truth in `lib/razorpay-server.ts`)
+
+```
+pro:   ₹499/month  · ₹4,990/year
+power: ₹999/month  · ₹9,990/year
+```
+
+### Firestore writes
+
+| Collection | Doc key | Purpose |
+|---|---|---|
+| `users` | `{uid}` | plan, email, name, createdAt |
+| `subscriptions` | `{uid}` | plan, status, billing, amount, paymentId, renewalDate |
+| `support_tickets` | auto | userId, title, description, category, status |
+
+---
+
+## Deploy
+
+Every push to `main` auto-deploys via Vercel (~40s build).
+
+To update a secret:
 ```bash
-pnpm run build
-pnpm run start
+npx vercel env rm KEY_NAME production --yes
+echo "new-value" | npx vercel env add KEY_NAME production
+git commit --allow-empty -m "chore: redeploy" && git push origin main
 ```
 
-## Deployment
+## Go live (test → production payments)
 
-### Vercel (Recommended)
-
-1. Connect repo to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main
-
-### Custom Server
-
-```bash
-pnpm run build
-pnpm run start
-```
-
-## Next Steps (Week 2)
-
-- [ ] Implement Razorpay payment integration
-- [ ] Create checkout flow
-- [ ] Add Cloud Function for payment webhook
-- [ ] Email confirmations
-
-## Support
-
-For issues or questions, contact support@aiinterviewhelper.com
+1. Razorpay Dashboard → switch to **Live mode** → generate live key pair
+2. Webhooks → add `https://javihai.in/api/razorpay/webhook` → events: `payment.captured`, `payment.failed` → copy secret
+3. Update Vercel: `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `NEXT_PUBLIC_RAZORPAY_KEY_ID`, `RAZORPAY_WEBHOOK_SECRET`
+4. Redeploy
