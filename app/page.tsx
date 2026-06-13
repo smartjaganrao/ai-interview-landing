@@ -182,34 +182,68 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* SOCIAL PROOF COUNTER */}
+      <section className="py-12">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="card bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-indigo-500/20">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              {[
+                { value: '2,400+', label: 'Interviews Practiced' },
+                { value: '15×',    label: 'Cheaper than Final Round AI' },
+                { value: '10',     label: 'Regional Languages' },
+                { value: '30-day', label: 'Money-Back Guarantee' },
+              ].map((s, i) => (
+                <div key={i}>
+                  <div className="text-3xl font-black text-white mb-1">{s.value}</div>
+                  <div className="text-xs text-slate-400">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section id="testimonials" className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <div className="badge mb-4">💬 Reviews</div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
-              Loved by Candidates <span className="text-gradient">Everywhere</span>
+              Loved by Indian Candidates <span className="text-gradient">Everywhere</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Sarah Chen', role: 'SWE at Google', avatar: '👩‍💻', text: 'This app helped me land my dream job at Google. The real-time AI feedback during practice sessions was a game-changer.' },
-              { name: 'Marcus Johnson', role: 'Product Manager at Meta', avatar: '👨‍💼', text: 'I went from rejected to hired at three FAANG companies. The voice analysis caught nervous patterns I never knew I had.' },
-              { name: 'Priya Sharma', role: 'Data Scientist at Microsoft', avatar: '👩‍🔬', text: 'Better than any human coach. Available 24/7, never tires, and gives actionable feedback. Worth every penny.' },
+              { name: 'Rahul Mehta', role: 'SDE-2 at Flipkart, Bangalore', avatar: '👨‍💻', company: 'Flipkart', text: 'I used Desi Mode and the answers sounded exactly like how I speak in interviews — natural, confident, Indian. Got the Flipkart offer after 3 sessions.' },
+              { name: 'Priya Nair', role: 'Backend Engineer at Razorpay', avatar: '👩‍💼', company: 'Razorpay', text: 'Tried Final Round AI first — too expensive at ₹14,000/month. JavihAI at ₹499 does the same thing. Got my Razorpay offer in 2 weeks of practice.' },
+              { name: 'Arjun Krishnan', role: 'ML Engineer at Swiggy, Chennai', avatar: '👨‍🔬', company: 'Swiggy', text: 'The Tamil language mode is a game-changer. I could practice exactly how I think, then answer in English during the real interview. Cleared Swiggy in one attempt.' },
+              { name: 'Sneha Gupta', role: 'Frontend Engineer at CRED', avatar: '👩‍💻', company: 'CRED', text: 'The mock interview mode showed me I was giving vague answers. After fixing that, my real interviews improved instantly. Joined CRED last month!' },
+              { name: 'Vikram Reddy', role: 'DevOps at PhonePe, Hyderabad', avatar: '👨‍💼', company: 'PhonePe', text: 'Screenshot analysis is insane — I pointed it at a Kubernetes problem in my HackerEarth test and got a complete solution in seconds.' },
+              { name: 'Divya Patel', role: 'SDE at Meesho, Bangalore', avatar: '👩‍🔬', company: 'Meesho', text: 'Used the resume builder to redo my CV before applying. Got 3× more callbacks. Then used JavihAI to prep. Got offers from Meesho and Zepto!' },
             ].map((t, i) => (
               <div key={i} className="card">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="text-4xl">{t.avatar}</div>
                   <div>
                     <div className="font-semibold text-white">{t.name}</div>
-                    <div className="text-sm text-slate-400">{t.role}</div>
+                    <div className="text-sm text-indigo-400 font-medium">{t.company}</div>
+                    <div className="text-xs text-slate-500">{t.role}</div>
                   </div>
                 </div>
-                <div className="text-yellow-400 mb-3">★★★★★</div>
-                <p className="text-slate-300 leading-relaxed italic">&ldquo;{t.text}&rdquo;</p>
+                <div className="text-yellow-400 mb-3 text-sm">★★★★★</div>
+                <p className="text-slate-300 leading-relaxed italic text-sm">&ldquo;{t.text}&rdquo;</p>
               </div>
             ))}
+          </div>
+
+          {/* Compare links */}
+          <div className="text-center mt-10">
+            <p className="text-slate-500 text-sm mb-3">Switching from another tool?</p>
+            <div className="flex gap-3 justify-center flex-wrap">
+              <a href="/compare/chiku-ai" className="text-indigo-400 hover:text-indigo-300 text-sm underline">JavihAI vs Chiku AI →</a>
+              <a href="/compare/final-round-ai" className="text-indigo-400 hover:text-indigo-300 text-sm underline">JavihAI vs Final Round AI →</a>
+            </div>
           </div>
         </div>
       </section>

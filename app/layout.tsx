@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 export const metadata: Metadata = {
   title: 'JavihAI — Master Interviews with AI',
@@ -35,6 +36,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <GoogleAnalytics />
         <div className="bg-gradient-mesh bg-grid min-h-screen">
           {children}
         </div>

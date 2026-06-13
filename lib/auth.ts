@@ -5,7 +5,7 @@ import {
   UserCredential,
   AuthError,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, collection, addDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
 const provider = new GoogleAuthProvider();
@@ -70,19 +70,32 @@ export async function ensureUserDocs(
   const snap = await getDoc(userRef);
 
   if (!snap.exists()) {
+    const email = cred.user.email ?? '';
+    const name  = cred.user.displayName || 'there';
+    const now   = Date.now();
+
     await setDoc(userRef, {
-      email: cred.user.email,
-      name: cred.user.displayName || 'User',
-      uid,
-      plan,
-      createdAt: Date.now(),
+      email, name, uid, plan,
+      createdAt: now,
       settings: { theme: 'dark', language: 'en' },
     });
 
     await setDoc(doc(db, 'subscriptions', uid), {
-      plan,
-      status: 'active',
-      createdAt: Date.now(),
+      plan, status: 'active', createdAt: now,
     });
+
+    // Send welcome email (Day 0) + queue Day 2 and Day 5
+    try {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
+      fetch(`${appUrl}/api/email/welcome`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name, type: 'welcome' }),
+      }).catch(() => {});
+
+      const queue = collection(db, 'email_queue');
+      await addDoc(queue, { email, name, type: 'day2', sendAfter: Timestamp.fromMillis(now + 2 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+      await addDoc(queue, { email, name, type: 'day5', sendAfter: Timestamp.fromMillis(now + 5 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+    } catch { /* email is non-critical — never block signup */ }
   }
 }
