@@ -1,24 +1,57 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+const PLAN_RANK: Record<string, number> = { free: 0, pro: 1, power: 2 };
+
 export default function PricingPage() {
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
+  const [currentPlan, setCurrentPlan] = useState<string>('free');
   const { user } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!user) return;
+    getDoc(doc(db, 'subscriptions', user.uid)).then((snap) => {
+      if (snap.exists() && snap.data().status === 'active') {
+        setCurrentPlan(snap.data().plan || 'free');
+      }
+    }).catch(() => {});
+  }, [user]);
 
   const handleSelectPlan = (plan: string) => {
     if (!user) {
       router.push(`/auth/signup?plan=${plan}`);
-    } else if (plan === 'free') {
-      router.push('/dashboard');
-    } else {
-      router.push(`/checkout?plan=${plan}&billing=${billing}`);
+      return;
     }
+    if (plan === 'free' || plan === currentPlan) {
+      router.push('/dashboard');
+      return;
+    }
+    if ((PLAN_RANK[plan] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) {
+      router.push('/dashboard');
+      return;
+    }
+    router.push(`/checkout?plan=${plan}&billing=${billing}`);
+  };
+
+  const getPlanCta = (planId: string, defaultCta: string) => {
+    if (!user) return defaultCta;
+    if (planId === currentPlan) return 'Current Plan';
+    if ((PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) return 'Downgrade (contact support)';
+    if (currentPlan !== 'free') return `Upgrade to ${planId.charAt(0).toUpperCase() + planId.slice(1)}`;
+    return defaultCta;
+  };
+
+  const isPlanDisabled = (planId: string) => {
+    if (!user) return false;
+    return planId === currentPlan || (PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0);
   };
 
   const plans = [
@@ -153,11 +186,17 @@ export default function PricingPage() {
                   )}
                 </div>
 
+                {user && plan.id === currentPlan && (
+                  <div className="mb-3 text-center">
+                    <span className="px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-semibold">✓ Your current plan</span>
+                  </div>
+                )}
                 <button
                   onClick={() => handleSelectPlan(plan.id)}
-                  className={`w-full mb-6 ${plan.popular ? 'btn btn-primary' : 'btn btn-secondary'}`}
+                  disabled={isPlanDisabled(plan.id)}
+                  className={`w-full mb-6 ${plan.popular && !isPlanDisabled(plan.id) ? 'btn btn-primary' : 'btn btn-secondary'} disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  {plan.cta} →
+                  {getPlanCta(plan.id, plan.cta)} →
                 </button>
 
                 <ul className="space-y-3">

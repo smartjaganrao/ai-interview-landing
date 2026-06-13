@@ -5,8 +5,10 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import Navbar from '@/components/Navbar';
+
+const PLAN_RANK: Record<string, number> = { free: 0, pro: 1, power: 2 };
 
 // Razorpay Checkout is loaded from CDN at runtime; type the global for safety.
 declare global {
@@ -56,12 +58,26 @@ function CheckoutContent() {
   const [step, setStep] = useState<'ready' | 'processing' | 'success' | 'error'>('ready');
   const [errorMsg, setErrorMsg] = useState('');
   const [billingConfigured, setBillingConfigured] = useState<boolean | null>(null);
+  const [currentPlan, setCurrentPlan] = useState<string | null>(null);
+  const [subCheckDone, setSubCheckDone] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push(`/auth/signup?plan=${plan}`);
     }
   }, [user, loading, router, plan]);
+
+  // Guard: check existing subscription before showing pay button
+  useEffect(() => {
+    if (!user) return;
+    getDoc(doc(db, 'subscriptions', user.uid)).then((snap) => {
+      const existing = snap.exists() ? (snap.data().plan as string) : 'free';
+      const existingStatus = snap.exists() ? snap.data().status : null;
+      const activePaid = existingStatus === 'active' && existing !== 'free';
+      setCurrentPlan(activePaid ? existing : 'free');
+      setSubCheckDone(true);
+    }).catch(() => { setCurrentPlan('free'); setSubCheckDone(true); });
+  }, [user]);
 
   /** Probe the server to see if Razorpay is configured (5s timeout). */
   useEffect(() => {
@@ -224,7 +240,36 @@ function CheckoutContent() {
             </div>
           )}
 
-          {step === 'ready' && (
+          {/* Already on same plan */}
+          {step === 'ready' && subCheckDone && currentPlan === plan && (
+            <div className="max-w-2xl mx-auto card text-center">
+              <div className="text-5xl mb-4">{planDetails[plan].emoji}</div>
+              <h2 className="text-2xl font-black mb-2">You&apos;re already on {planDetails[plan].name}</h2>
+              <p className="text-slate-400 mb-6">Your subscription is active. No need to pay again.</p>
+              <Link href="/dashboard" className="btn btn-primary">Go to Dashboard →</Link>
+            </div>
+          )}
+
+          {/* Downgrade attempt */}
+          {step === 'ready' && subCheckDone && currentPlan !== null && currentPlan !== plan &&
+           (PLAN_RANK[plan] ?? 0) < (PLAN_RANK[currentPlan] ?? 0) && (
+            <div className="max-w-2xl mx-auto card text-center">
+              <div className="text-5xl mb-4">⬇️</div>
+              <h2 className="text-2xl font-black mb-2">This is a downgrade</h2>
+              <p className="text-slate-400 mb-2">
+                You&apos;re currently on <strong className="text-white">{currentPlan.toUpperCase()}</strong>.
+                Switching to <strong className="text-white">{plan.toUpperCase()}</strong> gives you fewer features.
+              </p>
+              <p className="text-slate-500 text-sm mb-6">Contact support to downgrade — we&apos;ll handle it manually and prorate your billing.</p>
+              <div className="flex gap-3 justify-center">
+                <Link href="/dashboard" className="btn btn-secondary">Keep {currentPlan.toUpperCase()} →</Link>
+                <button onClick={() => setStep('ready')} className="btn btn-primary"
+                  style={{ display: 'none' }}>hidden</button>
+              </div>
+            </div>
+          )}
+
+          {step === 'ready' && (!subCheckDone || (currentPlan !== plan && (PLAN_RANK[plan] ?? 0) >= (PLAN_RANK[currentPlan ?? 'free'] ?? 0))) && (
             <div className="grid lg:grid-cols-5 gap-8">
               {/* Order Summary */}
               <div className="lg:col-span-2 order-2 lg:order-1">
