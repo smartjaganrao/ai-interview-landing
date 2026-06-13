@@ -421,6 +421,31 @@ function DashboardContent() {
             </div>
           </div>
 
+          {/* New feature cards */}
+          <div className="grid md:grid-cols-2 gap-6 mt-6">
+            <Link href="/resume" className="card card-glow hover:border-purple-500/40 transition-all group block">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-2xl flex-shrink-0">📄</div>
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors mb-1">Resume Builder</h3>
+                  <p className="text-slate-400 text-sm mb-2">Build an ATS-ready resume with 5 professional templates. Download as PDF in seconds.</p>
+                  <span className="text-purple-400 text-sm font-semibold">Build Resume →</span>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/jobs" className="card card-glow hover:border-green-500/40 transition-all group block">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600 to-teal-600 flex items-center justify-center text-2xl flex-shrink-0">💼</div>
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-green-300 transition-colors mb-1">Job Recommendations</h3>
+                  <p className="text-slate-400 text-sm mb-2">Browse top tech jobs at Flipkart, Razorpay, Swiggy, CRED and more. Practice for any role.</p>
+                  <span className="text-green-400 text-sm font-semibold">Browse Jobs →</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+
           {/* Support Ticket Form */}
           {showSupport && (
             <div className="mt-6 card border border-indigo-500/30">

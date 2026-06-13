@@ -55,6 +55,12 @@ export default function Navbar() {
           <Link href="/#faq" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
             FAQ
           </Link>
+          <Link href="/jobs" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+            Jobs
+          </Link>
+          <Link href="/resume" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+            Resume
+          </Link>
         </div>
 
         {/* Auth Actions */}
@@ -114,6 +120,12 @@ export default function Navbar() {
             </Link>
             <Link href="/#faq" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               FAQ
+            </Link>
+            <Link href="/jobs" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+              💼 Jobs
+            </Link>
+            <Link href="/resume" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+              📄 Resume Builder
             </Link>
             <div className="h-px bg-white/10 my-2"></div>
             {user ? (
