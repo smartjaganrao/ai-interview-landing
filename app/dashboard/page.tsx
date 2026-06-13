@@ -37,9 +37,10 @@ interface ActivityData {
   totalQuestions: number;
 }
 
+const APP_VERSION = 'v1.2.4';
 const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
-const WINDOWS_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.4/JavihAI-v1.2.4-portable-win-x64.exe';
-const MAC_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/download/v1.2.4/JavihAI-v1.2.4-mac-universal.dmg';
+const WINDOWS_DOWNLOAD_URL = `https://github.com/smartjaganrao/ai-interview-helper/releases/download/${APP_VERSION}/JavihAI-${APP_VERSION}-portable-win-x64.exe`;
+const MAC_DOWNLOAD_URL = `https://github.com/smartjaganrao/ai-interview-helper/releases/download/${APP_VERSION}/JavihAI-${APP_VERSION}-mac-universal.dmg`;
 
 function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
@@ -246,7 +247,7 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
-                  <span>v1.2.4</span>
+                  <span>{APP_VERSION}</span>
                   <span>•</span>
                   <span>Windows 10/11 · macOS (Apple Silicon + Intel)</span>
                 </div>
@@ -409,7 +410,7 @@ function DashboardContent() {
               <div className="text-3xl mb-3">🎓</div>
               <h3 className="text-lg font-bold mb-2">Interview Tips</h3>
               <p className="text-slate-400 text-sm mb-4">Expert tips to ace your next interview</p>
-              <Link href="/pricing" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">View Plans →</Link>
+              <a href="https://github.com/smartjaganrao/ai-interview-helper/wiki" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold">Read Tips →</a>
             </div>
 
             <div className="card">
