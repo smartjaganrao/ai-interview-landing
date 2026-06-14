@@ -79,27 +79,19 @@ function CheckoutContent() {
     }).catch(() => { setCurrentPlan('free'); setSubCheckDone(true); });
   }, [user]);
 
-  /** Probe the server to see if Razorpay is configured (5s timeout). */
+  /** Lightweight check: is Razorpay configured on the server? */
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
-
-    fetch('/api/razorpay/create-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan, billing, userId: user.uid }),
-      signal: controller.signal,
-    })
-      .then((res) => {
-        if (cancelled) return;
-        setBillingConfigured(res.status !== 503);
+    fetch('/api/razorpay/status')
+      .then((res) => res.json())
+      .then((data: { configured: boolean }) => {
+        if (!cancelled) setBillingConfigured(data.configured);
       })
-      .catch(() => { if (!cancelled) setBillingConfigured(false); })
-      .finally(() => clearTimeout(timeout));
-    return () => { cancelled = true; controller.abort(); };
-  }, [user, plan, billing]);
+      .catch(() => { if (!cancelled) setBillingConfigured(false); });
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!user]);
 
   const handlePay = async () => {
     if (!user) return;
