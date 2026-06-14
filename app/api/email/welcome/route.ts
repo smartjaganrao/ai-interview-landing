@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const FROM = 'JavihAI <hello@javihai.in>';
+// Use verified domain once javihai.in DNS is confirmed in Resend dashboard.
+// Until then Resend's shared domain works for testing.
+const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <onboarding@resend.dev>';
 
 export async function POST(req: NextRequest) {
   if (!process.env.RESEND_API_KEY) {
