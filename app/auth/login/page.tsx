@@ -88,7 +88,7 @@ export default function LoginPage() {
 
           <div className="mt-8 flex items-center gap-2 text-sm text-slate-400">
             <span className="text-yellow-400 text-lg">★★★★★</span>
-            <span>4.9/5 from 10,000+ candidates</span>
+            <span>4.9/5 from 2,400+ candidates</span>
           </div>
         </div>
 

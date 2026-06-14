@@ -57,9 +57,19 @@ export async function googleSignIn(): Promise<UserCredential | null> {
   }
 }
 
+/** Races a promise against a timeout — resolves to undefined on timeout. */
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | undefined> {
+  return Promise.race([
+    promise,
+    new Promise<undefined>(resolve => setTimeout(() => resolve(undefined), ms)),
+  ]);
+}
+
 /**
  * Ensures Firestore docs exist for a freshly authenticated user.
  * Idempotent: only creates docs if they don't already exist.
+ * Resilient: if Firestore is unavailable (deleted DB, network error), login
+ * still succeeds — the user lands on the dashboard in degraded state.
  */
 export async function ensureUserDocs(
   cred: UserCredential,
@@ -67,35 +77,47 @@ export async function ensureUserDocs(
 ): Promise<void> {
   const uid = cred.user.uid;
   const userRef = doc(db, 'users', uid);
-  const snap = await getDoc(userRef);
 
-  if (!snap.exists()) {
-    const email = cred.user.email ?? '';
-    const name  = cred.user.displayName || 'there';
-    const now   = Date.now();
+  try {
+    // Timeout after 6 s — if Firestore DB is deleted/unavailable, don't hang login.
+    const snap = await withTimeout(getDoc(userRef), 6000);
+    if (snap === undefined) {
+      console.warn('[ensureUserDocs] Firestore timeout — DB may be unavailable');
+      return;
+    }
 
-    await setDoc(userRef, {
-      email, name, uid, plan,
-      createdAt: now,
-      settings: { theme: 'dark', language: 'en' },
-    });
+    if (!snap.exists()) {
+      const email = cred.user.email ?? '';
+      const name  = cred.user.displayName || 'there';
+      const now   = Date.now();
 
-    await setDoc(doc(db, 'subscriptions', uid), {
-      plan, status: 'active', createdAt: now,
-    });
+      await setDoc(userRef, {
+        email, name, uid, plan,
+        createdAt: now,
+        settings: { theme: 'dark', language: 'en' },
+      });
 
-    // Send welcome email (Day 0) + queue Day 2 and Day 5
-    try {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
-      fetch(`${appUrl}/api/email/welcome`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, type: 'welcome' }),
-      }).catch(() => {});
+      await setDoc(doc(db, 'subscriptions', uid), {
+        plan, status: 'active', createdAt: now,
+      });
 
-      const queue = collection(db, 'email_queue');
-      await addDoc(queue, { email, name, type: 'day2', sendAfter: Timestamp.fromMillis(now + 2 * 24 * 60 * 60 * 1000), sentAt: null, uid });
-      await addDoc(queue, { email, name, type: 'day5', sendAfter: Timestamp.fromMillis(now + 5 * 24 * 60 * 60 * 1000), sentAt: null, uid });
-    } catch { /* email is non-critical — never block signup */ }
+      // Send welcome email (Day 0) + queue Day 2 and Day 5
+      try {
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
+        fetch(`${appUrl}/api/email/welcome`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name, type: 'welcome' }),
+        }).catch(() => {});
+
+        const queue = collection(db, 'email_queue');
+        await addDoc(queue, { email, name, type: 'day2', sendAfter: Timestamp.fromMillis(now + 2 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+        await addDoc(queue, { email, name, type: 'day5', sendAfter: Timestamp.fromMillis(now + 5 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+      } catch { /* email is non-critical — never block signup */ }
+    }
+  } catch (e) {
+    // Firestore threw (DB deleted, rules denied, network). Log and continue —
+    // never block login for a DB error.
+    console.warn('[ensureUserDocs] Firestore error (DB unavailable?):', e);
   }
 }
