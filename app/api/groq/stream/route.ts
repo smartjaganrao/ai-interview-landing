@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Groq from 'groq-sdk';
 import { verifyIdToken, checkAiQuota } from '@/lib/firebase-admin';
 
 export const runtime = 'nodejs';
 
-// Per-plan monthly AI answer limits (mirrors useQuota.ts in desktop app)
 const PLAN_LIMITS: Record<string, number> = { free: 10, pro: Infinity, power: Infinity };
 
 export async function POST(req: NextRequest) {
@@ -16,14 +14,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'messages required' }, { status: 400 });
     }
 
-    // Verify the user and check quota
-    let uid = '';
+    // Verify user + check quota (fail open if Firebase Admin not configured)
     let plan = 'free';
     if (idToken) {
       const user = await verifyIdToken(idToken);
       if (user) {
-        uid = user.uid;
-        const quota = await checkAiQuota(uid);
+        const quota = await checkAiQuota(user.uid);
         plan = quota.plan;
         if (!quota.allowed) {
           return NextResponse.json(
@@ -39,43 +35,36 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'AI not configured' }, { status: 503 });
     }
 
-    const groq = new Groq({ apiKey });
-
-    const stream = await groq.chat.completions.create({
-      messages,
-      model: model || 'llama-3.1-8b-instant',
-      temperature: temperature ?? 0.5,
-      max_tokens: max_tokens ?? 1024,
-      stream: true,
-      stream_options: { include_usage: true },
-    });
-
-    const encoder = new TextEncoder();
-    const planLimit = PLAN_LIMITS[plan] ?? 10;
-
-    const readable = new ReadableStream({
-      async start(controller) {
-        try {
-          let totalTokens = 0;
-          for await (const chunk of stream) {
-            const content = chunk.choices[0]?.delta?.content ?? '';
-            if (content) {
-              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ choices: [{ delta: { content } }] })}\n\n`));
-            }
-            if (chunk.usage?.total_tokens) totalTokens = chunk.usage.total_tokens;
-          }
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ usage: { total_tokens: totalTokens } })}\n\n`));
-          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-          controller.close();
-        } catch (e) {
-          controller.error(e);
-        }
+    // Call Groq API directly via fetch to avoid groq-sdk version type issues
+    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        messages,
+        model: model || 'llama-3.1-8b-instant',
+        temperature: temperature ?? 0.5,
+        max_tokens: max_tokens ?? 1024,
+        stream: true,
+        stream_options: { include_usage: true },
+      }),
     });
 
+    if (!groqRes.ok || !groqRes.body) {
+      const err = await groqRes.json().catch(() => ({}));
+      return NextResponse.json(
+        { error: (err as { error?: { message?: string } }).error?.message || `Groq error ${groqRes.status}` },
+        { status: groqRes.status }
+      );
+    }
+
+    const planLimit = PLAN_LIMITS[plan] ?? 10;
     const quotaUsed = plan === 'free' ? 1 : 0;
 
-    return new Response(readable, {
+    // Pipe the SSE stream straight through to the desktop app
+    return new Response(groqRes.body, {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',

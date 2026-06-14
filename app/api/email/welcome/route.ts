@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM   = 'JavihAI <hello@javihai.in>';
+const FROM = 'JavihAI <hello@javihai.in>';
 
 export async function POST(req: NextRequest) {
   if (!process.env.RESEND_API_KEY) {
     return NextResponse.json({ ok: false, error: 'Email not configured' }, { status: 503 });
   }
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const { email, name, type } = await req.json() as { email: string; name: string; type: 'welcome' | 'day2' | 'day5' };
 

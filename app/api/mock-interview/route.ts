@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+function getGroq() {
+  if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY not set');
+  return new Groq({ apiKey: process.env.GROQ_API_KEY });
+}
 
 const QUESTION_BANK: Record<string, string[]> = {
   'Software Engineer': [
@@ -107,7 +110,7 @@ Scoring guide:
 - 0-49: Needs work — off-topic, too vague, or missing fundamentals`;
 
   try {
-    const completion = await groq.chat.completions.create({
+    const completion = await getGroq().chat.completions.create({
       model: 'llama-3.1-8b-instant',
       messages: [{ role: 'user', content: scorePrompt }],
       max_tokens: 256,
