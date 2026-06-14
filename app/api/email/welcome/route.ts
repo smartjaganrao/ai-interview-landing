@@ -169,11 +169,11 @@ export async function POST(req: NextRequest) {
   const t = templates[type];
   if (!t) return NextResponse.json({ ok: false, error: 'Unknown type' }, { status: 400 });
 
-  try {
-    await resend.emails.send({ from: FROM, to: email, subject: t.subject, html: t.html });
-    return NextResponse.json({ ok: true });
-  } catch (err) {
-    console.error('[email/welcome]', err);
-    return NextResponse.json({ ok: false }, { status: 500 });
+  const { data, error } = await resend.emails.send({ from: FROM, to: email, subject: t.subject, html: t.html });
+  if (error) {
+    console.error('[email/welcome] Resend error:', JSON.stringify(error));
+    return NextResponse.json({ ok: false, error: error.message ?? JSON.stringify(error) }, { status: 500 });
   }
+  console.log('[email/welcome] sent ok, id:', data?.id);
+  return NextResponse.json({ ok: true, id: data?.id });
 }
