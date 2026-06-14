@@ -34,12 +34,42 @@ export async function GET(req: NextRequest) {
         results_per_page: '20',
         what: query || 'software engineer',
         where: location || 'india',
-        content_type: 'application/json',
       });
-      const res  = await fetch(`https://api.adzuna.com/v1/api/jobs/in/search/1?${params}`);
-      const json = await res.json() as { results?: unknown[] };
-      return NextResponse.json({ jobs: json.results ?? [], source: 'adzuna' });
-    } catch {
+      const res  = await fetch(
+        `https://api.adzuna.com/v1/api/jobs/in/search/1?${params}`,
+        { signal: AbortSignal.timeout(8000) }
+      );
+      if (!res.ok) throw new Error(`Adzuna ${res.status}`);
+      type AdzunaJob = {
+        title: string;
+        company: { display_name: string };
+        location: { display_name: string };
+        salary_min?: number;
+        salary_max?: number;
+        contract_type?: string;
+        redirect_url: string;
+        description: string;
+        id: string;
+        created: string;
+      };
+      const json = await res.json() as { results?: AdzunaJob[] };
+      const jobs = (json.results ?? []).map((j: AdzunaJob) => ({
+        id: j.id,
+        title: j.title,
+        company: j.company?.display_name ?? '',
+        location: j.location?.display_name ?? '',
+        salary: j.salary_min && j.salary_max
+          ? `₹${Math.round(j.salary_min / 100000)}–${Math.round(j.salary_max / 100000)} LPA`
+          : 'Competitive',
+        type: j.contract_type === 'permanent' ? 'Full-time' : (j.contract_type ?? 'Full-time'),
+        skills: [],
+        postedAt: new Date(j.created).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
+        applyUrl: j.redirect_url,
+        description: j.description?.slice(0, 200) ?? '',
+      }));
+      return NextResponse.json({ jobs, source: 'adzuna' });
+    } catch (e) {
+      console.error('[jobs] Adzuna failed:', e);
       // fall through to static
     }
   }
