@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyPaymentSignature, isRazorpayConfigured, PLAN_CATALOG } from '@/lib/razorpay-server';
-import { persistSubscription } from '@/lib/firebase-admin';
+import { persistSubscription, getUserInfo } from '@/lib/firebase-admin';
+import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,11 +43,29 @@ export async function POST(request: NextRequest) {
 
     // 2) Server-side Firestore write — best-effort, client write is the fallback
     let savedToFirestore = false;
+    const amount = (plan && billing) ? (PLAN_CATALOG[plan]?.[billing] ?? 0) : 0;
+    const renewalDate = Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
+
     if (userId && plan && billing) {
-      const amount = PLAN_CATALOG[plan]?.[billing] ?? 0;
       savedToFirestore = await persistSubscription({
         userId, plan, billing, amount, paymentId, orderId, source: 'checkout',
       });
+    }
+
+    // 3) Send payment confirmation email (best-effort — never block the response)
+    if (userId && plan && billing) {
+      getUserInfo(userId).then((info) => {
+        if (!info?.email) return;
+        sendPaymentConfirmation({
+          email: info.email,
+          name: info.name,
+          plan,
+          billing,
+          amount,
+          paymentId,
+          renewalDate,
+        }).catch((e) => console.error('[verify-payment] email send error:', e));
+      }).catch((e) => console.error('[verify-payment] getUserInfo error:', e));
     }
 
     return NextResponse.json({ verified: true, orderId, paymentId, savedToFirestore });

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyWebhookSignature } from '@/lib/razorpay-server';
-import { persistSubscription, db } from '@/lib/firebase-admin';
+import { persistSubscription, getUserInfo, db } from '@/lib/firebase-admin';
+import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,6 +71,7 @@ export async function POST(request: NextRequest) {
 
         if (userId && plan && billing) {
           const amount = payment.amount ? Math.round(payment.amount / 100) : 0;
+          const renewalDate = Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
           const saved = await persistSubscription({
             userId, plan, billing, amount,
             paymentId: payment.id,
@@ -77,6 +79,20 @@ export async function POST(request: NextRequest) {
             source: 'webhook',
           });
           console.log('[razorpay/webhook] payment.captured → Firestore write:', saved ? 'ok' : 'skipped (no Admin SDK)');
+
+          // Send confirmation email (best-effort)
+          getUserInfo(userId).then((info) => {
+            if (!info?.email) return;
+            return sendPaymentConfirmation({
+              email: info.email,
+              name: info.name,
+              plan: plan as 'pro' | 'power',
+              billing: billing as 'monthly' | 'yearly',
+              amount,
+              paymentId: payment.id,
+              renewalDate,
+            });
+          }).catch((e) => console.error('[razorpay/webhook] email error:', e));
         } else {
           console.warn('[razorpay/webhook] payment.captured missing userId/plan/billing in notes — cannot update Firestore');
         }

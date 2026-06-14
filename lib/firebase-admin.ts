@@ -35,6 +35,17 @@ init();
 
 export { db };
 
+/** Fetch a Firebase user's email + displayName by uid. Returns null if not found or Admin SDK absent. */
+export async function getUserInfo(uid: string): Promise<{ email: string; name: string } | null> {
+  if (!admin.apps.length) return null;
+  try {
+    const u = await admin.auth().getUser(uid);
+    return { email: u.email ?? '', name: u.displayName ?? '' };
+  } catch {
+    return null;
+  }
+}
+
 /** Verify a Firebase ID token (from the desktop app). Returns the uid or null. */
 export async function verifyIdToken(token: string): Promise<{ uid: string; email?: string } | null> {
   if (!admin.apps.length) return null;
