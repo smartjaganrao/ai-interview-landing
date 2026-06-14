@@ -4,8 +4,6 @@ import { verifyIdToken, checkAiQuota } from '@/lib/firebase-admin';
 
 export const runtime = 'nodejs';
 
-const PLAN_RANK: Record<string, number> = { free: 0, pro: 1, power: 2 };
-
 // Per-plan monthly AI answer limits (mirrors useQuota.ts in desktop app)
 const PLAN_LIMITS: Record<string, number> = { free: 10, pro: Infinity, power: Infinity };
 
