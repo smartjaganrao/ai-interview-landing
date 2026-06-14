@@ -45,7 +45,10 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li><Link href="/#features" className="text-slate-400 hover:text-white transition">Features</Link></li>
               <li><Link href="/pricing" className="text-slate-400 hover:text-white transition">Pricing</Link></li>
-              <li><a href="https://github.com/smartjaganrao/ai-interview-helper/releases" target="_blank" rel="noopener" className="text-slate-400 hover:text-white transition">Download</a></li>
+              <li><Link href="/mock-interview" className="text-slate-400 hover:text-white transition">Mock Interview</Link></li>
+              <li><Link href="/resume" className="text-slate-400 hover:text-white transition">Resume Builder</Link></li>
+              <li><Link href="/jobs" className="text-slate-400 hover:text-white transition">Job Recommendations</Link></li>
+              <li><a href="https://github.com/smartjaganrao/ai-interview-helper/releases" target="_blank" rel="noopener" className="text-slate-400 hover:text-white transition">Download App</a></li>
               <li><Link href="/#faq" className="text-slate-400 hover:text-white transition">FAQ</Link></li>
             </ul>
           </div>
@@ -54,6 +57,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-3 text-sm">
+              <li><Link href="/compare" className="text-slate-400 hover:text-white transition">Compare</Link></li>
+              <li><Link href="/compare/chiku-ai" className="text-slate-400 hover:text-white transition">vs Chiku AI</Link></li>
+              <li><Link href="/compare/final-round-ai" className="text-slate-400 hover:text-white transition">vs Final Round AI</Link></li>
               <li><Link href="/privacy" className="text-slate-400 hover:text-white transition">Privacy</Link></li>
               <li><Link href="/terms" className="text-slate-400 hover:text-white transition">Terms</Link></li>
               <li><a href="mailto:support@javihai.in" className="text-slate-400 hover:text-white transition">Contact</a></li>

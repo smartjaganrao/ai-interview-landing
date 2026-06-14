@@ -25,7 +25,7 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
-              <span className="text-sm text-slate-300">🎉 Trusted by 10,000+ candidates worldwide</span>
+              <span className="text-sm text-slate-300">🎉 Trusted by 2,400+ candidates across India</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
@@ -259,7 +259,7 @@ export default function LandingPage() {
                 Ready to Land Your Dream Job?
               </h2>
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                Join 10,000+ candidates who&apos;ve transformed their interview skills with AI
+                Join 2,400+ candidates who&apos;ve transformed their interview skills with AI
               </p>
               <Link href="/auth/signup" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-indigo-600 font-bold text-lg rounded-xl hover:scale-105 transition-bounce shadow-2xl">
                 Get Started Free →

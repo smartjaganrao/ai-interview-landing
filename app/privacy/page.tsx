@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="badge mb-4">🔒 Privacy</div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">Privacy Policy</h1>
-          <p className="text-slate-400 mb-12">Last updated: May 28, 2026</p>
+          <p className="text-slate-400 mb-12">Last updated: June 14, 2026</p>
 
           <div className="prose-content space-y-8 text-slate-300 leading-relaxed">
             <p className="text-lg">
@@ -53,7 +53,10 @@ export default function PrivacyPage() {
                 <li><strong className="text-white">Google Firebase</strong> — auth and database (Firestore). EU/US data centers.</li>
                 <li><strong className="text-white">Razorpay</strong> — payment processing. PCI-DSS compliant.</li>
                 <li><strong className="text-white">Vercel</strong> — web hosting and CDN.</li>
-                <li><strong className="text-white">Groq</strong> — AI inference for interview answers. Queries sent for processing are not stored by Groq.</li>
+                <li><strong className="text-white">Groq</strong> — AI inference for interview answers and mock interview scoring. Queries sent for processing are not stored by Groq.</li>
+                <li><strong className="text-white">Google Analytics 4</strong> — anonymous page-view and event analytics. No personal data is sent; IP addresses are anonymized. You can opt out via your browser&apos;s Do Not Track setting or a GA opt-out extension.</li>
+                <li><strong className="text-white">Resend</strong> — transactional email delivery (welcome email, onboarding tips). Your email address is sent to Resend solely to deliver emails on our behalf.</li>
+                <li><strong className="text-white">Adzuna</strong> — job listing data for the Jobs page. We send your search query (role, location) to Adzuna&apos;s API; no personal account data is shared.</li>
               </ul>
             </section>
 
@@ -75,7 +78,7 @@ export default function PrivacyPage() {
                 <li><strong className="text-white">Export</strong> — get your interview history as JSON.</li>
                 <li><strong className="text-white">Object/restrict</strong> — opt out of non-essential processing.</li>
               </ul>
-              <p className="mt-3">Email <a href="mailto:privacy@aiinterview.com" className="text-indigo-400 hover:text-indigo-300">privacy@aiinterview.com</a> from your account address and we&apos;ll process the request within 30 days.</p>
+              <p className="mt-3">Email <a href="mailto:privacy@javihai.in" className="text-indigo-400 hover:text-indigo-300">privacy@javihai.in</a> from your account address and we&apos;ll process the request within 30 days.</p>
             </section>
 
             <section>
@@ -103,7 +106,7 @@ export default function PrivacyPage() {
               <h2 className="text-2xl font-bold text-white mb-3">Contact</h2>
               <p>
                 Questions? Reach us at{' '}
-                <a href="mailto:privacy@aiinterview.com" className="text-indigo-400 hover:text-indigo-300">privacy@aiinterview.com</a>.
+                <a href="mailto:privacy@javihai.in" className="text-indigo-400 hover:text-indigo-300">privacy@javihai.in</a>.
               </p>
             </section>
           </div>
