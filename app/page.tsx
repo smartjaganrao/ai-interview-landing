@@ -191,7 +191,7 @@ export default function LandingPage() {
                 { value: '2,400+', label: 'Interviews Practiced' },
                 { value: '15×',    label: 'Cheaper than Final Round AI' },
                 { value: '10',     label: 'Regional Languages' },
-                { value: '30-day', label: 'Money-Back Guarantee' },
+                { value: '7-day', label: 'Money-Back Guarantee' },
               ].map((s, i) => (
                 <div key={i}>
                   <div className="text-3xl font-black text-white mb-1">{s.value}</div>

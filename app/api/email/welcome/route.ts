@@ -157,7 +157,7 @@ export async function POST(req: NextRequest) {
     <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
       Upgrade to Pro →
     </a>
-    <p style="color:#475569;font-size:12px;margin-top:12px;">30-day money-back guarantee. Cancel anytime.</p>
+    <p style="color:#475569;font-size:12px;margin-top:12px;">7-day money-back guarantee. Cancel anytime.</p>
   </div>
 
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">

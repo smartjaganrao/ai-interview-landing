@@ -84,7 +84,7 @@ export async function sendPaymentConfirmation(params: {
 
   <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
     <p style="color:#94a3b8;font-size:13px;margin:0 0 8px;">Need to cancel or have questions?</p>
-    <p style="color:#64748b;font-size:12px;margin:0;">Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>. We offer a 30-day money-back guarantee.</p>
+    <p style="color:#64748b;font-size:12px;margin:0;">Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>. We offer a 7-day money-back guarantee.</p>
   </div>
 
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">

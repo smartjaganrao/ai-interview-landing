@@ -293,7 +293,7 @@ function CheckoutContent() {
                     </div>
                   </div>
                   <div className="mt-6 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-sm text-green-300">
-                    🛡️ 30-day money-back guarantee
+                    🛡️ 7-day money-back guarantee
                   </div>
                 </div>
               </div>

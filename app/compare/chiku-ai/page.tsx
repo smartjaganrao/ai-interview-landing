@@ -23,7 +23,7 @@ const ROWS = [
   { feature: 'Job recommendations',    javihai: '✅ Top Indian tech companies',   chiku: '✅ Yes' },
   { feature: 'Mock interview mode',    javihai: '✅ Web-based, AI interviewer',   chiku: '⚠️ Basic' },
   { feature: 'Credits expire',         javihai: '✅ No expiry',                   chiku: '❌ Credits expire' },
-  { feature: 'Refund policy',          javihai: '✅ 30-day money-back',           chiku: '⚠️ Unclear' },
+  { feature: 'Refund policy',          javihai: '✅ 7-day money-back',            chiku: '⚠️ Unclear' },
 ];
 
 export default function ChikuAIComparePage() {
@@ -99,7 +99,7 @@ export default function ChikuAIComparePage() {
 
         {/* CTA */}
         <div className="text-center card bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-indigo-500/30">
-          <h2 className="text-3xl font-black mb-4">Switch to JavihAI — 30-day money-back</h2>
+          <h2 className="text-3xl font-black mb-4">Switch to JavihAI — 7-day money-back</h2>
           <p className="text-slate-400 mb-6">No credit card for free plan. Upgrade anytime. Cancel anytime.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/signup" className="btn btn-primary btn-lg">Start Free →</Link>

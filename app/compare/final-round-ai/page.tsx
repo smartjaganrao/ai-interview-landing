@@ -22,7 +22,7 @@ const ROWS = [
   { feature: 'Resume builder',            javihai: '✅ 5 templates, PDF',          fra: '❌ No' },
   { feature: 'Job recommendations',       javihai: '✅ Indian tech companies',     fra: '❌ No' },
   { feature: 'Mock interview mode',       javihai: '✅ Web-based',                fra: '✅ Yes' },
-  { feature: 'Refund policy',             javihai: '✅ 30-day money-back',         fra: '❌ No refunds' },
+  { feature: 'Refund policy',             javihai: '✅ 7-day money-back',          fra: '❌ No refunds' },
   { feature: 'Works in India (payments)', javihai: '✅ Razorpay — UPI, cards',    fra: '⚠️ USD only' },
 ];
 
@@ -50,7 +50,7 @@ export default function FinalRoundAIComparePage() {
             <div className="badge mb-3">🏆 JavihAI</div>
             <div className="text-5xl font-black text-white mb-1">₹499<span className="text-xl font-normal text-slate-400">/mo</span></div>
             <div className="text-slate-400 mb-2">Unlimited AI answers</div>
-            <div className="text-green-400 text-sm font-semibold">✓ UPI · Cards · Net Banking · 30-day refund</div>
+            <div className="text-green-400 text-sm font-semibold">✓ UPI · Cards · Net Banking · 7-day refund</div>
           </div>
           <div className="card text-center opacity-75">
             <div className="text-sm font-semibold text-slate-400 mb-3">Final Round AI</div>

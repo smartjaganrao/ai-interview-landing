@@ -62,6 +62,7 @@ export default function Footer() {
               <li><Link href="/compare/final-round-ai" className="text-slate-400 hover:text-white transition">vs Final Round AI</Link></li>
               <li><Link href="/privacy" className="text-slate-400 hover:text-white transition">Privacy</Link></li>
               <li><Link href="/terms" className="text-slate-400 hover:text-white transition">Terms</Link></li>
+              <li><Link href="/refund" className="text-slate-400 hover:text-white transition">Refund Policy</Link></li>
               <li><a href="mailto:support@javihai.in" className="text-slate-400 hover:text-white transition">Contact</a></li>
             </ul>
           </div>

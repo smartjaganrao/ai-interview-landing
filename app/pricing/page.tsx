@@ -221,7 +221,7 @@ export default function PricingPage() {
                 { q: 'Can I switch plans anytime?', a: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we&apos;ll prorate any charges.' },
                 { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan to try the basics. Upgrade to Pro for a 7-day free trial of all premium features.' },
                 { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.' },
-                { q: 'Do you offer refunds?', a: 'Yes, we offer a 30-day money-back guarantee. If you&apos;re not satisfied, contact support for a full refund.' },
+                { q: 'Do you offer refunds?', a: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you&apos;re not satisfied, contact support for a full refund.' },
               ].map((item, i) => (
                 <div key={i} className="card">
                   <h4 className="text-lg font-semibold text-white mb-2">{item.q}</h4>
