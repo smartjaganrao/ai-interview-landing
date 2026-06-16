@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyPaymentSignature, isRazorpayConfigured, PLAN_CATALOG } from '@/lib/razorpay-server';
-import { persistSubscription, getUserInfo } from '@/lib/firebase-admin';
+import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, PLAN_CATALOG } from '@/lib/razorpay-server';
+import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
@@ -52,20 +52,39 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 3) Send payment confirmation email (best-effort — never block the response)
+    // 3) Referral post-processing: deduct any credit applied to this order
+    //    (idempotent per orderId) and, if the payer was referred, reward their
+    //    referrer now that a real payment has cleared. AWAITED — on serverless,
+    //    work after the response isn't guaranteed to run, and this moves money.
+    //    Wrapped so a failure here never fails an already-verified payment (the
+    //    webhook reconciles as a backup).
+    if (userId) {
+      try {
+        const razorpay = getRazorpayClient();
+        if (razorpay) {
+          const ord = await razorpay.orders.fetch(orderId);
+          const applied = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
+          if (applied > 0) await redeemCreditForOrder(userId, orderId, applied);
+        }
+        await rewardReferrerOnPayment(userId, orderId, paymentId);
+      } catch (e) {
+        console.error('[verify-payment] referral post-processing failed:', e);
+      }
+    }
+
+    // 4) Send payment confirmation email. Awaited (best-effort) so it actually
+    //    sends before the serverless function freezes.
     if (userId && plan && billing) {
-      getUserInfo(userId).then((info) => {
-        if (!info?.email) return;
-        sendPaymentConfirmation({
-          email: info.email,
-          name: info.name,
-          plan,
-          billing,
-          amount,
-          paymentId,
-          renewalDate,
-        }).catch((e) => console.error('[verify-payment] email send error:', e));
-      }).catch((e) => console.error('[verify-payment] getUserInfo error:', e));
+      try {
+        const info = await getUserInfo(userId);
+        if (info?.email) {
+          await sendPaymentConfirmation({
+            email: info.email, name: info.name, plan, billing, amount, paymentId, renewalDate,
+          });
+        }
+      } catch (e) {
+        console.error('[verify-payment] email send error:', e);
+      }
     }
 
     return NextResponse.json({ verified: true, orderId, paymentId, savedToFirestore });

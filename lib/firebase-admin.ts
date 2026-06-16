@@ -166,3 +166,167 @@ export async function persistSubscription(params: {
     return false;
   }
 }
+
+// ── Referral program ──────────────────────────────────────────────────────────
+// Double-sided: when a referred user makes their first verified payment, BOTH
+// the referrer and the referee earn REFERRAL_REWARD rupees of account credit,
+// which is applied automatically at their next checkout. All credit mutations
+// happen server-side (Admin SDK) so a client can never grant itself money.
+
+export const REFERRAL_REWARD = 100; // ₹ credit per side per successful paid referral
+
+// Unambiguous alphabet (no I/O/0/1) for human-shareable codes.
+const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function randomCode(len = 7): string {
+  let s = '';
+  for (let i = 0; i < len; i++) s += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+  return s;
+}
+
+/** Ensure the user has a unique referralCode; returns it (or null if no DB). */
+export async function getOrCreateReferralCode(uid: string): Promise<string | null> {
+  if (!db) return null;
+  const userRef = db.collection('users').doc(uid);
+  const snap = await userRef.get();
+  const existing = snap.exists ? (snap.data()?.referralCode as string | undefined) : undefined;
+  if (existing) return existing;
+
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const code = randomCode();
+    const dup = await db.collection('users').where('referralCode', '==', code).limit(1).get();
+    if (dup.empty) {
+      await userRef.set({ referralCode: code, updatedAt: Date.now() }, { merge: true });
+      return code;
+    }
+  }
+  return null;
+}
+
+/** Read the user's referral summary for the dashboard. */
+export async function getReferralSummary(uid: string): Promise<{
+  code: string | null; credits: number; count: number;
+}> {
+  const code = await getOrCreateReferralCode(uid);
+  if (!db) return { code, credits: 0, count: 0 };
+  const snap = await db.collection('users').doc(uid).get();
+  const d = snap.exists ? snap.data() : {};
+  return { code, credits: d?.referralCredits ?? 0, count: d?.referralCount ?? 0 };
+}
+
+export async function getReferralCredits(uid: string): Promise<number> {
+  if (!db) return 0;
+  const snap = await db.collection('users').doc(uid).get();
+  return snap.exists ? (snap.data()?.referralCredits ?? 0) : 0;
+}
+
+/**
+ * Referee claims a referral code at signup. Grants the referee REFERRAL_REWARD
+ * credit immediately (usable on their first payment) and records a `pending`
+ * referral; the referrer is only paid once the referee actually pays.
+ * Idempotent + guarded against self-referral and stale/late claims.
+ */
+export async function claimReferral(
+  refereeUid: string,
+  refereeEmail: string,
+  code: string,
+): Promise<{ ok: boolean; reason?: string; referrerUid?: string }> {
+  if (!db || !code) return { ok: false, reason: 'unavailable' };
+
+  const norm = code.trim().toUpperCase();
+  const q = await db.collection('users').where('referralCode', '==', norm).limit(1).get();
+  if (q.empty) return { ok: false, reason: 'invalid-code' };
+  const referrerUid = q.docs[0].id;
+  if (referrerUid === refereeUid) return { ok: false, reason: 'self' };
+
+  const refereeRef = db.collection('users').doc(refereeUid);
+  const txResult = await db.runTransaction(async (tx) => {
+    const snap = await tx.get(refereeRef);
+    if (!snap.exists) return { ok: false, reason: 'no-user' };
+    const r = snap.data() ?? {};
+    if (r.referredByUid || r.refereeRewardClaimed) return { ok: false, reason: 'already' };
+    // Only brand-new accounts may claim — blocks long-time users harvesting credit.
+    if (r.createdAt && Date.now() - r.createdAt > 24 * 60 * 60 * 1000) {
+      return { ok: false, reason: 'too-old' };
+    }
+    tx.set(refereeRef, {
+      referredByUid: referrerUid,
+      referralCredits: (r.referralCredits ?? 0) + REFERRAL_REWARD,
+      refereeRewardClaimed: true,
+      updatedAt: Date.now(),
+    }, { merge: true });
+    return { ok: true };
+  });
+  if (!txResult.ok) return txResult;
+
+  await db.collection('referrals').add({
+    referrerUid, refereeUid, refereeEmail: refereeEmail ?? '',
+    status: 'pending', rewardAmount: REFERRAL_REWARD,
+    createdAt: Date.now(), rewardedAt: null,
+  });
+  return { ok: true, referrerUid };
+}
+
+/**
+ * Deducts `amount` of credit from a user for a specific order. Idempotent per
+ * orderId via a `credit_redemptions/{orderId}` marker, so verify-payment and
+ * the webhook can both call it without double-charging.
+ */
+export async function redeemCreditForOrder(uid: string, orderId: string, amount: number): Promise<boolean> {
+  if (!db || amount <= 0 || !orderId) return false;
+  const redemptionRef = db.collection('credit_redemptions').doc(orderId);
+  const userRef = db.collection('users').doc(uid);
+  try {
+    return await db.runTransaction(async (tx) => {
+      const red = await tx.get(redemptionRef);
+      if (red.exists) return false; // already redeemed for this order
+      const us = await tx.get(userRef);
+      const cur = us.exists ? (us.data()?.referralCredits ?? 0) : 0;
+      tx.set(userRef, { referralCredits: Math.max(0, cur - amount), updatedAt: Date.now() }, { merge: true });
+      tx.set(redemptionRef, { uid, orderId, amount, redeemedAt: Date.now() });
+      return true;
+    });
+  } catch (e) {
+    console.error('[referral] redeemCreditForOrder failed:', e);
+    return false;
+  }
+}
+
+/**
+ * On a referee's first verified payment, flip their pending referral to
+ * `rewarded` and grant the referrer REFERRAL_REWARD credit + increment count.
+ * Idempotent: the transaction re-checks status === 'pending'.
+ */
+export async function rewardReferrerOnPayment(refereeUid: string, orderId: string, paymentId: string): Promise<void> {
+  if (!db) return;
+  const q = await db.collection('referrals')
+    .where('refereeUid', '==', refereeUid)
+    .where('status', '==', 'pending')
+    .limit(1).get();
+  if (q.empty) return;
+
+  const refDocRef = q.docs[0].ref;
+  const referrerUid = q.docs[0].data().referrerUid as string;
+  const reward = (q.docs[0].data().rewardAmount as number) ?? REFERRAL_REWARD;
+  const referrerRef = db.collection('users').doc(referrerUid);
+
+  try {
+    const granted = await db.runTransaction(async (tx) => {
+      const rd = await tx.get(refDocRef);
+      if (!rd.exists || rd.data()?.status !== 'pending') return false;
+      const rs = await tx.get(referrerRef);
+      const cur = rs.exists ? (rs.data()?.referralCredits ?? 0) : 0;
+      const cnt = rs.exists ? (rs.data()?.referralCount ?? 0) : 0;
+      tx.set(referrerRef, { referralCredits: cur + reward, referralCount: cnt + 1, updatedAt: Date.now() }, { merge: true });
+      tx.set(refDocRef, { status: 'rewarded', rewardedAt: Date.now(), orderId, paymentId }, { merge: true });
+      return true;
+    });
+    if (granted) {
+      await db.collection('admin_logs').add({
+        adminUid: 'system', adminEmail: 'referral-system', action: 'referral_reward',
+        targetUserId: referrerUid, details: { refereeUid, orderId, paymentId, reward }, timestamp: Date.now(),
+      });
+    }
+  } catch (e) {
+    console.error('[referral] rewardReferrerOnPayment failed:', e);
+  }
+}

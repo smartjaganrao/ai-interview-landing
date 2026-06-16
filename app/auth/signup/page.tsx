@@ -3,10 +3,30 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { getRedirectResult } from 'firebase/auth';
+import { getRedirectResult, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
+
+const REF_STORAGE_KEY = 'javihai_ref';
+
+/** Claim a stored referral code (if any) once the user is authenticated. */
+async function claimReferralIfPending(user: User) {
+  try {
+    const code = typeof window !== 'undefined' ? localStorage.getItem(REF_STORAGE_KEY) : null;
+    if (!code) return;
+    const idToken = await user.getIdToken();
+    await fetch('/api/referral/claim', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken, code }),
+    });
+  } catch {
+    /* referral is a bonus — never block signup on it */
+  } finally {
+    if (typeof window !== 'undefined') localStorage.removeItem(REF_STORAGE_KEY);
+  }
+}
 
 function SignupContent() {
   const router = useRouter();
@@ -17,6 +37,14 @@ function SignupContent() {
   const [isLoading, setIsLoading] = useState(false);
 
   const plan = searchParams.get('plan') || 'free';
+  const ref = searchParams.get('ref');
+
+  // Persist the referral code so it survives the Google OAuth redirect round-trip.
+  useEffect(() => {
+    if (ref && typeof window !== 'undefined') {
+      localStorage.setItem(REF_STORAGE_KEY, ref);
+    }
+  }, [ref]);
 
   // Handle Google redirect result (when popup falls back to redirect)
   useEffect(() => {
@@ -24,6 +52,7 @@ function SignupContent() {
       .then(async (cred) => {
         if (cred) {
           await ensureUserDocs(cred);
+          await claimReferralIfPending(cred.user);
           router.push(plan === 'pro' || plan === 'power' ? `/checkout?plan=${plan}` : '/dashboard');
         }
       })
@@ -47,6 +76,7 @@ function SignupContent() {
       const cred = await googleSignIn();
       if (!cred) return; // redirect in progress; result handled on return
       await ensureUserDocs(cred);
+      await claimReferralIfPending(cred.user);
       if (plan === 'pro' || plan === 'power') {
         router.push(`/checkout?plan=${plan}`);
       } else {
@@ -83,7 +113,7 @@ function SignupContent() {
           </h1>
 
           <p className="text-xl text-slate-300 mb-10">
-            Join 10,000+ candidates getting AI-powered interview prep
+            Join 2,400+ candidates getting AI-powered interview prep
           </p>
 
           <div className="space-y-5">
@@ -112,7 +142,7 @@ function SignupContent() {
                 </div>
               ))}
             </div>
-            <span>Joined by 10,000+ successful candidates</span>
+            <span>Joined by 2,400+ successful candidates</span>
           </div>
         </div>
 
@@ -136,6 +166,15 @@ function SignupContent() {
                 <div className="text-sm text-indigo-300 flex items-center gap-2">
                   <span className="text-xl">{plan === 'pro' ? '🚀' : '⚡'}</span>
                   After signup, you&apos;ll proceed to {plan.toUpperCase()} checkout
+                </div>
+              </div>
+            )}
+
+            {ref && (
+              <div className="mb-6 p-3 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30">
+                <div className="text-sm text-green-300 flex items-center gap-2">
+                  <span className="text-xl">🎁</span>
+                  You were invited! Get <strong>₹100 off</strong> your first plan after signup.
                 </div>
               </div>
             )}

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyWebhookSignature } from '@/lib/razorpay-server';
-import { persistSubscription, getUserInfo, db } from '@/lib/firebase-admin';
+import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, db } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
@@ -80,19 +80,35 @@ export async function POST(request: NextRequest) {
           });
           console.log('[razorpay/webhook] payment.captured → Firestore write:', saved ? 'ok' : 'skipped (no Admin SDK)');
 
-          // Send confirmation email (best-effort)
-          getUserInfo(userId).then((info) => {
-            if (!info?.email) return;
-            return sendPaymentConfirmation({
-              email: info.email,
-              name: info.name,
-              plan: plan as 'pro' | 'power',
-              billing: billing as 'monthly' | 'yearly',
-              amount,
-              paymentId: payment.id,
-              renewalDate,
-            });
-          }).catch((e) => console.error('[razorpay/webhook] email error:', e));
+          // Referral reconciliation (awaited + idempotent — verify-payment may
+          // have already done this; both paths are safe to run).
+          try {
+            const applied = Number(notes.appliedCredit ?? 0) || 0;
+            if (applied > 0 && payment.order_id) {
+              await redeemCreditForOrder(userId, payment.order_id, applied);
+            }
+            await rewardReferrerOnPayment(userId, payment.order_id ?? '', payment.id);
+          } catch (e) {
+            console.error('[razorpay/webhook] referral reconciliation error:', e);
+          }
+
+          // Send confirmation email (awaited, best-effort)
+          try {
+            const info = await getUserInfo(userId);
+            if (info?.email) {
+              await sendPaymentConfirmation({
+                email: info.email,
+                name: info.name,
+                plan: plan as 'pro' | 'power',
+                billing: billing as 'monthly' | 'yearly',
+                amount,
+                paymentId: payment.id,
+                renewalDate,
+              });
+            }
+          } catch (e) {
+            console.error('[razorpay/webhook] email error:', e);
+          }
         } else {
           console.warn('[razorpay/webhook] payment.captured missing userId/plan/billing in notes — cannot update Firestore');
         }

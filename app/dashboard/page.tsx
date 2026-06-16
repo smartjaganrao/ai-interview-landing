@@ -60,6 +60,9 @@ function DashboardContent() {
   const [ticketCategory, setTicketCategory] = useState('technical');
   const [ticketSending, setTicketSending] = useState(false);
   const [ticketStatus, setTicketStatus] = useState('');
+  // Referral program
+  const [referral, setReferral] = useState<{ code: string | null; link: string | null; credits: number; count: number; reward: number } | null>(null);
+  const [refCopied, setRefCopied] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -95,6 +98,18 @@ function DashboardContent() {
         }
         setLoading(false);
       });
+
+      // Referral info (best-effort — won't block dashboard)
+      user.getIdToken().then((idToken) =>
+        fetch('/api/referral/me', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((data) => { if (data && !data.error) setReferral(data); })
+          .catch(() => {})
+      ).catch(() => {});
 
       // Interview activity counts (best-effort — won't block dashboard)
       Promise.all([
@@ -287,6 +302,69 @@ function DashboardContent() {
               </div>
             </div>
           </div>
+
+          {/* Referral Program */}
+          {referral?.link && (
+            <div className="mb-8 card card-glow relative overflow-hidden border-green-500/30">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-green-500/10 rounded-full blur-3xl"></div>
+              <div className="relative">
+                <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
+                  <div>
+                    <div className="badge mb-2">🎁 Refer &amp; Earn</div>
+                    <h3 className="text-2xl font-black mb-1">Give ₹{referral.reward}, Get ₹{referral.reward}</h3>
+                    <p className="text-slate-400 max-w-xl">
+                      Share your link. When a friend subscribes, you <strong className="text-white">both</strong> get
+                      ₹{referral.reward} credit — applied automatically at your next checkout.
+                    </p>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="text-center">
+                      <div className="text-3xl font-black text-green-400">₹{referral.credits}</div>
+                      <div className="text-xs text-slate-400">Your credit</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-3xl font-black text-white">{referral.count}</div>
+                      <div className="text-xs text-slate-400">Friends joined</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                  <input
+                    readOnly
+                    value={referral.link}
+                    onFocus={(e) => e.currentTarget.select()}
+                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-200 text-sm font-mono focus:outline-none focus:border-green-500"
+                  />
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(referral.link!).then(() => {
+                        setRefCopied(true);
+                        setTimeout(() => setRefCopied(false), 2000);
+                      });
+                    }}
+                    className="btn btn-primary whitespace-nowrap"
+                  >
+                    {refCopied ? '✓ Copied!' : 'Copy Link'}
+                  </button>
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(`I'm using JavihAI for AI interview prep — 15× cheaper than the rest. Sign up with my link and we both get ₹${referral.reward} off: ${referral.link}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary whitespace-nowrap"
+                  >
+                    💬 Share on WhatsApp
+                  </a>
+                </div>
+
+                {referral.credits > 0 && (
+                  <p className="mt-3 text-sm text-green-300">
+                    💰 You have ₹{referral.credits} credit waiting — it&apos;ll apply automatically on your next plan purchase.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Usage Stats - only for free tier */}
           {plan === 'free' && usageData && (

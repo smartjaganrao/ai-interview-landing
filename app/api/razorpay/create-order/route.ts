@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRazorpayClient, getPlanAmount, type PlanId, type Billing } from '@/lib/razorpay-server';
+import { verifyIdToken, getReferralCredits } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * POST { plan: 'pro' | 'power', billing: 'monthly' | 'yearly', userId?: string }
- * Returns { orderId, amount, currency, keyId } so the client can open Razorpay Checkout.
- * Amount is calculated server-side from PLAN_CATALOG so it cannot be tampered with.
+ * POST { plan, billing, userId?, idToken? }
+ * Returns { orderId, amount, currency, keyId, appliedCredit, originalAmount }.
+ * Amount is calculated server-side from PLAN_CATALOG so it cannot be tampered
+ * with. If a valid idToken is supplied, the user's referral credit balance is
+ * applied as a discount (leaving at least ₹1 so Razorpay accepts the order).
  */
 export async function POST(request: NextRequest) {
   try {
@@ -18,10 +21,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { plan, billing, userId } = (await request.json()) as {
+    const { plan, billing, userId, idToken } = (await request.json()) as {
       plan: PlanId;
       billing: Billing;
       userId?: string;
+      idToken?: string;
     };
 
     if (plan !== 'pro' && plan !== 'power') {
@@ -32,7 +36,21 @@ export async function POST(request: NextRequest) {
     }
 
     const amountInRupees = getPlanAmount(plan, billing);
-    const amountInPaise = amountInRupees * 100;
+
+    // Apply referral credit only for an authenticated user (verified uid).
+    let appliedCredit = 0;
+    let payerUid = userId;
+    if (idToken) {
+      const u = await verifyIdToken(idToken);
+      if (u) {
+        payerUid = u.uid;
+        const credit = await getReferralCredits(u.uid);
+        appliedCredit = Math.max(0, Math.min(credit, amountInRupees - 1));
+      }
+    }
+
+    const finalRupees = amountInRupees - appliedCredit;
+    const amountInPaise = finalRupees * 100;
 
     const order = await razorpay.orders.create({
       amount: amountInPaise,
@@ -41,7 +59,8 @@ export async function POST(request: NextRequest) {
       notes: {
         plan,
         billing,
-        ...(userId ? { userId } : {}),
+        ...(payerUid ? { userId: payerUid } : {}),
+        appliedCredit: String(appliedCredit),
       },
     });
 
@@ -50,6 +69,8 @@ export async function POST(request: NextRequest) {
       amount: amountInPaise,
       currency: 'INR',
       keyId: process.env.RAZORPAY_KEY_ID,
+      appliedCredit,
+      originalAmount: amountInRupees * 100,
     });
   } catch (error: unknown) {
     // Razorpay SDK throws plain objects like { statusCode, error: { description } }

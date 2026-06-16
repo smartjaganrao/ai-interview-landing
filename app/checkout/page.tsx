@@ -60,6 +60,11 @@ function CheckoutContent() {
   const [billingConfigured, setBillingConfigured] = useState<boolean | null>(null);
   const [currentPlan, setCurrentPlan] = useState<string | null>(null);
   const [subCheckDone, setSubCheckDone] = useState(false);
+  const [availableCredit, setAvailableCredit] = useState(0);
+
+  // Discount preview mirrors the server rule (leave at least ₹1 on the order).
+  const creditApplied = Math.max(0, Math.min(availableCredit, price - 1));
+  const payable = price - creditApplied;
 
   useEffect(() => {
     if (!loading && !user) {
@@ -93,17 +98,37 @@ function CheckoutContent() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!!user]);
 
+  /** Load the user's referral credit balance to preview the discount. */
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    user.getIdToken().then((idToken) =>
+      fetch('/api/referral/me', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => { if (!cancelled && data && typeof data.credits === 'number') setAvailableCredit(data.credits); })
+        .catch(() => {})
+    ).catch(() => {});
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!user]);
+
   const handlePay = async () => {
     if (!user) return;
     setStep('processing');
     setErrorMsg('');
 
     try {
-      // 1) Create order on the server (amount is set server-side from PLAN_CATALOG).
+      // 1) Create order on the server (amount + any credit discount are set
+      //    server-side; idToken lets the server apply the user's referral credit).
+      const idToken = await user.getIdToken();
       const orderRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan, billing, userId: user.uid }),
+        body: JSON.stringify({ plan, billing, userId: user.uid, idToken }),
       });
       if (!orderRes.ok) {
         const err = await orderRes.json();
@@ -284,11 +309,17 @@ function CheckoutContent() {
                     {billing === 'yearly' && (
                       <div className="flex justify-between text-green-400"><span>Yearly discount</span><span>-17%</span></div>
                     )}
+                    {creditApplied > 0 && (
+                      <div className="flex justify-between text-green-400"><span>🎁 Referral credit</span><span>-₹{creditApplied}</span></div>
+                    )}
                   </div>
                   <div className="flex justify-between items-baseline pt-4 border-t border-white/10">
                     <span className="text-lg font-semibold">Total</span>
                     <div>
-                      <div className="text-3xl font-black text-gradient">₹{price}</div>
+                      {creditApplied > 0 && (
+                        <div className="text-sm text-slate-500 line-through text-right">₹{price}</div>
+                      )}
+                      <div className="text-3xl font-black text-gradient">₹{payable}</div>
                       <div className="text-xs text-slate-400 text-right">Charged {billing}</div>
                     </div>
                   </div>
@@ -332,7 +363,7 @@ function CheckoutContent() {
                         className="w-full btn btn-primary btn-lg"
                         style={{ opacity: billingConfigured === null ? 0.6 : 1 }}
                       >
-                        {billingConfigured === null ? 'Loading…' : `Pay ₹${price} with Razorpay →`}
+                        {billingConfigured === null ? 'Loading…' : `Pay ₹${payable} with Razorpay →`}
                       </button>
 
                       <div className="flex items-center justify-center gap-4 text-xs text-slate-500 pt-6">
