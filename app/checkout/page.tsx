@@ -35,6 +35,15 @@ const planDetails = {
   power: { name: 'Power', monthly: 999, yearly: 9990, emoji: '⚡' },
 };
 
+interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'pro' | 'power'; expiresAt: number | null }
+interface Pricing { plans: { pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } }; offer: Offer }
+
+function offerActiveFor(offer: Offer | undefined, planId: 'pro' | 'power'): boolean {
+  if (!offer || !offer.active || offer.percentOff <= 0) return false;
+  if (offer.expiresAt && Date.now() > offer.expiresAt) return false;
+  return offer.appliesTo === 'all' || offer.appliesTo === planId;
+}
+
 function loadRazorpayScript(): Promise<boolean> {
   return new Promise((resolve) => {
     if (window.Razorpay) return resolve(true);
@@ -53,7 +62,6 @@ function CheckoutContent() {
 
   const plan = (searchParams.get('plan') || 'pro') as 'pro' | 'power';
   const billing = (searchParams.get('billing') || 'monthly') as 'monthly' | 'yearly';
-  const price = billing === 'yearly' ? planDetails[plan].yearly : planDetails[plan].monthly;
 
   const [step, setStep] = useState<'ready' | 'processing' | 'success' | 'error'>('ready');
   const [errorMsg, setErrorMsg] = useState('');
@@ -61,6 +69,15 @@ function CheckoutContent() {
   const [currentPlan, setCurrentPlan] = useState<string | null>(null);
   const [subCheckDone, setSubCheckDone] = useState(false);
   const [availableCredit, setAvailableCredit] = useState(0);
+  const [pricing, setPricing] = useState<Pricing | null>(null);
+
+  // Price comes from admin-managed pricing (fallback to defaults), with any
+  // active offer applied; the server recomputes this authoritatively at order time.
+  const basePrice = billing === 'yearly'
+    ? (pricing?.plans?.[plan]?.yearly ?? planDetails[plan].yearly)
+    : (pricing?.plans?.[plan]?.monthly ?? planDetails[plan].monthly);
+  const offerOn = offerActiveFor(pricing?.offer, plan);
+  const price = offerOn ? Math.max(1, Math.round(basePrice * (1 - pricing!.offer.percentOff / 100))) : basePrice;
 
   // Discount preview mirrors the server rule (leave at least ₹1 on the order).
   const creditApplied = Math.max(0, Math.min(availableCredit, price - 1));
@@ -71,6 +88,11 @@ function CheckoutContent() {
       router.push(`/auth/signup?plan=${plan}`);
     }
   }, [user, loading, router, plan]);
+
+  // Load admin-managed pricing + active offer for display.
+  useEffect(() => {
+    fetch('/api/pricing').then((r) => r.json()).then(setPricing).catch(() => {});
+  }, []);
 
   // Guard: check existing subscription before showing pay button
   useEffect(() => {
@@ -304,10 +326,16 @@ function CheckoutContent() {
                     </div>
                   </div>
                   <div className="space-y-3 mb-6 text-sm">
-                    <div className="flex justify-between text-slate-400"><span>Subtotal</span><span>₹{price}</span></div>
+                    <div className="flex justify-between text-slate-400"><span>Subtotal</span><span>₹{basePrice}</span></div>
                     <div className="flex justify-between text-slate-400"><span>Tax (GST)</span><span>Included</span></div>
                     {billing === 'yearly' && (
                       <div className="flex justify-between text-green-400"><span>Yearly discount</span><span>-17%</span></div>
+                    )}
+                    {offerOn && (
+                      <div className="flex justify-between text-green-400">
+                        <span>🎉 {pricing!.offer.label || `Offer (${pricing!.offer.percentOff}% off)`}</span>
+                        <span>-₹{basePrice - price}</span>
+                      </div>
                     )}
                     {creditApplied > 0 && (
                       <div className="flex justify-between text-green-400"><span>🎁 Referral credit</span><span>-₹{creditApplied}</span></div>
@@ -316,8 +344,8 @@ function CheckoutContent() {
                   <div className="flex justify-between items-baseline pt-4 border-t border-white/10">
                     <span className="text-lg font-semibold">Total</span>
                     <div>
-                      {creditApplied > 0 && (
-                        <div className="text-sm text-slate-500 line-through text-right">₹{price}</div>
+                      {(offerOn || creditApplied > 0) && (
+                        <div className="text-sm text-slate-500 line-through text-right">₹{basePrice}</div>
                       )}
                       <div className="text-3xl font-black text-gradient">₹{payable}</div>
                       <div className="text-xs text-slate-400 text-right">Charged {billing}</div>

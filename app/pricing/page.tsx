@@ -10,11 +10,25 @@ import Footer from '@/components/Footer';
 
 const PLAN_RANK: Record<string, number> = { free: 0, pro: 1, power: 2 };
 
+interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'pro' | 'power'; expiresAt: number | null }
+interface Pricing { plans: { pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } }; offer: Offer }
+
+function offerActiveFor(offer: Offer | undefined, planId: string): boolean {
+  if (!offer || !offer.active || offer.percentOff <= 0 || planId === 'free') return false;
+  if (offer.expiresAt && Date.now() > offer.expiresAt) return false;
+  return offer.appliesTo === 'all' || offer.appliesTo === planId;
+}
+
 export default function PricingPage() {
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const [currentPlan, setCurrentPlan] = useState<string>('free');
+  const [pricing, setPricing] = useState<Pricing | null>(null);
   const { user } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    fetch('/api/pricing').then((r) => r.json()).then(setPricing).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -153,9 +167,32 @@ export default function PricingPage() {
             </div>
           </div>
 
+          {/* Active offer banner */}
+          {pricing?.offer?.active && pricing.offer.percentOff > 0 &&
+           (!pricing.offer.expiresAt || Date.now() < pricing.offer.expiresAt) && (
+            <div className="max-w-2xl mx-auto mb-10 -mt-6">
+              <div className="card text-center bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-green-500/30 py-4">
+                <span className="text-green-300 font-semibold">
+                  🎉 {pricing.offer.label || `Limited offer — ${pricing.offer.percentOff}% off`}
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Pricing cards */}
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {plans.map((plan) => (
+            {plans.map((plan) => {
+              const base = plan.id === 'free'
+                ? plan.price
+                : (pricing?.plans?.[plan.id as 'pro' | 'power'] ?? plan.price);
+              const cyclePrice = billing === 'yearly' ? base.yearly : base.monthly;
+              const offerOn = offerActiveFor(pricing?.offer, plan.id);
+              const effCycle = offerOn
+                ? Math.max(1, Math.round(cyclePrice * (1 - pricing!.offer.percentOff / 100)))
+                : cyclePrice;
+              const monthlyNow = billing === 'yearly' ? Math.round(effCycle / 12) : effCycle;
+              const monthlyWas = billing === 'yearly' ? Math.round(cyclePrice / 12) : cyclePrice;
+              return (
               <div
                 key={plan.id}
                 className={`relative card card-glow ${plan.popular ? 'md:scale-105 border-indigo-500/50' : ''}`}
@@ -176,13 +213,17 @@ export default function PricingPage() {
                   <p className="text-sm text-slate-400 mb-4">{plan.tagline}</p>
 
                   <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-5xl font-black text-white">
-                      ₹{billing === 'yearly' ? Math.round(plan.price.yearly / 12) : plan.price.monthly}
-                    </span>
+                    {offerOn && (
+                      <span className="text-2xl font-bold text-slate-500 line-through mr-1">₹{monthlyWas}</span>
+                    )}
+                    <span className="text-5xl font-black text-white">₹{monthlyNow}</span>
                     <span className="text-slate-400">/mo</span>
                   </div>
-                  {billing === 'yearly' && plan.price.yearly > 0 && (
-                    <p className="text-xs text-slate-500">Billed ₹{plan.price.yearly} yearly</p>
+                  {offerOn && (
+                    <p className="text-xs text-green-400 font-semibold mb-1">{pricing!.offer.percentOff}% off applied</p>
+                  )}
+                  {billing === 'yearly' && effCycle > 0 && (
+                    <p className="text-xs text-slate-500">Billed ₹{effCycle} yearly</p>
                   )}
                 </div>
 
@@ -210,7 +251,8 @@ export default function PricingPage() {
                   ))}
                 </ul>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* FAQ */}

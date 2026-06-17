@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRazorpayClient, getPlanAmount, type PlanId, type Billing } from '@/lib/razorpay-server';
-import { verifyIdToken, getReferralCredits } from '@/lib/firebase-admin';
+import { getRazorpayClient, type PlanId, type Billing } from '@/lib/razorpay-server';
+import { verifyIdToken, getReferralCredits, getDynamicPricing, effectiveAmount, offerApplies } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
 /**
  * POST { plan, billing, userId?, idToken? }
  * Returns { orderId, amount, currency, keyId, appliedCredit, originalAmount }.
- * Amount is calculated server-side from PLAN_CATALOG so it cannot be tampered
- * with. If a valid idToken is supplied, the user's referral credit balance is
- * applied as a discount (leaving at least ₹1 so Razorpay accepts the order).
+ * Amount is computed server-side from the admin-managed pricing (settings/pricing),
+ * with any active offer applied, so it cannot be tampered with. If a valid idToken
+ * is supplied, the user's referral credit is then applied (leaving at least ₹1).
  */
 export async function POST(request: NextRequest) {
   try {
@@ -35,7 +35,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid billing cycle' }, { status: 400 });
     }
 
-    const amountInRupees = getPlanAmount(plan, billing);
+    // Base price from admin-managed pricing, then apply any active offer.
+    const pricing = await getDynamicPricing();
+    const baseAmount = pricing.plans[plan][billing];
+    const amountInRupees = effectiveAmount(baseAmount, pricing.offer, plan);
+    const offerOn = offerApplies(pricing.offer, plan);
 
     // Apply referral credit only for an authenticated user (verified uid).
     let appliedCredit = 0;
@@ -61,6 +65,7 @@ export async function POST(request: NextRequest) {
         billing,
         ...(payerUid ? { userId: payerUid } : {}),
         appliedCredit: String(appliedCredit),
+        ...(offerOn ? { offer: pricing.offer.label || `${pricing.offer.percentOff}% off` } : {}),
       },
     });
 
@@ -70,7 +75,8 @@ export async function POST(request: NextRequest) {
       currency: 'INR',
       keyId: process.env.RAZORPAY_KEY_ID,
       appliedCredit,
-      originalAmount: amountInRupees * 100,
+      originalAmount: baseAmount * 100,
+      offerApplied: offerOn,
     });
   } catch (error: unknown) {
     // Razorpay SDK throws plain objects like { statusCode, error: { description } }

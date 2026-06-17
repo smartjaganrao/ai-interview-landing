@@ -7,6 +7,7 @@
  * gracefully rather than crash.
  */
 import * as admin from 'firebase-admin';
+import { PLAN_CATALOG } from './razorpay-server';
 
 let db: admin.firestore.Firestore | null = null;
 
@@ -483,4 +484,84 @@ export async function accrueCreatorCommission(
   } catch (e) {
     console.error('[creator] accrueCreatorCommission failed:', e);
   }
+}
+
+// ── Dynamic pricing & offers ──────────────────────────────────────────────────
+// Plan prices + one active offer live in settings/pricing (Admin-only write,
+// edited from the admin panel). The server reads this at order time, so prices
+// stay tamper-proof. Falls back to the hardcoded PLAN_CATALOG if unset.
+
+export interface Offer {
+  active: boolean;
+  label: string;          // e.g. "Launch offer — 20% off"
+  percentOff: number;     // 0–90
+  appliesTo: 'all' | 'pro' | 'power';
+  expiresAt: number | null;
+}
+
+export interface Pricing {
+  plans: {
+    pro: { monthly: number; yearly: number };
+    power: { monthly: number; yearly: number };
+  };
+  offer: Offer;
+}
+
+export const DEFAULT_OFFER: Offer = { active: false, label: '', percentOff: 0, appliesTo: 'all', expiresAt: null };
+
+function pricingFallback(): Pricing {
+  return {
+    plans: {
+      pro: { monthly: PLAN_CATALOG.pro.monthly, yearly: PLAN_CATALOG.pro.yearly },
+      power: { monthly: PLAN_CATALOG.power.monthly, yearly: PLAN_CATALOG.power.yearly },
+    },
+    offer: { ...DEFAULT_OFFER },
+  };
+}
+
+/** Read current plan prices + active offer (settings/pricing), or sane defaults. */
+export async function getDynamicPricing(): Promise<Pricing> {
+  if (!db) return pricingFallback();
+  try {
+    const snap = await db.collection('settings').doc('pricing').get();
+    if (!snap.exists) return pricingFallback();
+    const d = snap.data() ?? {};
+    const fb = pricingFallback();
+    const appliesTo = ['all', 'pro', 'power'].includes(d.offer?.appliesTo) ? d.offer.appliesTo : 'all';
+    return {
+      plans: {
+        pro: {
+          monthly: Number(d.plans?.pro?.monthly ?? fb.plans.pro.monthly),
+          yearly: Number(d.plans?.pro?.yearly ?? fb.plans.pro.yearly),
+        },
+        power: {
+          monthly: Number(d.plans?.power?.monthly ?? fb.plans.power.monthly),
+          yearly: Number(d.plans?.power?.yearly ?? fb.plans.power.yearly),
+        },
+      },
+      offer: {
+        active: !!d.offer?.active,
+        label: String(d.offer?.label ?? ''),
+        percentOff: Math.max(0, Math.min(90, Number(d.offer?.percentOff ?? 0))),
+        appliesTo,
+        expiresAt: d.offer?.expiresAt ? Number(d.offer.expiresAt) : null,
+      },
+    };
+  } catch (e) {
+    console.error('[pricing] getDynamicPricing failed, using defaults:', e);
+    return pricingFallback();
+  }
+}
+
+/** Is the offer currently valid for this plan? */
+export function offerApplies(offer: Offer, plan: 'pro' | 'power'): boolean {
+  if (!offer.active || offer.percentOff <= 0) return false;
+  if (offer.expiresAt && Date.now() > offer.expiresAt) return false;
+  return offer.appliesTo === 'all' || offer.appliesTo === plan;
+}
+
+/** Apply the offer (if valid) to a base amount; never drops below ₹1. */
+export function effectiveAmount(base: number, offer: Offer, plan: 'pro' | 'power'): number {
+  if (!offerApplies(offer, plan)) return base;
+  return Math.max(1, Math.round(base * (1 - offer.percentOff / 100)));
 }

@@ -203,36 +203,32 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* WHY JAVIHAI — built for Indian interviews */}
       <section id="testimonials" className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <div className="badge mb-4">💬 Reviews</div>
+            <div className="badge mb-4">✨ Why JavihAI</div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
-              Loved by Indian Candidates <span className="text-gradient">Everywhere</span>
+              Built for <span className="text-gradient">Indian Interviews</span>
             </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Everything you need to prepare and perform — at a price that makes sense for India.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Rahul Mehta', role: 'SDE-2 at Flipkart, Bangalore', avatar: '👨‍💻', company: 'Flipkart', text: 'I used Desi Mode and the answers sounded exactly like how I speak in interviews — natural, confident, Indian. Got the Flipkart offer after 3 sessions.' },
-              { name: 'Priya Nair', role: 'Backend Engineer at Razorpay', avatar: '👩‍💼', company: 'Razorpay', text: 'Tried Final Round AI first — too expensive at ₹14,000/month. JavihAI at ₹499 does the same thing. Got my Razorpay offer in 2 weeks of practice.' },
-              { name: 'Arjun Krishnan', role: 'ML Engineer at Swiggy, Chennai', avatar: '👨‍🔬', company: 'Swiggy', text: 'The Tamil language mode is a game-changer. I could practice exactly how I think, then answer in English during the real interview. Cleared Swiggy in one attempt.' },
-              { name: 'Sneha Gupta', role: 'Frontend Engineer at CRED', avatar: '👩‍💻', company: 'CRED', text: 'The mock interview mode showed me I was giving vague answers. After fixing that, my real interviews improved instantly. Joined CRED last month!' },
-              { name: 'Vikram Reddy', role: 'DevOps at PhonePe, Hyderabad', avatar: '👨‍💼', company: 'PhonePe', text: 'Screenshot analysis is insane — I pointed it at a Kubernetes problem in my HackerEarth test and got a complete solution in seconds.' },
-              { name: 'Divya Patel', role: 'SDE at Meesho, Bangalore', avatar: '👩‍🔬', company: 'Meesho', text: 'Used the resume builder to redo my CV before applying. Got 3× more callbacks. Then used JavihAI to prep. Got offers from Meesho and Zepto!' },
-            ].map((t, i) => (
+              { icon: '🇮🇳', title: 'Desi Mode', text: 'Answers in natural Indian English — plus Hindi, Tamil, Telugu and more — with Indian company context, not textbook phrasing.' },
+              { icon: '💸', title: '15× more affordable', text: 'Real-time interview help for ₹499/month, versus ₹7,000+ for Final Round AI. Same capability, India pricing.' },
+              { icon: '🎯', title: 'Mock interviews', text: 'An AI interviewer asks role-specific questions, then scores your answers so you know exactly what to fix.' },
+              { icon: '🖥️', title: 'Screenshot analysis', text: 'Point it at a coding or system-design problem on screen and get a structured, worked-through solution.' },
+              { icon: '📄', title: 'Resume builder', text: 'Five ATS-ready templates with India-specific tips. Build and export to PDF in minutes.' },
+              { icon: '🔒', title: 'Private by design', text: 'Runs on your own device. We never record or store your live interview audio.' },
+            ].map((f, i) => (
               <div key={i} className="card">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="text-4xl">{t.avatar}</div>
-                  <div>
-                    <div className="font-semibold text-white">{t.name}</div>
-                    <div className="text-sm text-indigo-400 font-medium">{t.company}</div>
-                    <div className="text-xs text-slate-500">{t.role}</div>
-                  </div>
-                </div>
-                <div className="text-yellow-400 mb-3 text-sm">★★★★★</div>
-                <p className="text-slate-300 leading-relaxed italic text-sm">&ldquo;{t.text}&rdquo;</p>
+                <div className="text-4xl mb-3">{f.icon}</div>
+                <div className="font-bold text-white mb-2">{f.title}</div>
+                <p className="text-slate-300 leading-relaxed text-sm">{f.text}</p>
               </div>
             ))}
           </div>
