@@ -565,3 +565,20 @@ export function effectiveAmount(base: number, offer: Offer, plan: 'pro' | 'power
   if (!offerApplies(offer, plan)) return base;
   return Math.max(1, Math.round(base * (1 - offer.percentOff / 100)));
 }
+
+/**
+ * Flag (or clear) cancel-at-period-end on a user's subscription. The plan stays
+ * active until renewalDate; it simply won't renew and won't get reminder emails.
+ * Server-side only (subscription docs are otherwise rule-locked).
+ */
+export async function setSubscriptionCancel(uid: string, cancel: boolean): Promise<boolean> {
+  if (!db) return false;
+  const ref = db.collection('subscriptions').doc(uid);
+  const snap = await ref.get();
+  if (!snap.exists) return false;
+  await ref.set(
+    { cancelAtPeriodEnd: cancel, canceledAt: cancel ? Date.now() : null, updatedAt: Date.now() },
+    { merge: true },
+  );
+  return true;
+}

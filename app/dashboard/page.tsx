@@ -30,6 +30,7 @@ interface SubscriptionData {
   startedAt?: number;
   renewalDate?: number;
   paymentId?: string;
+  cancelAtPeriodEnd?: boolean;
 }
 
 interface ActivityData {
@@ -63,6 +64,23 @@ function DashboardContent() {
   // Referral program
   const [referral, setReferral] = useState<{ code: string | null; link: string | null; credits: number; count: number; reward: number } | null>(null);
   const [refCopied, setRefCopied] = useState(false);
+  // Subscription cancel/resume
+  const [cancelBusy, setCancelBusy] = useState(false);
+
+  const toggleCancel = async (cancel: boolean) => {
+    if (!user) return;
+    setCancelBusy(true);
+    try {
+      const idToken = await user.getIdToken();
+      const res = await fetch('/api/subscription/cancel', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken, cancel }),
+      });
+      if (res.ok) setSubData((prev) => (prev ? { ...prev, cancelAtPeriodEnd: cancel } : prev));
+    } catch { /* ignore — button can be retried */ } finally {
+      setCancelBusy(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -470,6 +488,30 @@ function DashboardContent() {
                       </Link>
                     </div>
                   )}
+
+                  {/* Cancel / resume */}
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    {subData.cancelAtPeriodEnd ? (
+                      <div className="flex items-center justify-between flex-wrap gap-3">
+                        <p className="text-sm text-yellow-300">
+                          ⏳ Your plan won&apos;t renew. You keep {planConfig[plan].label} access until{' '}
+                          {subData.renewalDate ? new Date(subData.renewalDate).toLocaleDateString() : 'the period ends'}.
+                        </p>
+                        <button onClick={() => toggleCancel(false)} disabled={cancelBusy}
+                          className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold disabled:opacity-50">
+                          {cancelBusy ? 'Working…' : 'Resume plan'}
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between flex-wrap gap-3">
+                        <p className="text-sm text-slate-500">Cancel anytime — you keep access until your renewal date.</p>
+                        <button onClick={() => toggleCancel(true)} disabled={cancelBusy}
+                          className="text-slate-400 hover:text-red-400 text-sm font-semibold disabled:opacity-50">
+                          {cancelBusy ? 'Working…' : 'Cancel subscription'}
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

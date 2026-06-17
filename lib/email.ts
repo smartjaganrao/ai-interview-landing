@@ -108,3 +108,72 @@ export async function sendPaymentConfirmation(params: {
   console.log('[email/payment-confirmation] sent ok, id:', data?.id);
   return { ok: true, id: data?.id };
 }
+
+function shell(bodyHtml: string): string {
+  return `
+<!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
+<div style="max-width:600px;margin:0 auto;padding:40px 24px;">
+  <div style="text-align:center;margin-bottom:28px;">
+    <div style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:16px;padding:14px 22px;">
+      <span style="color:white;font-size:22px;font-weight:800;">JavihAI</span>
+    </div>
+  </div>
+  ${bodyHtml}
+  <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
+    JavihAI · <a href="https://javihai.in" style="color:#6366f1;">javihai.in</a> ·
+    <a href="https://javihai.in/refund" style="color:#475569;">Refund policy</a>
+  </p>
+</div></body></html>`;
+}
+
+/** Sent (from the webhook) when a payment fails. */
+export async function sendPaymentFailed(params: { email: string; name: string; plan?: string }): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const firstName = params.name?.split(' ')[0] || 'there';
+  const planName = params.plan ? (PLAN_NAMES[params.plan] ?? params.plan) : 'your plan';
+
+  const html = shell(`
+  <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">Your payment didn't go through</h1>
+  <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
+    Hi ${firstName}, we couldn't process your payment for <strong style="color:#e2e8f0;">${planName}</strong>.
+    No charge was made. This usually happens with an expired card, insufficient balance, or a bank decline.
+  </p>
+  <div style="text-align:center;margin:28px 0;">
+    <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Try again →</a>
+  </div>
+  <p style="color:#64748b;font-size:13px;">Need help? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+
+  const { error } = await resend.emails.send({ from: FROM, to: params.email, subject: 'Your JavihAI payment didn’t go through', html });
+  if (error) { console.error('[email/payment-failed] Resend error:', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
+
+/** Sent by the daily cron a few days before a paid plan lapses (manual-renewal model). */
+export async function sendRenewalReminder(params: { email: string; name: string; plan: 'pro' | 'power'; billing: 'monthly' | 'yearly'; renewalDate: number; amount: number }): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const firstName = params.name?.split(' ')[0] || 'there';
+  const planName = PLAN_NAMES[params.plan] ?? params.plan;
+  const emoji = PLAN_EMOJI[params.plan] ?? '✨';
+
+  const html = shell(`
+  <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">${emoji} Your ${planName} plan ends ${formatDate(params.renewalDate)}</h1>
+  <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:20px;">
+    Hi ${firstName}, your JavihAI <strong style="color:#e2e8f0;">${planName}</strong> access expires on
+    <strong style="color:#e2e8f0;">${formatDate(params.renewalDate)}</strong>. Renew now to keep unlimited AI answers,
+    voice, screenshots and Desi Mode without interruption.
+  </p>
+  <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:24px;text-align:center;">
+    <span style="color:#94a3b8;font-size:14px;">Renew ${planName} (${params.billing})</span><br/>
+    <span style="color:#fff;font-weight:800;font-size:22px;">₹${params.amount}</span>
+  </div>
+  <div style="text-align:center;margin:24px 0;">
+    <a href="https://javihai.in/checkout?plan=${params.plan}&billing=${params.billing}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Renew now →</a>
+  </div>
+  <p style="color:#64748b;font-size:13px;">Don't want to renew? No action needed — your plan simply moves to Free.</p>`);
+
+  const { error } = await resend.emails.send({ from: FROM, to: params.email, subject: `${emoji} Your JavihAI ${planName} plan ends ${formatDate(params.renewalDate)}`, html });
+  if (error) { console.error('[email/renewal-reminder] Resend error:', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}

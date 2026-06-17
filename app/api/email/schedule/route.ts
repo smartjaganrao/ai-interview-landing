@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
+import { sendRenewalReminder } from '@/lib/email';
 
 function getAdmin() {
   if (!getApps().length) {
@@ -49,5 +50,53 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ sent, count: sent.length });
+  // ── Renewal reminders ───────────────────────────────────────────────────────
+  // Paid plans use one-time orders (manual renewal), so nudge users ~3 days before
+  // their access lapses. Single-field range query (no composite index needed);
+  // status / cancel / dedupe filtered in JS. Idempotent via renewalReminderSent.
+  const reminders: string[] = [];
+  try {
+    const horizon = now + 3 * 24 * 60 * 60 * 1000;
+    const subs = await db
+      .collection('subscriptions')
+      .where('renewalDate', '<=', horizon)
+      .limit(200)
+      .get();
+
+    for (const subDoc of subs.docs) {
+      const s = subDoc.data() as {
+        plan?: string; status?: string; billing?: 'monthly' | 'yearly';
+        amount?: number; renewalDate?: number; cancelAtPeriodEnd?: boolean;
+        renewalReminderSent?: number;
+      };
+      const renewalDate = s.renewalDate ?? 0;
+      if (
+        renewalDate <= now ||                       // already lapsed
+        s.status !== 'active' ||
+        s.cancelAtPeriodEnd === true ||             // they chose not to renew
+        (s.plan !== 'pro' && s.plan !== 'power') ||
+        s.renewalReminderSent === renewalDate        // already reminded this cycle
+      ) continue;
+
+      const userSnap = await db.collection('users').doc(subDoc.id).get();
+      const u = userSnap.exists ? userSnap.data() : null;
+      if (!u?.email) continue;
+
+      const res = await sendRenewalReminder({
+        email: u.email, name: u.name || '',
+        plan: s.plan as 'pro' | 'power',
+        billing: s.billing || 'monthly',
+        renewalDate,
+        amount: s.amount ?? 0,
+      });
+      if (res.ok) {
+        await subDoc.ref.update({ renewalReminderSent: renewalDate });
+        reminders.push(`${s.plan}:${u.email}`);
+      }
+    }
+  } catch (err) {
+    console.error('[email/schedule] renewal reminders failed:', err);
+  }
+
+  return NextResponse.json({ sent, count: sent.length, reminders, reminderCount: reminders.length });
 }

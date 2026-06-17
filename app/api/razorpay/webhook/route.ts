@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyWebhookSignature } from '@/lib/razorpay-server';
 import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission, db } from '@/lib/firebase-admin';
-import { sendPaymentConfirmation } from '@/lib/email';
+import { sendPaymentConfirmation, sendPaymentFailed } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -126,6 +126,12 @@ export async function POST(request: NextRequest) {
             { status: 'payment_failed', updatedAt: Date.now() },
             { merge: true }
           );
+          try {
+            const info = await getUserInfo(userId);
+            if (info?.email) await sendPaymentFailed({ email: info.email, name: info.name, plan: payment?.notes?.plan });
+          } catch (e) {
+            console.error('[razorpay/webhook] payment-failed email error:', e);
+          }
         }
         break;
       }
