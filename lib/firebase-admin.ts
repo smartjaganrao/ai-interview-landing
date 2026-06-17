@@ -330,3 +330,157 @@ export async function rewardReferrerOnPayment(refereeUid: string, orderId: strin
     console.error('[referral] rewardReferrerOnPayment failed:', e);
   }
 }
+
+// ── Creator commission program ────────────────────────────────────────────────
+// Separate from the peer referral above: approved creators get a vanity link,
+// and earn a RECURRING cash commission (default 20%) on every payment from the
+// users they bring in — including renewals. Commission accrues to a balance the
+// founder pays out manually (UPI). All mutations are Admin-SDK-only; the creator
+// reads their stats through an authenticated API, never Firestore directly.
+
+export const CREATOR_COMMISSION_BPS = 2000; // 20.00% — basis points, per-creator override allowed
+
+function creatorCodeBase(name: string): string {
+  const alpha = (name || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 8);
+  return alpha.length >= 3 ? alpha : 'CREATOR';
+}
+
+/** Apply = instantly become an active creator with a unique vanity code. */
+export async function getOrCreateCreator(uid: string, name: string, email: string): Promise<{
+  code: string; status: string; commissionBps: number;
+  totalEarned: number; totalPaid: number; referredCount: number; payoutUpi: string | null;
+} | null> {
+  if (!db) return null;
+  const ref = db.collection('creators').doc(uid);
+  const snap = await ref.get();
+  if (snap.exists) {
+    const d = snap.data()!;
+    return {
+      code: d.code, status: d.status ?? 'active', commissionBps: d.commissionBps ?? CREATOR_COMMISSION_BPS,
+      totalEarned: d.totalEarned ?? 0, totalPaid: d.totalPaid ?? 0, referredCount: d.referredCount ?? 0,
+      payoutUpi: d.payoutUpi ?? null,
+    };
+  }
+
+  const base = creatorCodeBase(name);
+  let code = '';
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const candidate = `${base}${Math.floor(100 + Math.random() * 900)}`; // e.g. RAHUL742
+    const dup = await db.collection('creators').where('code', '==', candidate).limit(1).get();
+    if (dup.empty) { code = candidate; break; }
+  }
+  if (!code) return null;
+
+  await ref.set({
+    uid, code, name: name ?? '', email: email ?? '',
+    status: 'active', commissionBps: CREATOR_COMMISSION_BPS,
+    totalEarned: 0, totalPaid: 0, referredCount: 0, payoutUpi: null,
+    createdAt: Date.now(), updatedAt: Date.now(),
+  });
+  return { code, status: 'active', commissionBps: CREATOR_COMMISSION_BPS, totalEarned: 0, totalPaid: 0, referredCount: 0, payoutUpi: null };
+}
+
+/** Read a creator's summary (or null if this user hasn't become a creator). */
+export async function getCreatorSummary(uid: string): Promise<{
+  code: string; status: string; commissionBps: number;
+  totalEarned: number; totalPaid: number; pending: number;
+  referredCount: number; payoutUpi: string | null;
+} | null> {
+  if (!db) return null;
+  const snap = await db.collection('creators').doc(uid).get();
+  if (!snap.exists) return null;
+  const d = snap.data()!;
+  const totalEarned = d.totalEarned ?? 0;
+  const totalPaid = d.totalPaid ?? 0;
+  return {
+    code: d.code, status: d.status ?? 'active', commissionBps: d.commissionBps ?? CREATOR_COMMISSION_BPS,
+    totalEarned, totalPaid, pending: Math.max(0, totalEarned - totalPaid),
+    referredCount: d.referredCount ?? 0, payoutUpi: d.payoutUpi ?? null,
+  };
+}
+
+export async function setCreatorPayoutUpi(uid: string, upi: string): Promise<boolean> {
+  if (!db) return false;
+  const ref = db.collection('creators').doc(uid);
+  const snap = await ref.get();
+  if (!snap.exists) return false;
+  await ref.set({ payoutUpi: upi.trim().slice(0, 120), updatedAt: Date.now() }, { merge: true });
+  return true;
+}
+
+/**
+ * Attribute a freshly-signed-up user to a creator (first-touch wins). Guards
+ * self-attribution, inactive creators, and stale (>24h) accounts.
+ */
+export async function attributeCreator(
+  userId: string, email: string, code: string,
+): Promise<{ ok: boolean; reason?: string; creatorId?: string }> {
+  if (!db || !code) return { ok: false, reason: 'unavailable' };
+
+  const norm = code.trim().toUpperCase();
+  const q = await db.collection('creators').where('code', '==', norm).limit(1).get();
+  if (q.empty) return { ok: false, reason: 'invalid-code' };
+  const creatorDoc = q.docs[0];
+  const creatorId = creatorDoc.id;
+  if (creatorId === userId) return { ok: false, reason: 'self' };
+  if ((creatorDoc.data().status ?? 'active') !== 'active') return { ok: false, reason: 'inactive' };
+
+  const attribRef = db.collection('creator_attributions').doc(userId);
+  const res = await db.runTransaction(async (tx) => {
+    const a = await tx.get(attribRef);
+    if (a.exists) return { ok: false, reason: 'already' };
+    const us = await tx.get(db!.collection('users').doc(userId));
+    if (us.exists && us.data()?.createdAt && Date.now() - us.data()!.createdAt > 24 * 60 * 60 * 1000) {
+      return { ok: false, reason: 'too-old' };
+    }
+    tx.set(attribRef, { userId, creatorId, creatorCode: norm, attributedAt: Date.now(), email: email ?? '' });
+    return { ok: true };
+  });
+  if (res.ok) {
+    await creatorDoc.ref.set(
+      { referredCount: admin.firestore.FieldValue.increment(1), updatedAt: Date.now() },
+      { merge: true },
+    );
+  }
+  return { ...res, creatorId };
+}
+
+/**
+ * Accrue a creator's commission on a user's payment. Runs on EVERY payment
+ * (first + renewals) → recurring. Idempotent per paymentId. `grossAmount` is the
+ * actual rupees the user paid (revenue), so commission is on real revenue.
+ */
+export async function accrueCreatorCommission(
+  userId: string, paymentId: string, orderId: string, grossAmount: number,
+): Promise<void> {
+  if (!db || !paymentId || grossAmount <= 0) return;
+  const attrib = await db.collection('creator_attributions').doc(userId).get();
+  if (!attrib.exists) return;
+  const creatorId = attrib.data()!.creatorId as string;
+  if (creatorId === userId) return; // belt-and-suspenders self guard
+
+  const creatorRef = db.collection('creators').doc(creatorId);
+  const creatorSnap = await creatorRef.get();
+  if (!creatorSnap.exists || (creatorSnap.data()!.status ?? 'active') !== 'active') return;
+  const bps = creatorSnap.data()!.commissionBps ?? CREATOR_COMMISSION_BPS;
+  const commission = Math.round((grossAmount * bps) / 10000);
+  if (commission <= 0) return;
+
+  const commRef = db.collection('creator_commissions').doc(paymentId);
+  try {
+    await db.runTransaction(async (tx) => {
+      const c = await tx.get(commRef);
+      if (c.exists) return; // idempotent — verify-payment + webhook both safe
+      const cs = await tx.get(creatorRef);
+      const total = cs.exists ? (cs.data()?.totalEarned ?? 0) : 0;
+      tx.set(commRef, {
+        creatorId, userId, paymentId, orderId,
+        grossAmount, commissionAmount: commission, bps,
+        status: 'accrued', createdAt: Date.now(), paidAt: null,
+      });
+      tx.set(creatorRef, { totalEarned: total + commission, updatedAt: Date.now() }, { merge: true });
+    });
+  } catch (e) {
+    console.error('[creator] accrueCreatorCommission failed:', e);
+  }
+}

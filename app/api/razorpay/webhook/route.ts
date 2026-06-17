@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyWebhookSignature } from '@/lib/razorpay-server';
-import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, db } from '@/lib/firebase-admin';
+import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission, db } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
@@ -80,16 +80,19 @@ export async function POST(request: NextRequest) {
           });
           console.log('[razorpay/webhook] payment.captured → Firestore write:', saved ? 'ok' : 'skipped (no Admin SDK)');
 
-          // Referral reconciliation (awaited + idempotent — verify-payment may
-          // have already done this; both paths are safe to run).
+          // Referral + creator reconciliation (awaited + idempotent —
+          // verify-payment may have already done this; both paths are safe).
           try {
             const applied = Number(notes.appliedCredit ?? 0) || 0;
             if (applied > 0 && payment.order_id) {
               await redeemCreditForOrder(userId, payment.order_id, applied);
             }
             await rewardReferrerOnPayment(userId, payment.order_id ?? '', payment.id);
+            // Creator commission on actual amount captured (paise → ₹)
+            const grossPaid = payment.amount ? Math.round(payment.amount / 100) : amount;
+            await accrueCreatorCommission(userId, payment.id, payment.order_id ?? '', grossPaid);
           } catch (e) {
-            console.error('[razorpay/webhook] referral reconciliation error:', e);
+            console.error('[razorpay/webhook] referral/creator reconciliation error:', e);
           }
 
           // Send confirmation email (awaited, best-effort)

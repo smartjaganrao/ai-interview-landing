@@ -9,8 +9,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
 
 const REF_STORAGE_KEY = 'javihai_ref';
+const VIA_STORAGE_KEY = 'javihai_via';
 
-/** Claim a stored referral code (if any) once the user is authenticated. */
+/** Claim a stored peer-referral code (if any) once the user is authenticated. */
 async function claimReferralIfPending(user: User) {
   try {
     const code = typeof window !== 'undefined' ? localStorage.getItem(REF_STORAGE_KEY) : null;
@@ -25,6 +26,24 @@ async function claimReferralIfPending(user: User) {
     /* referral is a bonus — never block signup on it */
   } finally {
     if (typeof window !== 'undefined') localStorage.removeItem(REF_STORAGE_KEY);
+  }
+}
+
+/** Attribute a stored creator code (if any) once the user is authenticated. */
+async function attributeCreatorIfPending(user: User) {
+  try {
+    const code = typeof window !== 'undefined' ? localStorage.getItem(VIA_STORAGE_KEY) : null;
+    if (!code) return;
+    const idToken = await user.getIdToken();
+    await fetch('/api/creator/attribute', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken, code }),
+    });
+  } catch {
+    /* creator attribution is best-effort — never block signup */
+  } finally {
+    if (typeof window !== 'undefined') localStorage.removeItem(VIA_STORAGE_KEY);
   }
 }
 
@@ -53,6 +72,7 @@ function SignupContent() {
         if (cred) {
           await ensureUserDocs(cred);
           await claimReferralIfPending(cred.user);
+          await attributeCreatorIfPending(cred.user);
           router.push(plan === 'pro' || plan === 'power' ? `/checkout?plan=${plan}` : '/dashboard');
         }
       })
@@ -77,6 +97,7 @@ function SignupContent() {
       if (!cred) return; // redirect in progress; result handled on return
       await ensureUserDocs(cred);
       await claimReferralIfPending(cred.user);
+      await attributeCreatorIfPending(cred.user);
       if (plan === 'pro' || plan === 'power') {
         router.push(`/checkout?plan=${plan}`);
       } else {

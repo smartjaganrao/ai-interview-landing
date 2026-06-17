@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import CaptureAttribution from '@/components/CaptureAttribution';
 
 export const metadata: Metadata = {
   title: 'JavihAI — Master Interviews with AI',
-  description: 'Real-time AI-powered interview prep with voice analysis, smart feedback, and instant insights. Used by 10,000+ candidates worldwide.',
+  description: 'Real-time AI-powered interview prep with voice analysis, smart feedback, and instant insights. Used by 2,400+ candidates across India.',
   keywords: 'AI interview prep, interview practice, coding interview, AI feedback, voice analysis',
   openGraph: {
     title: 'JavihAI — Master Interviews with AI',
@@ -37,6 +38,7 @@ export default function RootLayout({
       </head>
       <body>
         <GoogleAnalytics />
+        <CaptureAttribution />
         <div className="bg-gradient-mesh bg-grid min-h-screen">
           {children}
         </div>

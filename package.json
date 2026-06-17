@@ -10,7 +10,8 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "setup-db": "node scripts/setup-firestore.mjs",
-    "deploy-rules": "node scripts/deploy-firestore-rules.mjs"
+    "deploy-rules": "node scripts/deploy-firestore-rules.mjs",
+    "creator-payouts": "node scripts/creator-payouts.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

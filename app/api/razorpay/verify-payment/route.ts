@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, PLAN_CATALOG } from '@/lib/razorpay-server';
-import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment } from '@/lib/firebase-admin';
+import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
@@ -60,15 +60,19 @@ export async function POST(request: NextRequest) {
     //    webhook reconciles as a backup).
     if (userId) {
       try {
+        let grossPaid = amount; // fallback to plan price
         const razorpay = getRazorpayClient();
         if (razorpay) {
           const ord = await razorpay.orders.fetch(orderId);
           const applied = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
           if (applied > 0) await redeemCreditForOrder(userId, orderId, applied);
+          if (typeof ord?.amount === 'number') grossPaid = Math.round(ord.amount / 100); // actual revenue (paise → ₹)
         }
         await rewardReferrerOnPayment(userId, orderId, paymentId);
+        // Creator commission on the actual amount paid (recurring — every payment)
+        await accrueCreatorCommission(userId, paymentId, orderId, grossPaid);
       } catch (e) {
-        console.error('[verify-payment] referral post-processing failed:', e);
+        console.error('[verify-payment] referral/creator post-processing failed:', e);
       }
     }
 
