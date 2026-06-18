@@ -38,7 +38,7 @@ interface ActivityData {
   totalQuestions: number;
 }
 
-const APP_VERSION = 'v1.3.0';
+const APP_VERSION = 'v1.3.1';
 const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
 const WINDOWS_DOWNLOAD_URL = `https://github.com/smartjaganrao/ai-interview-helper/releases/download/${APP_VERSION}/JavihAI-${APP_VERSION}-portable-win-x64.exe`;
 const MAC_DOWNLOAD_URL = `https://github.com/smartjaganrao/ai-interview-helper/releases/download/${APP_VERSION}/JavihAI-${APP_VERSION}-mac-universal.dmg`;
