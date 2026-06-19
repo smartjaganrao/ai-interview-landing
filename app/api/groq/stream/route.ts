@@ -3,7 +3,7 @@ import { verifyIdToken, checkAiQuota } from '@/lib/firebase-admin';
 
 export const runtime = 'nodejs';
 
-const PLAN_LIMITS: Record<string, number> = { free: 10, pro: Infinity, power: Infinity };
+const PLAN_LIMITS: Record<string, number> = { free: 3, pro: Infinity, power: Infinity };
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
         plan = quota.plan;
         if (!quota.allowed) {
           return NextResponse.json(
-            { error: 'Monthly AI quota reached. Upgrade to Pro for unlimited AI.' },
+            { error: 'Daily AI quota reached. Upgrade to Pro for unlimited AI.' },
             { status: 429 }
           );
         }

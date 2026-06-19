@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -193,6 +195,16 @@ export default function ResumePage() {
   const router = useRouter();
   const [data, setData] = useState<ResumeData>(BLANK);
   const [template, setTemplate] = useState('classic');
+  const [plan, setPlan] = useState<string>('free');
+
+  useEffect(() => {
+    if (!user) return;
+    getDoc(doc(db, 'subscriptions', user.uid)).then(snap => {
+      if (snap.exists() && snap.data()?.status === 'active') {
+        setPlan(snap.data()?.plan || 'free');
+      }
+    }).catch(() => {});
+  }, [user]);
   const [activeTab, setActiveTab] = useState<'basics' | 'experience' | 'education' | 'projects' | 'preview'>('basics');
 
   const set = (patch: Partial<ResumeData>) => setData(prev => ({ ...prev, ...patch }));
@@ -261,7 +273,7 @@ export default function ResumePage() {
           <h1 className="text-4xl font-black mb-2">
             Build Your <span className="text-gradient">ATS-Ready Resume</span>
           </h1>
-          <p className="text-slate-400">Fill in your details, pick a template, download as PDF. Free for all plans.</p>
+          <p className="text-slate-400">Fill in your details, pick a template, download as PDF. Bold & Elegant templates require Pro.</p>
         </div>
 
         {/* Template picker */}
@@ -271,7 +283,7 @@ export default function ResumePage() {
             {TEMPLATES.map(t => (
               <button
                 key={t.id}
-                onClick={() => { if (t.free || true) setTemplate(t.id); }}
+                onClick={() => { if (t.free || plan !== 'free') setTemplate(t.id); }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all ${
                   template === t.id
                     ? 'border-indigo-500 bg-indigo-500/20 text-white'

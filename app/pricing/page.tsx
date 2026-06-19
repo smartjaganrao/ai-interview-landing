@@ -75,9 +75,9 @@ export default function PricingPage() {
       tagline: 'Try it out',
       price: { monthly: 0, yearly: 0 },
       features: [
-        '10 AI answers/day',
-        '20 voice minutes/day',
-        '3 screenshots/day',
+        '3 AI answers/day',
+        '5 voice minutes/day',
+        '2 screenshots/day',
         'Basic feedback',
         'Email support',
       ],
@@ -261,7 +261,7 @@ export default function PricingPage() {
             <div className="space-y-4">
               {[
                 { q: 'Can I switch plans anytime?', a: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we&apos;ll prorate any charges.' },
-                { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan to try the basics. Upgrade to Pro for a 7-day free trial of all premium features.' },
+                { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan — 3 AI answers/day, forever, no credit card required. We also offer a 7-day money-back guarantee on your first paid subscription.' },
                 { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.' },
                 { q: 'Do you offer refunds?', a: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you&apos;re not satisfied, contact support for a full refund.' },
               ].map((item, i) => (

@@ -52,13 +52,19 @@ export default function MockInterviewPage() {
     setScores([]);
 
     try {
+      const idToken = user ? await user.getIdToken() : '';
       const res  = await fetch('/api/mock-interview', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Firebase-Token': idToken },
         body: JSON.stringify({ action: 'start', role, difficulty, sessionId: sid }),
       });
-      const data = await res.json() as { question: string };
-      setMessages([{ role: 'ai', text: data.question }]);
+      const data = await res.json() as { question?: string; error?: string };
+      if (!res.ok) {
+        setMessages([{ role: 'ai', text: data.error || 'Failed to start interview.' }]);
+        setPhase('setup');
+        return;
+      }
+      setMessages([{ role: 'ai', text: data.question! }]);
       setPhase('interview');
     } finally {
       setLoading(false);

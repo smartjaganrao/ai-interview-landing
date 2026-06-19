@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
+import { verifyIdToken, getUserPlan, db } from '@/lib/firebase-admin';
+
+const FREE_MOCK_SESSIONS_PER_DAY = 1;
+
+function dayKey(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
 
 function getGroq() {
   if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY not set');
@@ -70,6 +78,16 @@ function getQuestions(role: string): string[] {
 }
 
 export async function POST(req: NextRequest) {
+  // Require authentication
+  const idToken = req.headers.get('X-Firebase-Token') || '';
+  if (!idToken) {
+    return NextResponse.json({ error: 'Sign in to use mock interviews.' }, { status: 401 });
+  }
+  const user = await verifyIdToken(idToken);
+  if (!user) {
+    return NextResponse.json({ error: 'Invalid session. Please sign in again.' }, { status: 401 });
+  }
+
   const body = await req.json() as {
     action: 'start' | 'answer';
     role: string;
@@ -82,8 +100,23 @@ export async function POST(req: NextRequest) {
 
   const questions = getQuestions(body.role);
 
-  /* ── Start: return first question ──────────────────────────────────────── */
+  /* ── Start: check free session limit then return first question ─────────── */
   if (body.action === 'start') {
+    const plan = await getUserPlan(user.uid);
+    if (plan === 'free' && db) {
+      try {
+        const ref = db.collection('usage_tracking').doc(user.uid).collection('days').doc(dayKey());
+        const snap = await ref.get();
+        const sessionsToday = snap.exists ? (snap.data()?.mockSessions || 0) : 0;
+        if (sessionsToday >= FREE_MOCK_SESSIONS_PER_DAY) {
+          return NextResponse.json(
+            { error: 'Free plan allows 1 mock interview per day. Upgrade to Pro for unlimited sessions.' },
+            { status: 429 }
+          );
+        }
+        await ref.set({ mockSessions: sessionsToday + 1, lastUpdated: Date.now() }, { merge: true });
+      } catch { /* fail open */ }
+    }
     return NextResponse.json({ question: `👋 Welcome to your ${body.role} mock interview (${body.difficulty}).\n\nI'll ask you ${questions.length} questions and score each answer. Take your time.\n\n**Question 1:** ${questions[0]}` });
   }
 

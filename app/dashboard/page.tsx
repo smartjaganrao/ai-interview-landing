@@ -390,9 +390,9 @@ function DashboardContent() {
               <h2 className="text-2xl font-bold mb-4">📊 Today&apos;s Usage</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {[
-                  { label: 'AI Answers', used: Math.min(usageData.tokensUsed / 500, 10), total: 10, icon: '🧠', color: 'from-blue-500 to-cyan-500' },
-                  { label: 'Voice Minutes', used: usageData.voiceMinutes, total: 20, icon: '🎤', color: 'from-purple-500 to-pink-500' },
-                  { label: 'Screenshots', used: usageData.screenshotsUsed, total: 3, icon: '📸', color: 'from-orange-500 to-red-500' },
+                  { label: 'AI Answers', used: Math.min(usageData.tokensUsed / 500, 3), total: 3, icon: '🧠', color: 'from-blue-500 to-cyan-500' },
+                  { label: 'Voice Minutes', used: usageData.voiceMinutes, total: 5, icon: '🎤', color: 'from-purple-500 to-pink-500' },
+                  { label: 'Screenshots', used: usageData.screenshotsUsed, total: 2, icon: '📸', color: 'from-orange-500 to-red-500' },
                 ].map((stat, i) => {
                   const percent = Math.min((stat.used / stat.total) * 100, 100);
                   return (
