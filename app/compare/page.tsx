@@ -4,8 +4,10 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'JavihAI vs Competitors — Pricing & Feature Comparison 2026',
-  description: 'How JavihAI compares to Final Round AI, Chiku AI, InterviewCoder, Parakeet AI, and more. JavihAI is India\'s most affordable real-time AI interview coach.',
+  title: { absolute: 'JavihAI vs Competitors — Pricing & Feature Comparison 2026' },
+  description: 'How JavihAI compares to Final Round AI, Chiku AI, InterviewCoder, Parakeet AI, and more. JavihAI is India\'s most affordable real-time AI interview coach — from ₹499/month.',
+  keywords: ['JavihAI vs competitors', 'Final Round AI alternative', 'Chiku AI alternative', 'best AI interview tool India', 'cheapest AI interview assistant'],
+  alternates: { canonical: 'https://javihai.in/compare' },
 };
 
 const COMPETITORS = [
