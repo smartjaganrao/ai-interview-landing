@@ -5,6 +5,11 @@ export const runtime = 'nodejs';
 
 const PLAN_LIMITS: Record<string, number> = { free: 3, pro: Infinity, power: Infinity };
 
+// In-process rate limiter — keeps concurrent Groq requests under 25
+// (Groq free tier allows 30 req/min; leave headroom for bursts)
+let activeGroqRequests = 0;
+const MAX_CONCURRENT = 25;
+
 export async function POST(req: NextRequest) {
   try {
     const idToken = req.headers.get('X-Firebase-Token') || '';
@@ -35,25 +40,45 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'AI not configured' }, { status: 503 });
     }
 
-    // Call Groq API directly via fetch to avoid groq-sdk version type issues
-    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messages,
-        model: model || 'llama-3.1-8b-instant',
-        temperature: temperature ?? 0.5,
-        max_tokens: max_tokens ?? 1024,
-        stream: true,
-        stream_options: { include_usage: true },
-      }),
-    });
+    // Concurrency gate — reject early if too many requests are in-flight
+    if (activeGroqRequests >= MAX_CONCURRENT) {
+      return NextResponse.json(
+        { error: 'AI is busy right now. Please try again in a few seconds.' },
+        { status: 503 }
+      );
+    }
+
+    activeGroqRequests++;
+    let groqRes: Response;
+    try {
+      groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages,
+          model: model || 'llama-3.1-8b-instant',
+          temperature: temperature ?? 0.5,
+          max_tokens: max_tokens ?? 1024,
+          stream: true,
+          stream_options: { include_usage: true },
+        }),
+      });
+    } finally {
+      activeGroqRequests--;
+    }
 
     if (!groqRes.ok || !groqRes.body) {
       const err = await groqRes.json().catch(() => ({}));
+      // Groq rate limit — return a user-friendly message instead of raw API error
+      if (groqRes.status === 429) {
+        return NextResponse.json(
+          { error: 'AI is busy right now. Please wait a moment and try again.' },
+          { status: 503 }
+        );
+      }
       return NextResponse.json(
         { error: (err as { error?: { message?: string } }).error?.message || `Groq error ${groqRes.status}` },
         { status: groqRes.status }
