@@ -23,7 +23,7 @@ declare global {
 export default function TawkChat() {
   useEffect(() => {
     // Don't load until the user has had a moment to interact with the page
-    if (TAWK_PROPERTY_ID === 'YOUR_PROPERTY_ID') return; // skip placeholder
+    if (!TAWK_PROPERTY_ID) return;
 
     window.Tawk_API  = window.Tawk_API  || {};
     window.Tawk_LoadStart = new Date();
