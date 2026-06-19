@@ -6,7 +6,7 @@ export const maxDuration = 300;
 
 // Set LATEST_RELEASE_TAG in Vercel env vars (e.g. "v1.3.4") to avoid a code
 // deploy on every release. Falls back to the constant below if unset.
-const VERSION = process.env.LATEST_RELEASE_TAG ?? 'v1.3.3';
+const VERSION = process.env.LATEST_RELEASE_TAG ?? 'v1.3.4';
 const REPO = 'smartjaganrao/ai-interview-helper';
 
 const ASSETS: Record<string, { file: string; mime: string }> = {
