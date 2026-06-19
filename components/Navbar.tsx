@@ -49,7 +49,7 @@ export default function Navbar() {
           <Link href="/pricing" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
             Pricing
           </Link>
-          <Link href="/#testimonials" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+          <Link href="/#reviews" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
             Reviews
           </Link>
           <Link href="/#faq" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
@@ -112,43 +112,43 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden glass-heavy mt-3 mx-6 rounded-2xl p-6 animate-fade-in-up">
           <div className="flex flex-col gap-2">
-            <Link href="/#features" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+            <Link href="/#features" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               Features
             </Link>
-            <Link href="/pricing" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+            <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               Pricing
             </Link>
-            <Link href="/#testimonials" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+            <Link href="/#reviews" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               Reviews
             </Link>
-            <Link href="/#faq" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+            <Link href="/#faq" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               FAQ
             </Link>
-            <Link href="/mock-interview" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+            <Link href="/mock-interview" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               🎯 Mock Interview
             </Link>
-            <Link href="/jobs" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+            <Link href="/jobs" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               💼 Jobs
             </Link>
-            <Link href="/resume" className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+            <Link href="/resume" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               📄 Resume Builder
             </Link>
             <div className="h-px bg-white/10 my-2"></div>
             {user ? (
               <>
-                <Link href="/dashboard" className="btn btn-secondary">
+                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="btn btn-secondary">
                   Dashboard
                 </Link>
-                <button onClick={handleSignOut} className="btn btn-ghost">
+                <button onClick={() => { setMobileOpen(false); handleSignOut(); }} className="btn btn-ghost">
                   Sign Out
                 </button>
               </>
             ) : (
               <>
-                <Link href="/auth/login" className="btn btn-ghost">
+                <Link href="/auth/login" onClick={() => setMobileOpen(false)} className="btn btn-ghost">
                   Sign In
                 </Link>
-                <Link href="/auth/signup" className="btn btn-primary">
+                <Link href="/auth/signup" onClick={() => setMobileOpen(false)} className="btn btn-primary">
                   Get Started Free →
                 </Link>
               </>
