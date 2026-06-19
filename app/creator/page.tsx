@@ -193,7 +193,7 @@ export default function CreatorPage() {
 
               <p className="text-xs text-slate-500 mt-6">
                 Commission accrues on successful payments and is reconciled against refunds. Payouts are made monthly once your
-                pending balance clears the minimum threshold. Questions? <a href="mailto:creators@javihai.in" className="text-indigo-400">creators@javihai.in</a>
+                pending balance clears the minimum threshold. Questions? <a href="mailto:sales@javihai.in" className="text-indigo-400">sales@javihai.in</a>
               </p>
             </>
           )}
