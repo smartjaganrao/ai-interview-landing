@@ -328,7 +328,7 @@ export default function LandingPage() {
               Every Tool You Need <span className="text-gradient">in One Overlay</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Six AI-powered features for technical, HR, and system-design rounds
+              Eight AI-powered features for technical, HR, and system-design rounds
             </p>
           </div>
 
@@ -375,6 +375,20 @@ export default function LandingPage() {
                 desc: 'See your own words transcribed in real-time as you speak. Review what you said, never miss a beat, and build confidence mid-answer.',
                 gradient: 'from-green-500 to-emerald-500',
                 badge: null,
+              },
+              {
+                icon: '🔗',
+                title: 'Job URL Auto-fill',
+                desc: 'Paste a LinkedIn, Naukri, Indeed, or Glassdoor job link — JavihAI fetches the JD and fills your profile instantly. No copy-pasting walls of text.',
+                gradient: 'from-sky-500 to-blue-500',
+                badge: 'New',
+              },
+              {
+                icon: '🎯',
+                title: 'Detect Skills from JD',
+                desc: 'After loading a job description, one click auto-selects the required tech stack — React, Python, AWS, Docker and 24 more. Answers are tailored instantly.',
+                gradient: 'from-violet-500 to-purple-500',
+                badge: 'New',
               },
             ].map((feature, i) => (
               <div key={i} className="card card-glow group relative overflow-hidden">
@@ -515,6 +529,8 @@ export default function LandingPage() {
                   ['Free plan (no time limit)',     '✅', '❌', '❌', '⚠️ Trial'],
                   ['7-day money-back guarantee',   '✅', '❌', '❌', '❌'],
                   ['Mock interview with scoring',  '✅', '✅', '❌', '❌'],
+                  ['Job URL auto-fill (JD fetch)', '✅', '❌', '❌', '❌'],
+                  ['Detect skills from JD',        '✅', '❌', '❌', '❌'],
                 ].map(([feature, ...vals], i) => (
                   <tr key={i} className={`border-b border-white/5 ${i % 2 === 0 ? 'bg-slate-900/20' : ''} hover:bg-slate-800/20 transition-smooth`}>
                     <td className="px-5 py-3.5 text-slate-300 font-medium">{feature}</td>
@@ -564,7 +580,7 @@ export default function LandingPage() {
                 price: '₹499',
                 period: '/month',
                 desc: 'Unlimited AI for serious candidates.',
-                features: ['Unlimited AI answers', '60 voice minutes / day', 'Unlimited screenshots', 'Unlimited mock interviews', 'All languages (10+)', 'Priority support'],
+                features: ['Unlimited AI answers', '60 voice minutes / day', 'Unlimited screenshots', 'Unlimited mock interviews', 'Job URL auto-fill + skill detect', 'Priority support'],
                 cta: 'Get Pro →',
                 href: '/pricing',
                 highlight: true,
