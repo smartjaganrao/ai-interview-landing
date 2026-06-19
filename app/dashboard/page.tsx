@@ -39,9 +39,9 @@ interface ActivityData {
 }
 
 const APP_VERSION = 'v1.3.3';
-const DESKTOP_DOWNLOAD_URL = 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest';
-const WINDOWS_DOWNLOAD_URL = `https://github.com/smartjaganrao/ai-interview-helper/releases/download/${APP_VERSION}/JavihAI-${APP_VERSION}-portable-win-x64.exe`;
-const MAC_DOWNLOAD_URL = `https://github.com/smartjaganrao/ai-interview-helper/releases/download/${APP_VERSION}/JavihAI-${APP_VERSION}-mac-universal.dmg`;
+const DESKTOP_DOWNLOAD_URL = '/api/download/win';
+const WINDOWS_DOWNLOAD_URL = '/api/download/win';
+const MAC_DOWNLOAD_URL = '/api/download/mac';
 
 function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
