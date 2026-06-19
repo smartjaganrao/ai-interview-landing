@@ -19,19 +19,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'messages required' }, { status: 400 });
     }
 
+    // Require authentication — unauthenticated callers would bypass quota entirely
+    if (!idToken) {
+      return NextResponse.json({ error: 'Sign in to use AI features.' }, { status: 401 });
+    }
+
     // Verify user + check quota (fail open if Firebase Admin not configured)
     let plan = 'free';
-    if (idToken) {
-      const user = await verifyIdToken(idToken);
-      if (user) {
-        const quota = await checkAiQuota(user.uid);
-        plan = quota.plan;
-        if (!quota.allowed) {
-          return NextResponse.json(
-            { error: 'Daily AI quota reached. Upgrade to Pro for unlimited AI.' },
-            { status: 429 }
-          );
-        }
+    const user = await verifyIdToken(idToken);
+    if (user) {
+      const quota = await checkAiQuota(user.uid);
+      plan = quota.plan;
+      if (!quota.allowed) {
+        return NextResponse.json(
+          { error: 'Daily AI quota reached. Upgrade to Pro for unlimited AI.' },
+          { status: 429 }
+        );
       }
     }
 
@@ -66,11 +69,14 @@ export async function POST(req: NextRequest) {
           stream_options: { include_usage: true },
         }),
       });
-    } finally {
+    } catch (fetchErr) {
+      // Network error before headers — decrement immediately
       activeGroqRequests--;
+      throw fetchErr;
     }
 
     if (!groqRes.ok || !groqRes.body) {
+      activeGroqRequests--;
       const err = await groqRes.json().catch(() => ({}));
       // Groq rate limit — return a user-friendly message instead of raw API error
       if (groqRes.status === 429) {
@@ -88,8 +94,14 @@ export async function POST(req: NextRequest) {
     const planLimit = PLAN_LIMITS[plan] ?? 10;
     const quotaUsed = plan === 'free' ? 1 : 0;
 
-    // Pipe the SSE stream straight through to the desktop app
-    return new Response(groqRes.body, {
+    // Pipe through a TransformStream so we can decrement activeGroqRequests when
+    // the SSE body is fully consumed (or the client disconnects) — not just when
+    // headers arrive. The previous try/finally fired on headers, making the gate
+    // ineffective for concurrent SSE streams.
+    const { readable, writable } = new TransformStream();
+    groqRes.body.pipeTo(writable).finally(() => { activeGroqRequests--; });
+
+    return new Response(readable, {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',

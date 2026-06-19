@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const VERSION = 'v1.3.3';
+// Increase Vercel function timeout to 5 minutes so large binaries (100+ MB) can
+// stream fully before the function is killed. Requires Vercel Pro plan.
+export const maxDuration = 300;
+
+// Set LATEST_RELEASE_TAG in Vercel env vars (e.g. "v1.3.4") to avoid a code
+// deploy on every release. Falls back to the constant below if unset.
+const VERSION = process.env.LATEST_RELEASE_TAG ?? 'v1.3.3';
 const REPO = 'smartjaganrao/ai-interview-helper';
 
 const ASSETS: Record<string, { file: string; mime: string }> = {

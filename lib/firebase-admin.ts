@@ -62,9 +62,8 @@ export async function verifyIdToken(token: string): Promise<{ uid: string; email
 const FREE_AI_ANSWERS = 3;        // free plan: 3 AI answers / day (trial)
 const TOKENS_PER_ANSWER = 500;    // 1 "answer" ≈ 500 tokens (matches useQuota.ts)
 
-function dayKey(): string {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+export function dayKey(): string {
+  return new Date().toISOString().slice(0, 10); // UTC YYYY-MM-DD, consistent across server timezones
 }
 
 /** Resolve a user's plan from users/{uid}, falling back to an active subscription. */
