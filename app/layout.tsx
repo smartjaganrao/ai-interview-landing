@@ -10,34 +10,73 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: 'JavihAI — Real-Time AI Interview Copilot for India',
+    default: 'JavihAI — #1 AI Interview Copilot for India | Real-Time Answers, Stealth Overlay',
     template: '%s | JavihAI',
   },
 
   description:
-    "India's AI interview copilot. Stealth overlay detects questions & answers in <2s. Free forever · Pro ₹499/mo · 15× cheaper than Final Round AI · 2,400+ users.",
+    "India's #1 real-time AI interview copilot. Stealth overlay hears your interviewer & answers in <2s. Free forever · Pro ₹499/mo · 15× cheaper than Final Round AI · Trusted by 2,400+ candidates at Google, Microsoft, Flipkart & more.",
 
   keywords: [
+    // High-intent India-specific
     'AI interview assistant India',
-    'real-time interview AI',
-    'interview copilot India',
-    'JavihAI',
-    'interview prep AI India',
-    'Desi Mode interview AI',
-    'FAANG interview prep India',
+    'AI interview copilot India',
+    'real-time interview AI India',
+    'interview copilot India free',
+    'best AI interview tool India',
+    'AI interview help India',
+    'interview AI India',
+    'interview preparation AI India',
+
+    // Stealth / undetectable angle (high search volume)
+    'undetectable AI interview tool',
+    'stealth AI interview assistant',
+    'AI interview overlay',
+    'invisible interview assistant',
+    'screen share invisible AI overlay',
+    'AI interview tool undetectable zoom',
+
+    // Competitor alternatives (people comparing)
     'Final Round AI alternative India',
+    'Final Round AI alternative free',
     'Chiku AI alternative',
-    'stealth interview overlay',
-    'AI mock interview free',
+    'Cluely alternative India',
+    'LockedIn AI alternative India',
+    'Parakeet AI alternative',
+    'cheaper than Final Round AI',
+
+    // Role-specific keywords
+    'technical interview AI assistant',
     'coding interview AI help',
     'system design interview AI',
-    'technical interview assistant',
-    'affordable AI interview tool India',
-    'interview answer generator',
+    'behavioral interview AI',
+    'software engineer interview prep AI',
+    'FAANG interview preparation India',
+    'product manager interview AI',
+
+    // Feature keywords
+    'AI mock interview free India',
+    'AI interview answer generator',
+    'real-time interview answers',
+    'interview answer generator AI',
+    'AI resume interview prep',
+    'job interview AI tool',
+    'desktop interview AI app',
     'AI interview software Windows Mac',
-    'online interview preparation India',
-    'screen share invisible overlay',
-    'IIT NIT interview prep',
+
+    // India market
+    'interview prep India free',
+    'Naukri interview preparation',
+    'Desi Mode interview AI',
+    'IIT NIT interview prep AI',
+    'Flipkart Google Amazon interview India',
+    'affordable AI interview tool India',
+    'INR interview AI tool',
+    'interview AI tool Hindi Tamil Telugu',
+
+    // Brand
+    'JavihAI',
+    'javihai interview',
   ],
 
   authors: [{ name: 'JavihAI', url: BASE_URL }],
@@ -61,9 +100,9 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: BASE_URL,
     siteName: 'JavihAI',
-    title: 'JavihAI — Real-Time AI Interview Copilot for India',
+    title: 'JavihAI — #1 AI Interview Copilot for India | Real-Time Answers, Stealth Overlay',
     description:
-      'Stealth desktop overlay that listens to your interview and generates structured AI answers in under 2 seconds. Free plan · Pro from ₹499/month · Used by 2,400+ candidates.',
+      'Real-time AI interview copilot for India. Stealth overlay hears questions & answers in <2s. Free forever · Pro ₹499/mo · 15× cheaper than Final Round AI · 2,400+ candidates helped.',
     images: [
       {
         url: '/logo.svg',
@@ -79,9 +118,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@javihai',
     creator: '@javihai',
-    title: 'JavihAI — Real-Time AI Interview Copilot for India',
+    title: 'JavihAI — #1 AI Interview Copilot for India | Free Plan Available',
     description:
-      'Stealth overlay that hears your interview and generates answers in under 2 seconds. Free plan · ₹499/month Pro. 2,400+ candidates helped.',
+      'Undetectable AI interview overlay. Hears your interviewer & answers in <2s. Free forever · Pro ₹499/mo · Used by 2,400+ candidates at Google, Flipkart, Amazon India.',
     images: ['/logo.svg'],
   },
 
