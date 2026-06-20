@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
     const snap = await db
       .collection('support_tickets')
       .where('userId', '==', user.uid)
-      .orderBy('updatedAt', 'desc')
       .limit(20)
       .get();
 
@@ -32,6 +31,7 @@ export async function POST(request: NextRequest) {
       }>,
     }));
 
+    tickets.sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
     return NextResponse.json({ tickets });
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Failed to load tickets';
