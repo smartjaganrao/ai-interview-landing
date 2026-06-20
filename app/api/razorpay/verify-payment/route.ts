@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, PLAN_CATALOG } from '@/lib/razorpay-server';
+import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, getRazorpayKeys, PLAN_CATALOG } from '@/lib/razorpay-server';
 import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(request: NextRequest) {
   try {
-    if (!isRazorpayConfigured()) {
+    if (!(await isRazorpayConfigured())) {
       return NextResponse.json(
         { error: 'Billing is not configured on the server.' },
         { status: 503 }
@@ -35,8 +35,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing payment fields' }, { status: 400 });
     }
 
-    // 1) Verify Razorpay HMAC signature
-    const ok = verifyPaymentSignature({ orderId, paymentId, signature });
+    // 1) Verify Razorpay HMAC signature using key from Firestore/env
+    const keys = await getRazorpayKeys();
+    const ok = keys ? verifyPaymentSignature({ orderId, paymentId, signature, keySecret: keys.key_secret }) : false;
     if (!ok) {
       return NextResponse.json({ verified: false, error: 'Signature mismatch' }, { status: 400 });
     }
@@ -52,32 +53,25 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 3) Referral post-processing: deduct any credit applied to this order
-    //    (idempotent per orderId) and, if the payer was referred, reward their
-    //    referrer now that a real payment has cleared. AWAITED — on serverless,
-    //    work after the response isn't guaranteed to run, and this moves money.
-    //    Wrapped so a failure here never fails an already-verified payment (the
-    //    webhook reconciles as a backup).
+    // 3) Referral post-processing
     if (userId) {
       try {
-        let grossPaid = amount; // fallback to plan price
-        const razorpay = getRazorpayClient();
+        let grossPaid = amount;
+        const razorpay = await getRazorpayClient();
         if (razorpay) {
           const ord = await razorpay.orders.fetch(orderId);
           const applied = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
           if (applied > 0) await redeemCreditForOrder(userId, orderId, applied);
-          if (typeof ord?.amount === 'number') grossPaid = Math.round(ord.amount / 100); // actual revenue (paise → ₹)
+          if (typeof ord?.amount === 'number') grossPaid = Math.round(ord.amount / 100);
         }
         await rewardReferrerOnPayment(userId, orderId, paymentId);
-        // Creator commission on the actual amount paid (recurring — every payment)
         await accrueCreatorCommission(userId, paymentId, orderId, grossPaid);
       } catch (e) {
         console.error('[verify-payment] referral/creator post-processing failed:', e);
       }
     }
 
-    // 4) Send payment confirmation email. Awaited (best-effort) so it actually
-    //    sends before the serverless function freezes.
+    // 4) Send payment confirmation email
     if (userId && plan && billing) {
       try {
         const info = await getUserInfo(userId);

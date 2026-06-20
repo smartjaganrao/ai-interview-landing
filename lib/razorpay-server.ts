@@ -1,47 +1,80 @@
 import crypto from 'crypto';
 import Razorpay from 'razorpay';
+import { db } from '@/lib/firebase-admin';
 
-/**
- * Returns a Razorpay client when both credentials are present.
- * If unset, callers should fall back to a clear "billing not configured"
- * error instead of crashing. Demo deployments without keys still work —
- * the /checkout page detects this and shows a "coming soon" notice.
- */
-export function getRazorpayClient(): Razorpay | null {
+interface RazorpayKeys {
+  key_id: string;
+  key_secret: string;
+}
+
+// Simple in-process cache to avoid a Firestore read on every request.
+// Cleared after 5 minutes so admin key updates propagate quickly.
+let _cache: { keys: RazorpayKeys; ts: number } | null = null;
+const CACHE_TTL = 5 * 60 * 1000;
+
+export async function getRazorpayKeys(): Promise<RazorpayKeys | null> {
+  // Return cache if fresh
+  if (_cache && Date.now() - _cache.ts < CACHE_TTL) return _cache.keys;
+
+  // Try Firestore first (admin-managed keys)
+  try {
+    if (db) {
+      const doc = await db.collection('settings').doc('api_keys').get();
+      const data = doc.exists ? doc.data() : null;
+      if (data?.razorpayKeyId && data?.razorpayKeySecret) {
+        const keys = { key_id: data.razorpayKeyId, key_secret: data.razorpayKeySecret };
+        _cache = { keys, ts: Date.now() };
+        return keys;
+      }
+    }
+  } catch { /* fall through to env */ }
+
+  // Fallback to environment variables
   const key_id = process.env.RAZORPAY_KEY_ID;
   const key_secret = process.env.RAZORPAY_KEY_SECRET;
-  if (!key_id || !key_secret) return null;
-  return new Razorpay({ key_id, key_secret });
+  if (key_id && key_secret) {
+    const keys = { key_id, key_secret };
+    _cache = { keys, ts: Date.now() };
+    return keys;
+  }
+
+  return null;
 }
 
-export function isRazorpayConfigured(): boolean {
-  return !!(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET);
+export async function getRazorpayClient(): Promise<Razorpay | null> {
+  const keys = await getRazorpayKeys();
+  if (!keys) return null;
+  return new Razorpay(keys);
+}
+
+export async function isRazorpayConfigured(): Promise<boolean> {
+  const keys = await getRazorpayKeys();
+  return !!keys;
 }
 
 /**
- * Verifies the HMAC signature returned by Razorpay's Checkout after a
- * successful payment. The signature is `HMAC_SHA256(order_id|payment_id, key_secret)`.
+ * Returns the public Key ID for use in the frontend checkout.
+ * Safe to return to the browser — it is never the secret.
  */
+export async function getRazorpayKeyId(): Promise<string | null> {
+  const keys = await getRazorpayKeys();
+  return keys?.key_id ?? null;
+}
+
 export function verifyPaymentSignature(params: {
   orderId: string;
   paymentId: string;
   signature: string;
+  keySecret: string;
 }): boolean {
-  const key_secret = process.env.RAZORPAY_KEY_SECRET;
-  if (!key_secret) return false;
   const expected = crypto
-    .createHmac('sha256', key_secret)
+    .createHmac('sha256', params.keySecret)
     .update(`${params.orderId}|${params.paymentId}`)
     .digest('hex');
-  // timingSafeEqual to avoid timing attacks
   if (expected.length !== params.signature.length) return false;
   return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(params.signature));
 }
 
-/**
- * Verifies webhook signature: HMAC_SHA256(raw_body, webhook_secret).
- * Razorpay sends this in the `X-Razorpay-Signature` header.
- */
 export function verifyWebhookSignature(rawBody: string, signature: string): boolean {
   const webhook_secret = process.env.RAZORPAY_WEBHOOK_SECRET;
   if (!webhook_secret) return false;
@@ -55,8 +88,8 @@ export function verifyWebhookSignature(rawBody: string, signature: string): bool
 
 /** Public plan catalog — pricing source of truth for server-side order creation. */
 export const PLAN_CATALOG = {
-  pro: { monthly: 499, yearly: 4990 },
-  power: { monthly: 999, yearly: 9990 },
+  pro:   { monthly: 499,  yearly: 4990 },
+  power: { monthly: 999,  yearly: 9990 },
 } as const;
 
 export type PlanId = keyof typeof PLAN_CATALOG;

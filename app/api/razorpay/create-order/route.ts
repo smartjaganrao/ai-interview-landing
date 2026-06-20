@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRazorpayClient, type PlanId, type Billing } from '@/lib/razorpay-server';
+import { getRazorpayClient, getRazorpayKeyId, type PlanId, type Billing } from '@/lib/razorpay-server';
 import { verifyIdToken, getReferralCredits, getDynamicPricing, effectiveAmount, offerApplies } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
@@ -13,10 +13,10 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(request: NextRequest) {
   try {
-    const razorpay = getRazorpayClient();
+    const razorpay = await getRazorpayClient();
     if (!razorpay) {
       return NextResponse.json(
-        { error: 'Billing is not configured. Set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET on the server.' },
+        { error: 'Billing is not configured. Add Razorpay keys in the admin panel.' },
         { status: 503 }
       );
     }
@@ -69,17 +69,19 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Return the public key ID from Firestore/env (never the secret)
+    const keyId = await getRazorpayKeyId();
+
     return NextResponse.json({
       orderId: order.id,
       amount: amountInPaise,
       currency: 'INR',
-      keyId: process.env.RAZORPAY_KEY_ID,
+      keyId,
       appliedCredit,
       originalAmount: baseAmount * 100,
       offerApplied: offerOn,
     });
   } catch (error: unknown) {
-    // Razorpay SDK throws plain objects like { statusCode, error: { description } }
     const rzpErr = error as { error?: { description?: string }; statusCode?: number };
     const message =
       rzpErr?.error?.description ||
