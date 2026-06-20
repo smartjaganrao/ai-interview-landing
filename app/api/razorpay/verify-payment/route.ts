@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, getRazorpayKeys, PLAN_CATALOG } from '@/lib/razorpay-server';
+import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, getRazorpayKeys } from '@/lib/razorpay-server';
 import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
@@ -42,9 +42,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ verified: false, error: 'Signature mismatch' }, { status: 400 });
     }
 
-    // 2) Server-side Firestore write — best-effort, client write is the fallback
+    // 2) Fetch Razorpay order for the actual charged amount (avoids hardcoded plan prices)
+    const razorpay = await getRazorpayClient();
+    let amount = 0;
+    let grossPaid = 0;
+    let appliedCredit = 0;
+    if (razorpay) {
+      try {
+        const ord = await razorpay.orders.fetch(orderId);
+        if (typeof ord?.amount === 'number') {
+          amount = Math.round(ord.amount / 100);
+          grossPaid = amount;
+        }
+        appliedCredit = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
+      } catch { /* non-fatal */ }
+    }
+
+    // 3) Server-side Firestore write — best-effort, client write is the fallback
     let savedToFirestore = false;
-    const amount = (plan && billing) ? (PLAN_CATALOG[plan]?.[billing] ?? 0) : 0;
     const renewalDate = Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
 
     if (userId && plan && billing) {
@@ -53,17 +68,10 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 3) Referral post-processing
+    // 4) Referral post-processing
     if (userId) {
       try {
-        let grossPaid = amount;
-        const razorpay = await getRazorpayClient();
-        if (razorpay) {
-          const ord = await razorpay.orders.fetch(orderId);
-          const applied = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
-          if (applied > 0) await redeemCreditForOrder(userId, orderId, applied);
-          if (typeof ord?.amount === 'number') grossPaid = Math.round(ord.amount / 100);
-        }
+        if (appliedCredit > 0) await redeemCreditForOrder(userId, orderId, appliedCredit);
         await rewardReferrerOnPayment(userId, orderId, paymentId);
         await accrueCreatorCommission(userId, paymentId, orderId, grossPaid);
       } catch (e) {

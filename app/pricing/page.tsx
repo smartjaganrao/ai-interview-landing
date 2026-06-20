@@ -89,7 +89,7 @@ export default function PricingPage() {
       id: 'pro',
       name: 'Pro',
       tagline: 'For serious candidates',
-      price: { monthly: 499, yearly: 4990 },
+      price: { monthly: 0, yearly: 0 },
       features: [
         'Unlimited AI answers',
         'Unlimited voice minutes',
@@ -107,7 +107,7 @@ export default function PricingPage() {
       id: 'power',
       name: 'Power',
       tagline: 'Maximum advantage',
-      price: { monthly: 999, yearly: 9990 },
+      price: { monthly: 0, yearly: 0 },
       features: [
         'Everything in Pro',
         'Priority AI processing (faster responses)',

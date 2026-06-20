@@ -86,10 +86,10 @@ export function verifyWebhookSignature(rawBody: string, signature: string): bool
   return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 }
 
-/** Public plan catalog — pricing source of truth for server-side order creation. */
+/** Shape-only catalog — prices are always read from Firestore via getDynamicPricing(). */
 export const PLAN_CATALOG = {
-  pro:   { monthly: 499,  yearly: 4990 },
-  power: { monthly: 999,  yearly: 9990 },
+  pro:   { monthly: 0, yearly: 0 },
+  power: { monthly: 0, yearly: 0 },
 } as const;
 
 export type PlanId = keyof typeof PLAN_CATALOG;

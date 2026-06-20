@@ -31,8 +31,8 @@ interface RazorpayOptions {
 }
 
 const planDetails = {
-  pro: { name: 'Pro', monthly: 499, yearly: 4990, emoji: '🚀' },
-  power: { name: 'Power', monthly: 999, yearly: 9990, emoji: '⚡' },
+  pro: { name: 'Pro', monthly: 0, yearly: 0, emoji: '🚀' },
+  power: { name: 'Power', monthly: 0, yearly: 0, emoji: '⚡' },
 };
 
 interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'pro' | 'power'; expiresAt: number | null }

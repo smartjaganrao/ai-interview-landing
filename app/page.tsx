@@ -110,7 +110,7 @@ export default function LandingPage() {
   const [typedQ, setTypedQ] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const [pricing, setPricing] = useState<PricingData>({
-    plans: { pro: { monthly: 499, yearly: 4990 }, power: { monthly: 999, yearly: 9990 } },
+    plans: { pro: { monthly: 0, yearly: 0 }, power: { monthly: 0, yearly: 0 } },
     offer: { active: false, label: '', percentOff: 0, appliesTo: 'all', expiresAt: null },
   });
 
