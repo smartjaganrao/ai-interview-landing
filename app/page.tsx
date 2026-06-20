@@ -177,7 +177,7 @@ export default function LandingPage() {
                       <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
                       JavihAI · Live Session · Hidden from screen capture
                     </div>
-                    <div className="text-xs text-slate-600">v1.3.4</div>
+                    <div className="text-xs text-slate-600">{process.env.NEXT_PUBLIC_APP_VERSION}</div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
