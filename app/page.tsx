@@ -126,7 +126,7 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
-              <span className="text-sm text-slate-300">🇮🇳 India&apos;s #1 AI Interview Copilot · Trusted by 2,400+ candidates</span>
+              <span className="text-sm text-slate-300">🇮🇳 India&apos;s Cheapest AI Interview Copilot · ₹499/mo · Trusted by 2,400+ candidates</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 animate-fade-in-up leading-[1.05]" style={{ animationDelay: '0.1s' }}>
@@ -139,7 +139,7 @@ export default function LandingPage() {
               and streams structured AI answers — completely invisible to Zoom, Google Meet, and Teams.
             </p>
             <p className="text-base text-indigo-400 font-semibold mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-              Built for India. Priced for India. <span className="text-slate-400 font-normal">₹499/mo vs ₹7,695/mo elsewhere.</span>
+              India&apos;s Cheapest — For Freshers &amp; Working Professionals. <span className="text-slate-400 font-normal">₹499/mo vs ₹7,695/mo elsewhere.</span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
@@ -152,7 +152,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              {['100% invisible to screen share', 'Free plan — no time limit', 'Windows & Mac', '7-day money-back'].map((t) => (
+              {['100% invisible to screen share', 'Free for freshers', 'Windows & Mac', '7-day money-back'].map((t) => (
                 <div key={t} className="flex items-center gap-1.5">
                   <span className="text-green-400">✓</span> {t}
                 </div>
@@ -259,6 +259,62 @@ export default function LandingPage() {
                 <div className="text-slate-600 text-xs mt-0.5">{stat.sub}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHO IS IT FOR ────────────────────────────────────────────────────── */}
+      <section className="py-16">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <div className="badge mb-4">🎯 Who Is It For?</div>
+            <h2 className="text-3xl md:text-4xl font-black mb-3">
+              Built for Every Stage of Your Career
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto">Whether you&apos;re cracking your first job or switching to a senior role — JavihAI has a plan that fits your budget.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="card border-green-500/20 bg-green-500/5 group hover:border-green-500/40 transition-colors">
+              <div className="flex items-start gap-4">
+                <div className="text-3xl">🎓</div>
+                <div>
+                  <div className="font-bold text-white text-lg mb-1">Freshers &amp; Students</div>
+                  <div className="text-slate-400 text-sm leading-relaxed mb-3">
+                    Cracking your campus placement or first job? JavihAI&apos;s free plan gives you 3 AI-powered answers per day — no credit card needed. Practice mock interviews, get instant structured answers, and walk into every round confident.
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {['Campus placements', 'First job hunt', 'Off-campus drives', 'Free forever'].map(t => (
+                      <span key={t} className="px-2.5 py-0.5 rounded-full bg-green-500/10 text-green-400 text-xs font-medium border border-green-500/20">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card border-indigo-500/20 bg-indigo-500/5 group hover:border-indigo-500/40 transition-colors">
+              <div className="flex items-start gap-4">
+                <div className="text-3xl">💼</div>
+                <div>
+                  <div className="font-bold text-white text-lg mb-1">Working Professionals</div>
+                  <div className="text-slate-400 text-sm leading-relaxed mb-3">
+                    Targeting a promotion, switching companies, or aiming for FAANG? Pro at ₹499/mo gives you unlimited answers. That&apos;s less than one lunch — while competitors charge ₹7,695/mo for the same.
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {['Job switch', 'FAANG prep', 'Senior/Lead roles', '₹499/mo only'].map(t => (
+                      <span key={t} className="px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-medium border border-indigo-500/20">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 text-center">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-yellow-500/20 bg-yellow-500/5">
+              <span className="text-yellow-400 text-xl">🏆</span>
+              <span className="text-sm text-slate-300">
+                <span className="text-white font-semibold">India&apos;s cheapest</span> AI interview tool — ₹499/mo vs ₹1,199–₹7,695/mo from competitors.
+                <span className="text-yellow-400 font-semibold"> You save ₹6,000–₹87,000/year.</span>
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -556,11 +612,11 @@ export default function LandingPage() {
       <section className="py-20 bg-slate-950/40">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-12">
-            <div className="badge mb-4">💸 Pricing</div>
+            <div className="badge mb-4">💸 India&apos;s Cheapest Pricing</div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
-              Simple. <span className="text-gradient">India-Priced.</span> No Surprises.
+              Free for Freshers. <span className="text-gradient">₹499/mo</span> for Pros.
             </h2>
-            <p className="text-slate-400">Start free. Upgrade only if you need unlimited access.</p>
+            <p className="text-slate-400">Competitors charge ₹1,199–₹7,695/mo. We charge ₹499. Start free — no card needed.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -569,7 +625,7 @@ export default function LandingPage() {
                 name: 'Free',
                 price: '₹0',
                 period: 'forever',
-                desc: 'Try JavihAI with no risk.',
+                desc: 'Perfect for freshers & students.',
                 features: ['3 AI answers / day', '5 voice minutes / day', '2 screenshot solves / day', '1 mock interview / day', 'Stealth overlay', 'Windows & Mac'],
                 cta: 'Start Free',
                 href: '/auth/signup',
@@ -579,7 +635,7 @@ export default function LandingPage() {
                 name: 'Pro',
                 price: '₹499',
                 period: '/month',
-                desc: 'Unlimited AI for serious candidates.',
+                desc: 'For working professionals & job switchers.',
                 features: ['Unlimited AI answers', '60 voice minutes / day', 'Unlimited screenshots', 'Unlimited mock interviews', 'Job URL auto-fill + skill detect', 'Priority support'],
                 cta: 'Get Pro →',
                 href: '/pricing',
@@ -589,7 +645,7 @@ export default function LandingPage() {
                 name: 'Power',
                 price: '₹999',
                 period: '/month',
-                desc: 'Everything, plus India-specific mode.',
+                desc: 'FAANG prep & senior/lead role interviews.',
                 features: ['Everything in Pro', 'Desi Mode (₹ LPA, Hinglish)', 'Unlimited voice', 'Priority Groq AI model', 'Company-type context', '7-day money-back'],
                 cta: 'Get Power →',
                 href: '/pricing',

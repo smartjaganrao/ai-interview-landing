@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: 'JavihAI — #1 AI Interview Copilot for India | Real-Time Answers, Stealth Overlay',
+    default: "JavihAI — India's Cheapest AI Interview Copilot | ₹499/mo | For Freshers & Working Professionals",
     template: '%s | JavihAI',
   },
 
   description:
-    "India's #1 real-time AI interview copilot. Stealth overlay hears your interviewer & answers in <2s. Free forever · Pro ₹499/mo · 15× cheaper than Final Round AI · Trusted by 2,400+ candidates at Google, Microsoft, Flipkart & more.",
+    "India's cheapest AI interview copilot — ₹499/mo. Built for freshers & working professionals. Stealth overlay hears your interviewer & answers in <2s. Free forever. 15× cheaper than Final Round AI. Trusted by 2,400+ candidates at Google, Microsoft, Flipkart & more.",
 
   keywords: [
     // High-intent India-specific
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     'desktop interview AI app',
     'AI interview software Windows Mac',
 
-    // India market
+    // India market + cheapest + audience
     'interview prep India free',
     'Naukri interview preparation',
     'Desi Mode interview AI',
@@ -73,6 +73,19 @@ export const metadata: Metadata = {
     'affordable AI interview tool India',
     'INR interview AI tool',
     'interview AI tool Hindi Tamil Telugu',
+    "India's cheapest AI interview tool",
+    'cheapest AI interview copilot India',
+    'low cost AI interview assistant India',
+    'AI interview tool for freshers India',
+    'AI interview tool for freshers free',
+    'best AI interview tool freshers',
+    'fresher interview prep AI',
+    'first job interview AI tool',
+    'campus placement AI assistant',
+    'AI interview tool for working professionals',
+    'job switch interview AI India',
+    'interview prep for experienced professionals',
+    'career change interview AI',
 
     // Brand
     'JavihAI',
@@ -100,9 +113,9 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: BASE_URL,
     siteName: 'JavihAI',
-    title: 'JavihAI — #1 AI Interview Copilot for India | Real-Time Answers, Stealth Overlay',
+    title: "JavihAI — India's Cheapest AI Interview Copilot | ₹499/mo for Freshers & Professionals",
     description:
-      'Real-time AI interview copilot for India. Stealth overlay hears questions & answers in <2s. Free forever · Pro ₹499/mo · 15× cheaper than Final Round AI · 2,400+ candidates helped.',
+      "India's cheapest AI interview copilot. ₹499/mo for freshers & working professionals. Stealth overlay answers in <2s. Free forever · 15× cheaper than Final Round AI · 2,400+ helped.",
     images: [
       {
         url: '/logo.svg',
@@ -118,9 +131,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@javihai',
     creator: '@javihai',
-    title: 'JavihAI — #1 AI Interview Copilot for India | Free Plan Available',
+    title: "JavihAI — India's Cheapest AI Interview Tool | ₹499/mo | Freshers & Professionals",
     description:
-      'Undetectable AI interview overlay. Hears your interviewer & answers in <2s. Free forever · Pro ₹499/mo · Used by 2,400+ candidates at Google, Flipkart, Amazon India.',
+      "India's cheapest AI interview copilot. Free for freshers, ₹499/mo for unlimited. Stealth overlay answers in <2s · 2,400+ candidates hired at Google, Flipkart, Amazon India.",
     images: ['/logo.svg'],
   },
 
