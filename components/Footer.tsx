@@ -20,10 +20,11 @@ export default function Footer() {
             </p>
             <div className="flex gap-3 mt-6">
               {[
-                { icon: '🐦', href: 'https://twitter.com/javihai_in', label: 'Twitter' },
-                { icon: '💼', href: 'https://linkedin.com/company/javihai', label: 'LinkedIn' },
+                { icon: '𝕏', href: 'https://x.com/Javih_ai', label: 'Twitter / X' },
+                { icon: '💼', href: 'https://www.linkedin.com/in/javih-ai/', label: 'LinkedIn' },
+                { icon: '📸', href: 'https://www.instagram.com/javih.ai/', label: 'Instagram' },
+                { icon: '▶️', href: 'https://www.youtube.com/@javih_ai', label: 'YouTube' },
                 { icon: '💬', href: 'mailto:support@javihai.in', label: 'Email' },
-                { icon: '⭐', href: 'https://github.com/smartjaganrao/ai-interview-helper', label: 'GitHub' },
               ].map((s, i) => (
                 <a
                   key={i}
