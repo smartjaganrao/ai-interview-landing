@@ -66,6 +66,21 @@ export default function Navbar() {
           </Link>
         </div>
 
+        {/* Social Icons */}
+        <div className="hidden lg:flex items-center gap-1 mr-2">
+          {[
+            { href: 'https://x.com/Javih_ai', label: 'X', icon: '𝕏' },
+            { href: 'https://www.linkedin.com/in/javih-ai/', label: 'LinkedIn', icon: '💼' },
+            { href: 'https://www.instagram.com/javih.ai/', label: 'Instagram', icon: '📸' },
+            { href: 'https://www.youtube.com/@javih_ai', label: 'YouTube', icon: '▶️' },
+          ].map((s) => (
+            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-smooth text-sm">
+              {s.icon}
+            </a>
+          ))}
+        </div>
+
         {/* Auth Actions */}
         <div className="hidden md:flex items-center gap-3">
           {!loading && (

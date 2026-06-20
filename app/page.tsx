@@ -1079,6 +1079,78 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── SOCIAL / COMMUNITY ───────────────────────────────────────────────── */}
+      <section className="py-20 bg-slate-950/40">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="badge mb-4">🌐 Community</div>
+          <h2 className="text-4xl md:text-5xl font-black mb-4">
+            Join the <span className="text-gradient">JavihAI Community</span>
+          </h2>
+          <p className="text-slate-400 max-w-xl mx-auto mb-10">
+            Daily interview tips, coding round solutions, salary negotiation advice, and real candidate success stories — follow us to stay ahead.
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            {[
+              {
+                platform: 'Twitter / X',
+                handle: '@Javih_ai',
+                href: 'https://x.com/Javih_ai',
+                icon: '𝕏',
+                desc: 'Daily interview tips & hot takes',
+                color: 'from-slate-800 to-slate-900',
+                border: 'border-slate-700/50',
+              },
+              {
+                platform: 'LinkedIn',
+                handle: 'javih-ai',
+                href: 'https://www.linkedin.com/in/javih-ai/',
+                icon: '💼',
+                desc: 'Career advice & success stories',
+                color: 'from-blue-950 to-slate-900',
+                border: 'border-blue-800/30',
+              },
+              {
+                platform: 'Instagram',
+                handle: '@javih.ai',
+                href: 'https://www.instagram.com/javih.ai/',
+                icon: '📸',
+                desc: 'App demos & interview reels',
+                color: 'from-pink-950 to-slate-900',
+                border: 'border-pink-800/30',
+              },
+              {
+                platform: 'YouTube',
+                handle: '@javih_ai',
+                href: 'https://www.youtube.com/@javih_ai',
+                icon: '▶️',
+                desc: 'Full interview prep tutorials',
+                color: 'from-red-950 to-slate-900',
+                border: 'border-red-800/30',
+              },
+            ].map((s) => (
+              <a
+                key={s.platform}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`card border ${s.border} bg-gradient-to-b ${s.color} hover:scale-105 transition-bounce text-center group no-underline`}
+              >
+                <div className="text-3xl mb-2">{s.icon}</div>
+                <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
+                <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
+                <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
+                <div className="mt-3 text-xs text-indigo-400 font-semibold group-hover:text-indigo-300">Follow →</div>
+              </a>
+            ))}
+          </div>
+
+          <p className="text-slate-600 text-sm">
+            2,400+ candidates already part of the community · New content every day
+          </p>
+        </div>
+      </section>
+
       <Footer />
     </>
   );
