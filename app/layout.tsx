@@ -93,6 +93,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: BASE_URL,
   },
+
+  verification: {
+    google: 'cxMZqVzYT1n--iUdqFpiBEXZItuOYGVtlwDZD1wsNpk',
+  },
 };
 
 // JSON-LD: WebSite (enables Google Sitelinks search box)
