@@ -177,3 +177,61 @@ export async function sendRenewalReminder(params: { email: string; name: string;
   if (error) { console.error('[email/renewal-reminder] Resend error:', JSON.stringify(error)); return { ok: false, error: error.message }; }
   return { ok: true };
 }
+
+/** Notify admin (support@javihai.in) when a customer submits a new ticket. */
+export async function sendNewTicketAlert(params: {
+  ticketId: string; title: string; category: string;
+  userEmail: string; message: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const html = shell(`
+  <h1 style="font-size:22px;font-weight:800;margin-bottom:4px;">🎫 New Support Ticket</h1>
+  <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;">Ticket #${params.ticketId}</p>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;">
+    <tr><td style="padding:8px 0;color:#64748b;width:100px;">From</td><td style="color:#e2e8f0;font-weight:600;">${params.userEmail}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Category</td><td style="color:#e2e8f0;">${params.category}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Subject</td><td style="color:#e2e8f0;font-weight:600;">${params.title}</td></tr>
+  </table>
+  <div style="background:#1e293b;border-radius:10px;padding:16px;margin-bottom:20px;">
+    <p style="color:#cbd5e1;font-size:14px;line-height:1.7;margin:0;">${params.message.replace(/\n/g, '<br>')}</p>
+  </div>
+  <div style="text-align:center;">
+    <a href="https://admin.javihai.in/support" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:12px 28px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;">View in Admin Panel →</a>
+  </div>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: 'support@javihai.in',
+    subject: `[Support] ${params.title} — from ${params.userEmail}`, html,
+  });
+  if (error) { console.error('[email/new-ticket-alert]', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
+
+/** Notify customer when admin replies to their ticket. */
+export async function sendTicketReply(params: {
+  customerEmail: string; customerName: string;
+  ticketTitle: string; ticketId: string; replyMessage: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const firstName = params.customerName?.split(' ')[0] || 'there';
+  const html = shell(`
+  <h1 style="font-size:22px;font-weight:800;margin-bottom:4px;">💬 Reply to your support ticket</h1>
+  <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;">Hi ${firstName}, we replied to: <strong style="color:#e2e8f0;">${params.ticketTitle}</strong></p>
+  <div style="background:#1e293b;border-left:3px solid #6366f1;border-radius:0 10px 10px 0;padding:16px 20px;margin-bottom:20px;">
+    <p style="color:#a5b4fc;font-size:12px;font-weight:600;margin:0 0 8px;">JavihAI Support</p>
+    <p style="color:#cbd5e1;font-size:14px;line-height:1.7;margin:0;">${params.replyMessage.replace(/\n/g, '<br>')}</p>
+  </div>
+  <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;">You can view the full conversation and reply from your dashboard.</p>
+  <div style="text-align:center;">
+    <a href="https://javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:12px 28px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;">View in Dashboard →</a>
+  </div>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: params.customerEmail,
+    subject: `Re: ${params.ticketTitle} — JavihAI Support`, html,
+  });
+  if (error) { console.error('[email/ticket-reply]', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}

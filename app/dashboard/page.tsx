@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { doc, getDoc, collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getCountFromServer } from 'firebase/firestore';
 // email-only auth removed — Google sign-in only
 import Navbar from '@/components/Navbar';
 
@@ -56,16 +56,38 @@ function DashboardContent() {
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
   // Support ticket
   const [showSupport, setShowSupport] = useState(false);
+  const [supportTab, setSupportTab] = useState<'new'|'history'>('new');
   const [ticketTitle, setTicketTitle] = useState('');
   const [ticketDesc, setTicketDesc] = useState('');
   const [ticketCategory, setTicketCategory] = useState('technical');
   const [ticketSending, setTicketSending] = useState(false);
   const [ticketStatus, setTicketStatus] = useState('');
+  const [myTickets, setMyTickets] = useState<Array<{
+    id: string; title: string; category: string; status: string;
+    createdAt: number; updatedAt: number;
+    messages: Array<{ senderType: 'user'|'admin'; senderEmail: string; message: string; timestamp: number }>;
+  }>>([]);
+  const [ticketsLoading, setTicketsLoading] = useState(false);
+  const [expandedTicket, setExpandedTicket] = useState<string|null>(null);
   // Referral program
   const [referral, setReferral] = useState<{ code: string | null; link: string | null; credits: number; count: number; reward: number } | null>(null);
   const [refCopied, setRefCopied] = useState(false);
   // Subscription cancel/resume
   const [cancelBusy, setCancelBusy] = useState(false);
+
+  const loadMyTickets = async () => {
+    if (!user) return;
+    setTicketsLoading(true);
+    try {
+      const idToken = await user.getIdToken();
+      const res = await fetch('/api/support/tickets', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+      if (res.ok) { const d = await res.json(); setMyTickets(d.tickets || []); }
+    } catch { /* silent */ }
+    setTicketsLoading(false);
+  };
 
   const toggleCancel = async (cancel: boolean) => {
     if (!user) return;
@@ -566,64 +588,128 @@ function DashboardContent() {
             </Link>
           </div>
 
-          {/* Support Ticket Form */}
+          {/* Support Panel */}
           {showSupport && (
             <div className="mt-6 card border border-indigo-500/30">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold">Submit a Support Ticket</h3>
+                <h3 className="text-lg font-bold">Support</h3>
                 <button onClick={() => { setShowSupport(false); setTicketStatus(''); }} className="text-slate-400 hover:text-white text-xl">✕</button>
               </div>
-              {ticketStatus === 'sent' ? (
-                <div className="text-center py-6">
-                  <div className="text-4xl mb-3">✅</div>
-                  <p className="text-green-400 font-semibold">Ticket submitted!</p>
-                  <p className="text-slate-400 text-sm mt-1">We&apos;ll reply to {user?.email} within 24 hours.</p>
-                </div>
-              ) : (
-                <form onSubmit={async (e) => {
-                  e.preventDefault();
-                  if (!user || !ticketTitle.trim() || !ticketDesc.trim()) return;
-                  setTicketSending(true);
-                  try {
-                    await addDoc(collection(db, 'support_tickets'), {
-                      userId: user.uid,
-                      userEmail: user.email,
-                      title: ticketTitle.trim(),
-                      description: ticketDesc.trim(),
-                      category: ticketCategory,
-                      status: 'open',
-                      priority: 'medium',
-                      createdAt: Date.now(),
-                      updatedAt: Date.now(),
-                      messageCount: 1,
-                      messages: [{ senderType: 'user', senderUid: user.uid, senderEmail: user.email, message: ticketDesc.trim(), timestamp: Date.now() }],
-                    });
-                    setTicketStatus('sent');
-                    setTicketTitle(''); setTicketDesc('');
-                  } catch { setTicketStatus('error'); }
-                  setTicketSending(false);
-                }} className="space-y-4">
-                  <input
-                    type="text" placeholder="Subject / Title" required
-                    value={ticketTitle} onChange={(e) => setTicketTitle(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-                  />
-                  <select value={ticketCategory} onChange={(e) => setTicketCategory(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500">
-                    <option value="technical">Technical Issue</option>
-                    <option value="billing">Billing / Payment</option>
-                    <option value="feature-request">Feature Request</option>
-                    <option value="other">Other</option>
-                  </select>
-                  <textarea placeholder="Describe your issue in detail…" required rows={4}
-                    value={ticketDesc} onChange={(e) => setTicketDesc(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"
-                  />
-                  {ticketStatus === 'error' && <p className="text-red-400 text-sm">⚠ Failed to submit. Try again.</p>}
-                  <button type="submit" disabled={ticketSending} className="w-full btn btn-primary disabled:opacity-50">
-                    {ticketSending ? 'Submitting…' : 'Submit Ticket →'}
-                  </button>
-                </form>
+
+              {/* Tabs */}
+              <div className="flex gap-2 mb-5 border-b border-white/10 pb-3">
+                <button onClick={() => setSupportTab('new')}
+                  className={`text-sm font-semibold px-3 py-1 rounded-full transition-colors ${supportTab==='new' ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-400 hover:text-white'}`}>
+                  New Ticket
+                </button>
+                <button onClick={() => { setSupportTab('history'); loadMyTickets(); }}
+                  className={`text-sm font-semibold px-3 py-1 rounded-full transition-colors ${supportTab==='history' ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-400 hover:text-white'}`}>
+                  My Tickets
+                </button>
+              </div>
+
+              {/* New Ticket */}
+              {supportTab === 'new' && (
+                ticketStatus === 'sent' ? (
+                  <div className="text-center py-6">
+                    <div className="text-4xl mb-3">✅</div>
+                    <p className="text-green-400 font-semibold">Ticket submitted!</p>
+                    <p className="text-slate-400 text-sm mt-1">We&apos;ll reply to {user?.email} within 24 hours.</p>
+                    <button onClick={() => { setTicketStatus(''); setSupportTab('history'); loadMyTickets(); }}
+                      className="mt-4 text-indigo-400 text-sm hover:text-indigo-300">View my tickets →</button>
+                  </div>
+                ) : (
+                  <form onSubmit={async (e) => {
+                    e.preventDefault();
+                    if (!user || !ticketTitle.trim() || !ticketDesc.trim()) return;
+                    setTicketSending(true);
+                    try {
+                      const idToken = await user.getIdToken();
+                      const res = await fetch('/api/support/ticket', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ idToken, title: ticketTitle.trim(), description: ticketDesc.trim(), category: ticketCategory }),
+                      });
+                      if (res.ok) { setTicketStatus('sent'); setTicketTitle(''); setTicketDesc(''); }
+                      else setTicketStatus('error');
+                    } catch { setTicketStatus('error'); }
+                    setTicketSending(false);
+                  }} className="space-y-4">
+                    <input type="text" placeholder="Subject / Title" required
+                      value={ticketTitle} onChange={(e) => setTicketTitle(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    />
+                    <select value={ticketCategory} onChange={(e) => setTicketCategory(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500">
+                      <option value="technical">Technical Issue</option>
+                      <option value="billing">Billing / Payment</option>
+                      <option value="feature-request">Feature Request</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <textarea placeholder="Describe your issue in detail…" required rows={4}
+                      value={ticketDesc} onChange={(e) => setTicketDesc(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"
+                    />
+                    {ticketStatus === 'error' && <p className="text-red-400 text-sm">⚠ Failed to submit. Try again.</p>}
+                    <button type="submit" disabled={ticketSending} className="w-full btn btn-primary disabled:opacity-50">
+                      {ticketSending ? 'Submitting…' : 'Submit Ticket →'}
+                    </button>
+                  </form>
+                )
+              )}
+
+              {/* Ticket History */}
+              {supportTab === 'history' && (
+                ticketsLoading ? (
+                  <p className="text-slate-400 text-sm text-center py-6">Loading…</p>
+                ) : myTickets.length === 0 ? (
+                  <div className="text-center py-6">
+                    <p className="text-slate-400 text-sm">No tickets yet.</p>
+                    <button onClick={() => setSupportTab('new')} className="mt-2 text-indigo-400 text-sm hover:text-indigo-300">Submit your first ticket →</button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {myTickets.map((t) => {
+                      const hasAdminReply = t.messages.some(m => m.senderType === 'admin');
+                      const isExpanded = expandedTicket === t.id;
+                      const statusColor = t.status === 'resolved' ? 'text-green-400' : t.status === 'in-progress' ? 'text-yellow-400' : 'text-indigo-400';
+                      return (
+                        <div key={t.id} className="border border-white/10 rounded-xl overflow-hidden">
+                          <button onClick={() => setExpandedTicket(isExpanded ? null : t.id)}
+                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/5 transition-colors text-left">
+                            <div>
+                              <span className="text-white text-sm font-semibold">{t.title}</span>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className={`text-xs font-semibold ${statusColor}`}>{t.status.replace('-',' ')}</span>
+                                {hasAdminReply && <span className="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full">Reply received</span>}
+                              </div>
+                            </div>
+                            <span className="text-slate-500 text-xs">{isExpanded ? '▲' : '▼'}</span>
+                          </button>
+                          {isExpanded && (
+                            <div className="px-4 pb-4 space-y-2 border-t border-white/5 pt-3">
+                              {t.messages.map((m, i) => (
+                                <div key={i} className={`flex ${m.senderType === 'admin' ? 'justify-end' : 'justify-start'}`}>
+                                  <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
+                                    m.senderType === 'admin'
+                                      ? 'bg-indigo-500/20 border border-indigo-500/30 text-indigo-100'
+                                      : 'bg-white/5 border border-white/10 text-slate-300'
+                                  }`}>
+                                    <div className="text-xs text-slate-500 mb-1">
+                                      {m.senderType === 'admin' ? '🛡 JavihAI Support' : '👤 You'}
+                                      {' · '}{new Date(m.timestamp).toLocaleString()}
+                                    </div>
+                                    <p className="whitespace-pre-wrap">{m.message}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                    <button onClick={loadMyTickets} className="text-slate-500 text-xs hover:text-slate-400 w-full text-center pt-1">↻ Refresh</button>
+                  </div>
+                )
               )}
             </div>
           )}
