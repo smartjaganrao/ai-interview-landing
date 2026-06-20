@@ -92,11 +92,31 @@ const QUESTIONS = [
   '"Walk me through how you would build a URL shortener."',
 ];
 
+interface PricingData {
+  plans: { pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } };
+  offer: { active: boolean; label: string; percentOff: number; appliesTo: string; expiresAt: number | null };
+}
+
+function effectivePrice(base: number, offer: PricingData['offer'], plan: 'pro' | 'power'): number {
+  if (!offer.active || offer.percentOff <= 0) return base;
+  if (offer.expiresAt && Date.now() > offer.expiresAt) return base;
+  if (offer.appliesTo !== 'all' && offer.appliesTo !== plan) return base;
+  return Math.max(1, Math.round(base * (1 - offer.percentOff / 100)));
+}
+
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [questionIdx, setQuestionIdx] = useState(0);
   const [typedQ, setTypedQ] = useState('');
   const [isTyping, setIsTyping] = useState(true);
+  const [pricing, setPricing] = useState<PricingData>({
+    plans: { pro: { monthly: 499, yearly: 4990 }, power: { monthly: 999, yearly: 9990 } },
+    offer: { active: false, label: '', percentOff: 0, appliesTo: 'all', expiresAt: null },
+  });
+
+  useEffect(() => {
+    fetch('/api/pricing').then(r => r.ok ? r.json() : null).then(d => d && setPricing(d)).catch(() => {});
+  }, []);
 
   // Cycle through interview questions with typing animation
   useEffect(() => {
@@ -142,7 +162,7 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
-              <span className="text-sm text-slate-300">🇮🇳 India&apos;s Cheapest AI Interview Copilot · ₹499/mo · Trusted by 2,400+ candidates</span>
+              <span className="text-sm text-slate-300">🇮🇳 India&apos;s Cheapest AI Interview Copilot · ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · Trusted by 2,400+ candidates</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 animate-fade-in-up leading-[1.05]" style={{ animationDelay: '0.1s' }}>
@@ -155,7 +175,7 @@ export default function LandingPage() {
               and streams structured AI answers — completely invisible to Zoom, Google Meet, and Teams.
             </p>
             <p className="text-base text-indigo-400 font-semibold mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-              India&apos;s Cheapest — For Freshers &amp; Working Professionals. <span className="text-slate-400 font-normal">₹499/mo vs ₹7,695/mo elsewhere.</span>
+              India&apos;s Cheapest — For Freshers &amp; Working Professionals. <span className="text-slate-400 font-normal">₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo vs ₹7,695/mo elsewhere.</span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
@@ -312,10 +332,10 @@ export default function LandingPage() {
                 <div>
                   <div className="font-bold text-white text-lg mb-1">Working Professionals</div>
                   <div className="text-slate-400 text-sm leading-relaxed mb-3">
-                    Targeting a promotion, switching companies, or aiming for FAANG? Pro at ₹499/mo gives you unlimited answers. That&apos;s less than one lunch — while competitors charge ₹7,695/mo for the same.
+                    Targeting a promotion, switching companies, or aiming for FAANG? Pro at ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo gives you unlimited answers. That&apos;s less than one lunch — while competitors charge ₹7,695/mo for the same.
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {['Job switch', 'FAANG prep', 'Senior/Lead roles', '₹499/mo only'].map(t => (
+                    {['Job switch', 'FAANG prep', 'Senior/Lead roles', `₹${effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo only`].map(t => (
                       <span key={t} className="px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-medium border border-indigo-500/20">{t}</span>
                     ))}
                   </div>
@@ -327,7 +347,7 @@ export default function LandingPage() {
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-yellow-500/20 bg-yellow-500/5">
               <span className="text-yellow-400 text-xl">🏆</span>
               <span className="text-sm text-slate-300">
-                <span className="text-white font-semibold">India&apos;s cheapest</span> AI interview tool — ₹499/mo vs ₹1,199–₹7,695/mo from competitors.
+                <span className="text-white font-semibold">India&apos;s cheapest</span> AI interview tool — ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo vs ₹1,199–₹7,695/mo from competitors.
                 <span className="text-yellow-400 font-semibold"> You save ₹6,000–₹87,000/year.</span>
               </span>
             </div>
@@ -572,7 +592,7 @@ export default function LandingPage() {
                   <th className="text-left px-5 py-4 text-slate-400 font-semibold w-44">Feature</th>
                   <th className="px-4 py-4 text-center">
                     <div className="text-white font-bold text-base">JavihAI</div>
-                    <div className="text-indigo-400 text-xs font-semibold mt-0.5">₹499/mo</div>
+                    <div className="text-indigo-400 text-xs font-semibold mt-0.5">₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo</div>
                   </th>
                   <th className="px-4 py-4 text-center">
                     <div className="text-slate-400 font-semibold">Final Round AI</div>
@@ -630,9 +650,9 @@ export default function LandingPage() {
           <div className="text-center mb-12">
             <div className="badge mb-4">💸 India&apos;s Cheapest Pricing</div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
-              Free for Freshers. <span className="text-gradient">₹499/mo</span> for Pros.
+              Free for Freshers. <span className="text-gradient">₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo</span> for Pros.
             </h2>
-            <p className="text-slate-400">Competitors charge ₹1,199–₹7,695/mo. We charge ₹499. Start free — no card needed.</p>
+            <p className="text-slate-400">Competitors charge ₹1,199–₹7,695/mo. We charge ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}. Start free — no card needed.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -640,6 +660,7 @@ export default function LandingPage() {
               {
                 name: 'Free',
                 price: '₹0',
+                origPrice: null as string | null,
                 period: 'forever',
                 desc: 'Perfect for freshers & students.',
                 features: ['3 AI answers / day', '5 voice minutes / day', '2 screenshot solves / day', '1 mock interview / day', 'Stealth overlay', 'Windows & Mac'],
@@ -649,7 +670,8 @@ export default function LandingPage() {
               },
               {
                 name: 'Pro',
-                price: '₹499',
+                price: `₹${effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}`,
+                origPrice: effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro') !== pricing.plans.pro.monthly ? `₹${pricing.plans.pro.monthly}` : null,
                 period: '/month',
                 desc: 'For working professionals & job switchers.',
                 features: ['Unlimited AI answers', '60 voice minutes / day', 'Unlimited screenshots', 'Unlimited mock interviews', 'Job URL auto-fill + skill detect', 'Priority support'],
@@ -659,7 +681,8 @@ export default function LandingPage() {
               },
               {
                 name: 'Power',
-                price: '₹999',
+                price: `₹${effectivePrice(pricing.plans.power.monthly, pricing.offer, 'power')}`,
+                origPrice: effectivePrice(pricing.plans.power.monthly, pricing.offer, 'power') !== pricing.plans.power.monthly ? `₹${pricing.plans.power.monthly}` : null,
                 period: '/month',
                 desc: 'FAANG prep & senior/lead role interviews.',
                 features: ['Everything in Pro', 'Desi Mode (₹ LPA, Hinglish)', 'Unlimited voice', 'Priority Groq AI model', 'Company-type context', '7-day money-back'],
@@ -677,9 +700,17 @@ export default function LandingPage() {
                 <div className="mb-4">
                   <div className="text-slate-400 text-sm font-semibold mb-1">{plan.name}</div>
                   <div className="flex items-end gap-1">
+                    {plan.origPrice && (
+                      <span className="text-slate-600 text-xl line-through mr-1">{plan.origPrice}</span>
+                    )}
                     <span className="text-4xl font-black text-white">{plan.price}</span>
                     <span className="text-slate-500 text-sm mb-1">{plan.period}</span>
                   </div>
+                  {pricing.offer.active && plan.name !== 'Free' && pricing.offer.label && (
+                    <div className="mt-1 inline-block px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-400 text-xs font-semibold">
+                      {pricing.offer.label}
+                    </div>
+                  )}
                   <p className="text-slate-500 text-xs mt-1">{plan.desc}</p>
                 </div>
                 <ul className="space-y-2 mb-6">
