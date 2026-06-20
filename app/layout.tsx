@@ -87,6 +87,18 @@ export const metadata: Metadata = {
     'interview prep for experienced professionals',
     'career change interview AI',
 
+    // Coding rounds
+    'AI for HackerRank coding round',
+    'AI for LeetCode interview',
+    'coding round AI assistant India',
+    'HackerRank AI solver',
+    'LeetCode AI helper India',
+    'CodeSignal AI assistant',
+    'coding interview AI tool India',
+    'crack coding round AI',
+    'online assessment AI helper',
+    'OA round AI tool India',
+
     // Brand
     'JavihAI',
     'javihai interview',

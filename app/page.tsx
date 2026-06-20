@@ -65,6 +65,22 @@ const faqSchema = {
         text: 'Yes. Cancel anytime with one click from your JavihAI dashboard. No long-term contracts, no cancellation fees, no questions asked.',
       },
     },
+    {
+      '@type': 'Question',
+      name: 'Does JavihAI work for coding rounds on HackerRank and LeetCode?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. JavihAI\'s Screenshot Solve feature reads the coding problem directly from your screen — whether it\'s on HackerRank, LeetCode, CodeSignal, HackerEarth, CoderPad, or any other platform. Press the hotkey, and JavihAI returns a step-by-step solution with time/space complexity in under 2 seconds. Supports Python, Java, C++, JavaScript, SQL, and more.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Which coding topics does JavihAI cover?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'JavihAI covers all major DSA and coding interview topics: Arrays, Strings, Linked Lists, Trees, Graphs, Dynamic Programming, Recursion, Backtracking, Sorting, Binary Search, Hashing, Stacks, Queues, Heaps, Tries, Bit Manipulation, Greedy Algorithms, Sliding Window, Two Pointers, SQL queries, OOP design, and System Design coding. It also handles time and space complexity analysis.',
+      },
+    },
   ],
 };
 
@@ -690,6 +706,109 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── CODING ROUNDS ────────────────────────────────────────────────────── */}
+      <section className="py-20 bg-slate-950/40" id="coding-rounds">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <div className="badge mb-4">💻 Coding Rounds</div>
+            <h2 className="text-4xl md:text-5xl font-black mb-4">
+              Crack Every Coding Round —<br />
+              <span className="text-gradient">HackerRank, LeetCode & More</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              JavihAI&apos;s Screenshot Solve reads the coding problem on your screen and returns a clean, explained solution in under 2 seconds. Works on any platform, any language.
+            </p>
+          </div>
+
+          {/* Platform grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            {[
+              { icon: '🟢', name: 'HackerRank', detail: 'OA + interview rounds' },
+              { icon: '🟠', name: 'LeetCode',   detail: 'Easy / Medium / Hard' },
+              { icon: '🔵', name: 'CodeSignal',  detail: 'GCA & company tests' },
+              { icon: '🟣', name: 'HackerEarth', detail: 'Campus drives & hackathons' },
+              { icon: '⚫', name: 'Codeforces',  detail: 'Competitive programming' },
+              { icon: '🟡', name: 'CoderPad',    detail: 'Live pair coding rounds' },
+              { icon: '🔴', name: 'Coderbyte',   detail: 'Screening tests' },
+              { icon: '🟤', name: 'AmcatCode',   detail: 'Mass campus hiring' },
+            ].map((p) => (
+              <div key={p.name} className="card py-4 text-center group hover:border-indigo-500/40 transition-colors">
+                <div className="text-2xl mb-1">{p.icon}</div>
+                <div className="font-bold text-white text-sm">{p.name}</div>
+                <div className="text-slate-500 text-xs mt-0.5">{p.detail}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* How it works for coding */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {[
+              {
+                step: '1',
+                icon: '📸',
+                title: 'Screenshot the Problem',
+                desc: 'Press the hotkey while the coding problem is on screen. JavihAI captures it instantly — works on any browser or coding platform.',
+              },
+              {
+                step: '2',
+                icon: '🧠',
+                title: 'AI Reads & Understands',
+                desc: 'Groq-powered vision AI parses the problem statement, constraints, examples, and edge cases — even from images or PDFs.',
+              },
+              {
+                step: '3',
+                icon: '⚡',
+                title: 'Get a Clean Solution in 2s',
+                desc: 'Receive a step-by-step approach, time/space complexity analysis, and working code in Python, Java, C++, or JavaScript.',
+              },
+            ].map((s) => (
+              <div key={s.step} className="card text-center">
+                <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center text-sm font-black text-white mx-auto mb-3">{s.step}</div>
+                <div className="text-3xl mb-2">{s.icon}</div>
+                <div className="font-bold text-white mb-2">{s.title}</div>
+                <div className="text-slate-400 text-sm leading-relaxed">{s.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Language support */}
+          <div className="card bg-indigo-500/5 border-indigo-500/20">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="text-4xl">🌐</div>
+              <div className="flex-1">
+                <div className="font-bold text-white text-lg mb-1">Supports All Major Programming Languages</div>
+                <div className="text-slate-400 text-sm mb-3">JavihAI generates solutions in the language your round requires — no switching tools.</div>
+                <div className="flex flex-wrap gap-2">
+                  {['Python', 'Java', 'C++', 'JavaScript', 'TypeScript', 'C#', 'Go', 'Kotlin', 'SQL', 'Bash'].map(lang => (
+                    <span key={lang} className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-mono border border-slate-700">{lang}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="text-center md:text-right">
+                <div className="text-3xl font-black text-white">2s</div>
+                <div className="text-slate-500 text-xs">avg. solution time</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Topics covered */}
+          <div className="mt-8">
+            <div className="text-center text-slate-500 text-sm mb-4">Coding topics covered</div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {[
+                'Arrays & Strings', 'Linked Lists', 'Trees & Graphs', 'Dynamic Programming',
+                'Recursion & Backtracking', 'Sorting & Searching', 'Hashing', 'Stacks & Queues',
+                'Binary Search', 'Bit Manipulation', 'Greedy Algorithms', 'Sliding Window',
+                'Two Pointers', 'Heaps & Priority Queues', 'Tries', 'System Design Coding',
+                'SQL Queries', 'OOP Design', 'Time & Space Complexity', 'Regex Problems',
+              ].map(topic => (
+                <span key={topic} className="px-3 py-1 rounded-full glass text-slate-300 text-xs border border-slate-700/50">{topic}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── TESTIMONIALS ─────────────────────────────────────────────────────── */}
       <section id="reviews" className="py-20">
         <div className="max-w-7xl mx-auto px-6">
@@ -924,6 +1043,18 @@ export default function LandingPage() {
               {
                 q: 'Can I cancel my subscription anytime?',
                 a: 'Yes. Cancel anytime from your dashboard — no long-term contracts, no cancellation fees, no questions asked. You keep access until the end of your billing period.',
+              },
+              {
+                q: 'Does JavihAI work for coding rounds on HackerRank, LeetCode, and CodeSignal?',
+                a: 'Yes. Use Screenshot Solve — press the hotkey while the coding problem is on screen. JavihAI reads the problem, understands constraints and examples, and returns a clean solution with step-by-step approach and time/space complexity in under 2 seconds. Works on HackerRank, LeetCode, CodeSignal, HackerEarth, CoderPad, Coderbyte, AmcatCode, and any other browser-based coding platform.',
+              },
+              {
+                q: 'Which programming languages does JavihAI support for coding rounds?',
+                a: 'JavihAI generates solutions in Python, Java, C++, JavaScript, TypeScript, C#, Go, Kotlin, SQL, and Bash. Just mention your preferred language in your profile or in the problem context.',
+              },
+              {
+                q: 'What DSA topics can JavihAI solve?',
+                a: 'JavihAI covers all major DSA topics: Arrays, Strings, Linked Lists, Trees, Graphs, Dynamic Programming, Recursion, Backtracking, Sorting, Binary Search, Hashing, Stacks, Queues, Heaps, Tries, Bit Manipulation, Greedy, Sliding Window, Two Pointers, SQL, OOP Design, and System Design coding questions.',
               },
             ].map((item, i) => (
               <div
