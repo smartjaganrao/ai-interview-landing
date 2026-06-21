@@ -3,8 +3,6 @@ import { verifyIdToken, checkAiQuota } from '@/lib/firebase-admin';
 
 export const runtime = 'nodejs';
 
-const PLAN_LIMITS: Record<string, number> = { free: 3, pro: Infinity, power: Infinity };
-
 // In-process rate limiter — keeps concurrent Groq requests under 25
 // (Groq free tier allows 30 req/min; leave headroom for bursts)
 let activeGroqRequests = 0;
@@ -26,13 +24,17 @@ export async function POST(req: NextRequest) {
 
     // Verify user + check quota (fail open if Firebase Admin not configured)
     let plan = 'free';
+    let quotaUsed = 0;
+    let quotaLimit: number = Infinity;
     const user = await verifyIdToken(idToken);
     if (user) {
       const quota = await checkAiQuota(user.uid);
       plan = quota.plan;
+      quotaUsed = quota.used;
+      quotaLimit = quota.limit;
       if (!quota.allowed) {
         return NextResponse.json(
-          { error: 'Daily AI quota reached. Upgrade to Pro for unlimited AI.' },
+          { error: plan === 'free' ? 'Daily AI quota reached. Upgrade to Pro for unlimited AI.' : 'Daily AI quota reached. Try again tomorrow, or contact support if this is unexpected.' },
           { status: 429 }
         );
       }
@@ -91,9 +93,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const planLimit = PLAN_LIMITS[plan] ?? 10;
-    const quotaUsed = plan === 'free' ? 1 : 0;
-
     // Pipe through a TransformStream so we can decrement activeGroqRequests when
     // the SSE body is fully consumed (or the client disconnects) — not just when
     // headers arrive. The previous try/finally fired on headers, making the gate
@@ -107,7 +106,7 @@ export async function POST(req: NextRequest) {
         'Cache-Control': 'no-cache',
         'X-Quota-Plan': plan,
         'X-Quota-Used': String(quotaUsed),
-        'X-Quota-Limit': planLimit === Infinity ? 'unlimited' : String(planLimit),
+        'X-Quota-Limit': quotaLimit === Infinity ? 'unlimited' : String(quotaLimit),
       },
     });
   } catch (e) {

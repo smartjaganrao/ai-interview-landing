@@ -62,6 +62,12 @@ export async function verifyIdToken(token: string): Promise<{ uid: string; email
 const FREE_AI_ANSWERS = 3;        // free plan: 3 AI answers / day (trial)
 const TOKENS_PER_ANSWER = 500;    // 1 "answer" ≈ 500 tokens (matches useQuota.ts)
 
+// Paid plans are marketed as "unlimited" and stay that way for the user —
+// these are soft ceilings, not visible limits. Real usage sits nowhere near
+// them; they only exist to cap worst-case Groq spend from abuse or a stuck
+// client looping, not to throttle genuine interview prep.
+const PAID_DAILY_LIMITS: Record<string, number> = { pro: 150, power: 300 };
+
 export function dayKey(): string {
   return new Date().toISOString().slice(0, 10); // UTC YYYY-MM-DD, consistent across server timezones
 }
@@ -93,7 +99,7 @@ export async function checkAiQuota(uid: string): Promise<{
   allowed: boolean; plan: string; used: number; limit: number;
 }> {
   const plan = await getUserPlan(uid);
-  if (plan !== 'free') return { allowed: true, plan, used: 0, limit: Infinity };
+  const limit = plan === 'free' ? FREE_AI_ANSWERS : (PAID_DAILY_LIMITS[plan] ?? Infinity);
 
   let tokensUsed = 0;
   if (db) {
@@ -105,7 +111,7 @@ export async function checkAiQuota(uid: string): Promise<{
     } catch { /* read failure → fail open (don't block paying-adjacent users) */ }
   }
   const used = Math.ceil(tokensUsed / TOKENS_PER_ANSWER);
-  return { allowed: used < FREE_AI_ANSWERS, plan, used, limit: FREE_AI_ANSWERS };
+  return { allowed: used < limit, plan, used, limit };
 }
 
 /** Write (or update) a subscription document server-side. */
