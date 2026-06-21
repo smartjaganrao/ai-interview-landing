@@ -30,12 +30,16 @@ function profileContext(profile: Profile | undefined): string {
 async function generateQuestion(profile: Profile | undefined, askedQuestions: string[]): Promise<string> {
   const role = profile?.targetRole?.trim() || 'Software Engineer';
   const ctx = profileContext(profile);
+  const hasJD = !!profile?.jobDescription?.trim();
 
   const prompt = `You are an experienced technical interviewer conducting a mock interview for a "${role}" candidate.
 
 ${ctx ? `Candidate context:\n${ctx}\n` : ''}
 ${askedQuestions.length ? `Questions already asked this session (do NOT repeat or closely rephrase any of these):\n${askedQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}\n` : ''}
-Generate exactly ONE new interview question for this candidate, grounded in their role/skills/job description when given. Mix question types across a session — technical, behavioral, and role-specific — and vary the angle each time so it doesn't feel scripted. Reply with ONLY the question text, no preamble, no numbering, no quotes.`;
+${hasJD
+    ? 'The job description above is the PRIMARY source for this question — pick a specific responsibility, requirement, technology, or skill mentioned in it and ask the candidate directly about their experience with that exact thing. Do not ask a generic question if the job description gives you something specific to ask about instead.'
+    : 'No job description was provided — base the question on the candidate\'s target role and skills.'}
+Generate exactly ONE new interview question. Mix question types across a session — technical, behavioral, and role-specific — and vary the angle each time so it doesn't feel scripted. Reply with ONLY the question text, no preamble, no numbering, no quotes.`;
 
   try {
     const completion = await getGroq().chat.completions.create({
@@ -112,7 +116,7 @@ export async function POST(req: NextRequest) {
   const askedQuestions = body.askedQuestions || [];
 
   const scorePrompt = `You are an expert technical interviewer evaluating a ${role} candidate.
-${profileContext(profile) ? `\nCandidate context:\n${profileContext(profile)}\n` : ''}
+${profileContext(profile) ? `\nCandidate context:\n${profileContext(profile)}\n\nWeigh the answer against the job description and skills above where relevant — an answer that demonstrates the specific tech/responsibilities mentioned there should score higher than an equally articulate but generic one.\n` : ''}
 Question asked: "${currentQuestion}"
 Candidate's spoken answer (transcribed from voice, may contain minor transcription errors — judge the substance, not phrasing): "${answer}"
 
