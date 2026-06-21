@@ -7,6 +7,73 @@ import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
+interface Announcement { id: string; title: string; body: string; link: string | null; createdAt: number }
+
+const SEEN_KEY = 'javihai_announcements_seen_at';
+
+function WhatsNewBell() {
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState<Announcement[]>([]);
+  const [unread, setUnread] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/announcements')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        const list: Announcement[] = d?.announcements || [];
+        setItems(list);
+        const lastSeen = Number(localStorage.getItem(SEEN_KEY) || 0);
+        setUnread(list.some(a => a.createdAt > lastSeen));
+      })
+      .catch(() => {});
+  }, []);
+
+  const toggleOpen = () => {
+    const next = !open;
+    setOpen(next);
+    if (next) {
+      localStorage.setItem(SEEN_KEY, String(Date.now()));
+      setUnread(false);
+    }
+  };
+
+  if (items.length === 0) return null;
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <button onClick={toggleOpen} aria-label="What's new" className="relative p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-smooth">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </svg>
+        {unread && <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />}
+      </button>
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+          <div className="absolute right-0 top-full mt-2 w-80 glass-heavy rounded-2xl p-2 z-50 animate-fade-in-up">
+            <div className="px-3 py-2 text-sm font-semibold text-white">What&apos;s New</div>
+            <div className="flex flex-col gap-1 max-h-80 overflow-y-auto">
+              {items.map((a) => (
+                <a
+                  key={a.id}
+                  href={a.link || undefined}
+                  className="px-3 py-2 rounded-xl hover:bg-white/5 transition-smooth block"
+                  onClick={() => setOpen(false)}
+                >
+                  <div className="text-sm font-medium text-white">{a.title}</div>
+                  <div className="text-xs text-slate-400 mt-0.5">{a.body}</div>
+                  <div className="text-xs text-slate-500 mt-1">{new Date(a.createdAt).toLocaleDateString()}</div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function Navbar() {
   const { user, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
@@ -68,6 +135,7 @@ export default function Navbar() {
 
         {/* Auth Actions */}
         <div className="hidden md:flex items-center gap-3">
+          <WhatsNewBell />
           {!loading && (
             <>
               {user ? (
@@ -93,11 +161,13 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 rounded-lg text-white hover:bg-white/10 transition-smooth"
-        >
+        {/* Mobile: bell + menu button */}
+        <div className="md:hidden flex items-center gap-1">
+          <WhatsNewBell />
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="p-2 rounded-lg text-white hover:bg-white/10 transition-smooth"
+          >
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {mobileOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -105,7 +175,8 @@ export default function Navbar() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
