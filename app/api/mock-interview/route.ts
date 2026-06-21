@@ -3,7 +3,16 @@ import Groq from 'groq-sdk';
 import { verifyIdToken, getUserPlan, dayKey, db } from '@/lib/firebase-admin';
 
 const FREE_MOCK_SESSIONS_PER_DAY = 1;
-const QUESTION_COUNT = 5;
+// Open-ended session — the candidate ends it themselves (no fixed question
+// count). This cap is just a cost/abuse safety net, not a target length.
+const MAX_QUESTIONS = 15;
+
+type Difficulty = 'easy' | 'medium' | 'hard';
+const DIFFICULTY_GUIDE: Record<Difficulty, string> = {
+  easy: 'Ask foundational, junior-friendly questions — definitions, straightforward "explain X" or "describe a time you did Y" questions. Avoid multi-part or deeply technical trick questions.',
+  medium: 'Ask mid-level questions that require some depth — trade-offs, "how would you approach X", debugging scenarios, or behavioral questions with follow-up nuance.',
+  hard: 'Ask senior-level, challenging questions — system design, deep technical trade-offs, edge cases, ambiguous/open-ended problems, or questions that probe judgment under pressure.',
+};
 
 function getGroq() {
   if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY not set');
@@ -27,7 +36,11 @@ function profileContext(profile: Profile | undefined): string {
   return lines.join('\n');
 }
 
-async function generateQuestion(profile: Profile | undefined, askedQuestions: string[]): Promise<string> {
+async function generateQuestion(
+  profile: Profile | undefined,
+  askedQuestions: string[],
+  difficulty: Difficulty = 'medium'
+): Promise<string> {
   const role = profile?.targetRole?.trim() || 'Software Engineer';
   const ctx = profileContext(profile);
   const hasJD = !!profile?.jobDescription?.trim();
@@ -36,10 +49,12 @@ async function generateQuestion(profile: Profile | undefined, askedQuestions: st
 
 ${ctx ? `Candidate context:\n${ctx}\n` : ''}
 ${askedQuestions.length ? `Questions already asked this session (do NOT repeat or closely rephrase any of these):\n${askedQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}\n` : ''}
+Difficulty level: ${difficulty.toUpperCase()}. ${DIFFICULTY_GUIDE[difficulty]}
+
 ${hasJD
     ? 'The job description above is the PRIMARY source for this question — pick a specific responsibility, requirement, technology, or skill mentioned in it and ask the candidate directly about their experience with that exact thing. Do not ask a generic question if the job description gives you something specific to ask about instead.'
     : 'No job description was provided — base the question on the candidate\'s target role and skills.'}
-Generate exactly ONE new interview question. Mix question types across a session — technical, behavioral, and role-specific — and vary the angle each time so it doesn't feel scripted. Reply with ONLY the question text, no preamble, no numbering, no quotes.`;
+Generate exactly ONE new interview question at the difficulty level given above. Mix question types across a session — technical, behavioral, and role-specific — and vary the angle each time so it doesn't feel scripted. Reply with ONLY the question text, no preamble, no numbering, no quotes.`;
 
   try {
     const completion = await getGroq().chat.completions.create({
@@ -70,6 +85,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json() as {
     action: 'start' | 'answer';
     profile?: Profile;
+    difficulty?: Difficulty;
     sessionId: string;
     askedQuestions?: string[];
     answer?: string;
@@ -79,6 +95,7 @@ export async function POST(req: NextRequest) {
   };
 
   const role = body.profile?.targetRole?.trim() || 'Software Engineer';
+  const difficulty: Difficulty = body.difficulty && body.difficulty in DIFFICULTY_GUIDE ? body.difficulty : 'medium';
 
   /* ── Start: check free session limit then generate first question ───────── */
   if (body.action === 'start') {
@@ -104,9 +121,9 @@ export async function POST(req: NextRequest) {
       } catch { /* fail open */ }
     }
 
-    const question = await generateQuestion(body.profile, []);
+    const question = await generateQuestion(body.profile, [], difficulty);
     return NextResponse.json({
-      question: `👋 Welcome to your ${role} mock interview, based on your profile.\n\nI'll ask you ${QUESTION_COUNT} questions and score each answer. Speak your answer when ready.\n\n**Question 1:** ${question}`,
+      question: `👋 Welcome to your ${role} mock interview, based on your profile (${difficulty} difficulty).\n\nI'll keep asking questions until you end the session. Speak your answer when ready.\n\n**Question 1:** ${question}`,
       firstQuestion: question,
     });
   }
@@ -114,6 +131,9 @@ export async function POST(req: NextRequest) {
   /* ── Answer: score + feedback + next (dynamically generated) question ──── */
   const { answer = '', currentQuestion = '', qIndex = 0, isLast = false, profile } = body;
   const askedQuestions = body.askedQuestions || [];
+  // Hard safety cap regardless of what the client sends — open-ended sessions
+  // still need a ceiling so a stuck client can't loop forever on the AI quota.
+  const effectiveIsLast = isLast || qIndex + 1 >= MAX_QUESTIONS;
 
   const scorePrompt = `You are an expert technical interviewer evaluating a ${role} candidate.
 ${profileContext(profile) ? `\nCandidate context:\n${profileContext(profile)}\n\nWeigh the answer against the job description and skills above where relevant — an answer that demonstrates the specific tech/responsibilities mentioned there should score higher than an equally articulate but generic one.\n` : ''}
@@ -159,8 +179,8 @@ Scoring guide:
     const feedbackMsg = `**Feedback (${score}/100):** ${feedback}`;
 
     let nextQuestion: string | undefined;
-    if (!isLast) {
-      const nq = await generateQuestion(profile, [...askedQuestions, currentQuestion]);
+    if (!effectiveIsLast) {
+      const nq = await generateQuestion(profile, [...askedQuestions, currentQuestion], difficulty);
       nextQuestion = `\n\n**Question ${qIndex + 2}:** ${nq}`;
       return NextResponse.json({ score, feedback: feedbackMsg, nextQuestion, nextQuestionRaw: nq });
     }
