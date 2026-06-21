@@ -33,6 +33,9 @@ export async function POST(req: NextRequest) {
       quotaUsed = quota.used;
       quotaLimit = quota.limit;
       if (!quota.allowed) {
+        if (quota.banned) {
+          return NextResponse.json({ error: 'This account has been suspended.' }, { status: 403 });
+        }
         return NextResponse.json(
           { error: plan === 'free' ? 'Daily AI quota reached. Upgrade to Pro for unlimited AI.' : 'Daily AI quota reached. Try again tomorrow, or contact support if this is unexpected.' },
           { status: 429 }

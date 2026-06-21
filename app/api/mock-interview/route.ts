@@ -82,6 +82,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid session. Please sign in again.' }, { status: 401 });
   }
 
+  // The admin panel's "Ban User" button only ever set users/{uid}.status —
+  // nothing here previously read it, so a banned user could still run full
+  // mock interview sessions. Checked once for both actions.
+  if (db) {
+    try {
+      const u = await db.collection('users').doc(user.uid).get();
+      if (u.data()?.status === 'banned') {
+        return NextResponse.json({ error: 'This account has been suspended.' }, { status: 403 });
+      }
+    } catch { /* fail open on read error */ }
+  }
+
   const body = await req.json() as {
     action: 'start' | 'answer';
     profile?: Profile;

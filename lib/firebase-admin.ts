@@ -94,10 +94,25 @@ export async function getUserPlan(uid: string): Promise<'free' | 'pro' | 'power'
  * Server-side AI quota check. Reads the user's plan + this month's token usage
  * and decides whether another AI answer is allowed. Read-only — the desktop
  * client still increments usage (writing here too would double-count).
+ *
+ * Also the enforcement point for admin bans: the admin panel's "Ban User"
+ * button only ever set users/{uid}.status — nothing previously read that
+ * field outside the admin UI's own badge, so a banned user could still sign
+ * in and use AI features with full quota. Checked here since every AI
+ * surface (live answers, mock interview) already calls this.
  */
 export async function checkAiQuota(uid: string): Promise<{
-  allowed: boolean; plan: string; used: number; limit: number;
+  allowed: boolean; plan: string; used: number; limit: number; banned?: boolean;
 }> {
+  if (db) {
+    try {
+      const u = await db.collection('users').doc(uid).get();
+      if (u.data()?.status === 'banned') {
+        return { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
+      }
+    } catch { /* fail open on read error, same policy as the rest of this function */ }
+  }
+
   const plan = await getUserPlan(uid);
   const limit = plan === 'free' ? FREE_AI_ANSWERS : (PAID_DAILY_LIMITS[plan] ?? Infinity);
 
