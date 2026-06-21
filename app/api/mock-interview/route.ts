@@ -3,73 +3,53 @@ import Groq from 'groq-sdk';
 import { verifyIdToken, getUserPlan, dayKey, db } from '@/lib/firebase-admin';
 
 const FREE_MOCK_SESSIONS_PER_DAY = 1;
+const QUESTION_COUNT = 5;
 
 function getGroq() {
   if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY not set');
   return new Groq({ apiKey: process.env.GROQ_API_KEY });
 }
 
-const QUESTION_BANK: Record<string, string[]> = {
-  'Software Engineer': [
-    'Tell me about yourself and your engineering background.',
-    'Describe a technically challenging problem you solved. What was the approach and outcome?',
-    'How do you ensure code quality in a fast-moving team?',
-    'Explain how you would design a URL shortener like bit.ly.',
-    'Tell me about a time you disagreed with a technical decision. How did you handle it?',
-  ],
-  'Frontend Engineer': [
-    'Walk me through your frontend development experience.',
-    'How do you optimize a React app that is rendering slowly?',
-    'Explain the difference between SSR, SSG, and CSR. When would you use each?',
-    'Describe how you would build an accessible, responsive navigation menu.',
-    'Tell me about a complex UI feature you built from scratch.',
-  ],
-  'Backend Engineer': [
-    'Tell me about your backend engineering background.',
-    'How would you design a rate-limiting system for a public API?',
-    'Explain database indexing and when you would use composite indexes.',
-    'Describe how you handle database migrations without downtime.',
-    'Tell me about a production incident you resolved. What did you learn?',
-  ],
-  'Full Stack Engineer': [
-    'Walk me through a full-stack feature you built end-to-end.',
-    'How do you decide where to put business logic — frontend, backend, or database?',
-    'Describe your approach to API design.',
-    'How do you manage state in a large React application?',
-    'Tell me about a time you had to make a trade-off between frontend and backend performance.',
-  ],
-  'ML Engineer': [
-    'Tell me about an ML model you built and deployed in production.',
-    'How do you handle class imbalance in a classification problem?',
-    'Explain the bias-variance trade-off with a real example.',
-    'How would you monitor an ML model for data drift in production?',
-    'Describe your experience with feature engineering.',
-  ],
-  'Data Engineer': [
-    'Walk me through a data pipeline you built.',
-    'How do you handle late-arriving data in a streaming pipeline?',
-    'Explain the difference between a data lake and a data warehouse.',
-    'How do you ensure data quality in your pipelines?',
-    'Describe how you would build a real-time analytics system.',
-  ],
-  'DevOps Engineer': [
-    'Tell me about your DevOps experience and the tools you use.',
-    'How would you design a CI/CD pipeline for a microservices application?',
-    'Explain how Kubernetes handles pod scheduling and resource limits.',
-    'How do you approach incident management and post-mortems?',
-    'Describe how you reduced infrastructure costs in a previous role.',
-  ],
-  'Product Manager': [
-    'Tell me about a product you owned and its impact.',
-    'How do you prioritize features when everything seems urgent?',
-    'Describe how you gathered user insights and translated them into requirements.',
-    'Tell me about a time a product launch didn\'t go as planned.',
-    'How do you measure the success of a feature after launch?',
-  ],
-};
+interface Profile {
+  targetRole?: string;
+  jobDescription?: string;
+  skills?: string;
+  companyType?: string;
+}
 
-function getQuestions(role: string): string[] {
-  return QUESTION_BANK[role] ?? QUESTION_BANK['Software Engineer'];
+function profileContext(profile: Profile | undefined): string {
+  if (!profile) return '';
+  const lines: string[] = [];
+  if (profile.targetRole) lines.push(`Target role: ${profile.targetRole}`);
+  if (profile.skills?.trim()) lines.push(`Skills: ${profile.skills.trim()}`);
+  if (profile.companyType) lines.push(`Target company type: ${profile.companyType}`);
+  if (profile.jobDescription) lines.push(`Job description excerpt: ${profile.jobDescription.slice(0, 800)}`);
+  return lines.join('\n');
+}
+
+async function generateQuestion(profile: Profile | undefined, askedQuestions: string[]): Promise<string> {
+  const role = profile?.targetRole?.trim() || 'Software Engineer';
+  const ctx = profileContext(profile);
+
+  const prompt = `You are an experienced technical interviewer conducting a mock interview for a "${role}" candidate.
+
+${ctx ? `Candidate context:\n${ctx}\n` : ''}
+${askedQuestions.length ? `Questions already asked this session (do NOT repeat or closely rephrase any of these):\n${askedQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}\n` : ''}
+Generate exactly ONE new interview question for this candidate, grounded in their role/skills/job description when given. Mix question types across a session — technical, behavioral, and role-specific — and vary the angle each time so it doesn't feel scripted. Reply with ONLY the question text, no preamble, no numbering, no quotes.`;
+
+  try {
+    const completion = await getGroq().chat.completions.create({
+      model: 'llama-3.1-8b-instant',
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 120,
+      temperature: 0.95,
+    });
+    const q = completion.choices[0]?.message?.content?.trim();
+    if (q) return q.replace(/^["']|["']$/g, '');
+  } catch (err) {
+    console.error('[mock-interview] question generation failed:', err);
+  }
+  return `Tell me about a project where you used your skills as a ${role}.`;
 }
 
 export async function POST(req: NextRequest) {
@@ -85,17 +65,18 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json() as {
     action: 'start' | 'answer';
-    role: string;
-    difficulty: string;
+    profile?: Profile;
     sessionId: string;
+    askedQuestions?: string[];
     answer?: string;
+    currentQuestion?: string;
     qIndex?: number;
     isLast?: boolean;
   };
 
-  const questions = getQuestions(body.role);
+  const role = body.profile?.targetRole?.trim() || 'Software Engineer';
 
-  /* ── Start: check free session limit then return first question ─────────── */
+  /* ── Start: check free session limit then generate first question ───────── */
   if (body.action === 'start') {
     const plan = await getUserPlan(user.uid);
     if (plan === 'free' && db) {
@@ -118,18 +99,22 @@ export async function POST(req: NextRequest) {
         }
       } catch { /* fail open */ }
     }
-    return NextResponse.json({ question: `👋 Welcome to your ${body.role} mock interview (${body.difficulty}).\n\nI'll ask you ${questions.length} questions and score each answer. Take your time.\n\n**Question 1:** ${questions[0]}` });
+
+    const question = await generateQuestion(body.profile, []);
+    return NextResponse.json({
+      question: `👋 Welcome to your ${role} mock interview, based on your profile.\n\nI'll ask you ${QUESTION_COUNT} questions and score each answer. Speak your answer when ready.\n\n**Question 1:** ${question}`,
+      firstQuestion: question,
+    });
   }
 
-  /* ── Answer: score + feedback + next question ──────────────────────────── */
-  const { answer, qIndex = 0, isLast = false } = body;
-  const currentQ = questions[qIndex] ?? questions[0];
-  const nextQ    = !isLast ? questions[qIndex + 1] : null;
+  /* ── Answer: score + feedback + next (dynamically generated) question ──── */
+  const { answer = '', currentQuestion = '', qIndex = 0, isLast = false, profile } = body;
+  const askedQuestions = body.askedQuestions || [];
 
-  const scorePrompt = `You are an expert technical interviewer evaluating a ${body.role} candidate (${body.difficulty} level).
-
-Question asked: "${currentQ}"
-Candidate's answer: "${answer}"
+  const scorePrompt = `You are an expert technical interviewer evaluating a ${role} candidate.
+${profileContext(profile) ? `\nCandidate context:\n${profileContext(profile)}\n` : ''}
+Question asked: "${currentQuestion}"
+Candidate's spoken answer (transcribed from voice, may contain minor transcription errors — judge the substance, not phrasing): "${answer}"
 
 Evaluate the answer and respond in this EXACT JSON format (no markdown, no extra text):
 {
@@ -168,11 +153,17 @@ Scoring guide:
     }
 
     const feedbackMsg = `**Feedback (${score}/100):** ${feedback}`;
-    const nextQuestion = nextQ ? `\n\n**Question ${qIndex + 2}:** ${nextQ}` : undefined;
 
-    return NextResponse.json({ score, feedback: feedbackMsg, nextQuestion });
+    let nextQuestion: string | undefined;
+    if (!isLast) {
+      const nq = await generateQuestion(profile, [...askedQuestions, currentQuestion]);
+      nextQuestion = `\n\n**Question ${qIndex + 2}:** ${nq}`;
+      return NextResponse.json({ score, feedback: feedbackMsg, nextQuestion, nextQuestionRaw: nq });
+    }
+
+    return NextResponse.json({ score, feedback: feedbackMsg });
   } catch (err) {
     console.error('[mock-interview]', err);
-    return NextResponse.json({ score: 60, feedback: 'Could not score this answer. Please try again.', nextQuestion: nextQ ? `**Question ${qIndex + 2}:** ${nextQ}` : undefined });
+    return NextResponse.json({ score: 60, feedback: 'Could not score this answer. Please try again.' });
   }
 }
