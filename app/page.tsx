@@ -420,7 +420,7 @@ export default function LandingPage() {
               Every Tool You Need <span className="text-gradient">in One Overlay</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Eight AI-powered features for technical, HR, and system-design rounds
+              Nine AI-powered features for technical, HR, and system-design rounds
             </p>
           </div>
 
@@ -481,6 +481,13 @@ export default function LandingPage() {
                 desc: 'After loading a job description, one click auto-selects the required tech stack — React, Python, AWS, Docker and 24 more. Answers are tailored instantly.',
                 gradient: 'from-violet-500 to-purple-500',
                 badge: 'New',
+              },
+              {
+                icon: '🗣️',
+                title: 'Voice-Driven Mock Interview',
+                desc: 'Practice out loud, not by typing. Questions are generated live from your profile and job description, at Easy/Medium/Hard difficulty — speak your answer, get scored, keep going as long as you want.',
+                gradient: 'from-cyan-500 to-blue-500',
+                badge: 'Rebuilt',
               },
             ].map((feature, i) => (
               <div key={i} className="card card-glow group relative overflow-hidden">
