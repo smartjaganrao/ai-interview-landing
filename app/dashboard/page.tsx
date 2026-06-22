@@ -8,12 +8,17 @@ import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc, collection, query, where, getCountFromServer } from 'firebase/firestore';
 // email-only auth removed — Google sign-in only
 import Navbar from '@/components/Navbar';
+import CompleteProfileModal, { shouldShowProfilePrompt } from '@/components/CompleteProfileModal';
 
 interface UserData {
   email: string;
   name: string;
   plan: 'free' | 'pro' | 'power';
   createdAt: number;
+  phone?: string;
+  experienceLevel?: string;
+  city?: string;
+  referralSource?: string;
 }
 
 interface UsageData {
@@ -54,6 +59,7 @@ function DashboardContent() {
   const [activity, setActivity] = useState<ActivityData>({ totalSessions: 0, totalQuestions: 0 });
   const [loading, setLoading] = useState(true);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
+  const [showProfilePrompt, setShowProfilePrompt] = useState(false);
   // Support ticket
   const [showSupport, setShowSupport] = useState(false);
   const [supportTab, setSupportTab] = useState<'new'|'history'>('new');
@@ -119,7 +125,11 @@ function DashboardContent() {
       Promise.all([
         getDoc(doc(db, 'users', user.uid)),
         getDoc(doc(db, 'subscriptions', user.uid)),
-        getDoc(doc(db, 'usage_tracking', user.uid, 'months', new Date().toISOString().slice(0, 7))),
+        // "Today's Usage" needs the daily doc — usage_tracking/{uid}/days/{YYYY-MM-DD},
+        // same path checkAiQuota and the desktop app's usage.service.ts both use.
+        // (Previously read a months/{YYYY-MM} doc that nothing has ever written,
+        // so this always silently fell back to showing 0 for every stat below.)
+        getDoc(doc(db, 'usage_tracking', user.uid, 'days', new Date().toISOString().slice(0, 10))),
       ]).then(([userSnap, subSnap, usageSnap]) => {
         if (userSnap.exists()) {
           const ud = userSnap.data() as UserData;
@@ -127,6 +137,7 @@ function DashboardContent() {
             ud.plan = (subSnap.data().plan || ud.plan) as 'free' | 'pro' | 'power';
           }
           setUserData(ud);
+          setShowProfilePrompt(shouldShowProfilePrompt(ud));
         }
         if (subSnap.exists()) {
           setSubData(subSnap.data() as SubscriptionData);
@@ -186,6 +197,17 @@ function DashboardContent() {
   return (
     <>
       <Navbar />
+
+      {showProfilePrompt && user && (
+        <CompleteProfileModal
+          user={user}
+          onDone={(saved) => {
+            setShowProfilePrompt(false);
+            if (saved) setUserData((prev) => prev ? { ...prev, ...saved } : prev);
+          }}
+          initial={{ phone: userData?.phone, experienceLevel: userData?.experienceLevel, city: userData?.city, referralSource: userData?.referralSource }}
+        />
+      )}
 
       {showSuccessBanner && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
@@ -716,7 +738,12 @@ function DashboardContent() {
 
           {/* Account Settings */}
           <div className="mt-10 card">
-            <h2 className="text-xl font-bold mb-6">Account Details</h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold">Account Details</h2>
+              <button onClick={() => setShowProfilePrompt(true)} className="text-sm text-indigo-400 hover:text-indigo-300 font-semibold">
+                {userData?.phone ? 'Edit details' : '+ Add phone & details'}
+              </button>
+            </div>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <div className="text-sm text-slate-400 mb-1">Email</div>
@@ -725,6 +752,18 @@ function DashboardContent() {
               <div>
                 <div className="text-sm text-slate-400 mb-1">Name</div>
                 <div className="text-white">{userData?.name || 'Not set'}</div>
+              </div>
+              <div>
+                <div className="text-sm text-slate-400 mb-1">Mobile Number</div>
+                <div className="text-white">{userData?.phone || 'Not set'}</div>
+              </div>
+              <div>
+                <div className="text-sm text-slate-400 mb-1">Experience Level</div>
+                <div className="text-white">{userData?.experienceLevel || 'Not set'}</div>
+              </div>
+              <div>
+                <div className="text-sm text-slate-400 mb-1">City</div>
+                <div className="text-white">{userData?.city || 'Not set'}</div>
               </div>
               <div>
                 <div className="text-sm text-slate-400 mb-1">Member Since</div>
