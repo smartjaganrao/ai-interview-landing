@@ -148,6 +148,13 @@ function DashboardContent() {
           setUsageData({ tokensUsed: 0, voiceMinutes: 0, screenshotsUsed: 0 });
         }
         setLoading(false);
+      }).catch((err) => {
+        // Without this, any single failed read (permission error, network
+        // blip, a rules change) left the dashboard stuck on the loading
+        // spinner forever — setLoading(false) was only ever called inside
+        // .then(). Surface what's there and stop spinning either way.
+        console.error('[dashboard] failed to load user/subscription/usage:', err);
+        setLoading(false);
       });
 
       // Referral info (best-effort — won't block dashboard)
