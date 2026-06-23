@@ -36,3 +36,6 @@ yarn-error.log*
 pnpm-debug.log*
 
 .vercel
+
+# TS incremental build cache — local-only, churns every build, never useful in git
+*.tsbuildinfo
