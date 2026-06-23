@@ -169,6 +169,14 @@ export default function CreatorPage() {
                   >
                     {copied ? '✓ Copied!' : 'Copy Link'}
                   </button>
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(`I'm sharing JavihAI — India's cheapest AI interview copilot (₹499/mo vs ₹7,695/mo elsewhere). Sign up with my link: ${data.link ?? ''}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary whitespace-nowrap"
+                  >
+                    💬 Share on WhatsApp
+                  </a>
                 </div>
                 <div className="mt-3 text-sm text-slate-500">Code: <span className="font-mono text-slate-300">{data.code}</span></div>
               </div>
