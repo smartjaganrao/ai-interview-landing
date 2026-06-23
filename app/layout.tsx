@@ -3,6 +3,7 @@ import './globals.css';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CaptureAttribution from '@/components/CaptureAttribution';
 import TawkChat from '@/components/TawkChat';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 const BASE_URL = 'https://javihai.in';
 
@@ -268,6 +269,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GoogleAnalytics />
         <CaptureAttribution />
         <TawkChat />
+        <WhatsAppButton />
         <div className="bg-gradient-mesh bg-grid min-h-screen">
           {children}
         </div>
