@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import type { User } from 'firebase/auth';
@@ -23,17 +24,20 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
   const [referralSource, setReferralSource] = useState(initial?.referralSource || '');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
   const phoneInputRef = useRef<HTMLInputElement>(null);
 
   // Mandatory dialog — no backdrop-click or Escape dismissal, and focus the
   // first field so keyboard/screen-reader users land here immediately
   // instead of being stuck on whatever was focused on the page underneath.
   useEffect(() => {
-    phoneInputRef.current?.focus();
+    setMounted(true);
+    const focusTimer = setTimeout(() => phoneInputRef.current?.focus(), 50);
     const blockEscape = (e: KeyboardEvent) => { if (e.key === 'Escape') e.preventDefault(); };
     document.addEventListener('keydown', blockEscape);
     document.body.style.overflow = 'hidden';
     return () => {
+      clearTimeout(focusTimer);
       document.removeEventListener('keydown', blockEscape);
       document.body.style.overflow = '';
     };
@@ -66,7 +70,15 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
     }
   };
 
-  return (
+  // Render into <body> via a portal so the overlay escapes any ancestor
+  // stacking context the dashboard creates (its animate-float / blur-3xl /
+  // transform layers). Without this, a position:fixed overlay nested inside
+  // a transformed parent is trapped in that parent's stacking context — it
+  // renders, but other page chrome (chat widget, navbar) can sit on top and
+  // swallow clicks/typing. That was the "can't click or type" bug.
+  if (!mounted) return null;
+
+  const modal = (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black/80 px-4"
       style={{ zIndex: 2147483647 }}
@@ -156,6 +168,8 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       </div>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }
 
 /** Always required — shown whenever the user has no phone on file. No skip/dismiss path. */

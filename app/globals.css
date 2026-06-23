@@ -153,6 +153,11 @@ body {
   content: '';
   position: absolute;
   inset: -1px;
+  /* Decorative border-glow only — must never intercept clicks/typing on the
+     card's own content. Without this it overlays the whole card and swallows
+     every pointer/keyboard event (this was the "can't click or type" bug on
+     the profile-completion modal, and a latent one on every card-glow card). */
+  pointer-events: none;
   border-radius: 1.5rem;
   padding: 1px;
   background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
