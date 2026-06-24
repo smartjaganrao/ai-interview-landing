@@ -216,7 +216,7 @@ const appSchema = {
       name: 'Free',
       price: '0',
       priceCurrency: 'INR',
-      description: '10 AI answers per day, no time limit',
+      description: '3 AI answers per day, no time limit',
     },
     {
       '@type': 'Offer',
