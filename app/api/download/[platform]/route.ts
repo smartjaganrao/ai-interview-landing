@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/firebase-admin';
 
 // Increase Vercel function timeout to 5 minutes so large binaries (100+ MB) can
 // stream fully before the function is killed. Requires Vercel Pro plan.
@@ -20,8 +21,28 @@ const ASSETS: Record<string, { file: string; mime: string }> = {
   },
 };
 
+/**
+ * Records a download attempt to `download_events` so the admin App-Usage funnel
+ * can compare downloads against activation. Fire-and-forget — never blocks or
+ * fails the actual binary download. `uid`/`email` are best-effort attribution
+ * from query params (the dashboard appends them when the user is signed in).
+ */
+function logDownload(req: NextRequest, platform: string) {
+  if (!db) return;
+  const { searchParams } = new URL(req.url);
+  db.collection('download_events').add({
+    platform,
+    version: VERSION,
+    uid: searchParams.get('uid') || null,
+    email: (searchParams.get('email') || '').toLowerCase() || null,
+    userAgent: req.headers.get('user-agent') || null,
+    ip: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || null,
+    createdAt: Date.now(),
+  }).catch(() => { /* never block the download */ });
+}
+
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ platform: string }> }
 ) {
   const { platform } = await params;
@@ -29,6 +50,8 @@ export async function GET(
   if (!asset) {
     return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
   }
+
+  logDownload(req, platform);
 
   const token = process.env.GITHUB_TOKEN;
   if (!token) {

@@ -53,6 +53,11 @@ function DashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Append the signed-in user's id/email so downloads can be attributed in the
+  // admin App-Usage funnel (download -> activation). Anonymous if not signed in.
+  const withAttribution = (url: string) =>
+    user ? `${url}?uid=${encodeURIComponent(user.uid)}&email=${encodeURIComponent(user.email || '')}` : url;
+
   const [userData, setUserData] = useState<UserData | null>(null);
   const [usageData, setUsageData] = useState<UsageData | null>(null);
   const [subData, setSubData] = useState<SubscriptionData | null>(null);
@@ -309,13 +314,13 @@ function DashboardContent() {
 
                 <div className="flex flex-col sm:flex-row gap-3 mt-6">
                   <a
-                    href={WINDOWS_DOWNLOAD_URL}
+                    href={withAttribution(WINDOWS_DOWNLOAD_URL)}
                     className="btn btn-primary btn-lg flex-1 animate-pulse-glow"
                   >
                     ⬇ Download for Windows
                   </a>
                   <a
-                    href={MAC_DOWNLOAD_URL}
+                    href={withAttribution(MAC_DOWNLOAD_URL)}
                     className="btn btn-primary btn-lg flex-1"
                   >
                     ⬇ Download for Mac
