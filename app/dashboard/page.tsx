@@ -373,6 +373,16 @@ function DashboardContent() {
                     💡 When you start a voice session, click <span className="text-slate-400">Allow</span> on the microphone prompt. Both apps run fully offline — your keys stay on your device.
                   </p>
                 </div>
+
+                {/* After installing — get your first answer fast */}
+                <div className="mt-6 pt-6 border-t border-slate-700/60">
+                  <h4 className="text-sm font-bold text-slate-200 mb-4">🚀 Your first answer in 3 steps</h4>
+                  <ol className="space-y-2.5 text-sm text-slate-400 list-decimal list-inside marker:text-indigo-400 marker:font-bold">
+                    <li><span className="text-slate-200 font-medium">Sign in</span> with the same account you use here.</li>
+                    <li>Pick your audio source: <span className="text-slate-200 font-medium">System</span> <span className="text-slate-500">(recommended on Windows — hears the interviewer through your meeting app automatically)</span> or <span className="text-slate-200 font-medium">Mic</span> <span className="text-slate-500">(you speak the question). On macOS, System audio needs a virtual audio device — use Mic if unsure.</span></li>
+                    <li>Click <span className="text-slate-200 font-medium">Start</span>. Questions get answered automatically as they&apos;re asked.</li>
+                  </ol>
+                </div>
               </div>
             </div>
           </div>
