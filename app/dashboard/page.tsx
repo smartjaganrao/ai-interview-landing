@@ -343,7 +343,10 @@ function DashboardContent() {
 
                 {/* Install instructions — self-serve, covers the security warnings */}
                 <div className="mt-6 pt-6 border-t border-slate-700/60">
-                  <h4 className="text-sm font-bold text-slate-200 mb-4">📥 How to install (2 minutes)</h4>
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <h4 className="text-sm font-bold text-slate-200">📥 How to install (2 minutes)</h4>
+                    <Link href="/install" className="text-xs text-indigo-300 hover:underline whitespace-nowrap">Full install guide →</Link>
+                  </div>
                   <div className="grid md:grid-cols-2 gap-6">
                     {/* Windows */}
                     <div>

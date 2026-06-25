@@ -50,6 +50,7 @@ export default function Footer() {
               <li><Link href="/resume" className="text-slate-400 hover:text-white transition">Resume Builder</Link></li>
               <li><Link href="/jobs" className="text-slate-400 hover:text-white transition">Job Recommendations</Link></li>
               <li><a href="https://github.com/smartjaganrao/ai-interview-helper/releases" target="_blank" rel="noopener" className="text-slate-400 hover:text-white transition">Download App</a></li>
+              <li><Link href="/install" className="text-slate-400 hover:text-white transition">Installation Guide</Link></li>
               <li><Link href="/#faq" className="text-slate-400 hover:text-white transition">FAQ</Link></li>
             </ul>
           </div>
