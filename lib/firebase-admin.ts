@@ -59,7 +59,7 @@ export async function verifyIdToken(token: string): Promise<{ uid: string; email
 }
 
 // ── AI quota (mirrors the desktop's useQuota model) ───────────────────────────
-const FREE_AI_ANSWERS = 3;        // free plan: 3 AI answers / day (trial)
+const FREE_AI_ANSWERS = 10;       // free plan: 10 AI answers / day (trial)
 const TOKENS_PER_ANSWER = 500;    // 1 "answer" ≈ 500 tokens (matches useQuota.ts)
 
 // Paid plans are marketed as "unlimited" and stay that way for the user —

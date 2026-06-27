@@ -43,7 +43,6 @@ interface ActivityData {
   totalQuestions: number;
 }
 
-const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION ?? 'v1.4.0';
 const DESKTOP_DOWNLOAD_URL = '/api/download/win';
 const WINDOWS_DOWNLOAD_URL = '/api/download/win';
 const MAC_DOWNLOAD_URL = '/api/download/mac';
@@ -85,6 +84,17 @@ function DashboardContent() {
   const [refCopied, setRefCopied] = useState(false);
   // Subscription cancel/resume
   const [cancelBusy, setCancelBusy] = useState(false);
+  // Latest desktop release — fetched live (no per-release manual bump needed)
+  const [appVersion, setAppVersion] = useState('');
+  // "New" badge shown for 14 days after a release publishes.
+  const [isNewRelease, setIsNewRelease] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
+      if (d?.version) setAppVersion(d.version);
+      if (d?.publishedAt) setIsNewRelease(Date.now() - new Date(d.publishedAt).getTime() < 14 * 86400000);
+    }).catch(() => {});
+  }, []);
 
   const loadMyTickets = async () => {
     if (!user) return;
@@ -303,6 +313,11 @@ function DashboardContent() {
               <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl"></div>
 
               <div className="relative">
+                {isNewRelease && (
+                  <div className="mb-3 inline-flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
+                    🎉 New release {appVersion} is out — update for the latest features
+                  </div>
+                )}
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <div className="badge mb-2">💻 Desktop App</div>
@@ -336,7 +351,7 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
-                  <span>{APP_VERSION}</span>
+                  <span>{appVersion}</span>
                   <span>•</span>
                   <span>Windows 10/11 · macOS (Apple Silicon + Intel)</span>
                 </div>

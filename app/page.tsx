@@ -113,9 +113,19 @@ export default function LandingPage() {
     plans: { pro: { monthly: 0, yearly: 0 }, power: { monthly: 0, yearly: 0 } },
     offer: { active: false, label: '', percentOff: 0, appliesTo: 'all', expiresAt: null },
   });
+  // Latest desktop release — fetched live so this never drifts from what's
+  // actually published on GitHub (no more manual version bump per release).
+  const [appVersion, setAppVersion] = useState('');
+  // "New" badge shown for 14 days after a release publishes — long enough to
+  // be noticed, short enough not to feel stale by the next release.
+  const [isNewRelease, setIsNewRelease] = useState(false);
 
   useEffect(() => {
     fetch('/api/pricing').then(r => r.ok ? r.json() : null).then(d => d && setPricing(d)).catch(() => {});
+    fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
+      if (d?.version) setAppVersion(d.version);
+      if (d?.publishedAt) setIsNewRelease(Date.now() - new Date(d.publishedAt).getTime() < 14 * 86400000);
+    }).catch(() => {});
   }, []);
 
   // Cycle through interview questions with typing animation
@@ -213,7 +223,14 @@ export default function LandingPage() {
                       <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
                       JavihAI · Live Session · Hidden from screen capture
                     </div>
-                    <div className="text-xs text-slate-600">{process.env.NEXT_PUBLIC_APP_VERSION}</div>
+                    <div className="text-xs text-slate-600 flex items-center gap-1.5">
+                      <span>{appVersion}</span>
+                      {isNewRelease && (
+                        <a href="/install" className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25">
+                          🎉 New
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
@@ -316,7 +333,7 @@ export default function LandingPage() {
                 <div>
                   <div className="font-bold text-white text-lg mb-1">Freshers &amp; Students</div>
                   <div className="text-slate-400 text-sm leading-relaxed mb-3">
-                    Cracking your campus placement or first job? JavihAI&apos;s free plan gives you 3 AI-powered answers per day — no credit card needed. Practice mock interviews, get instant structured answers, and walk into every round confident.
+                    Cracking your campus placement or first job? JavihAI&apos;s free plan gives you 10 AI-powered answers per day — no credit card needed. Practice mock interviews, get instant structured answers, and walk into every round confident.
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {['Campus placements', 'First job hunt', 'Off-campus drives', 'Free forever'].map(t => (
@@ -374,7 +391,7 @@ export default function LandingPage() {
                 num: '01',
                 icon: '📝',
                 title: 'Create Free Account',
-                desc: 'Sign up in 30 seconds — no credit card. Get 3 AI answers/day free, forever. No expiry.',
+                desc: 'Sign up in 30 seconds — no credit card. Get 10 AI answers/day free, forever. No expiry.',
                 color: 'from-blue-500 to-indigo-500',
               },
               {
@@ -670,7 +687,7 @@ export default function LandingPage() {
                 origPrice: null as string | null,
                 period: 'forever',
                 desc: 'Perfect for freshers & students.',
-                features: ['3 AI answers / day', '5 voice minutes / day', '2 screenshot solves / day', '1 mock interview / day', 'Stealth overlay', 'Windows & Mac'],
+                features: ['10 AI answers / day', '5 voice minutes / day', '2 screenshot solves / day', '1 mock interview / day', 'Stealth overlay', 'Windows & Mac'],
                 cta: 'Start Free',
                 href: '/auth/signup',
                 highlight: false,
@@ -1076,7 +1093,7 @@ export default function LandingPage() {
               },
               {
                 q: 'How much does JavihAI cost? Is there a free plan?',
-                a: 'JavihAI has a permanent free plan with 3 AI answers per day — no credit card, no time limit. Pro is ₹499/month for unlimited answers. Power is ₹999/month with Desi Mode and unlimited everything. Both paid plans include a 7-day money-back guarantee. For comparison, Final Round AI costs ₹7,695/month — 15× more expensive.',
+                a: 'JavihAI has a permanent free plan with 10 AI answers per day — no credit card, no time limit. Pro is ₹499/month for unlimited answers. Power is ₹999/month with Desi Mode and unlimited everything. Both paid plans include a 7-day money-back guarantee. For comparison, Final Round AI costs ₹7,695/month — 15× more expensive.',
               },
               {
                 q: 'Can I cancel my subscription anytime?',

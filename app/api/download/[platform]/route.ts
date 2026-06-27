@@ -1,25 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
+import { getLatestReleaseRaw } from '@/lib/github-release';
 
 // Increase Vercel function timeout to 5 minutes so large binaries (100+ MB) can
 // stream fully before the function is killed. Requires Vercel Pro plan.
 export const maxDuration = 300;
 
-// Set LATEST_RELEASE_TAG in Vercel env vars (e.g. "v1.3.4") to avoid a code
-// deploy on every release. Falls back to the constant below if unset.
-const VERSION = process.env.LATEST_RELEASE_TAG ?? 'v1.4.0';
 const REPO = 'smartjaganrao/ai-interview-helper';
-
-const ASSETS: Record<string, { file: string; mime: string }> = {
-  win: {
-    file: `JavihAI-${VERSION}-portable-win-x64.exe`,
-    mime: 'application/octet-stream',
-  },
-  mac: {
-    file: `JavihAI-${VERSION}-mac-universal.dmg`,
-    mime: 'application/octet-stream',
-  },
-};
+const EXT: Record<string, string> = { win: '.exe', mac: '.dmg' };
 
 /**
  * Records a download attempt to `download_events` so the admin App-Usage funnel
@@ -27,12 +15,12 @@ const ASSETS: Record<string, { file: string; mime: string }> = {
  * fails the actual binary download. `uid`/`email` are best-effort attribution
  * from query params (the dashboard appends them when the user is signed in).
  */
-function logDownload(req: NextRequest, platform: string) {
+function logDownload(req: NextRequest, platform: string, version: string) {
   if (!db) return;
   const { searchParams } = new URL(req.url);
   db.collection('download_events').add({
     platform,
-    version: VERSION,
+    version,
     uid: searchParams.get('uid') || null,
     email: (searchParams.get('email') || '').toLowerCase() || null,
     userAgent: req.headers.get('user-agent') || null,
@@ -46,45 +34,36 @@ export async function GET(
   { params }: { params: Promise<{ platform: string }> }
 ) {
   const { platform } = await params;
-  const asset = ASSETS[platform];
-  if (!asset) {
+  const ext = EXT[platform];
+  if (!ext) {
     return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
   }
-
-  logDownload(req, platform);
 
   const token = process.env.GITHUB_TOKEN;
   if (!token) {
     return NextResponse.json({ error: 'Download not configured' }, { status: 503 });
   }
 
-  const githubUrl = `https://api.github.com/repos/${REPO}/releases/assets`;
-
-  // Fetch the release to get the asset ID
-  const releaseRes = await fetch(
-    `https://api.github.com/repos/${REPO}/releases/tags/${VERSION}`,
-    { headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' } }
-  );
-
-  if (!releaseRes.ok) {
+  // Always whatever's actually tagged "latest" on GitHub — no version string
+  // to keep in sync here, so a new release just works the moment it's published.
+  const release = await getLatestReleaseRaw();
+  if (!release) {
     return NextResponse.json({ error: 'Release not found' }, { status: 404 });
   }
 
-  const release = await releaseRes.json() as { assets: { id: number; name: string }[] };
-  const found = release.assets.find(a => a.name === asset.file);
+  const found = release.assets.find((a) => a.name.endsWith(ext));
   if (!found) {
     return NextResponse.json({ error: 'Asset not found' }, { status: 404 });
   }
 
-  // Stream the binary directly to the user
+  logDownload(req, platform, release.tag_name);
+
+  // Stream the binary directly to the user via the authenticated assets API
+  // (the plain browser_download_url 401s on a private repo for unauthenticated
+  // clients, so we proxy it through here with the server-side token).
   const assetRes = await fetch(
-    `${githubUrl}/${found.id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/octet-stream',
-      },
-    }
+    `https://api.github.com/repos/${REPO}/releases/assets/${found.id}`,
+    { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
   );
 
   if (!assetRes.ok || !assetRes.body) {
@@ -93,8 +72,8 @@ export async function GET(
 
   return new Response(assetRes.body, {
     headers: {
-      'Content-Type': asset.mime,
-      'Content-Disposition': `attachment; filename="${asset.file}"`,
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${found.name}"`,
     },
   });
 }

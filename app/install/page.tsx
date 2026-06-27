@@ -1,12 +1,15 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { getLatestRelease } from '@/lib/github-release';
 
 export const metadata = {
   title: 'Installation Guide — JavihAI',
   description: 'Step-by-step instructions to download, install, and set up the JavihAI desktop app on Windows and macOS.',
 };
 
-const VERSION = process.env.NEXT_PUBLIC_APP_VERSION ?? 'v1.4.0';
+// Re-fetched from GitHub at most every 10 minutes (see lib/github-release.ts)
+// so this page always names the actual latest release, no manual bump needed.
+export const revalidate = 600;
 
 function Step({ n, children }: { n: number; children: React.ReactNode }) {
   return (
@@ -21,14 +24,23 @@ function Step({ n, children }: { n: number; children: React.ReactNode }) {
 
 const kbd = 'px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs font-mono';
 
-export default function InstallPage() {
+export default async function InstallPage() {
+  const { version: VERSION, publishedAt } = await getLatestRelease();
+  const isNewRelease = !!publishedAt && Date.now() - new Date(publishedAt).getTime() < 14 * 86400000;
   return (
     <>
       <Navbar />
 
       <section className="pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-6">
-          <div className="badge mb-4">💻 Installation Guide</div>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="badge">💻 Installation Guide</div>
+            {isNewRelease && (
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
+                🎉 New: {VERSION}
+              </span>
+            )}
+          </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">Install JavihAI</h1>
           <p className="text-slate-400 mb-8">
             Get the desktop app running in about 2 minutes. Pick your operating system below — {VERSION}.
