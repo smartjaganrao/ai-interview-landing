@@ -5,14 +5,15 @@ import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Competitors — Pricing & Feature Comparison 2026' },
-  description: 'How JavihAI compares to Final Round AI, Chiku AI, InterviewCoder, Parakeet AI, and more. JavihAI is India\'s most affordable real-time AI interview coach — from ₹499/month.',
-  keywords: ['JavihAI vs competitors', 'Final Round AI alternative', 'Chiku AI alternative', 'best AI interview tool India', 'cheapest AI interview assistant'],
+  description: 'How JavihAI compares to Final Round AI, Chiku AI, and Interview Coder on price and features. JavihAI is India\'s first unlimited AI interview copilot — from ₹499/month.',
+  keywords: ['JavihAI vs competitors', 'Final Round AI alternative', 'Chiku AI alternative', 'Interview Coder alternative', 'best AI interview tool India', 'cheapest AI interview assistant'],
   alternates: { canonical: 'https://javihai.in/compare' },
 };
 
 const COMPETITORS = [
-  { name: 'Chiku AI',       price: '₹3,499/mo', savings: '7×', slug: 'chiku-ai',       tag: '🇮🇳 Indian competitor' },
-  { name: 'Final Round AI', price: '₹7,695/mo', savings: '15×', slug: 'final-round-ai', tag: '🌐 Market leader' },
+  { name: 'Chiku AI',        price: '₹3,499/mo',          savings: '7×',  slug: 'chiku-ai',         tag: '🇮🇳 Indian competitor' },
+  { name: 'Final Round AI',  price: '₹7,695/mo',          savings: '15×', slug: 'final-round-ai',   tag: '🌐 Market leader' },
+  { name: 'Interview Coder', price: '$299/mo (~₹28,400)', savings: '57×', slug: 'interview-coder',  tag: '💻 Coding-only tool' },
 ];
 
 export default function ComparePage() {
@@ -26,7 +27,7 @@ export default function ComparePage() {
           <p className="text-xl text-slate-400">See exactly how JavihAI stacks up — feature by feature, rupee by rupee.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {COMPETITORS.map(c => (
             <Link key={c.slug} href={`/compare/${c.slug}`} className="card card-glow hover:border-indigo-500/40 transition-all group block">
               <div className="text-xs text-slate-500 mb-2">{c.tag}</div>
