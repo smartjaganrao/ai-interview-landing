@@ -26,13 +26,24 @@ export async function GET(req: Request) {
   const version = searchParams.get('v') ?? '0.0.0';
   const ok = isAtLeast(version, MIN_VERSION);
 
-  return NextResponse.json({
-    ok,
-    currentVersion: version,
-    minVersion: MIN_VERSION,
-    downloadUrl: DOWNLOAD_URL,
-    message: ok
-      ? null
-      : `Version ${version} is no longer supported. Please download v${MIN_VERSION} or later to continue.`,
-  });
+  return NextResponse.json(
+    {
+      ok,
+      currentVersion: version,
+      minVersion: MIN_VERSION,
+      downloadUrl: DOWNLOAD_URL,
+      message: ok
+        ? null
+        : `Version ${version} is no longer supported. Please download v${MIN_VERSION} or later to continue.`,
+    },
+    {
+      headers: {
+        // Public read-only metadata — the Electron renderer's origin (file://
+        // or localhost in dev) differs from javihai.in, so without this the
+        // browser blocks the renderer from reading the response body and the
+        // version gate fails open silently.
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+  );
 }
