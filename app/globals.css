@@ -326,3 +326,58 @@ input[type=number]::-webkit-outer-spin-button {
   border-radius: 4px;
   transition: width 0.5s ease;
 }
+
+/* Blog post body — raw HTML from the admin Tiptap editor (BlogEditor.tsx),
+   no Tailwind classes attached, so it needs its own element styling. */
+.blog-content {
+  color: rgb(203 213 225); /* slate-300 */
+  line-height: 1.75;
+  font-size: 1.0625rem;
+}
+.blog-content h2 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 2rem 0 1rem;
+}
+.blog-content h3 {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 1.75rem 0 0.75rem;
+}
+.blog-content p { margin: 1rem 0; }
+.blog-content ul, .blog-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+.blog-content ul { list-style: disc; }
+.blog-content ol { list-style: decimal; }
+.blog-content li { margin: 0.375rem 0; }
+.blog-content a { color: rgb(165 180 252); text-decoration: underline; } /* indigo-300 */
+.blog-content a:hover { color: rgb(199 210 254); } /* indigo-200 */
+.blog-content strong { color: white; font-weight: 700; }
+.blog-content blockquote {
+  border-left: 3px solid rgba(99, 102, 241, 0.5);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: rgb(148 163 184); /* slate-400 */
+  font-style: italic;
+}
+.blog-content img {
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+.blog-content code {
+  background: rgba(99, 102, 241, 0.12);
+  color: rgb(165 180 252);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.blog-content pre {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+.blog-content pre code { background: none; padding: 0; }

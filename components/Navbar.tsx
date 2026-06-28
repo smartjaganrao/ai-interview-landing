@@ -131,6 +131,9 @@ export default function Navbar() {
           <Link href="/resume" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
             Resume
           </Link>
+          <Link href="/blog" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+            Blog
+          </Link>
         </div>
 
         {/* Auth Actions */}
@@ -203,6 +206,9 @@ export default function Navbar() {
             </Link>
             <Link href="/resume" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
               📄 Resume Builder
+            </Link>
+            <Link href="/blog" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+              📝 Blog
             </Link>
             <div className="h-px bg-white/10 my-2"></div>
             {user ? (
