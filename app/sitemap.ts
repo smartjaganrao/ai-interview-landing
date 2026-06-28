@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: base,                                lastModified: now, changeFrequency: 'weekly',  priority: 1.0 },
     { url: `${base}/pricing`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/mock-interview`,            lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/install`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/resume`,                    lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/jobs`,                      lastModified: now, changeFrequency: 'weekly',  priority: 0.7 },
     { url: `${base}/compare`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.7 },

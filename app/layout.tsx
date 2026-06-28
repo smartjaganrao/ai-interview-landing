@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "JavihAI — India's Cheapest AI Interview Copilot | ₹499/mo | For Freshers & Working Professionals",
+    default: "JavihAI — India's First Unlimited AI Interview Copilot | ₹499/mo | 100% Invisible",
     template: '%s | JavihAI',
   },
 
   description:
-    "India's cheapest AI interview copilot — ₹499/mo. Built for freshers & working professionals. Stealth overlay hears your interviewer & answers in <2s. Free forever. 15× cheaper than Final Round AI. Trusted by 2,400+ candidates at Google, Microsoft, Flipkart & more.",
+    "India's first unlimited AI interview copilot at ₹499/mo — 100% invisible on Zoom, Meet & Teams. Built for freshers & working professionals. Hears your interviewer & answers in <2s. Free forever. 15× cheaper than Final Round AI. 7-day money-back guarantee. Trusted by 2,400+ candidates at Google, Microsoft, Flipkart & more.",
 
   keywords: [
     // High-intent India-specific
@@ -29,9 +29,16 @@ export const metadata: Metadata = {
     'interview AI India',
     'interview preparation AI India',
 
+    // "First unlimited at ₹499" positioning
+    "India's first unlimited AI interview tool",
+    'unlimited AI interview answers India',
+    'unlimited interview copilot ₹499',
+    'unlimited AI interview assistant cheap',
+
     // Stealth / undetectable angle (high search volume)
     'undetectable AI interview tool',
     'stealth AI interview assistant',
+    '100% invisible AI interview tool',
     'AI interview overlay',
     'invisible interview assistant',
     'screen share invisible AI overlay',
@@ -126,9 +133,9 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: BASE_URL,
     siteName: 'JavihAI',
-    title: "JavihAI — India's Cheapest AI Interview Copilot | ₹499/mo for Freshers & Professionals",
+    title: "JavihAI — India's First Unlimited AI Interview Copilot | ₹499/mo | 100% Invisible",
     description:
-      "India's cheapest AI interview copilot. ₹499/mo for freshers & working professionals. Stealth overlay answers in <2s. Free forever · 15× cheaper than Final Round AI · 2,400+ helped.",
+      "India's first unlimited AI interview copilot at ₹499/mo — 100% invisible on Zoom, Meet & Teams. Free forever · 15× cheaper than Final Round AI · 7-day money-back · 2,400+ helped.",
     images: [
       {
         url: '/logo.svg',
@@ -144,9 +151,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@javihai',
     creator: '@javihai',
-    title: "JavihAI — India's Cheapest AI Interview Tool | ₹499/mo | Freshers & Professionals",
+    title: "JavihAI — India's First Unlimited AI Interview Tool | ₹499/mo | 100% Invisible",
     description:
-      "India's cheapest AI interview copilot. Free for freshers, ₹499/mo for unlimited. Stealth overlay answers in <2s · 2,400+ candidates hired at Google, Flipkart, Amazon India.",
+      "India's first unlimited AI interview copilot. Free for freshers, ₹499/mo for unlimited, 100% invisible overlay. 2,400+ candidates hired at Google, Flipkart, Amazon India.",
     images: ['/logo.svg'],
   },
 
@@ -249,7 +256,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
           rel="stylesheet"
         />
         <script

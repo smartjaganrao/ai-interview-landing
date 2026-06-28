@@ -172,7 +172,7 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
-              <span className="text-sm text-slate-300">🇮🇳 India&apos;s Cheapest AI Interview Copilot · ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · Trusted by 2,400+ candidates</span>
+              <span className="text-sm text-slate-300">🇮🇳 India&apos;s First Unlimited AI Interview Copilot · ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · 100% Invisible · Trusted by 2,400+ candidates</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 animate-fade-in-up leading-[1.05]" style={{ animationDelay: '0.1s' }}>
@@ -185,7 +185,7 @@ export default function LandingPage() {
               and streams structured AI answers — completely invisible to Zoom, Google Meet, and Teams.
             </p>
             <p className="text-base text-indigo-400 font-semibold mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-              India&apos;s Cheapest — For Freshers &amp; Working Professionals. <span className="text-slate-400 font-normal">₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo vs ₹7,695/mo elsewhere.</span>
+              India&apos;s First Unlimited Access at ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo — For Freshers &amp; Working Professionals. <span className="text-slate-400 font-normal">vs ₹7,695/mo elsewhere.</span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
@@ -198,7 +198,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              {['100% invisible to screen share', 'Free for freshers', 'Windows & Mac', '7-day money-back'].map((t) => (
+              {['100% invisible to screen share', 'Free for freshers', 'Windows & Mac', '7-day money-back guaranteed'].map((t) => (
                 <div key={t} className="flex items-center gap-1.5">
                   <span className="text-green-400">✓</span> {t}
                 </div>
