@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import FreeTrialModal from '@/components/FreeTrialModal';
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -119,6 +120,7 @@ export default function LandingPage() {
   // "New" badge shown for 14 days after a release publishes — long enough to
   // be noticed, short enough not to feel stale by the next release.
   const [isNewRelease, setIsNewRelease] = useState(false);
+  const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/pricing').then(r => r.ok ? r.json() : null).then(d => d && setPricing(d)).catch(() => {});
@@ -192,10 +194,16 @@ export default function LandingPage() {
               <Link href="/auth/signup" className="btn btn-primary btn-lg animate-pulse-glow text-base">
                 Start Free — No Card Needed →
               </Link>
-              <a href="#download" className="btn btn-secondary btn-lg text-base">
-                ⬇ Download App
-              </a>
+              <button
+                onClick={() => setIsTrialModalOpen(true)}
+                className="btn btn-secondary btn-lg text-base"
+              >
+                🎁 Get 1-Week Free Trial
+              </button>
             </div>
+            <a href="#download" className="btn btn-secondary btn-lg text-base inline-block animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
+              ⬇ Download App
+            </a>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               {['100% invisible to screen share', 'Free for freshers', 'Windows & Mac', '7-day money-back guaranteed'].map((t) => (
@@ -1215,6 +1223,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <FreeTrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />
       <Footer />
     </>
   );

@@ -235,3 +235,70 @@ export async function sendTicketReply(params: {
   if (error) { console.error('[email/ticket-reply]', JSON.stringify(error)); return { ok: false, error: error.message }; }
   return { ok: true };
 }
+
+export async function sendFreeTrialVoucher(params: {
+  email: string;
+  name: string;
+  voucherCode: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const firstName = params.name?.split(' ')[0] || 'there';
+
+  const html = shell(`
+  <h1 style="font-size:32px;font-weight:800;margin-bottom:8px;text-align:center;">🎁 Claim Your 7-Day Free Trial</h1>
+  <p style="color:#94a3b8;font-size:16px;line-height:1.6;text-align:center;margin-bottom:32px;">
+    Hi ${firstName}, your exclusive free trial voucher is ready!
+  </p>
+
+  <div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:16px;padding:32px;text-align:center;margin-bottom:32px;">
+    <p style="color:#e0e7ff;font-size:14px;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px;font-weight:600;">Your Voucher Code</p>
+    <div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:20px;margin-bottom:16px;">
+      <p style="color:#fff;font-size:28px;font-weight:800;font-family:monospace;margin:0;letter-spacing:2px;">${params.voucherCode}</p>
+    </div>
+    <p style="color:#e0e7ff;font-size:13px;margin:0;">Valid for 7 days from today</p>
+  </div>
+
+  <div style="background:#1e293b;border-radius:12px;padding:24px;margin-bottom:24px;border-left:4px solid #4f46e5;">
+    <h2 style="font-size:18px;color:#fff;margin:0 0 16px;">What's Included in Your Free Trial</h2>
+    <ul style="padding-left:0;list-style:none;margin:0;space-y:8px;">
+      <li style="padding:8px 0;color:#cbd5e1;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-size:18px;">✓</span> Unlimited AI answers for 7 days</li>
+      <li style="padding:8px 0;color:#cbd5e1;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-size:18px;">✓</span> System Audio & Screenshot Solve</li>
+      <li style="padding:8px 0;color:#cbd5e1;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-size:18px;">✓</span> All premium features unlocked</li>
+      <li style="padding:8px 0;color:#cbd5e1;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-size:18px;">✓</span> Desi Mode + Hindi/English support</li>
+      <li style="padding:8px 0;color:#cbd5e1;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-size:18px;">✓</span> No credit card required</li>
+    </ul>
+  </div>
+
+  <div style="text-align:center;margin:32px 0;">
+    <a href="https://javihai.in/auth/signup" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:16px 40px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Start Your Free Trial →</a>
+  </div>
+
+  <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
+    <h3 style="color:#fff;font-size:14px;margin:0 0 8px;">How to use your voucher:</h3>
+    <ol style="color:#94a3b8;font-size:13px;text-align:left;max-width:300px;margin:0 auto;padding-left:20px;">
+      <li>Sign up free on JavihAI.in</li>
+      <li>Go to Settings → Redeem Voucher</li>
+      <li>Enter code: <strong style="color:#4ade80;font-family:monospace;">${params.voucherCode}</strong></li>
+      <li>Enjoy 7 days of unlimited access!</li>
+    </ol>
+  </div>
+
+  <p style="color:#64748b;font-size:13px;text-align:center;margin:0;">
+    Questions? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>
+  </p>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: params.email,
+    subject: `🎁 Your exclusive 7-day free trial is ready — Voucher code inside`,
+    html,
+  });
+
+  if (error) {
+    console.error('[email/free-trial-voucher] Resend error:', JSON.stringify(error));
+    return { ok: false, error: error.message ?? JSON.stringify(error) };
+  }
+  console.log('[email/free-trial-voucher] sent ok');
+  return { ok: true };
+}
