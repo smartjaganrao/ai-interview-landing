@@ -1145,7 +1145,7 @@ export default function LandingPage() {
             Daily interview tips, coding round solutions, salary negotiation advice, and real candidate success stories — follow us to stay ahead.
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
             {[
               {
                 platform: 'Twitter / X',
@@ -1182,6 +1182,15 @@ export default function LandingPage() {
                 desc: 'Full interview prep tutorials',
                 color: 'from-red-950 to-slate-900',
                 border: 'border-red-800/30',
+              },
+              {
+                platform: 'WhatsApp',
+                handle: 'Channel',
+                href: 'https://whatsapp.com/channel/0029Vb8SuvWKbYMEOI5bqD2N',
+                icon: '💬',
+                desc: 'Join our WhatsApp community',
+                color: 'from-green-950 to-slate-900',
+                border: 'border-green-800/30',
               },
             ].map((s) => (
               <a
