@@ -169,7 +169,7 @@ export default function LandingPage() {
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section className="relative pt-28 pb-16 overflow-hidden">
+      <section className="relative pt-28 pb-20 overflow-hidden">
         {/* Ambient blobs */}
         <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-indigo-500/15 rounded-full blur-3xl animate-float pointer-events-none" />
         <div className="absolute top-40 right-1/4 w-[400px] h-[400px] bg-purple-500/15 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '2s' }} />
@@ -183,41 +183,75 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
-              <span className="text-sm text-slate-300">🇮🇳 India&apos;s First Unlimited AI Interview Copilot · ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · 100% Invisible · Trusted by 2,400+ candidates</span>
+              <span className="text-sm text-slate-300">🇮🇳 India&apos;s #1 AI Interview Copilot · ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · 2,400+ candidates helped</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 animate-fade-in-up leading-[1.05]" style={{ animationDelay: '0.1s' }}>
-              Ace Every Interview —<br />
-              <span className="text-gradient animate-gradient">AI Answers in 2 Seconds</span>
+            {/* Main Headline */}
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 animate-fade-in-up leading-[0.9]" style={{ animationDelay: '0.1s' }}>
+              <span className="block">Your AI Interview</span>
+              <span className="text-gradient animate-gradient">Secret Weapon</span>
             </h1>
 
-            <p className="text-xl text-slate-300 mb-4 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              A stealth desktop overlay that listens to your interviewer, auto-detects every question,
-              and streams structured AI answers — completely invisible to Zoom, Google Meet, and Teams.
-            </p>
-            <p className="text-base text-indigo-400 font-semibold mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-              India&apos;s First Unlimited Access at ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo — For Freshers &amp; Working Professionals. <span className="text-slate-400 font-normal">vs ₹7,695/mo elsewhere.</span>
+            {/* Sub-headline with benefits */}
+            <p className="text-2xl md:text-3xl text-white font-bold mb-6 max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+              Skip the prep. Listen to the question. Get AI answers in <span className="text-indigo-400">&lt;2 seconds.</span> Invisible to everyone.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <Link href="/auth/signup" className="btn btn-primary btn-lg animate-pulse-glow text-base">
-                Start Free — No Card Needed →
-              </Link>
-              <button
-                onClick={() => setIsTrialModalOpen(true)}
-                className="btn btn-secondary btn-lg text-base"
-              >
-                🎁 Get 1-Week Free Trial
-              </button>
+            <p className="text-lg text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              A stealth desktop app that listens to your interviewer, understands what they&apos;re asking, and streams perfect answers in real-time. 100% invisible on Zoom, Meet, Teams, and any video call. Works for technical, behavioral, system design, coding rounds — everything.
+            </p>
+
+            {/* Primary CTA Section */}
+            <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+              <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
+                <Link href="/auth/signup" className="btn btn-primary btn-lg animate-pulse-glow text-base font-bold shadow-xl hover:shadow-2xl">
+                  🚀 Start Free (No Card)
+                </Link>
+                <button
+                  onClick={() => setIsTrialModalOpen(true)}
+                  className="btn btn-secondary btn-lg text-base font-bold hover:scale-105 transition-all"
+                >
+                  ⏰ 7-Day Free Trial
+                </button>
+              </div>
+              <a href="#download" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/20 transition-all">
+                ⬇️ Download for Windows/Mac
+              </a>
             </div>
-            <a href="#download" className="btn btn-secondary btn-lg text-base inline-block animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
-              ⬇ Download App
-            </a>
 
-            <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              {['100% invisible to screen share', 'Free for freshers', 'Windows & Mac', '7-day money-back guaranteed'].map((t) => (
-                <div key={t} className="flex items-center gap-1.5">
-                  <span className="text-green-400">✓</span> {t}
+            {/* Social Proof & Trust Signals */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto mb-12 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <div className="text-center">
+                <div className="text-3xl font-black text-indigo-400 mb-1">2,400+</div>
+                <div className="text-sm text-slate-400">Candidates Helped</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-black text-green-400 mb-1">&lt;2s</div>
+                <div className="text-sm text-slate-400">Answer Speed</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-black text-purple-400 mb-1">15×</div>
+                <div className="text-sm text-slate-400">Cheaper</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-black text-pink-400 mb-1">100%</div>
+                <div className="text-sm text-slate-400">Invisible</div>
+              </div>
+            </div>
+
+            {/* Feature highlights */}
+            <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-slate-300 animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
+              {[
+                { icon: '🎧', text: 'System Audio Capture' },
+                { icon: '⚡', text: 'Instant AI Answers' },
+                { icon: '🥷', text: '100% Invisible' },
+                { icon: '💬', text: 'Hindi/Tamil/Telugu' },
+                { icon: '💻', text: 'HackerRank/LeetCode' },
+                { icon: '🇮🇳', text: 'Desi Mode' }
+              ].map((feature) => (
+                <div key={feature.text} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                  <span>{feature.icon}</span>
+                  <span>{feature.text}</span>
                 </div>
               ))}
             </div>
@@ -394,6 +428,70 @@ export default function LandingPage() {
                 {co}
               </span>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── JOIN WHATSAPP GROUP ───────────────────────────────────────────────── */}
+      <section className="py-16 bg-gradient-to-r from-green-950/40 via-slate-950/40 to-green-950/40 border-y border-green-500/20">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="glass-heavy rounded-3xl p-8 md:p-12 border border-green-500/20 text-center">
+            <div className="mb-6">
+              <div className="text-5xl mb-4">💬</div>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                Join 2,400+ Candidates
+              </h2>
+              <p className="text-slate-300 text-lg mb-6">
+                Get real-time interview tips, success stories, and exclusive strategies from candidates who&apos;ve cracked FAANG and India&apos;s top companies.
+              </p>
+            </div>
+
+            <div className="space-y-4 text-left max-w-2xl mx-auto mb-8">
+              <div className="flex gap-3 items-start">
+                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
+                <div>
+                  <div className="font-semibold text-white">Daily Interview Tips</div>
+                  <div className="text-sm text-slate-400">Behavioral, technical, system design, and coding interview strategies</div>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start">
+                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
+                <div>
+                  <div className="font-semibold text-white">Success Stories</div>
+                  <div className="text-sm text-slate-400">Real stories from candidates who landed at Google, Microsoft, Amazon, and Indian unicorns</div>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start">
+                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
+                <div>
+                  <div className="font-semibold text-white">Community Support</div>
+                  <div className="text-sm text-slate-400">Ask questions, share experiences, and learn from others preparing for interviews</div>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start">
+                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
+                <div>
+                  <div className="font-semibold text-white">Exclusive Updates</div>
+                  <div className="text-sm text-slate-400">Early access to new features, tips, and special offers</div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://chat.whatsapp.com/JdfkOG55dqEHlWNvEXkFh0?s=sw&p=a&ilr=4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:scale-105 transition-all shadow-md"
+            >
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.781 1.13L.9 3.546l1.9 6.943a9.788 9.788 0 001.348 4.168 9.868 9.868 0 008.284 4.745h.005c5.048 0 9.28-4.073 9.797-9.126.629-6.289-4.844-11.745-11.255-11.745"/>
+              </svg>
+              Join WhatsApp Group (2,400+ Members)
+            </a>
+
+            <div className="mt-6 text-sm text-slate-400">
+              💡 Free to join. No spam. Real community building.
+            </div>
           </div>
         </div>
       </section>
