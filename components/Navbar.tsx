@@ -110,29 +110,26 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-1">
-          <Link href="/#features" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-            Features
+          <Link href="/#how-it-works" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5" title="Learn how JavihAI works in 3 minutes">
+            How It Works
           </Link>
-          <Link href="/pricing" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+          <Link href="/#features" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5" title="Explore all AI-powered features">
+            ✨ Features
+          </Link>
+          <Link href="/#coding-rounds" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5" title="HackerRank, LeetCode & more">
+            💻 Coding Help
+          </Link>
+          <Link href="/pricing" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5" title="Free & paid plans starting at ₹499/mo">
             Pricing
           </Link>
-          <Link href="/#reviews" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-            Reviews
+          <Link href="/#reviews" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5" title="Success stories from 2,400+ candidates">
+            👥 Success Stories
           </Link>
-          <Link href="/#faq" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-            FAQ
+          <Link href="/#faq" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5" title="Common questions answered">
+            ❓ FAQ
           </Link>
-          <Link href="/mock-interview" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-            Mock Interview
-          </Link>
-          <Link href="/jobs" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-            Jobs
-          </Link>
-          <Link href="/resume" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-            Resume
-          </Link>
-          <Link href="/blog" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-            Blog
+          <Link href="/blog" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5" title="Interview tips & resources">
+            📝 Resources
           </Link>
         </div>
 
@@ -186,29 +183,26 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden glass-heavy mt-3 mx-6 rounded-2xl p-6 animate-fade-in-up">
           <div className="flex flex-col gap-2">
+            <Link href="/#how-it-works" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+              🚀 How It Works
+            </Link>
             <Link href="/#features" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              Features
+              ✨ Features
+            </Link>
+            <Link href="/#coding-rounds" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+              💻 Coding Help
             </Link>
             <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              Pricing
+              💰 Pricing
             </Link>
             <Link href="/#reviews" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              Reviews
+              👥 Success Stories
             </Link>
             <Link href="/#faq" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              FAQ
-            </Link>
-            <Link href="/mock-interview" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              🎯 Mock Interview
-            </Link>
-            <Link href="/jobs" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              💼 Jobs
-            </Link>
-            <Link href="/resume" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              📄 Resume Builder
+              ❓ FAQ
             </Link>
             <Link href="/blog" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-              📝 Blog
+              📝 Resources
             </Link>
             <div className="h-px bg-white/10 my-2"></div>
             {user ? (

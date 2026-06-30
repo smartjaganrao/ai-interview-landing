@@ -299,6 +299,91 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── WHAT IS JAVIHĀI ──────────────────────────────────────────────────── */}
+      <section className="py-20 bg-slate-950/60">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: Text */}
+            <div>
+              <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
+                What is <span className="text-gradient">JavihAI?</span>
+              </h2>
+              <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                JavihAI is an AI-powered interview assistant that sits invisibly on your computer and helps you ace every interview — whether it&apos;s on Zoom, Google Meet, Microsoft Teams, or any other platform.
+              </p>
+              <div className="space-y-4">
+                <div className="flex gap-4 items-start">
+                  <div className="text-3xl flex-shrink-0">🎧</div>
+                  <div>
+                    <div className="font-bold text-white mb-1">Listens & Understands</div>
+                    <div className="text-slate-400 text-sm">Hears your interviewer directly via system audio and auto-detects when real questions are being asked.</div>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start">
+                  <div className="text-3xl flex-shrink-0">⚡</div>
+                  <div>
+                    <div className="font-bold text-white mb-1">Instant Answers</div>
+                    <div className="text-slate-400 text-sm">Generates structured, conversational answers in under 2 seconds using the world&apos;s fastest AI.</div>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start">
+                  <div className="text-3xl flex-shrink-0">🥷</div>
+                  <div>
+                    <div className="font-bold text-white mb-1">100% Invisible</div>
+                    <div className="text-slate-400 text-sm">The interviewer never sees it. Window is excluded from screen capture at the OS level.</div>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start">
+                  <div className="text-3xl flex-shrink-0">🇮🇳</div>
+                  <div>
+                    <div className="font-bold text-white mb-1">Built for India</div>
+                    <div className="text-slate-400 text-sm">Answers in ₹ LPA, understands Indian company culture, and supports 10+ Indian languages.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Benefits */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-3xl blur-2xl" />
+              <div className="relative glass-heavy rounded-3xl p-8 border border-indigo-500/20 space-y-6">
+                <div className="text-center mb-6">
+                  <div className="text-5xl mb-3">🎯</div>
+                  <div className="text-xl font-black text-white">Who Uses JavihAI?</div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                    <div className="font-semibold text-blue-400 mb-1">🎓 Freshers & Students</div>
+                    <div className="text-sm text-slate-300">First job interviews, campus placements, off-campus drives</div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                    <div className="font-semibold text-purple-400 mb-1">💼 Working Professionals</div>
+                    <div className="text-sm text-slate-300">Job switches, FAANG prep, senior/lead role interviews</div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                    <div className="font-semibold text-emerald-400 mb-1">👨‍💻 Coders & Engineers</div>
+                    <div className="text-sm text-slate-300">Coding rounds on HackerRank, LeetCode, CodeSignal & more</div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20">
+                    <div className="font-semibold text-orange-400 mb-1">🏆 Career Switchers</div>
+                    <div className="text-sm text-slate-300">Changing roles, upskilling, interviewing at new companies</div>
+                  </div>
+                </div>
+
+                <div className="text-center pt-4 border-t border-white/10">
+                  <div className="text-3xl font-black text-white mb-2">2,400+</div>
+                  <div className="text-sm text-slate-400">Candidates helped across India</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── COMPANIES BANNER ─────────────────────────────────────────────────── */}
       <section className="py-14 border-y border-white/5">
         <div className="max-w-5xl mx-auto px-6 text-center">
@@ -977,6 +1062,84 @@ export default function LandingPage() {
             }),
           }}
         />
+      </section>
+
+      {/* ── QUICK START GUIDE ────────────────────────────────────────────────── */}
+      <section className="py-20">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <div className="badge mb-4">⚡ Get Started in 5 Minutes</div>
+            <h2 className="text-4xl md:text-5xl font-black mb-4">
+              From Installation to <span className="text-gradient">Your First Interview</span>
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto">Follow these 5 simple steps to start using JavihAI in your next interview.</p>
+          </div>
+
+          <div className="grid md:grid-cols-5 gap-6 relative">
+            {/* Timeline connector */}
+            <div className="hidden md:block absolute top-24 left-[10%] right-[10%] h-1 bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-pink-500/30" />
+
+            {[
+              {
+                step: '1',
+                title: 'Create Account',
+                time: '30 seconds',
+                desc: 'Sign up free with email — no credit card needed',
+                icon: '📧',
+              },
+              {
+                step: '2',
+                title: 'Download App',
+                time: '1 minute',
+                desc: 'Get the 12 MB installer for Windows or Mac',
+                icon: '⬇️',
+              },
+              {
+                step: '3',
+                title: 'Install & Login',
+                time: '2 minutes',
+                desc: 'Run the installer and sign in with your account',
+                icon: '🔐',
+              },
+              {
+                step: '4',
+                title: 'Open Interview',
+                time: 'During interview',
+                desc: 'Join Zoom/Meet as usual — app runs silently',
+                icon: '📞',
+              },
+              {
+                step: '5',
+                title: 'Get AI Answers',
+                time: '< 2 seconds',
+                desc: 'Listen to question → AI streams answer invisibly',
+                icon: '✨',
+              },
+            ].map((item, i) => (
+              <div key={i} className="relative z-10">
+                <div className={`inline-flex w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 items-center justify-center text-4xl mb-4 mx-auto`}>
+                  {item.icon}
+                </div>
+                <div className={`text-center`}>
+                  <div className="text-xs text-indigo-400 font-bold tracking-widest mb-2">STEP {item.step}</div>
+                  <h3 className="font-bold text-white mb-2">{item.title}</h3>
+                  <div className="text-slate-500 text-xs mb-2">{item.time}</div>
+                  <p className="text-slate-400 text-xs leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-16 p-8 rounded-2xl border border-green-500/20 bg-green-500/5">
+            <div className="flex gap-4 items-start">
+              <div className="text-3xl flex-shrink-0">✅</div>
+              <div>
+                <div className="font-bold text-white text-lg mb-2">That&apos;s it! You&apos;re ready.</div>
+                <p className="text-slate-300 leading-relaxed">Your free plan includes 10 AI answers per day. No credit card asked. No hidden fees. Start with the free plan and upgrade anytime if you need unlimited answers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── DOWNLOAD ─────────────────────────────────────────────────────────── */}
