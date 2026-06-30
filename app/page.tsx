@@ -128,6 +128,15 @@ export default function LandingPage() {
       if (d?.version) setAppVersion(d.version);
       if (d?.publishedAt) setIsNewRelease(Date.now() - new Date(d.publishedAt).getTime() < 14 * 86400000);
     }).catch(() => {});
+
+    // Auto-show free trial modal after 3 seconds (unless user dismissed it today)
+    const dismissed = localStorage.getItem('trialModalDismissed');
+    if (!dismissed) {
+      const timer = setTimeout(() => {
+        setIsTrialModalOpen(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   // Cycle through interview questions with typing animation

@@ -17,6 +17,11 @@ interface FreeTrialModalProps {
 }
 
 export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps) {
+  const handleClose = () => {
+    // Set flag in localStorage so modal doesn't show again today
+    localStorage.setItem('trialModalDismissed', new Date().toDateString());
+    onClose();
+  };
   const [formData, setFormData] = useState<FormData>({
     name: '',
     age: '',
@@ -109,7 +114,7 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
       }
 
       setTimeout(() => {
-        onClose();
+        handleClose();
         setSuccess(false);
       }, 2000);
     } catch (err) {
@@ -126,7 +131,7 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
         <div className="flex items-center justify-between p-6 border-b border-white/5">
           <h2 className="text-2xl font-black text-white">🎁 Free 1-Week Trial</h2>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
           >
             <span className="text-white text-xl">✕</span>
