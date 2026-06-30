@@ -1,15 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initializeApp, cert, getApps } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
 
-const firebaseAdminConfig = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-};
+let db: any = null;
 
-const app = getApps().length === 0 ? initializeApp({ credential: cert(firebaseAdminConfig as any) }) : getApps()[0];
-const db = getFirestore(app);
+async function getFirestoreDb() {
+  if (db) return db;
+
+  try {
+    const { initializeApp, cert, getApps } = await import('firebase-admin/app');
+    const { getFirestore } = await import('firebase-admin/firestore');
+
+    const firebaseAdminConfig = {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    };
+
+    // Validate config
+    if (!firebaseAdminConfig.projectId || !firebaseAdminConfig.clientEmail || !firebaseAdminConfig.privateKey) {
+      throw new Error('Missing Firebase credentials in environment variables');
+    }
+
+    const app = getApps().length === 0 ? initializeApp({ credential: cert(firebaseAdminConfig as any) }) : getApps()[0];
+    db = getFirestore(app);
+    return db;
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+    throw error;
+  }
+}
 
 function generateVoucherCode(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -57,12 +75,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Get Firestore instance
+    const firestoreDb = await getFirestoreDb();
+
     // Generate voucher code
     const voucherCode = generateVoucherCode();
     const formattedPhone = formatPhoneNumber(whatsappNumber);
 
     // Save to Firestore
-    const trialRef = db.collection('free_trial_signups').doc();
+    const trialRef = firestoreDb.collection('free_trial_signups').doc();
     await trialRef.set({
       name,
       age: parseInt(age),
