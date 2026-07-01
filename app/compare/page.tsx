@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Competitors — Pricing & Feature Comparison 2026' },
   description: 'How JavihAI compares to Final Round AI, Chiku AI, and Interview Coder on price and features. JavihAI is India\'s first unlimited AI interview copilot — from ₹499/month.',
-  keywords: ['JavihAI vs competitors', 'Final Round AI alternative', 'Chiku AI alternative', 'Interview Coder alternative', 'best AI interview tool India', 'cheapest AI interview assistant'],
+  keywords: ['JavihAI vs competitors', 'Final Round AI alternative', 'Chiku AI alternative', 'Interview Coder alternative', 'Cluely alternative India', 'LockedIn AI alternative India', 'Parakeet AI alternative', 'best AI interview tool India', 'cheapest AI interview assistant'],
   alternates: { canonical: 'https://javihai.in/compare' },
 };
 
@@ -14,6 +14,9 @@ const COMPETITORS = [
   { name: 'Chiku AI',        price: '₹3,499/mo',          savings: '7×',  slug: 'chiku-ai',         tag: '🇮🇳 Indian competitor' },
   { name: 'Final Round AI',  price: '₹7,695/mo',          savings: '15×', slug: 'final-round-ai',   tag: '🌐 Market leader' },
   { name: 'Interview Coder', price: '$299/mo (~₹28,400)', savings: '57×', slug: 'interview-coder',  tag: '💻 Coding-only tool' },
+  { name: 'Cluely',          price: '$75/mo (~₹7,125)',   savings: '14×', slug: 'cluely',           tag: '🕵️ Undetectable add-on' },
+  { name: 'LockedIn AI',     price: '$49.99/mo (~₹4,749)',savings: '9×',  slug: 'lockedin-ai',      tag: '🔒 Meeting copilot' },
+  { name: 'Parakeet AI',     price: '$149.90/mo (~₹14,240)', savings: '28×', slug: 'parakeet-ai',   tag: '🦜 Credit-based tool' },
 ];
 
 export default function ComparePage() {

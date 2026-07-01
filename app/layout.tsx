@@ -107,6 +107,14 @@ export const metadata: Metadata = {
     'online assessment AI helper',
     'OA round AI tool India',
 
+    // "Smartest & most affordable" positioning
+    "India's smartest AI interview copilot",
+    'smartest AI interview assistant India',
+    'best value AI interview tool India',
+    'most affordable AI interview copilot',
+    'smart and cheap AI interview tool India',
+    'top AI interview copilot India',
+
     // Brand
     'JavihAI',
     'javihai interview',
