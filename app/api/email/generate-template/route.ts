@@ -11,29 +11,43 @@ const TEMPLATE_PROMPTS = {
   usage_reminder: 'Create a helpful usage reminder email for Pro plan users showing their remaining quota. Include: encouragement, tips for maximizing usage, upgrade information. Around 150 words.',
 };
 
+interface GeneratedEmail {
+  subject: string;
+  html: string;
+}
+
 async function generateTemplate(
   type: keyof typeof TEMPLATE_PROMPTS,
   customPrompt?: string
-): Promise<string> {
+): Promise<GeneratedEmail> {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     throw new Error('GROQ_API_KEY not configured');
   }
 
   const client = new Groq({ apiKey });
-  const systemPrompt = `You are an expert email template designer. Create professional, engaging HTML email templates that:
+  const systemPrompt = `You are an expert email template designer. Create professional, engaging marketing emails.
+
+Respond with ONLY a JSON object of the form {"subject": "...", "html": "..."} — no markdown fences, no commentary.
+
+Requirements for "subject":
+- A short, compelling email subject line (under 60 characters)
+- No quotes or emoji spam, at most one emoji if it fits naturally
+
+Requirements for "html":
 - Use inline styles (no external CSS)
-- Are mobile-responsive
-- Have proper spacing and typography
-- Include brand colors (#6366F1 for primary, dark backgrounds)
-- Are suitable for Resend email service
-- Include only the HTML body content, no DOCTYPE or html/body tags`;
+- Mobile-responsive
+- Proper spacing and typography
+- Brand colors (#6366F1 for primary, dark backgrounds)
+- Suitable for Resend email service
+- Only the HTML body content, no DOCTYPE or html/body tags`;
 
   const userPrompt = customPrompt || TEMPLATE_PROMPTS[type];
 
   const response = await client.chat.completions.create({
     model: 'llama-3.3-70b-versatile',
-    max_tokens: 1024,
+    max_tokens: 1200,
+    response_format: { type: 'json_object' },
     messages: [
       {
         role: 'system',
@@ -41,7 +55,7 @@ async function generateTemplate(
       },
       {
         role: 'user',
-        content: `Create an email template for:\n${userPrompt}`,
+        content: `Create a subject line and email template for:\n${userPrompt}`,
       },
     ],
   });
@@ -51,7 +65,18 @@ async function generateTemplate(
     throw new Error('No response from Groq API');
   }
 
-  return content;
+  let parsed: Partial<GeneratedEmail>;
+  try {
+    parsed = JSON.parse(content);
+  } catch {
+    throw new Error('AI returned malformed response — please try again');
+  }
+
+  if (!parsed.subject?.trim() || !parsed.html?.trim()) {
+    throw new Error('AI response was missing a subject or body — please try again');
+  }
+
+  return { subject: parsed.subject.trim(), html: parsed.html.trim() };
 }
 
 export async function POST(request: NextRequest) {
@@ -65,10 +90,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const html = await generateTemplate(type as keyof typeof TEMPLATE_PROMPTS, customPrompt);
+    const { subject, html } = await generateTemplate(type as keyof typeof TEMPLATE_PROMPTS, customPrompt);
 
     return NextResponse.json({
       ok: true,
+      subject,
       html,
       type,
     });
