@@ -1,39 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { db } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
-async function getResendConfig() {
+const DEFAULT_FROM = 'JavihAI <onboarding@resend.dev>';
+
+interface ResendConfig {
+  apiKey: string;
+  fromEmail: string;
+}
+
+/**
+ * Resolves the Resend API key + From address the same way the admin panel
+ * does (lib/resend-server.ts): admin-managed keys in Firestore
+ * (settings/api_keys) take precedence, falling back to env vars.
+ */
+async function getResendConfig(): Promise<ResendConfig | null> {
   try {
-    const adminDb = await (async () => {
-      const { initializeApp, cert, getApps } = await import('firebase-admin/app');
-      const { getFirestore } = await import('firebase-admin/firestore');
-
-      const firebaseAdminConfig = {
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      };
-
-      if (!firebaseAdminConfig.projectId || !firebaseAdminConfig.clientEmail || !firebaseAdminConfig.privateKey) {
-        return null;
+    if (db) {
+      const doc = await db.collection('settings').doc('api_keys').get();
+      const data = doc.exists ? doc.data() : null;
+      if (data?.resendApiKey) {
+        return {
+          apiKey: data.resendApiKey as string,
+          fromEmail: (data.resendFromEmail as string) || process.env.RESEND_FROM_EMAIL || DEFAULT_FROM,
+        };
       }
+    }
+  } catch { /* fall through to env */ }
 
-      const app = getApps().length === 0 ? initializeApp({ credential: cert(firebaseAdminConfig as any) }) : getApps()[0];
-      return getFirestore(app);
-    })();
-
-    if (!adminDb) return null;
-
-    const settingsSnap = await adminDb.collection('settings').doc('resend').get();
-    const data = settingsSnap.data() as { apiKey?: string; fromEmail?: string } | undefined;
-
-    return data?.apiKey && data?.fromEmail
-      ? { apiKey: data.apiKey, fromEmail: data.fromEmail }
-      : null;
-  } catch {
-    return null;
+  if (process.env.RESEND_API_KEY) {
+    return {
+      apiKey: process.env.RESEND_API_KEY,
+      fromEmail: process.env.RESEND_FROM_EMAIL || DEFAULT_FROM,
+    };
   }
+
+  return null;
 }
 
 interface EmailPayload {
