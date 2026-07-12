@@ -183,7 +183,7 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
-              <span className="text-sm text-slate-300">🚀 India&apos;s Smartest &amp; Most Affordable AI Interview Copilot · Starting at ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · 2,400+ candidates helped</span>
+              <span className="text-sm text-slate-300">🎉 India&apos;s 1st Unlimited AI Interview Plan · Starting at ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · 2,400+ candidates helped</span>
             </div>
 
             {/* Main Headline */}
@@ -194,7 +194,7 @@ export default function LandingPage() {
 
             {/* Sub-headline with benefits */}
             <p className="text-2xl md:text-3xl text-white font-bold mb-6 max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-              Ace coding, system design, and technical interviews with real-time AI assistance — starting at just ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/month.
+              India&apos;s first unlimited AI interview plan — unlimited answers, unlimited mock interviews, unlimited screenshots, starting at just ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/month.
             </p>
 
             <p className="text-lg text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
