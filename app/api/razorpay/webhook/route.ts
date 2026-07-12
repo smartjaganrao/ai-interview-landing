@@ -83,7 +83,10 @@ export async function POST(request: NextRequest) {
           // Referral + creator reconciliation (awaited + idempotent —
           // verify-payment may have already done this; both paths are safe).
           try {
-            const applied = Number(notes.appliedCredit ?? 0) || 0;
+            // Same defense-in-depth clamp as verify-payment — appliedCredit
+            // comes from our own order notes, not client input, but this
+            // guards against ever redeeming more credit than was charged.
+            const applied = Math.min(Number(notes.appliedCredit ?? 0) || 0, amount);
             if (applied > 0 && payment.order_id) {
               await redeemCreditForOrder(userId, payment.order_id, applied);
             }

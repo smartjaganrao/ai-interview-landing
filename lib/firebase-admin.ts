@@ -141,10 +141,26 @@ export async function persistSubscription(params: {
 }): Promise<boolean> {
   if (!db) return false;
   try {
+    // verify-payment and the Razorpay webhook can both call this for the same
+    // payment (client-side confirmation + async server confirmation racing
+    // each other) — that's fine for the two writes below (they're
+    // idempotent, last-write-wins on the same data), but without this check
+    // it logged a duplicate admin_logs entry every time. One doc ID per
+    // paymentId makes a second attempt a no-op write instead of a new row.
+    const logRef = db.collection('admin_logs').doc(`subscription_activate_${params.paymentId}`);
+    const alreadyLogged = (await logRef.get()).exists;
+
     const renewalDate =
       Date.now() + (params.billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
 
-    await db.collection('subscriptions').doc(params.userId).set(
+    // Batched so the subscription doc and the user doc's mirrored plan land
+    // together — previously two separate .set() calls, so a crash/timeout
+    // between them could leave users.plan stale while subscriptions.plan
+    // was current (getUserPlan prefers users.plan first, so a paying user
+    // could see their old plan until the two were manually reconciled).
+    const batch = db.batch();
+    batch.set(
+      db.collection('subscriptions').doc(params.userId),
       {
         plan: params.plan,
         status: 'active',
@@ -159,27 +175,29 @@ export async function persistSubscription(params: {
       },
       { merge: true }
     );
-
     // Mirror plan onto the user doc so every surface (admin, desktop) picks it up.
-    await db.collection('users').doc(params.userId).set(
+    batch.set(
+      db.collection('users').doc(params.userId),
       { plan: params.plan, updatedAt: Date.now() },
       { merge: true }
     );
-
-    await db.collection('admin_logs').add({
-      adminUid: 'system',
-      adminEmail: 'razorpay-webhook',
-      action: 'subscription_activate',
-      targetUserId: params.userId,
-      details: {
-        plan: params.plan,
-        billing: params.billing,
-        amount: params.amount,
-        paymentId: params.paymentId,
-        source: params.source,
-      },
-      timestamp: Date.now(),
-    });
+    if (!alreadyLogged) {
+      batch.set(logRef, {
+        adminUid: 'system',
+        adminEmail: 'razorpay-webhook',
+        action: 'subscription_activate',
+        targetUserId: params.userId,
+        details: {
+          plan: params.plan,
+          billing: params.billing,
+          amount: params.amount,
+          paymentId: params.paymentId,
+          source: params.source,
+        },
+        timestamp: Date.now(),
+      });
+    }
+    await batch.commit();
 
     return true;
   } catch (e) {

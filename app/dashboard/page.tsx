@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { doc, getDoc, collection, query, where, getCountFromServer } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, collection, query, where, getCountFromServer } from 'firebase/firestore';
 // email-only auth removed — Google sign-in only
 import Navbar from '@/components/Navbar';
 import CompleteProfileModal, { shouldShowProfilePrompt } from '@/components/CompleteProfileModal';
@@ -137,39 +137,62 @@ function DashboardContent() {
     }
 
     if (user) {
-      Promise.all([
-        getDoc(doc(db, 'users', user.uid)),
-        getDoc(doc(db, 'subscriptions', user.uid)),
-        // "Today's Usage" needs the daily doc — usage_tracking/{uid}/days/{YYYY-MM-DD},
-        // same path checkAiQuota and the desktop app's usage.service.ts both use.
-        // (Previously read a months/{YYYY-MM} doc that nothing has ever written,
-        // so this always silently fell back to showing 0 for every stat below.)
-        getDoc(doc(db, 'usage_tracking', user.uid, 'days', new Date().toISOString().slice(0, 10))),
-      ]).then(([userSnap, subSnap, usageSnap]) => {
-        if (userSnap.exists()) {
-          const ud = userSnap.data() as UserData;
-          if (subSnap.exists()) {
-            ud.plan = (subSnap.data().plan || ud.plan) as 'free' | 'pro' | 'power';
-          }
-          setUserData(ud);
-          setShowProfilePrompt(shouldShowProfilePrompt(ud));
+      // "Today's Usage" needs the daily doc — usage_tracking/{uid}/days/{YYYY-MM-DD},
+      // same path checkAiQuota and the desktop app's usage.service.ts both use.
+      // (Previously read a months/{YYYY-MM} doc that nothing has ever written,
+      // so this always silently fell back to showing 0 for every stat below.)
+      getDoc(doc(db, 'usage_tracking', user.uid, 'days', new Date().toISOString().slice(0, 10)))
+        .then((usageSnap) => {
+          setUsageData(usageSnap.exists() ? (usageSnap.data() as UsageData) : { tokensUsed: 0, voiceMinutes: 0, screenshotsUsed: 0 });
+        })
+        .catch((err) => console.error('[dashboard] failed to load usage:', err));
+
+      // users/{uid} and subscriptions/{uid} are live listeners rather than a
+      // one-time getDoc — a plan change from the Razorpay webhook (async,
+      // can land after this page's own redirect) or an admin-panel edit
+      // wouldn't otherwise show up until a manual refresh. Each snapshot
+      // callback re-reads the other doc's last-known value from a ref so
+      // the merged plan (subscription wins over the user doc) stays correct
+      // regardless of which listener fires first or again.
+      let latestUserData: UserData | null = null;
+      let latestSubData: SubscriptionData | null = null;
+      let gotUser = false;
+      let gotSub = false;
+      const maybeStopLoading = () => { if (gotUser && gotSub) setLoading(false); };
+
+      const mergeAndSetUserData = () => {
+        if (!latestUserData) return;
+        const ud = { ...latestUserData };
+        if (latestSubData?.plan) ud.plan = latestSubData.plan;
+        setUserData(ud);
+        setShowProfilePrompt(shouldShowProfilePrompt(ud));
+      };
+
+      const unsubUser = onSnapshot(doc(db, 'users', user.uid), (snap) => {
+        gotUser = true;
+        if (snap.exists()) {
+          latestUserData = snap.data() as UserData;
+          mergeAndSetUserData();
         }
-        if (subSnap.exists()) {
-          setSubData(subSnap.data() as SubscriptionData);
+        maybeStopLoading();
+      }, (err) => {
+        console.error('[dashboard] users listener failed:', err);
+        gotUser = true;
+        maybeStopLoading();
+      });
+
+      const unsubSub = onSnapshot(doc(db, 'subscriptions', user.uid), (snap) => {
+        gotSub = true;
+        if (snap.exists()) {
+          latestSubData = snap.data() as SubscriptionData;
+          setSubData(latestSubData);
+          mergeAndSetUserData();
         }
-        if (usageSnap.exists()) {
-          setUsageData(usageSnap.data() as UsageData);
-        } else {
-          setUsageData({ tokensUsed: 0, voiceMinutes: 0, screenshotsUsed: 0 });
-        }
-        setLoading(false);
-      }).catch((err) => {
-        // Without this, any single failed read (permission error, network
-        // blip, a rules change) left the dashboard stuck on the loading
-        // spinner forever — setLoading(false) was only ever called inside
-        // .then(). Surface what's there and stop spinning either way.
-        console.error('[dashboard] failed to load user/subscription/usage:', err);
-        setLoading(false);
+        maybeStopLoading();
+      }, (err) => {
+        console.error('[dashboard] subscriptions listener failed:', err);
+        gotSub = true;
+        maybeStopLoading();
       });
 
       // Referral info (best-effort — won't block dashboard)
@@ -198,6 +221,11 @@ function DashboardContent() {
         .catch(() => {
           // collections may not exist yet for new users; ignore
         });
+
+      return () => {
+        unsubUser();
+        unsubSub();
+      };
     }
   }, [user, authLoading, router, searchParams]);
 

@@ -55,6 +55,12 @@ export async function POST(request: NextRequest) {
           grossPaid = amount;
         }
         appliedCredit = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
+        // Defense-in-depth: appliedCredit is sourced from our own Razorpay
+        // order notes (create-order already bounds it to the user's actual
+        // credit balance), not client input, so this shouldn't be reachable
+        // today — but clamping here means a future bug in create-order can't
+        // redeem more credit than was actually charged off.
+        appliedCredit = Math.min(appliedCredit, amount);
       } catch { /* non-fatal */ }
     }
 
