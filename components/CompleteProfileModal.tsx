@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import type { User } from 'firebase/auth';
 
@@ -61,7 +61,29 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       if (experienceLevel) patch.experienceLevel = experienceLevel;
       if (city.trim()) patch.city = city.trim();
       if (referralSource) patch.referralSource = referralSource;
-      await setDoc(doc(db, 'users', user.uid), patch, { merge: true });
+
+      const userRef = doc(db, 'users', user.uid);
+      // ensureUserDocs (run at sign-in) is supposed to have already created
+      // the base doc with email/name/createdAt, but it silently swallows
+      // failures (Firestore timeout/unavailable) to avoid blocking login.
+      // If that write never landed, merge:true below would otherwise create
+      // this user's *only* Firestore record with nothing but phone/profile
+      // fields — no email, no name, no createdAt. Backfill identity fields
+      // here so that can't happen.
+      const snap = await getDoc(userRef);
+      if (!snap.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          email: user.email ?? '',
+          name: user.displayName || 'there',
+          plan: 'free',
+          createdAt: Date.now(),
+          settings: { theme: 'dark', language: 'en' },
+          ...patch,
+        });
+      } else {
+        await setDoc(userRef, patch, { merge: true });
+      }
       onDone({ phone: patch.phone, experienceLevel: patch.experienceLevel, city: patch.city, referralSource: patch.referralSource });
     } catch {
       setError('Could not save. Check your connection and try again.');
