@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   UserCredential,
   AuthError,
+  fetchSignInMethodsForEmail,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, addDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from './firebase';
@@ -13,8 +14,16 @@ provider.setCustomParameters({ prompt: 'select_account' });
 
 /**
  * Maps Firebase auth error codes to clear, actionable messages.
+ *
+ * Async because `auth/account-exists-with-different-credential` (thrown when
+ * Firebase's "One account per email address" setting is on and this email
+ * already has a non-Google sign-in method — e.g. the desktop app's
+ * email+password signup) needs a lookup to say something more useful than
+ * Firebase's raw error text. Landing only offers Google sign-in, so a user
+ * in that state has no way forward here — the message tells them to use the
+ * desktop app instead of leaving them stuck on a dead end.
  */
-export function friendlyAuthError(err: unknown): string {
+export async function friendlyAuthError(err: unknown): Promise<string> {
   const code = (err as AuthError)?.code || '';
   switch (code) {
     case 'auth/unauthorized-domain':
@@ -29,6 +38,20 @@ export function friendlyAuthError(err: unknown): string {
       return 'Another sign-in is already in progress.';
     case 'auth/network-request-failed':
       return 'Network error. Check your connection and try again.';
+    case 'auth/account-exists-with-different-credential': {
+      const email = (err as AuthError)?.customData?.email as string | undefined;
+      if (email) {
+        try {
+          const methods = await fetchSignInMethodsForEmail(auth, email);
+          if (methods.includes('password')) {
+            return `An account already exists for ${email} with a password (likely created in the JavihAI desktop app). Please sign in there with your email and password instead of Google — signing up here with a different method isn't supported yet.`;
+          }
+        } catch {
+          /* fall through to generic message below */
+        }
+      }
+      return 'An account already exists for this email using a different sign-in method. Please use the method you originally signed up with.';
+    }
     default:
       return (err as Error)?.message || 'Failed to sign in with Google.';
   }

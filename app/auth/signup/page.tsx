@@ -76,7 +76,7 @@ function SignupContent() {
           router.push(plan === 'pro' || plan === 'power' ? `/checkout?plan=${plan}` : '/dashboard');
         }
       })
-      .catch((err) => setError(friendlyAuthError(err)));
+      .catch(async (err) => setError(await friendlyAuthError(err)));
   }, [router, plan]);
 
   useEffect(() => {
@@ -104,7 +104,7 @@ function SignupContent() {
         router.push('/dashboard');
       }
     } catch (err) {
-      setError(friendlyAuthError(err));
+      setError(await friendlyAuthError(err));
     } finally {
       setIsLoading(false);
     }

@@ -24,7 +24,7 @@ export default function LoginPage() {
           router.push('/dashboard');
         }
       })
-      .catch((err) => setError(friendlyAuthError(err)));
+      .catch(async (err) => setError(await friendlyAuthError(err)));
   }, [router]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function LoginPage() {
       await ensureUserDocs(cred);
       router.push('/dashboard');
     } catch (err) {
-      setError(friendlyAuthError(err));
+      setError(await friendlyAuthError(err));
     } finally {
       setIsLoading(false);
     }
