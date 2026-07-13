@@ -16,7 +16,16 @@ const DIFFICULTY_GUIDE: Record<Difficulty, string> = {
 
 function getGroq() {
   if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY not set');
-  return new Groq({ apiKey: process.env.GROQ_API_KEY });
+  // Explicit short timeout + no retries: the SDK default is a 60s timeout
+  // THAT IS RETRIED (per the SDK's own docs), so a single stalled Groq
+  // request could silently chain past 100s+ before settling. Both call
+  // sites below already have a try/catch that falls back to a safe
+  // default (a canned question, or a 60/100 default score) the instant
+  // this throws, so failing fast here is strictly better than hanging —
+  // it's what let a handful of requests silently ride all the way to
+  // Vercel's 300s hard function timeout (confirmed via production runtime
+  // errors: "Task timed out after 300 seconds" on this exact route).
+  return new Groq({ apiKey: process.env.GROQ_API_KEY, timeout: 10_000, maxRetries: 0 });
 }
 
 interface Profile {
