@@ -59,7 +59,7 @@ export async function getLatestRelease(): Promise<LatestRelease> {
   if (!release) return FALLBACK;
 
   const mac = release.assets.find((a) => a.name.endsWith('.dmg'));
-  const win = release.assets.find((a) => a.name.endsWith('.exe'));
+  const win = release.assets.find((a) => a.name.endsWith('.exe') || (a.name.includes('win') && a.name.endsWith('.zip')));
 
   return {
     version: release.tag_name,
