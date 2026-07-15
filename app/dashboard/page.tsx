@@ -43,7 +43,6 @@ interface ActivityData {
   totalQuestions: number;
 }
 
-const DESKTOP_DOWNLOAD_URL = '/api/download/win';
 const WINDOWS_DOWNLOAD_URL = '/api/download/win';
 const MAC_DOWNLOAD_URL = '/api/download/mac';
 
@@ -360,16 +359,16 @@ function DashboardContent() {
                     href={withAttribution(WINDOWS_DOWNLOAD_URL)}
                     className="btn btn-primary btn-lg flex-1 animate-pulse-glow"
                   >
-                    ⬇ Download for Windows
+                    ⬇ Download for Windows{appVersion ? ` (${appVersion})` : ''}
                   </a>
                   <a
                     href={withAttribution(MAC_DOWNLOAD_URL)}
                     className="btn btn-primary btn-lg flex-1"
                   >
-                    ⬇ Download for Mac
+                    ⬇ Download for Mac{appVersion ? ` (${appVersion})` : ''}
                   </a>
                   <a
-                    href={DESKTOP_DOWNLOAD_URL}
+                    href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest"
                     target="_blank"
                     rel="noopener"
                     className="btn btn-secondary btn-lg"
@@ -379,8 +378,6 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
-                  <span>{appVersion}</span>
-                  <span>•</span>
                   <span>Windows 10/11 · macOS (Apple Silicon + Intel)</span>
                 </div>
 
