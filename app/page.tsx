@@ -702,7 +702,7 @@ export default function LandingPage() {
               {
                 icon: '🗣️',
                 title: 'Voice-Driven Mock Interview',
-                desc: 'Practice out loud, not by typing. Questions are generated live from your profile and job description, at Easy/Medium/Hard difficulty — speak your answer, get scored, keep going as long as you want.',
+                desc: 'Practice out loud, not by typing. Questions generated live from your profile and JD at Easy/Medium/Hard — speak your answer, get scored, then compare with a model answer and a full AI-generated overall assessment at the end.',
                 gradient: 'from-cyan-500 to-blue-500',
                 badge: 'Rebuilt',
               },

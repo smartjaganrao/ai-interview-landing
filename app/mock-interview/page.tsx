@@ -42,6 +42,8 @@ export default function MockInterviewPage() {
             <li>• Speak your answer naturally — live captions transcribe as you talk, no record/stop button</li>
             <li>• Open-ended — keep going as long as you like, end whenever you're ready</li>
             <li>• Scored out of 100 with specific feedback after every answer</li>
+            <li>• <strong className="text-white">Model answers</strong> — see what a strong answer looks like for each question</li>
+            <li>• <strong className="text-white">Overall AI assessment</strong> — strengths, weaknesses, and actionable advice at the end</li>
             <li>• Same AI scoring used by 2,400+ candidates on JavihAI</li>
           </ul>
         </div>
