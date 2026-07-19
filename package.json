@@ -11,7 +11,8 @@
     "type-check": "tsc --noEmit",
     "setup-db": "node scripts/setup-firestore.mjs",
     "deploy-rules": "node scripts/deploy-firestore-rules.mjs",
-    "creator-payouts": "node scripts/creator-payouts.mjs"
+    "creator-payouts": "node scripts/creator-payouts.mjs",
+    "sync-version": "node scripts/sync-version-from-helper.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
