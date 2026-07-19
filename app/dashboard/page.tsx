@@ -342,7 +342,7 @@ function DashboardContent() {
               <div className="relative">
                 {isNewRelease && (
                   <div className="mb-3 inline-flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
-                    🎉 New release {appVersion} is out — update for the latest features
+                     🎉 New release{appVersion ? ` ${appVersion}` : ''} is out — update for the latest features
                   </div>
                 )}
                 <div className="flex items-start justify-between mb-4">

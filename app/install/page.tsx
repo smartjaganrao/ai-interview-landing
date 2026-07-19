@@ -35,7 +35,7 @@ export default async function InstallPage() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="flex items-center gap-2 mb-4">
             <div className="badge">💻 Installation Guide</div>
-            {isNewRelease && (
+            {isNewRelease && VERSION && (
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
                 🎉 New: {VERSION}
               </span>
@@ -43,7 +43,7 @@ export default async function InstallPage() {
           </div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">Install JavihAI</h1>
           <p className="text-slate-400 mb-8">
-            Get the desktop app running in about 2 minutes. Pick your operating system below — {VERSION}.
+            Get the desktop app running in about 2 minutes. Pick your operating system below{VERSION ? ` — ${VERSION}` : ''}.
           </p>
 
           {/* Download buttons */}
@@ -73,7 +73,7 @@ export default async function InstallPage() {
               <ol className="space-y-4">
                 <Step n={1}>
                   Click <strong className="text-white">Download for Windows</strong> above and run the
-                  downloaded <code className="text-indigo-300">JavihAI-{VERSION}-portable-win-x64.exe</code>.
+                   downloaded <code className="text-indigo-300">JavihAI{VERSION ? `-${VERSION}` : ''}-portable-win-x64.exe</code>.
                 </Step>
                 <Step n={2}>
                   If Windows shows a blue <span className="text-slate-200">&quot;Windows protected your PC&quot;</span> box,
