@@ -87,11 +87,13 @@ function DashboardContent() {
   const [appVersion, setAppVersion] = useState('');
   // "New" badge shown for 14 days after a release publishes.
   const [isNewRelease, setIsNewRelease] = useState(false);
+  const [downloadsReady, setDownloadsReady] = useState(false);
 
   useEffect(() => {
     fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
       if (d?.version) setAppVersion(d.version);
       if (d?.publishedAt) setIsNewRelease(Date.now() - new Date(d.publishedAt).getTime() < 14 * 86400000);
+      setDownloadsReady(Boolean(d?.macUrl || d?.winUrl));
     }).catch(() => {});
   }, []);
 
@@ -355,18 +357,31 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                  <a
-                    href={withAttribution(WINDOWS_DOWNLOAD_URL)}
-                    className="btn btn-primary btn-lg flex-1 animate-pulse-glow"
-                  >
-                    ⬇ Download for Windows{appVersion ? ` (${appVersion})` : ''}
-                  </a>
-                  <a
-                    href={withAttribution(MAC_DOWNLOAD_URL)}
-                    className="btn btn-primary btn-lg flex-1"
-                  >
-                    ⬇ Download for Mac{appVersion ? ` (${appVersion})` : ''}
-                  </a>
+                  {downloadsReady ? (
+                    <>
+                      <a
+                        href={withAttribution(WINDOWS_DOWNLOAD_URL)}
+                        className="btn btn-primary btn-lg flex-1 animate-pulse-glow"
+                      >
+                        ⬇ Download for Windows{appVersion ? ` (${appVersion})` : ''}
+                      </a>
+                      <a
+                        href={withAttribution(MAC_DOWNLOAD_URL)}
+                        className="btn btn-primary btn-lg flex-1"
+                      >
+                        ⬇ Download for Mac{appVersion ? ` (${appVersion})` : ''}
+                      </a>
+                    </>
+                  ) : (
+                    <a
+                      href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest"
+                      target="_blank"
+                      rel="noopener"
+                      className="btn btn-secondary btn-lg"
+                    >
+                      View Releases →
+                    </a>
+                  )}
                   <a
                     href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest"
                     target="_blank"

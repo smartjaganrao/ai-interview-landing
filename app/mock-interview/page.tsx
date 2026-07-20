@@ -24,11 +24,8 @@ export default function MockInterviewPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
-            <a href="/api/download/mac" className="btn btn-primary btn-lg">
-              ⬇ Download for Mac
-            </a>
-            <a href="/api/download/win" className="btn btn-secondary btn-lg">
-              ⬇ Download for Windows
+            <a href="/install" className="btn btn-primary btn-lg">
+              ⬇ Download JavihAI
             </a>
           </div>
           <p className="text-xs text-slate-600">Free plan included — no credit card needed.</p>

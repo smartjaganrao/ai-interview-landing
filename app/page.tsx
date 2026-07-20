@@ -120,6 +120,7 @@ export default function LandingPage() {
   // "New" badge shown for 14 days after a release publishes — long enough to
   // be noticed, short enough not to feel stale by the next release.
   const [isNewRelease, setIsNewRelease] = useState(false);
+  const [downloadsReady, setDownloadsReady] = useState(false);
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
 
   useEffect(() => {
@@ -127,6 +128,7 @@ export default function LandingPage() {
     fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
       if (d?.version) setAppVersion(d.version);
       if (d?.publishedAt) setIsNewRelease(Date.now() - new Date(d.publishedAt).getTime() < 14 * 86400000);
+      setDownloadsReady(Boolean(d?.macUrl || d?.winUrl));
     }).catch(() => {});
 
     // Auto-show free trial modal after 3 seconds (unless user dismissed it today)
@@ -1251,24 +1253,33 @@ export default function LandingPage() {
             Lightweight installer. No subscription required to download. Start with the free plan immediately after install.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <a
-              href="/api/download/win"
-              className="btn btn-primary btn-lg flex items-center gap-3 text-base"
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
-              Download for Windows
-              <span className="text-xs opacity-70 font-normal">.exe · 64-bit</span>
-            </a>
-            <a
-              href="/api/download/mac"
-              className="btn btn-secondary btn-lg flex items-center gap-3 text-base"
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg>
-              Download for macOS
-              <span className="text-xs opacity-70 font-normal">.dmg · Universal</span>
-            </a>
-          </div>
+          {downloadsReady ? (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <a
+                href="/api/download/win"
+                className="btn btn-primary btn-lg flex items-center gap-3 text-base"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                Download for Windows
+                <span className="text-xs opacity-70 font-normal">.exe · 64-bit</span>
+              </a>
+              <a
+                href="/api/download/mac"
+                className="btn btn-secondary btn-lg flex items-center gap-3 text-base"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg>
+                Download for macOS
+                <span className="text-xs opacity-70 font-normal">.dmg · Universal</span>
+              </a>
+            </div>
+          ) : (
+            <div className="mb-8 p-4 rounded-lg bg-slate-800/50 border border-slate-700 text-center">
+              <p className="text-slate-300 mb-3">Downloads are being prepared for the latest release.</p>
+              <a href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest" target="_blank" rel="noopener" className="btn btn-secondary btn-lg">
+                View on GitHub Releases →
+              </a>
+            </div>
+          )}
 
           <div className="flex flex-wrap justify-center gap-6 text-xs text-slate-500">
             <span>✓ Windows 10/11 (64-bit)</span>

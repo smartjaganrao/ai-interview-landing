@@ -25,8 +25,9 @@ function Step({ n, children }: { n: number; children: React.ReactNode }) {
 const kbd = 'px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs font-mono';
 
 export default async function InstallPage() {
-  const { version: VERSION, publishedAt } = await getLatestRelease();
+  const { version: VERSION, publishedAt, macUrl, winUrl, releaseUrl } = await getLatestRelease();
   const isNewRelease = !!publishedAt && Date.now() - new Date(publishedAt).getTime() < 14 * 86400000;
+  const downloadsReady = Boolean(macUrl || winUrl);
   return (
     <>
       <Navbar />
@@ -47,10 +48,23 @@ export default async function InstallPage() {
           </p>
 
           {/* Download buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-12">
-            <a href="/api/download/win" className="btn btn-primary btn-lg flex-1 text-center">⬇ Download for Windows</a>
-            <a href="/api/download/mac" className="btn btn-primary btn-lg flex-1 text-center">⬇ Download for Mac</a>
-          </div>
+          {downloadsReady ? (
+            <div className="flex flex-col sm:flex-row gap-3 mb-12">
+              {winUrl && (
+                <a href="/api/download/win" className="btn btn-primary btn-lg flex-1 text-center">⬇ Download for Windows</a>
+              )}
+              {macUrl && (
+                <a href="/api/download/mac" className="btn btn-primary btn-lg flex-1 text-center">⬇ Download for Mac</a>
+              )}
+            </div>
+          ) : (
+            <div className="mb-12 p-4 rounded-lg bg-slate-800/50 border border-slate-700 text-center">
+              <p className="text-slate-300 mb-3">Downloads are being prepared for the latest release.</p>
+              <a href={releaseUrl || 'https://github.com/smartjaganrao/ai-interview-helper/releases/latest'} target="_blank" rel="noopener" className="btn btn-secondary btn-lg">
+                View on GitHub Releases →
+              </a>
+            </div>
+          )}
 
           <div className="prose-content space-y-12 text-slate-300 leading-relaxed">
 
