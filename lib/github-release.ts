@@ -21,7 +21,7 @@ export interface LatestRelease {
 // Used only if GitHub is unreachable or misconfigured — keeps pages rendering
 // instead of throwing, at the cost of showing a stale version.
 const FALLBACK: LatestRelease = {
-  version: '',
+  version: 'v1.10.16',
   releaseUrl: `https://github.com/${REPO}/releases/latest`,
   macUrl: null,
   winUrl: null,
