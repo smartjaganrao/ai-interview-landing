@@ -52,19 +52,27 @@ function WhatsNewBell() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-full mt-2 w-80 glass-heavy rounded-2xl p-2 z-50 animate-fade-in-up">
-            <div className="px-3 py-2 text-sm font-semibold text-white">What&apos;s New</div>
-            <div className="flex flex-col gap-1 max-h-80 overflow-y-auto">
+          <div className="absolute right-0 top-full mt-2 w-96 glass-heavy rounded-2xl p-3 z-50 animate-fade-in-up max-h-[70vh] flex flex-col">
+            <div className="px-3 py-2 text-base font-bold text-white mb-1">What&apos;s New</div>
+            <div className="flex flex-col gap-3 overflow-y-auto pr-1">
               {items.map((a) => (
                 <a
                   key={a.id}
                   href={a.link || undefined}
-                  className="px-3 py-2 rounded-xl hover:bg-white/5 transition-smooth block"
+                  className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 transition-smooth"
                   onClick={() => setOpen(false)}
                 >
-                  <div className="text-sm font-medium text-white">{a.title}</div>
-                  <div className="text-xs text-slate-400 mt-0.5">{a.body}</div>
-                  <div className="text-xs text-slate-500 mt-1">{new Date(a.createdAt).toLocaleDateString()}</div>
+                  <div className="flex items-start justify-between gap-3 mb-1">
+                    <div className="text-sm font-semibold text-white leading-snug">{a.title}</div>
+                    {a.link && (
+                      <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-2 py-0.5">
+                        Open
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed mb-2">{a.body}</p>
+                  <div className="text-xs text-slate-500">{new Date(a.createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
                 </a>
               ))}
             </div>
