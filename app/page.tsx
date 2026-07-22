@@ -131,14 +131,21 @@ export default function LandingPage() {
       setDownloadsReady(Boolean(d?.macUrl || d?.winUrl));
     }).catch(() => {});
 
-    // Auto-show free trial modal after 3 seconds (unless user dismissed it today)
-    const dismissed = localStorage.getItem('trialModalDismissed');
-    if (!dismissed) {
-      const timer = setTimeout(() => {
-        setIsTrialModalOpen(true);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+    if (localStorage.getItem('trialModalDismissed')) return;
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY < 10) setIsTrialModalOpen(true);
+    };
+
+    const timer = setTimeout(() => {
+      setIsTrialModalOpen(true);
+    }, 8000);
+
+    document.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    };
   }, []);
 
   // Cycle through interview questions with typing animation
@@ -190,35 +197,41 @@ export default function LandingPage() {
 
             {/* Main Headline */}
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 animate-fade-in-up leading-[0.9]" style={{ animationDelay: '0.1s' }}>
-              <span className="block">Your AI Interview</span>
-              <span className="text-gradient animate-gradient">Secret Weapon</span>
+              <span className="block">JavihAI — Desktop AI</span>
+              <span className="text-gradient animate-gradient">Interview Copilot</span>
             </h1>
 
             {/* Sub-headline with benefits */}
             <p className="text-2xl md:text-3xl text-white font-bold mb-6 max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-              India&apos;s first unlimited AI interview plan — unlimited answers, unlimited mock interviews, unlimited screenshots, starting at just ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/month.
+              Free desktop app for Windows & Mac. Unlimited AI answers, invisible on Zoom/Meet/Teams, built for Indian interviews. Upgrade to Pro for ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/month.
             </p>
 
             <p className="text-lg text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              A stealth desktop app that listens to your interviewer, understands what they&apos;re asking, and streams perfect answers in real-time. 100% invisible on Zoom, Meet, Teams, and any video call. Works for technical, behavioral, system design, coding rounds — everything.
+              Download the app, sign in with Google, and start practicing in 2 minutes. Free plan includes 10 AI answers per day — no credit card required.
             </p>
 
             {/* Primary CTA Section */}
             <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-              <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
-                <Link href="/auth/signup" className="btn btn-primary btn-lg animate-pulse-glow text-base font-bold shadow-xl hover:shadow-2xl">
-                  🚀 Start Free (No Card)
-                </Link>
-                <button
-                  onClick={() => setIsTrialModalOpen(true)}
+              <div className="flex flex-col md:flex-row gap-4 justify-center mb-4">
+                <a
+                  href="/api/download/win"
+                  className="btn btn-primary btn-lg animate-pulse-glow text-base font-bold shadow-xl hover:shadow-2xl"
+                >
+                  ⬇ Download for Windows — Free
+                </a>
+                <a
+                  href="/api/download/mac"
                   className="btn btn-secondary btn-lg text-base font-bold hover:scale-105 transition-all"
                 >
-                  ⏰ 7-Day Free Trial
-                </button>
+                  ⬇ Download for Mac — Free
+                </a>
               </div>
-              <a href="#download" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/20 transition-all">
-                ⬇️ Download for Windows/Mac
-              </a>
+              <p className="text-sm text-slate-400 mb-2">
+                12 MB · No card needed · Sign in with Google after install
+              </p>
+              <p className="text-sm text-slate-400">
+                Already installed? <Link href="/dashboard" className="text-indigo-400 hover:text-indigo-300 font-semibold">Open Dashboard →</Link>
+              </p>
             </div>
 
             {/* Social Proof & Trust Signals */}
@@ -434,71 +447,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── JOIN WHATSAPP GROUP ───────────────────────────────────────────────── */}
-      <section className="py-16 bg-gradient-to-r from-green-950/40 via-slate-950/40 to-green-950/40 border-y border-green-500/20">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="glass-heavy rounded-3xl p-8 md:p-12 border border-green-500/20 text-center">
-            <div className="mb-6">
-              <div className="text-5xl mb-4">💬</div>
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                Join 2,400+ Candidates
-              </h2>
-              <p className="text-slate-300 text-lg mb-6">
-                Get real-time interview tips, success stories, and exclusive strategies from candidates who&apos;ve cracked FAANG and India&apos;s top companies.
-              </p>
-            </div>
-
-            <div className="space-y-4 text-left max-w-2xl mx-auto mb-8">
-              <div className="flex gap-3 items-start">
-                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
-                <div>
-                  <div className="font-semibold text-white">Daily Interview Tips</div>
-                  <div className="text-sm text-slate-400">Behavioral, technical, system design, and coding interview strategies</div>
-                </div>
-              </div>
-              <div className="flex gap-3 items-start">
-                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
-                <div>
-                  <div className="font-semibold text-white">Success Stories</div>
-                  <div className="text-sm text-slate-400">Real stories from candidates who landed at Google, Microsoft, Amazon, and Indian unicorns</div>
-                </div>
-              </div>
-              <div className="flex gap-3 items-start">
-                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
-                <div>
-                  <div className="font-semibold text-white">Community Support</div>
-                  <div className="text-sm text-slate-400">Ask questions, share experiences, and learn from others preparing for interviews</div>
-                </div>
-              </div>
-              <div className="flex gap-3 items-start">
-                <span className="text-green-400 text-xl flex-shrink-0">✓</span>
-                <div>
-                  <div className="font-semibold text-white">Exclusive Updates</div>
-                  <div className="text-sm text-slate-400">Early access to new features, tips, and special offers</div>
-                </div>
-              </div>
-            </div>
-
-            <a
-              href="https://chat.whatsapp.com/JdfkOG55dqEHlWNvEXkFh0?s=sw&p=a&ilr=4"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:scale-105 transition-all shadow-md"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.781 1.13L.9 3.546l1.9 6.943a9.788 9.788 0 001.348 4.168 9.868 9.868 0 008.284 4.745h.005c5.048 0 9.28-4.073 9.797-9.126.629-6.289-4.844-11.745-11.255-11.745"/>
-              </svg>
-              Join WhatsApp Group (2,400+ Members)
-            </a>
-
-            <div className="mt-6 text-sm text-slate-400">
-              💡 Free to join. No spam. Real community building.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATS ────────────────────────────────────────────────────────────── */}
+      {/* ── STATS ─────────────────────────────────────────────────────────────── */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -1433,6 +1382,28 @@ export default function LandingPage() {
           <p className="text-slate-400 max-w-xl mx-auto mb-10">
             Daily interview tips, coding round solutions, salary negotiation advice, and real candidate success stories — follow us to stay ahead.
           </p>
+
+          <div className="glass-heavy rounded-3xl p-8 md:p-12 border border-green-500/20 text-center mb-12">
+            <div className="text-5xl mb-4">💬</div>
+            <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
+              Join 2,400+ Candidates on WhatsApp
+            </h3>
+            <p className="text-slate-300 text-lg mb-6">
+              Daily interview tips, success stories, and exclusive strategies from candidates who&apos;ve cracked FAANG and India&apos;s top companies.
+            </p>
+            <a
+              href="https://chat.whatsapp.com/JdfkOG55dqEHlWNvEXkFh0?s=sw&p=a&ilr=4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:scale-105 transition-all shadow-md"
+            >
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.781 1.13L.9 3.546l1.9 6.943a9.788 9.788 0 001.348 4.168 9.868 9.868 0 008.284 4.745h.005c5.048 0 9.28-4.073 9.797-9.126.629-6.289-4.844-11.745-11.255-11.745"/>
+              </svg>
+              Join WhatsApp Group (2,400+ Members)
+            </a>
+            <p className="text-sm text-slate-400 mt-4">💡 Free to join. No spam. Real community building.</p>
+          </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
             {[
