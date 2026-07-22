@@ -1447,26 +1447,41 @@ export default function LandingPage() {
               {
                 platform: 'WhatsApp',
                 handle: 'Channel',
-                href: 'https://whatsapp.com/channel/0029Vb8SuvWKbYMEOI5bqD2N',
+                href: '#',
                 icon: '💬',
-                desc: 'Join our WhatsApp community',
+                desc: 'Message us on WhatsApp',
                 color: 'from-green-950 to-slate-900',
                 border: 'border-green-800/30',
+                cta: 'Open WhatsApp',
               },
             ].map((s) => (
-              <a
-                key={s.platform}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`card border ${s.border} bg-gradient-to-b ${s.color} hover:scale-105 transition-bounce text-center group no-underline`}
-              >
-                <div className="text-3xl mb-2">{s.icon}</div>
-                <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
-                <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
-                <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
-                <div className="mt-3 text-xs text-indigo-400 font-semibold group-hover:text-indigo-300">Follow →</div>
-              </a>
+              s.platform === 'WhatsApp' ? (
+                <button
+                  key={s.platform}
+                  onClick={() => window.dispatchEvent(new Event('open-whatsapp-form'))}
+                  className={`card border ${s.border} bg-gradient-to-b ${s.color} hover:scale-105 transition-bounce text-center group`}
+                >
+                  <div className="text-3xl mb-2">{s.icon}</div>
+                  <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
+                  <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
+                  <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
+                  <div className="mt-3 text-xs text-green-400 font-semibold">Message us →</div>
+                </button>
+              ) : (
+                <a
+                  key={s.platform}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`card border ${s.border} bg-gradient-to-b ${s.color} hover:scale-105 transition-bounce text-center group no-underline`}
+                >
+                  <div className="text-3xl mb-2">{s.icon}</div>
+                  <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
+                  <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
+                  <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
+                  <div className="mt-3 text-xs text-indigo-400 font-semibold group-hover:text-indigo-300">Follow →</div>
+                </a>
+              )
             ))}
           </div>
 
