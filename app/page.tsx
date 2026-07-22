@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FreeTrialModal from '@/components/FreeTrialModal';
@@ -106,6 +108,8 @@ function effectivePrice(base: number, offer: PricingData['offer'], plan: 'pro' |
 }
 
 export default function LandingPage() {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [questionIdx, setQuestionIdx] = useState(0);
   const [typedQ, setTypedQ] = useState('');
@@ -114,6 +118,12 @@ export default function LandingPage() {
     plans: { pro: { monthly: 0, yearly: 0 }, power: { monthly: 0, yearly: 0 } },
     offer: { active: false, label: '', percentOff: 0, appliesTo: 'all', expiresAt: null },
   });
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, authLoading, router]);
   // Latest desktop release — fetched live so this never drifts from what's
   // actually published on GitHub (no more manual version bump per release).
   const [appVersion, setAppVersion] = useState('');
