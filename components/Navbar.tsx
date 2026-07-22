@@ -117,6 +117,9 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-1">
           {isAppPage ? (
             <>
+              <Link href="/" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+                Home
+              </Link>
               <Link href="/dashboard" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
                 Dashboard
               </Link>
@@ -198,6 +201,9 @@ export default function Navbar() {
           <div className="flex flex-col gap-2">
             {isAppPage ? (
               <>
+                <Link href="/" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+                  Home
+                </Link>
                 <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
                   Dashboard
                 </Link>
