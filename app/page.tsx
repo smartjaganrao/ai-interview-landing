@@ -178,171 +178,172 @@ export default function LandingPage() {
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section className="relative pt-28 pb-20 overflow-hidden">
+      <section className="relative pt-24 pb-16 md:pt-36 md:pb-32 overflow-hidden">
         {/* Ambient blobs */}
         <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-indigo-500/15 rounded-full blur-3xl animate-float pointer-events-none" />
         <div className="absolute top-40 right-1/4 w-[400px] h-[400px] bg-purple-500/15 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '2s' }} />
         <div className="absolute bottom-0 left-1/2 w-[500px] h-[300px] bg-pink-500/10 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '4s' }} />
 
-        <div className="max-w-7xl mx-auto px-6 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
           {/* Badge */}
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-in-up">
+          <div className="text-center mb-6 md:mb-8 animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
               </span>
-              <span className="text-sm text-slate-300">🎉 India&apos;s 1st Unlimited AI Interview Plan · Starting at ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo · 2,400+ candidates helped</span>
-            </div>
-
-            {/* Main Headline */}
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 animate-fade-in-up leading-[0.9]" style={{ animationDelay: '0.1s' }}>
-              <span className="block">JavihAI — Desktop AI</span>
-              <span className="text-gradient animate-gradient">Interview Copilot</span>
-            </h1>
-
-            {/* Sub-headline with benefits */}
-            <p className="text-2xl md:text-3xl text-white font-bold mb-6 max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-              Free desktop app for Windows & Mac. Unlimited AI answers, invisible on Zoom/Meet/Teams, built for Indian interviews. Upgrade to Pro for ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/month.
-            </p>
-
-            <p className="text-lg text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              Download the app, sign in with Google, and start practicing in 2 minutes. Free plan includes 10 AI answers per day — no credit card required.
-            </p>
-
-            {/* Primary CTA Section */}
-            <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-              <div className="flex flex-col md:flex-row gap-4 justify-center mb-4">
-                <a
-                  href="/api/download/win"
-                  className="btn btn-primary btn-lg animate-pulse-glow text-base font-bold shadow-xl hover:shadow-2xl"
-                >
-                  ⬇ Download for Windows — Free
-                </a>
-                <a
-                  href="/api/download/mac"
-                  className="btn btn-secondary btn-lg text-base font-bold hover:scale-105 transition-all"
-                >
-                  ⬇ Download for Mac — Free
-                </a>
-              </div>
-              <p className="text-sm text-slate-400 mb-2">
-                12 MB · No card needed · Sign in with Google after install
-              </p>
-              <p className="text-sm text-slate-400">
-                Already installed? <Link href="/dashboard" className="text-indigo-400 hover:text-indigo-300 font-semibold">Open Dashboard →</Link>
-              </p>
-            </div>
-
-            {/* Social Proof & Trust Signals */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto mb-12 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <div className="text-center">
-                <div className="text-3xl font-black text-indigo-400 mb-1">2,400+</div>
-                <div className="text-sm text-slate-400">Candidates Helped</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-black text-green-400 mb-1">&lt;2s</div>
-                <div className="text-sm text-slate-400">Answer Speed</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-black text-purple-400 mb-1">15×</div>
-                <div className="text-sm text-slate-400">Cheaper</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-black text-pink-400 mb-1">100%</div>
-                <div className="text-sm text-slate-400">Invisible</div>
-              </div>
-            </div>
-
-            {/* Feature highlights */}
-            <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-slate-300 animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
-              {[
-                { icon: '🎧', text: 'System Audio Capture' },
-                { icon: '⚡', text: 'Instant AI Answers' },
-                { icon: '🥷', text: '100% Invisible' },
-                { icon: '💬', text: 'Hindi/Tamil/Telugu' },
-                { icon: '💻', text: 'HackerRank/LeetCode' },
-                { icon: '🇮🇳', text: 'Desi Mode' }
-              ].map((feature) => (
-                <div key={feature.text} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                  <span>{feature.icon}</span>
-                  <span>{feature.text}</span>
-                </div>
-              ))}
+              <span className="text-xs sm:text-sm text-slate-300"> India&apos;s #1 AI Interview Copilot · Windows &amp; Mac · 2,400+ candidates </span>
             </div>
           </div>
 
-          {/* Live Demo Mockup */}
-          <div className="mt-16 relative animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-            <div className="relative max-w-5xl mx-auto">
-              <div className="absolute inset-0 gradient-primary opacity-20 blur-3xl rounded-3xl" />
-              <div className="relative glass-heavy rounded-3xl p-2 border border-white/10">
-                {/* Window chrome */}
-                <div className="bg-slate-900 rounded-2xl overflow-hidden">
-                  <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-slate-950/50">
-                    <div className="flex gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/80" />
+          {/* Main Headline - SEO optimized */}
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-5 md:mb-6 text-center animate-fade-in-up leading-[0.95]" style={{ animationDelay: '0.1s' }}>
+            AI Interview Copilot for
+            <br className="hidden sm:block" />
+            <span className="text-gradient animate-gradient">Zoom, Meet &amp; Teams</span>
+          </h1>
+
+          {/* Sub-headline - SEO optimized */}
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white font-bold mb-3 md:mb-4 text-center max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+            Free desktop app for Windows &amp; Mac. Invisible AI overlay that listens, understands questions, and streams answers in real-time.
+          </p>
+
+          <p className="text-base sm:text-lg text-slate-300 mb-6 md:mb-8 text-center max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Unlimited AI answers for technical, HR, system design, and coding rounds. Built for Indian interviews — supports Hindi, Tamil, Telugu and more.
+          </p>
+
+          {/* Primary CTA Section - Mobile first */}
+          <div className="mb-8 md:mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-3 md:mb-4">
+              <a
+                href="/api/download/win"
+                className="btn btn-primary btn-lg animate-pulse-glow text-base font-bold shadow-xl hover:shadow-2xl w-full sm:w-auto"
+              >
+                ⬇ Download for Windows — Free
+              </a>
+              <a
+                href="/api/download/mac"
+                className="btn btn-secondary btn-lg text-base font-bold hover:scale-105 transition-all w-full sm:w-auto"
+              >
+                ⬇ Download for Mac — Free
+              </a>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-400 text-center mb-1">
+              12 MB · No card needed · Sign in with Google after install
+            </p>
+            <p className="text-xs sm:text-sm text-slate-400 text-center">
+              Already installed? <Link href="/dashboard" className="text-indigo-400 hover:text-indigo-300 font-semibold">Open Dashboard →</Link>
+            </p>
+          </div>
+
+          {/* Social Proof & Trust Signals */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-3xl mx-auto mb-12 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="text-center p-3 md:p-4">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-black text-indigo-400 mb-1">2,400+</div>
+              <div className="text-xs sm:text-sm text-slate-400">Candidates Helped</div>
+            </div>
+            <div className="text-center p-3 md:p-4">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-black text-green-400 mb-1">&lt;2s</div>
+              <div className="text-xs sm:text-sm text-slate-400">AI Answer Speed</div>
+            </div>
+            <div className="text-center p-3 md:p-4">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-black text-purple-400 mb-1">15×</div>
+              <div className="text-xs sm:text-sm text-slate-400">Cheaper than FR AI</div>
+            </div>
+            <div className="text-center p-3 md:p-4">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-black text-pink-400 mb-1">100%</div>
+              <div className="text-xs sm:text-sm text-slate-400">Invisible on Screen</div>
+            </div>
+          </div>
+
+          {/* Feature highlights */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 text-xs sm:text-sm text-slate-300 animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
+            {[
+              { icon: '🎧', text: 'System Audio' },
+              { icon: '⚡', text: 'Instant Answers' },
+              { icon: '🥷', text: 'Stealth Mode' },
+              { icon: '💬', text: 'Indian Languages' },
+              { icon: '💻', text: 'HackerRank/LeetCode' },
+              { icon: '🇮🇳', text: 'Desi Mode' }
+            ].map((feature) => (
+              <div key={feature.text} className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                <span>{feature.icon}</span>
+                <span>{feature.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Live Demo Mockup */}
+        <div className="mt-12 md:mt-16 relative animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
+            <div className="absolute inset-0 gradient-primary opacity-20 blur-3xl rounded-3xl" />
+            <div className="relative glass-heavy rounded-2xl sm:rounded-3xl p-1.5 sm:p-2 border border-white/10">
+              {/* Window chrome */}
+              <div className="bg-slate-900 rounded-xl sm:rounded-2xl overflow-hidden">
+                <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 border-b border-white/5 bg-slate-950/50">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80" />
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80" />
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80" />
+                  </div>
+                  <div className="text-[10px] sm:text-xs text-slate-500 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
+                    JavihAI · Live Session · Hidden from screen capture
+                  </div>
+                  <div className="text-[10px] sm:text-xs text-slate-600 flex items-center gap-1.5">
+                    <span>{appVersion}</span>
+                    {isNewRelease && (
+                      <a href="/install" className="text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25">
+                        🎉 New
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
+                  {/* Left: question panel */}
+                  <div className="md:col-span-2 p-4 sm:p-6 border-r border-white/5">
+                    <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                      <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+                      <span className="text-[10px] sm:text-xs text-slate-400 font-medium">System Audio · Auto-detected question</span>
                     </div>
-                    <div className="text-xs text-slate-500 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                      JavihAI · Live Session · Hidden from screen capture
+                    <div className="text-sm sm:text-base font-semibold text-white leading-relaxed min-h-[60px] sm:min-h-[72px]">
+                      {typedQ}<span className="animate-pulse text-indigo-400">|</span>
                     </div>
-                    <div className="text-xs text-slate-600 flex items-center gap-1.5">
-                      <span>{appVersion}</span>
-                      {isNewRelease && (
-                        <a href="/install" className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25">
-                          🎉 New
-                        </a>
-                      )}
+                    <div className="mt-3 sm:mt-4 flex gap-1.5 sm:gap-2 flex-wrap">
+                      <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-indigo-500/20 text-indigo-300">System Design</span>
+                      <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-slate-700/50 text-slate-400">SDE-2 Round</span>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
-                    {/* Left: question panel */}
-                    <div className="md:col-span-2 p-6 border-r border-white/5">
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-                        <span className="text-xs text-slate-400 font-medium">System Audio · Auto-detected question</span>
-                      </div>
-                      <div className="text-base font-semibold text-white leading-relaxed min-h-[72px]">
-                        {typedQ}<span className="animate-pulse text-indigo-400">|</span>
-                      </div>
-                      <div className="mt-4 flex gap-2 flex-wrap">
-                        <span className="text-xs px-2 py-1 rounded-md bg-indigo-500/20 text-indigo-300">System Design</span>
-                        <span className="text-xs px-2 py-1 rounded-md bg-slate-700/50 text-slate-400">SDE-2 Round</span>
-                      </div>
+                  {/* Right: AI answer stream */}
+                  <div className="md:col-span-3 p-4 sm:p-6 bg-slate-950/30">
+                    <div className="text-[10px] sm:text-xs text-slate-400 mb-2 sm:mb-3 flex items-center gap-2">
+                      <span className="animate-pulse text-indigo-400 text-base">●</span>
+                      <span className="font-medium text-slate-300">JavihAI answer</span>
+                      <span className="ml-auto text-green-400">✓ 1.4s</span>
                     </div>
-
-                    {/* Right: AI answer stream */}
-                    <div className="md:col-span-3 p-6 bg-slate-950/30">
-                      <div className="text-xs text-slate-400 mb-3 flex items-center gap-2">
-                        <span className="animate-pulse text-indigo-400 text-base">●</span>
-                        <span className="font-medium text-slate-300">JavihAI answer</span>
-                        <span className="ml-auto text-green-400">✓ 1.4s</span>
-                      </div>
-                      <div className="space-y-2 text-sm text-slate-300 leading-relaxed">
-                        <div><span className="text-indigo-400 font-bold">1. Load Balancer</span> — Route to regional clusters (Mumbai, Delhi, Hyderabad) to reduce latency for Indian users by 40%.</div>
-                        <div><span className="text-indigo-400 font-bold">2. Pub/Sub Queue</span> — Kafka topics per notification type; consumers fan out to FCM (Android), APNs (iOS), SMS (Twilio).</div>
-                        <div><span className="text-indigo-400 font-bold">3. Rate Limiting</span> — Token bucket per user to avoid spam. Global limit: 10M notifs/min during IPL or election surges.</div>
-                        <div><span className="text-indigo-400 font-bold">4. Deduplication</span> — Redis set with 24h TTL to prevent duplicate sends on retry.</div>
-                        <div className="text-slate-500 text-xs pt-1 flex items-center gap-2">
-                          <span className="text-yellow-400">★</span> Tailored for Indian scale · invisible to interviewer
-                        </div>
+                    <div className="space-y-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                      <div><span className="text-indigo-400 font-bold">1. Load Balancer</span> — Route to regional clusters (Mumbai, Delhi, Hyderabad) to reduce latency for Indian users by 40%.</div>
+                      <div><span className="text-indigo-400 font-bold">2. Pub/Sub Queue</span> — Kafka topics per notification type; consumers fan out to FCM (Android), APNs (iOS), SMS (Twilio).</div>
+                      <div><span className="text-indigo-400 font-bold">3. Rate Limiting</span> — Token bucket per user to avoid spam. Global limit: 10M notifs/min during IPL or election surges.</div>
+                      <div><span className="text-indigo-400 font-bold">4. Deduplication</span> — Redis set with 24h TTL to prevent duplicate sends on retry.</div>
+                      <div className="text-slate-500 text-[10px] sm:text-xs pt-1 flex items-center gap-2">
+                        <span className="text-yellow-400">★</span> Tailored for Indian scale · invisible to interviewer
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Floating badges */}
-              <div className="absolute -top-4 -right-4 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30 text-xs text-green-400 font-semibold backdrop-blur-sm">
-                🥷 Invisible to Zoom
-              </div>
-              <div className="absolute -bottom-4 -left-4 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-xs text-indigo-300 font-semibold backdrop-blur-sm">
-                ⚡ Answer in 1.4s
-              </div>
+            {/* Floating badges */}
+            <div className="absolute -top-3 sm:-top-4 -right-3 sm:-right-4 hidden md:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-green-500/20 border border-green-500/30 text-[10px] sm:text-xs text-green-400 font-semibold backdrop-blur-sm">
+              🥷 Invisible to Zoom
+            </div>
+            <div className="absolute -bottom-3 sm:-bottom-4 -left-3 sm:-left-4 hidden md:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-[10px] sm:text-xs text-indigo-300 font-semibold backdrop-blur-sm">
+              ⚡ Answer in 1.4s
             </div>
           </div>
         </div>
