@@ -8,7 +8,6 @@
 // fresh enough that a new release shows up site-wide without a deploy.
 
 const REPO = 'smartjaganrao/ai-interview-helper';
-const REVALIDATE_SECONDS = 600;
 
 export interface LatestRelease {
   version: string;       // e.g. "v1.8.1"
@@ -43,14 +42,11 @@ export async function getLatestReleaseRaw(): Promise<GithubRelease | null> {
   const token = process.env.GITHUB_TOKEN;
   try {
     const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
+      noStore: true,
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         Accept: 'application/vnd.github+json',
       },
-      // Use local fetch retries instead of hard Next.js cache so deploy/CI
-      // pipelines and serverless runtimes don't hand back stale 404s after
-      // transient GitHub hiccups.
-      next: { revalidate: REVALIDATE_SECONDS },
     });
 
     if (!res.ok) {
@@ -87,4 +83,3 @@ export async function getLatestRelease(): Promise<LatestRelease> {
     publishedAt: release.published_at,
   };
 }
-// redeploy Thu Jul 23 23:27:23 IST 2026
