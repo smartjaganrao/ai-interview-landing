@@ -39,13 +39,7 @@ export async function GET(
     return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
   }
 
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) {
-    return NextResponse.json({ error: 'Download not configured' }, { status: 503 });
-  }
-
-  // Always whatever's actually tagged "latest" on GitHub — no version string
-  // to keep in sync here, so a new release just works the moment it's published.
+  // Always use the live GitHub release so this never drifts.
   const release = await getLatestReleaseRaw();
   if (!release) {
     return NextResponse.json({ error: 'Release not found' }, { status: 404 });
@@ -58,9 +52,15 @@ export async function GET(
 
   logDownload(req, platform, release.tag_name);
 
-  // Stream the binary directly to the user via the authenticated assets API
-  // (the plain browser_download_url 401s on a private repo for unauthenticated
-  // clients, so we proxy it through here with the server-side token).
+  const token = process.env.GITHUB_TOKEN;
+
+  // If we have a token, proxy the binary download through the authenticated
+  // assets API so private-repo downloads work too.
+  // If no token is configured, fall back to a public browser download.
+  if (!token) {
+    return NextResponse.redirect(found.browser_download_url, 302);
+  }
+
   const assetRes = await fetch(
     `https://api.github.com/repos/${REPO}/releases/assets/${found.id}`,
     { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
