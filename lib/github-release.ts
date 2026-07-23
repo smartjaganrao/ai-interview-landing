@@ -87,3 +87,4 @@ export async function getLatestRelease(): Promise<LatestRelease> {
     publishedAt: release.published_at,
   };
 }
+// redeploy Thu Jul 23 23:27:23 IST 2026
