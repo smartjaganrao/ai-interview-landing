@@ -34,7 +34,7 @@ function logDownload(req: NextRequest, platform: string, version: string) {
 function pickAssetName(release: Awaited<ReturnType<typeof getLatestReleaseRaw>>, platform: string, ext: string): string | null {
   if (!release?.assets?.length) return null;
   if (platform === 'mac') {
-    const preferred = release.assets.find((a) => a.name.includes(MAC_PREFERRED_SUBSTRING));
+    const preferred = release.assets.find((a) => a.name.includes(MAC_PREFERRED_SUBSTRING) && !a.name.endsWith('.blockmap'));
     if (preferred) return preferred.name;
   }
   const found = release.assets.find((a) => a.name.endsWith(ext));
