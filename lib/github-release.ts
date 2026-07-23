@@ -76,14 +76,14 @@ export async function getLatestRelease(): Promise<LatestRelease> {
   const release = await getLatestReleaseRaw();
   if (!release) return FALLBACK;
 
-  const mac = release.assets.find((a) => a.name.endsWith('.dmg'));
-  const win = release.assets.find((a) => a.name.endsWith('.exe'));
+  const toDirectUrl = (assetName: string) =>
+    `https://github.com/${REPO}/releases/download/${release.tag_name}/${assetName}`;
 
   return {
     version: release.tag_name,
     releaseUrl: release.html_url,
-    macUrl: mac?.browser_download_url ?? null,
-    winUrl: win?.browser_download_url ?? null,
+    macUrl: toDirectUrl(release.assets.find((a) => a.name.endsWith('.dmg'))?.name ?? ''),
+    winUrl: toDirectUrl(release.assets.find((a) => a.name.endsWith('.exe'))?.name ?? ''),
     publishedAt: release.published_at,
   };
 }

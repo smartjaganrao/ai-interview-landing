@@ -31,14 +31,18 @@ function logDownload(req: NextRequest, platform: string, version: string) {
   }).catch(() => { /* never block the download */ });
 }
 
-function pickAsset(release: Awaited<ReturnType<typeof getLatestReleaseRaw>>, platform: string, ext: string) {
+function pickAssetName(release: Awaited<ReturnType<typeof getLatestReleaseRaw>>, platform: string, ext: string): string | null {
   if (!release?.assets?.length) return null;
   if (platform === 'mac') {
     const preferred = release.assets.find((a) => a.name === MAC_PREFERRED);
-    if (preferred) return preferred;
+    if (preferred) return preferred.name;
   }
   const found = release.assets.find((a) => a.name.endsWith(ext));
-  return found ?? null;
+  return found?.name ?? null;
+}
+
+function buildDirectUrl(tag: string, assetName: string) {
+  return `https://github.com/${REPO}/releases/download/${tag}/${assetName}`;
 }
 
 export async function GET(
@@ -51,27 +55,25 @@ export async function GET(
     return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
   }
 
-  // Always use the live GitHub release so this never drifts.
+  // Preferred path: use the mapped direct URLs from getLatestRelease(), which
+  // are constructed from the release tag + asset filename and never depend on
+  // GitHub's `browser_download_url` field. This avoids repo-page fallbacks.
+  const mapped = await getLatestRelease();
+  const directUrl = platform === 'mac' ? mapped.macUrl : mapped.winUrl;
+  if (directUrl) {
+    logDownload(req, platform, mapped.version);
+    return NextResponse.redirect(directUrl, 302);
+  }
+
+  // Fallback: if the mapped URL is missing, try the raw API for an
+  // authenticated proxy download.
   const release = await getLatestReleaseRaw();
   if (!release) {
-    // Fallback: getLatestRelease() already maps the direct asset URLs from the
-    // latest release. Use those so the user still gets a direct-file download
-    // instead of being sent to the GitHub releases page.
-    const mapped = await getLatestRelease();
-    const fallbackUrl = platform === 'mac' ? mapped.macUrl : mapped.winUrl;
-    if (fallbackUrl) {
-      return NextResponse.redirect(fallbackUrl, 302);
-    }
     return NextResponse.redirect(LATEST_RELEASE_URL, 302);
   }
 
-  const found = pickAsset(release, platform, ext);
-  if (!found) {
-    const mapped = await getLatestRelease();
-    const fallbackUrl = platform === 'mac' ? mapped.macUrl : mapped.winUrl;
-    if (fallbackUrl) {
-      return NextResponse.redirect(fallbackUrl, 302);
-    }
+  const assetName = pickAssetName(release, platform, ext);
+  if (!assetName) {
     return NextResponse.redirect(LATEST_RELEASE_URL, 302);
   }
 
@@ -83,22 +85,27 @@ export async function GET(
   // assets API so private-repo downloads work too.
   // If no token is configured, fall back to a public browser download.
   if (!token) {
-    return NextResponse.redirect(found.browser_download_url, 302);
+    return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
+  }
+
+  const assetMatch = release.assets.find((a) => a.name === assetName);
+  if (!assetMatch) {
+    return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
   }
 
   const assetRes = await fetch(
-    `https://api.github.com/repos/${REPO}/releases/assets/${found.id}`,
+    `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
     { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
   );
 
   if (!assetRes.ok || !assetRes.body) {
-    return NextResponse.redirect(found.browser_download_url, 302);
+    return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
   }
 
   return new Response(assetRes.body, {
     headers: {
       'Content-Type': 'application/octet-stream',
-      'Content-Disposition': `attachment; filename="${found.name}"`,
+      'Content-Disposition': `attachment; filename="${assetName}"`,
     },
   });
 }
