@@ -8,6 +8,7 @@
 // fresh enough that a new release shows up site-wide without a deploy.
 
 const REPO = 'smartjaganrao/ai-interview-helper';
+const REVALIDATE_SECONDS = 600;
 
 export interface LatestRelease {
   version: string;       // e.g. "v1.8.1"
@@ -41,21 +42,42 @@ interface GithubRelease {
 export async function getLatestReleaseRaw(): Promise<GithubRelease | null> {
   const token = process.env.GITHUB_TOKEN;
   try {
-    const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
+    const latestRes = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         Accept: 'application/vnd.github+json',
       },
-      next: { revalidate: 0 },
+      next: { revalidate: REVALIDATE_SECONDS },
     });
 
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      console.error(`[github-release] non-ok status=${res.status} body=${text.slice(0, 200)}`);
+    if (!latestRes.ok) {
+      const text = await latestRes.text().catch(() => '');
+      console.error(`[github-release] non-ok status=${latestRes.status} body=${text.slice(0, 200)}`);
       return null;
     }
 
-    const json = (await res.json()) as GithubRelease;
+    const latestJson = await latestRes.json() as { tag_name?: string };
+    const tag = latestJson.tag_name;
+    if (!tag) {
+      console.error('[github-release] missing tag_name in latest release');
+      return null;
+    }
+
+    const taggedRes = await fetch(`https://api.github.com/repos/${REPO}/releases/tags/${encodeURIComponent(tag)}`, {
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        Accept: 'application/vnd.github+json',
+      },
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
+
+    if (!taggedRes.ok) {
+      const text = await taggedRes.text().catch(() => '');
+      console.error(`[github-release] tag fetch non-ok status=${taggedRes.status} body=${text.slice(0, 200)}`);
+      return null;
+    }
+
+    const json = (await taggedRes.json()) as GithubRelease;
     if (!json?.tag_name || !Array.isArray(json.assets)) {
       console.error('[github-release] malformed release payload');
       return null;

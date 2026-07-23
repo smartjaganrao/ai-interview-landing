@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
+import { getLatestReleaseRaw } from '@/lib/github-release';
 
 export const maxDuration = 300;
 
@@ -42,48 +43,39 @@ export async function GET(
     return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
   }
 
-  const token = process.env.GITHUB_TOKEN;
-  const ghRes = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
-    headers: {
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      Accept: 'application/vnd.github+json',
-    },
-  });
+  const release = await getLatestReleaseRaw();
+  if (release) {
+    const assetName = platform === 'mac'
+      ? release.assets.find((a) => a.name.includes(MAC_PREFERRED_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name
+      : release.assets.find((a) => a.name.endsWith(ext))?.name;
 
-  if (!ghRes.ok) {
-    return NextResponse.redirect(LATEST_RELEASE_URL, 302);
-  }
+    if (assetName) {
+      const token = process.env.GITHUB_TOKEN;
+      const assetMatch = release.assets.find((a) => a.name === assetName);
 
-  const release = (await ghRes.json()) as { tag_name: string; assets: { name: string; id: number }[] };
-  const assetName = platform === 'mac'
-    ? release.assets.find((a) => a.name.includes(MAC_PREFERRED_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name
-    : release.assets.find((a) => a.name.endsWith(ext))?.name;
+      if (token && assetMatch) {
+        logDownload(req, platform, release.tag_name);
+        const assetRes = await fetch(
+          `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
+          { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
+        );
 
-  if (!assetName) {
-    return NextResponse.redirect(LATEST_RELEASE_URL, 302);
-  }
+        if (assetRes.ok && assetRes.body) {
+          return new Response(assetRes.body, {
+            headers: {
+              'Content-Type': 'application/octet-stream',
+              'Content-Disposition': `attachment; filename="${assetName}"`,
+            },
+          });
+        }
 
-  const assetMatch = release.assets.find((a) => a.name === assetName);
+        console.error(`[download] authenticated proxy failed status=${assetRes.status}`);
+      }
 
-  if (token && assetMatch) {
-    logDownload(req, platform, release.tag_name);
-    const assetRes = await fetch(
-      `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
-      { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
-    );
-
-    if (assetRes.ok && assetRes.body) {
-      return new Response(assetRes.body, {
-        headers: {
-          'Content-Type': 'application/octet-stream',
-          'Content-Disposition': `attachment; filename="${assetName}"`,
-        },
-      });
+      logDownload(req, platform, release.tag_name);
+      return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
     }
-
-    console.error(`[download] authenticated proxy failed status=${assetRes.status}`);
   }
 
-  logDownload(req, platform, release.tag_name);
-  return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
+  return NextResponse.redirect(LATEST_RELEASE_URL, 302);
 }
