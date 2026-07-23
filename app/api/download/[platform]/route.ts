@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
-import { getLatestReleaseRaw } from '@/lib/github-release';
+import { getLatestRelease, getLatestReleaseRaw } from '@/lib/github-release';
 
 // Increase Vercel function timeout to 5 minutes so large binaries (100+ MB) can
 // stream fully before the function is killed. Requires Vercel Pro plan.
@@ -54,13 +54,24 @@ export async function GET(
   // Always use the live GitHub release so this never drifts.
   const release = await getLatestReleaseRaw();
   if (!release) {
-    // Don't hard-fail the user on transient GitHub/API issues; send them to
-    // the GitHub releases page where they can manually grab the right file.
+    // Fallback: getLatestRelease() already maps the direct asset URLs from the
+    // latest release. Use those so the user still gets a direct-file download
+    // instead of being sent to the GitHub releases page.
+    const mapped = await getLatestRelease();
+    const fallbackUrl = platform === 'mac' ? mapped.macUrl : mapped.winUrl;
+    if (fallbackUrl) {
+      return NextResponse.redirect(fallbackUrl, 302);
+    }
     return NextResponse.redirect(LATEST_RELEASE_URL, 302);
   }
 
   const found = pickAsset(release, platform, ext);
   if (!found) {
+    const mapped = await getLatestRelease();
+    const fallbackUrl = platform === 'mac' ? mapped.macUrl : mapped.winUrl;
+    if (fallbackUrl) {
+      return NextResponse.redirect(fallbackUrl, 302);
+    }
     return NextResponse.redirect(LATEST_RELEASE_URL, 302);
   }
 
