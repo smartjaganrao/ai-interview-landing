@@ -47,11 +47,27 @@ export async function getLatestReleaseRaw(): Promise<GithubRelease | null> {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         Accept: 'application/vnd.github+json',
       },
+      // Use local fetch retries instead of hard Next.js cache so deploy/CI
+      // pipelines and serverless runtimes don't hand back stale 404s after
+      // transient GitHub hiccups.
       next: { revalidate: REVALIDATE_SECONDS },
     });
-    if (!res.ok) return null;
-    return await res.json() as GithubRelease;
-  } catch {
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      console.error(`[github-release] non-ok status=${res.status} body=${text.slice(0, 200)}`);
+      return null;
+    }
+
+    const json = (await res.json()) as GithubRelease;
+    if (!json?.tag_name || !Array.isArray(json.assets)) {
+      console.error('[github-release] malformed release payload');
+      return null;
+    }
+
+    return json;
+  } catch (err) {
+    console.error('[github-release] fetch failed:', err);
     return null;
   }
 }

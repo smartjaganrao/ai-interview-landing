@@ -8,6 +8,8 @@ export const maxDuration = 300;
 
 const REPO = 'smartjaganrao/ai-interview-helper';
 const EXT: Record<string, string> = { win: '.exe', mac: '.dmg' };
+const MAC_PREFERRED = 'mac-universal.dmg';
+const LATEST_RELEASE_URL = `https://github.com/${REPO}/releases/latest`;
 
 /**
  * Records a download attempt to `download_events` so the admin App-Usage funnel
@@ -29,6 +31,16 @@ function logDownload(req: NextRequest, platform: string, version: string) {
   }).catch(() => { /* never block the download */ });
 }
 
+function pickAsset(release: Awaited<ReturnType<typeof getLatestReleaseRaw>>, platform: string, ext: string) {
+  if (!release?.assets?.length) return null;
+  if (platform === 'mac') {
+    const preferred = release.assets.find((a) => a.name === MAC_PREFERRED);
+    if (preferred) return preferred;
+  }
+  const found = release.assets.find((a) => a.name.endsWith(ext));
+  return found ?? null;
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ platform: string }> }
@@ -42,12 +54,14 @@ export async function GET(
   // Always use the live GitHub release so this never drifts.
   const release = await getLatestReleaseRaw();
   if (!release) {
-    return NextResponse.json({ error: 'Release not found' }, { status: 404 });
+    // Don't hard-fail the user on transient GitHub/API issues; send them to
+    // the GitHub releases page where they can manually grab the right file.
+    return NextResponse.redirect(LATEST_RELEASE_URL, 302);
   }
 
-  const found = release.assets.find((a) => a.name.endsWith(ext));
+  const found = pickAsset(release, platform, ext);
   if (!found) {
-    return NextResponse.json({ error: 'Asset not found' }, { status: 404 });
+    return NextResponse.redirect(LATEST_RELEASE_URL, 302);
   }
 
   logDownload(req, platform, release.tag_name);
@@ -67,7 +81,7 @@ export async function GET(
   );
 
   if (!assetRes.ok || !assetRes.body) {
-    return NextResponse.json({ error: 'Download failed' }, { status: 502 });
+    return NextResponse.redirect(found.browser_download_url, 302);
   }
 
   return new Response(assetRes.body, {
