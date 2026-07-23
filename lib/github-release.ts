@@ -42,11 +42,11 @@ export async function getLatestReleaseRaw(): Promise<GithubRelease | null> {
   const token = process.env.GITHUB_TOKEN;
   try {
     const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
-      noStore: true,
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         Accept: 'application/vnd.github+json',
       },
+      next: { revalidate: 0 },
     });
 
     if (!res.ok) {
