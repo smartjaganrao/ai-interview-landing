@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
-import { getLatestRelease, getLatestReleaseRaw } from '@/lib/github-release';
+import { getLatestReleaseRaw } from '@/lib/github-release';
 
 // Increase Vercel function timeout to 5 minutes so large binaries (100+ MB) can
 // stream fully before the function is killed. Requires Vercel Pro plan.
@@ -8,7 +8,7 @@ export const maxDuration = 300;
 
 const REPO = 'smartjaganrao/ai-interview-helper';
 const EXT: Record<string, string> = { win: '.exe', mac: '.dmg' };
-const MAC_PREFERRED = 'mac-universal.dmg';
+const MAC_PREFERRED_SUBSTRING = 'mac-universal.dmg';
 const LATEST_RELEASE_URL = `https://github.com/${REPO}/releases/latest`;
 
 /**
@@ -34,7 +34,7 @@ function logDownload(req: NextRequest, platform: string, version: string) {
 function pickAssetName(release: Awaited<ReturnType<typeof getLatestReleaseRaw>>, platform: string, ext: string): string | null {
   if (!release?.assets?.length) return null;
   if (platform === 'mac') {
-    const preferred = release.assets.find((a) => a.name === MAC_PREFERRED);
+    const preferred = release.assets.find((a) => a.name.includes(MAC_PREFERRED_SUBSTRING));
     if (preferred) return preferred.name;
   }
   const found = release.assets.find((a) => a.name.endsWith(ext));
@@ -55,57 +55,36 @@ export async function GET(
     return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
   }
 
-  // Preferred path: use the mapped direct URLs from getLatestRelease(), which
-  // are constructed from the release tag + asset filename and never depend on
-  // GitHub's `browser_download_url` field. This avoids repo-page fallbacks.
-  const mapped = await getLatestRelease();
-  const directUrl = platform === 'mac' ? mapped.macUrl : mapped.winUrl;
-  if (directUrl) {
-    logDownload(req, platform, mapped.version);
-    return NextResponse.redirect(directUrl, 302);
-  }
-
-  // Fallback: if the mapped URL is missing, try the raw API for an
-  // authenticated proxy download.
   const release = await getLatestReleaseRaw();
-  if (!release) {
-    return NextResponse.redirect(LATEST_RELEASE_URL, 302);
+  if (release) {
+    const assetName = pickAssetName(release, platform, ext);
+    if (assetName) {
+      const token = process.env.GITHUB_TOKEN;
+      const assetMatch = release.assets.find((a) => a.name === assetName);
+
+      if (token && assetMatch) {
+        logDownload(req, platform, release.tag_name);
+        const assetRes = await fetch(
+          `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
+          { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
+        );
+
+        if (assetRes.ok && assetRes.body) {
+          return new Response(assetRes.body, {
+            headers: {
+              'Content-Type': 'application/octet-stream',
+              'Content-Disposition': `attachment; filename="${assetName}"`,
+            },
+          });
+        }
+
+        console.error(`[download] authenticated proxy failed status=${assetRes.status}`);
+      }
+
+      logDownload(req, platform, release.tag_name);
+      return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
+    }
   }
 
-  const assetName = pickAssetName(release, platform, ext);
-  if (!assetName) {
-    return NextResponse.redirect(LATEST_RELEASE_URL, 302);
-  }
-
-  logDownload(req, platform, release.tag_name);
-
-  const token = process.env.GITHUB_TOKEN;
-
-  // If we have a token, proxy the binary download through the authenticated
-  // assets API so private-repo downloads work too.
-  // If no token is configured, fall back to a public browser download.
-  if (!token) {
-    return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
-  }
-
-  const assetMatch = release.assets.find((a) => a.name === assetName);
-  if (!assetMatch) {
-    return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
-  }
-
-  const assetRes = await fetch(
-    `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
-    { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
-  );
-
-  if (!assetRes.ok || !assetRes.body) {
-    return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
-  }
-
-  return new Response(assetRes.body, {
-    headers: {
-      'Content-Type': 'application/octet-stream',
-      'Content-Disposition': `attachment; filename="${assetName}"`,
-    },
-  });
+  return NextResponse.redirect(LATEST_RELEASE_URL, 302);
 }
