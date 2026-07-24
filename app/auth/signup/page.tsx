@@ -139,7 +139,7 @@ function SignupContent() {
 
           <div className="space-y-5">
             {[
-              { icon: '🎯', title: 'Free Forever Plan', desc: '10 AI answers per day, no credit card required' },
+              { icon: '🎯', title: 'Free Forever Plan', desc: '3 AI answers per day, no credit card required' },
               { icon: '🚀', title: 'Setup in 30 Seconds', desc: 'Sign up with Google, download app, start practicing' },
               { icon: '🔒', title: 'Private & Secure', desc: 'Your data is encrypted end-to-end' },
             ].map((item, i) => (
