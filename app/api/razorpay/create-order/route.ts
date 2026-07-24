@@ -28,16 +28,21 @@ export async function POST(request: NextRequest) {
       idToken?: string;
     };
 
-    if (plan !== 'pro' && plan !== 'power') {
+    if (plan !== 'starter' && plan !== 'standard' && plan !== 'pro' && plan !== 'power') {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     }
-    if (billing !== 'monthly' && billing !== 'yearly') {
+    if (billing !== 'one-time' && billing !== 'monthly' && billing !== 'yearly') {
       return NextResponse.json({ error: 'Invalid billing cycle' }, { status: 400 });
     }
 
+    const isOneTime = billing === 'one-time';
+
     // Base price from admin-managed pricing, then apply any active offer.
     const pricing = await getDynamicPricing();
-    const baseAmount = pricing.plans[plan][billing];
+    const planPricing = pricing.plans[plan];
+    const baseAmount = isOneTime
+      ? (planPricing as { oneTime: number }).oneTime
+      : (planPricing as { monthly?: number; yearly?: number })[billing] ?? 0;
     const amountInRupees = effectiveAmount(baseAmount, pricing.offer, plan);
     const offerOn = offerApplies(pricing.offer, plan);
 
@@ -56,6 +61,8 @@ export async function POST(request: NextRequest) {
     const finalRupees = amountInRupees - appliedCredit;
     const amountInPaise = finalRupees * 100;
 
+    const hoursMap: Record<string, number> = { starter: 1, standard: 4, pro: 0, power: 0 };
+
     const order = await razorpay.orders.create({
       amount: amountInPaise,
       currency: 'INR',
@@ -63,6 +70,8 @@ export async function POST(request: NextRequest) {
       notes: {
         plan,
         billing,
+        planType: isOneTime ? 'one-time' : 'subscription',
+        ...(isOneTime ? { hoursPurchased: String(hoursMap[plan] ?? 0) } : {}),
         ...(payerUid ? { userId: payerUid } : {}),
         appliedCredit: String(appliedCredit),
         ...(offerOn ? { offer: pricing.offer.label || `${pricing.offer.percentOff}% off` } : {}),

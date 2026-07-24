@@ -66,32 +66,36 @@ export async function POST(request: NextRequest) {
 
         const notes = payment.notes ?? {};
         const userId = notes.userId;
-        const plan = notes.plan as 'pro' | 'power' | undefined;
-        const billing = notes.billing as 'monthly' | 'yearly' | undefined;
+        const plan = notes.plan as 'starter' | 'standard' | 'pro' | 'power' | undefined;
+        const billing = notes.billing as 'monthly' | 'yearly' | 'one-time' | undefined;
 
         if (userId && plan && billing) {
           const amount = payment.amount ? Math.round(payment.amount / 100) : 0;
-          const renewalDate = Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
+          const isOneTime = billing === 'one-time';
+          const hoursPurchased = isOneTime ? Number(notes.hoursPurchased ?? 0) : 0;
+          const hoursRemaining = isOneTime ? hoursPurchased : 0;
+          const expiresAt = isOneTime ? Date.now() + 7 * 24 * 60 * 60 * 1000 : null;
+          const renewalDate = !isOneTime ? Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000) : null;
+
           const saved = await persistSubscription({
             userId, plan, billing, amount,
             paymentId: payment.id,
             orderId: payment.order_id ?? '',
             source: 'webhook',
+            hoursPurchased: isOneTime ? hoursPurchased : undefined,
+            hoursRemaining: isOneTime ? hoursRemaining : undefined,
+            expiresAt,
           });
           console.log('[razorpay/webhook] payment.captured → Firestore write:', saved ? 'ok' : 'skipped (no Admin SDK)');
 
           // Referral + creator reconciliation (awaited + idempotent —
           // verify-payment may have already done this; both paths are safe).
           try {
-            // Same defense-in-depth clamp as verify-payment — appliedCredit
-            // comes from our own order notes, not client input, but this
-            // guards against ever redeeming more credit than was charged.
             const applied = Math.min(Number(notes.appliedCredit ?? 0) || 0, amount);
             if (applied > 0 && payment.order_id) {
               await redeemCreditForOrder(userId, payment.order_id, applied);
             }
             await rewardReferrerOnPayment(userId, payment.order_id ?? '', payment.id);
-            // Creator commission on actual amount captured (paise → ₹)
             const grossPaid = payment.amount ? Math.round(payment.amount / 100) : amount;
             await accrueCreatorCommission(userId, payment.id, payment.order_id ?? '', grossPaid);
           } catch (e) {
@@ -105,11 +109,11 @@ export async function POST(request: NextRequest) {
               await sendPaymentConfirmation({
                 email: info.email,
                 name: info.name,
-                plan: plan as 'pro' | 'power',
-                billing: billing as 'monthly' | 'yearly',
+                plan: plan as 'starter' | 'standard' | 'pro' | 'power',
+                billing: billing as 'monthly' | 'yearly' | 'one-time',
                 amount,
                 paymentId: payment.id,
-                renewalDate,
+                renewalDate: renewalDate ?? Date.now(),
               });
             }
           } catch (e) {

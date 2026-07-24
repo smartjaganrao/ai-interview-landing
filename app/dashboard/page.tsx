@@ -13,7 +13,7 @@ import CompleteProfileModal, { shouldShowProfilePrompt } from '@/components/Comp
 interface UserData {
   email: string;
   name: string;
-  plan: 'free' | 'pro' | 'power';
+  plan: 'free' | 'starter' | 'standard' | 'pro' | 'power';
   createdAt: number;
   phone?: string;
   experienceLevel?: string;
@@ -28,14 +28,18 @@ interface UsageData {
 }
 
 interface SubscriptionData {
-  plan: 'free' | 'pro' | 'power';
+  plan: 'free' | 'starter' | 'standard' | 'pro' | 'power';
   status: string;
-  billing?: 'monthly' | 'yearly';
+  billing?: 'monthly' | 'yearly' | 'one-time';
   amount?: number;
   startedAt?: number;
   renewalDate?: number;
   paymentId?: string;
   cancelAtPeriodEnd?: boolean;
+  planType?: 'one-time' | 'subscription';
+  hoursPurchased?: number;
+  hoursRemaining?: number;
+  expiresAt?: number;
 }
 
 interface ActivityData {
@@ -241,6 +245,8 @@ function DashboardContent() {
   const plan = userData?.plan || 'free';
   const planConfig = {
     free: { emoji: '🎯', color: 'from-slate-600 to-slate-700', label: 'Free' },
+    starter: { emoji: '🎟️', color: 'from-emerald-500 to-teal-600', label: 'Starter' },
+    standard: { emoji: '🎫', color: 'from-blue-500 to-cyan-600', label: 'Standard' },
     pro: { emoji: '🚀', color: 'from-indigo-500 to-purple-600', label: 'Pro' },
     power: { emoji: '⚡', color: 'from-purple-600 to-pink-600', label: 'Power' },
   };
@@ -324,11 +330,22 @@ function DashboardContent() {
                   <div className="text-sm text-slate-400">
                     {plan === 'free' ? 'Upgrade to unlock unlimited' : 'Premium features active'}
                   </div>
+                  {subData?.planType === 'one-time' && subData.hoursRemaining !== undefined && (
+                    <div className="text-xs text-indigo-300 mt-1">
+                      {subData.hoursRemaining > 0
+                        ? `${subData.hoursRemaining.toFixed(1)} hour${subData.hoursRemaining !== 1 ? 's' : ''} remaining`
+                        : 'Hours exhausted — upgrade for more'}
+                    </div>
+                  )}
                 </div>
               </div>
               {plan === 'free' ? (
                 <Link href="/pricing" className="btn btn-primary w-full">
                   Upgrade Plan →
+                </Link>
+              ) : subData?.planType === 'one-time' && (subData.hoursRemaining ?? 0) <= 0 ? (
+                <Link href="/pricing" className="btn btn-primary w-full">
+                  Buy More Hours →
                 </Link>
               ) : (
                 <Link href="/pricing" className="btn btn-secondary w-full">

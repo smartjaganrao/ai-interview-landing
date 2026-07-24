@@ -8,10 +8,10 @@ import { doc, getDoc } from 'firebase/firestore';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const PLAN_RANK: Record<string, number> = { free: 0, pro: 1, power: 2 };
+const PLAN_RANK: Record<string, number> = { free: 0, starter: 1, standard: 2, pro: 3, power: 4 };
 
-interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'pro' | 'power'; expiresAt: number | null }
-interface Pricing { plans: { pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } }; offer: Offer }
+interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'starter' | 'standard' | 'pro' | 'power'; expiresAt: number | null }
+interface Pricing { plans: { starter: { oneTime: number }; standard: { oneTime: number }; pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } }; offer: Offer }
 
 function offerActiveFor(offer: Offer | undefined, planId: string): boolean {
   if (!offer || !offer.active || offer.percentOff <= 0 || planId === 'free') return false;
@@ -20,7 +20,7 @@ function offerActiveFor(offer: Offer | undefined, planId: string): boolean {
 }
 
 export default function PricingPage() {
-  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
+  const [billing, setBilling] = useState<'monthly' | 'yearly' | 'one-time'>('one-time');
   const [currentPlan, setCurrentPlan] = useState<string>('free');
   const [pricing, setPricing] = useState<Pricing | null>(null);
   const { user } = useAuth();
@@ -48,24 +48,32 @@ export default function PricingPage() {
       router.push('/dashboard');
       return;
     }
-    if ((PLAN_RANK[plan] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) {
+    const isOneTime = plan === 'starter' || plan === 'standard';
+    const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
+    if (!isOneTime && !currentIsOneTime && (PLAN_RANK[plan] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) {
       router.push('/dashboard');
       return;
     }
-    router.push(`/checkout?plan=${plan}&billing=${billing}`);
+    router.push(`/checkout?plan=${plan}&billing=${isOneTime ? 'one-time' : billing}`);
   };
 
   const getPlanCta = (planId: string, defaultCta: string) => {
     if (!user) return defaultCta;
     if (planId === currentPlan) return 'Current Plan';
-    if ((PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) return 'Downgrade (contact support)';
+    const isOneTime = planId === 'starter' || planId === 'standard';
+    const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
+    if (!isOneTime && !currentIsOneTime && (PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) return 'Downgrade (contact support)';
     if (currentPlan !== 'free') return `Upgrade to ${planId.charAt(0).toUpperCase() + planId.slice(1)}`;
     return defaultCta;
   };
 
   const isPlanDisabled = (planId: string) => {
     if (!user) return false;
-    return planId === currentPlan || (PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0);
+    if (planId === currentPlan) return true;
+    const isOneTime = planId === 'starter' || planId === 'standard';
+    const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
+    if (!isOneTime && !currentIsOneTime && (PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) return true;
+    return false;
   };
 
   const plans = [
@@ -73,7 +81,7 @@ export default function PricingPage() {
       id: 'free',
       name: 'Free',
       tagline: 'Try it out',
-      price: { monthly: 0, yearly: 0 },
+      price: { oneTime: 0 },
       features: [
         '10 AI answers/day',
         '5 voice minutes/day',
@@ -86,11 +94,47 @@ export default function PricingPage() {
       gradient: 'from-slate-600 to-slate-700',
     },
     {
+      id: 'starter',
+      name: 'Starter',
+      tagline: 'Best for interview day',
+      price: { oneTime: 0 },
+      features: [
+        '1 hour of interview time',
+        'Valid for 7 days',
+        'Unlimited AI answers during session',
+        'System Audio + Mic mode',
+        'Screenshot Solve',
+        'Desi Mode',
+      ],
+      cta: 'Get Starter',
+      popular: false,
+      gradient: 'from-emerald-500 to-teal-600',
+    },
+    {
+      id: 'standard',
+      name: 'Standard',
+      tagline: 'For regular interviewers',
+      price: { oneTime: 0 },
+      features: [
+        '4 hours of interview time',
+        'Valid for 7 days',
+        'Unlimited AI answers during session',
+        'System Audio + Mic mode',
+        'Screenshot Solve',
+        'Desi Mode',
+        'Priority support',
+      ],
+      cta: 'Get Standard',
+      popular: false,
+      gradient: 'from-blue-500 to-cyan-600',
+    },
+    {
       id: 'pro',
       name: 'Pro',
       tagline: 'For serious candidates',
       price: { monthly: 0, yearly: 0 },
       features: [
+        'Unlimited interview hours',
         'Unlimited AI answers',
         'Unlimited voice minutes',
         'Unlimited screenshots',
@@ -142,6 +186,16 @@ export default function PricingPage() {
             {/* Billing toggle */}
             <div className="inline-flex items-center gap-2 p-1 rounded-full glass-heavy">
               <button
+                onClick={() => setBilling('one-time')}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-smooth ${
+                  billing === 'one-time'
+                    ? 'gradient-primary text-white'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                One-time Pass
+              </button>
+              <button
                 onClick={() => setBilling('monthly')}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-smooth ${
                   billing === 'monthly'
@@ -180,18 +234,19 @@ export default function PricingPage() {
           )}
 
           {/* Pricing cards */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
             {plans.map((plan) => {
+              const isOneTime = plan.id === 'starter' || plan.id === 'standard';
               const base = plan.id === 'free'
                 ? plan.price
-                : (pricing?.plans?.[plan.id as 'pro' | 'power'] ?? plan.price);
-              const cyclePrice = billing === 'yearly' ? base.yearly : base.monthly;
+                : (pricing?.plans?.[plan.id as 'starter' | 'standard' | 'pro' | 'power'] ?? plan.price);
+              const cyclePrice = isOneTime
+                ? (base as { oneTime: number }).oneTime
+                : (billing === 'yearly' ? (base as { yearly: number }).yearly : (base as { monthly: number }).monthly);
               const offerOn = offerActiveFor(pricing?.offer, plan.id);
               const effCycle = offerOn
                 ? Math.max(1, Math.round(cyclePrice * (1 - pricing!.offer.percentOff / 100)))
                 : cyclePrice;
-              const monthlyNow = billing === 'yearly' ? Math.round(effCycle / 12) : effCycle;
-              const monthlyWas = billing === 'yearly' ? Math.round(cyclePrice / 12) : cyclePrice;
               return (
               <div
                 key={plan.id}
@@ -207,22 +262,31 @@ export default function PricingPage() {
 
                 <div className="text-center mb-6">
                   <div className={`inline-flex w-16 h-16 rounded-2xl bg-gradient-to-br ${plan.gradient} items-center justify-center text-3xl mb-4`}>
-                    {plan.id === 'free' ? '🎯' : plan.id === 'pro' ? '🚀' : '⚡'}
+                    {plan.id === 'free' ? '🎯' : plan.id === 'starter' ? '🎟️' : plan.id === 'standard' ? '🎫' : plan.id === 'pro' ? '🚀' : '⚡'}
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-1">{plan.name}</h3>
                   <p className="text-sm text-slate-400 mb-4">{plan.tagline}</p>
 
                   <div className="flex items-baseline justify-center gap-1 mb-1">
                     {offerOn && (
-                      <span className="text-2xl font-bold text-slate-500 line-through mr-1">₹{monthlyWas}</span>
+                      <span className="text-2xl font-bold text-slate-500 line-through mr-1">₹{cyclePrice}</span>
                     )}
-                    <span className="text-5xl font-black text-white">₹{monthlyNow}</span>
-                    <span className="text-slate-400">/mo</span>
+                    <span className="text-5xl font-black text-white">₹{effCycle}</span>
+                    {isOneTime ? (
+                      <span className="text-slate-400">one-time</span>
+                    ) : (
+                      <span className="text-slate-400">/mo</span>
+                    )}
                   </div>
                   {offerOn && (
                     <p className="text-xs text-green-400 font-semibold mb-1">{pricing!.offer.percentOff}% off applied</p>
                   )}
-                  {billing === 'yearly' && effCycle > 0 && (
+                  {isOneTime && (
+                    <p className="text-xs text-slate-500">
+                      {plan.id === 'starter' ? '1 hour' : '4 hours'} · 7-day validity
+                    </p>
+                  )}
+                  {billing === 'yearly' && !isOneTime && effCycle > 0 && (
                     <p className="text-xs text-slate-500">Billed ₹{effCycle} yearly</p>
                   )}
                 </div>
@@ -260,8 +324,12 @@ export default function PricingPage() {
             <h2 className="text-3xl font-bold text-center mb-8">Common Questions</h2>
             <div className="space-y-4">
               {[
+                { q: 'How does the Starter pass work?', a: 'The Starter pass gives you 1 hour of interview time for ₹99. It&apos;s valid for 7 days and is perfect for interview day prep. No subscription, no auto-renewal — just pay once and practice.' },
+                { q: 'Can I use JavihAI on Mac?', a: 'Yes! JavihAI supports both Windows and Mac (Apple Silicon M1/M2/M3 and Intel). Download the appropriate version from our download page.' },
+                { q: 'Is the overlay really invisible?', a: 'Yes. JavihAI uses OS-level APIs to exclude itself from all screen captures. The interviewer sees only your screen, not the overlay, on Zoom, Google Meet, and Microsoft Teams.' },
+                { q: 'How is JavihAI different from Final Round AI?', a: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and starts at ₹99 for a one-time pass — 15× cheaper than Final Round AI.' },
                 { q: 'Can I switch plans anytime?', a: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we&apos;ll prorate any charges.' },
-                { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan — 10 AI answers/day, forever, no credit card required. We also offer a 7-day money-back guarantee on your first paid subscription.' },
+                { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan — 10 AI answers/day, forever, no credit card required. We also offer a 7-day money-back guarantee on your first paid purchase.' },
                 { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.' },
                 { q: 'Do you offer refunds?', a: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you&apos;re not satisfied, contact support for a full refund.' },
               ].map((item, i) => (

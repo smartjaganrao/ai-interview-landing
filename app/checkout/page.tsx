@@ -8,7 +8,7 @@ import { db } from '@/lib/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import Navbar from '@/components/Navbar';
 
-const PLAN_RANK: Record<string, number> = { free: 0, pro: 1, power: 2 };
+const PLAN_RANK: Record<string, number> = { free: 0, starter: 1, standard: 2, pro: 3, power: 4 };
 
 // Razorpay Checkout is loaded from CDN at runtime; type the global for safety.
 declare global {
@@ -31,14 +31,16 @@ interface RazorpayOptions {
 }
 
 const planDetails = {
-  pro: { name: 'Pro', monthly: 0, yearly: 0, emoji: '🚀' },
-  power: { name: 'Power', monthly: 0, yearly: 0, emoji: '⚡' },
+  starter: { name: 'Starter', monthly: 0, yearly: 0, oneTime: 0, emoji: '🎟️' },
+  standard: { name: 'Standard', monthly: 0, yearly: 0, oneTime: 0, emoji: '🎫' },
+  pro: { name: 'Pro', monthly: 0, yearly: 0, oneTime: 0, emoji: '🚀' },
+  power: { name: 'Power', monthly: 0, yearly: 0, oneTime: 0, emoji: '⚡' },
 };
 
-interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'pro' | 'power'; expiresAt: number | null }
-interface Pricing { plans: { pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } }; offer: Offer }
+interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'starter' | 'standard' | 'pro' | 'power'; expiresAt: number | null }
+interface Pricing { plans: { starter: { oneTime: number }; standard: { oneTime: number }; pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } }; offer: Offer }
 
-function offerActiveFor(offer: Offer | undefined, planId: 'pro' | 'power'): boolean {
+function offerActiveFor(offer: Offer | undefined, planId: 'starter' | 'standard' | 'pro' | 'power'): boolean {
   if (!offer || !offer.active || offer.percentOff <= 0) return false;
   if (offer.expiresAt && Date.now() > offer.expiresAt) return false;
   return offer.appliesTo === 'all' || offer.appliesTo === planId;
@@ -60,8 +62,8 @@ function CheckoutContent() {
   const router = useRouter();
   const { user, loading } = useAuth();
 
-  const plan = (searchParams.get('plan') || 'pro') as 'pro' | 'power';
-  const billing = (searchParams.get('billing') || 'monthly') as 'monthly' | 'yearly';
+  const plan = (searchParams.get('plan') || 'pro') as 'starter' | 'standard' | 'pro' | 'power';
+  const billing = (searchParams.get('billing') || 'monthly') as 'monthly' | 'yearly' | 'one-time';
 
   const [step, setStep] = useState<'ready' | 'processing' | 'success' | 'error'>('ready');
   const [errorMsg, setErrorMsg] = useState('');
@@ -71,11 +73,18 @@ function CheckoutContent() {
   const [availableCredit, setAvailableCredit] = useState(0);
   const [pricing, setPricing] = useState<Pricing | null>(null);
 
+  const isOneTime = billing === 'one-time';
+
   // Price comes from admin-managed pricing (fallback to defaults), with any
   // active offer applied; the server recomputes this authoritatively at order time.
-  const basePrice = billing === 'yearly'
-    ? (pricing?.plans?.[plan]?.yearly ?? planDetails[plan].yearly)
-    : (pricing?.plans?.[plan]?.monthly ?? planDetails[plan].monthly);
+  const planPricing = pricing?.plans?.[plan];
+  const basePrice = planPricing
+    ? (isOneTime
+        ? (planPricing as { oneTime: number }).oneTime
+        : (planPricing as { monthly?: number; yearly?: number })[billing] ?? 0)
+    : (isOneTime
+        ? (planDetails[plan] as { oneTime: number }).oneTime
+        : (planDetails[plan] as { monthly?: number; yearly?: number })[billing] ?? 0);
   const offerOn = offerActiveFor(pricing?.offer, plan);
   const price = offerOn ? Math.max(1, Math.round(basePrice * (1 - pricing!.offer.percentOff / 100))) : basePrice;
 
@@ -198,12 +207,20 @@ function CheckoutContent() {
             //    is not configured on the server (FIREBASE_ADMIN_SDK_JSON missing).
             const verifyData = await verifyRes.json();
             if (!verifyData.savedToFirestore) {
-              const renewalDate = Date.now() + (billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
+              const isOneTimePlan = billing === 'one-time';
+              const hoursMap: Record<string, number> = { starter: 1, standard: 4, pro: 0, power: 0 };
+              const renewalDate = isOneTimePlan ? null : Date.now() + (billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
               await setDoc(
                 doc(db, 'subscriptions', user.uid),
                 {
                   plan, status: 'active', billing, amount: price,
-                  startedAt: Date.now(), renewalDate,
+                  planType: isOneTimePlan ? 'one-time' : 'subscription',
+                  ...(isOneTimePlan ? {
+                    hoursPurchased: hoursMap[plan] ?? 0,
+                    hoursRemaining: hoursMap[plan] ?? 0,
+                    expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
+                  } : { renewalDate }),
+                  startedAt: Date.now(),
                   paymentId: response.razorpay_payment_id,
                   orderId: response.razorpay_order_id,
                 },
@@ -291,7 +308,12 @@ function CheckoutContent() {
 
           {/* Downgrade attempt */}
           {step === 'ready' && subCheckDone && currentPlan !== null && currentPlan !== plan &&
-           (PLAN_RANK[plan] ?? 0) < (PLAN_RANK[currentPlan] ?? 0) && (
+           (() => {
+             const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
+             const nextIsOneTime = plan === 'starter' || plan === 'standard';
+             if (currentIsOneTime || nextIsOneTime) return false;
+             return (PLAN_RANK[plan] ?? 0) < (PLAN_RANK[currentPlan] ?? 0);
+           })() && (
             <div className="max-w-2xl mx-auto card text-center">
               <div className="text-5xl mb-4">⬇️</div>
               <h2 className="text-2xl font-black mb-2">This is a downgrade</h2>
@@ -308,7 +330,12 @@ function CheckoutContent() {
             </div>
           )}
 
-          {step === 'ready' && (!subCheckDone || (currentPlan !== plan && (PLAN_RANK[plan] ?? 0) >= (PLAN_RANK[currentPlan ?? 'free'] ?? 0))) && (
+          {step === 'ready' && (!subCheckDone || (currentPlan !== plan && (() => {
+            const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
+            const nextIsOneTime = plan === 'starter' || plan === 'standard';
+            if (currentIsOneTime || nextIsOneTime) return true;
+            return (PLAN_RANK[plan] ?? 0) >= (PLAN_RANK[currentPlan ?? 'free'] ?? 0);
+          })())) && (
             <div className="grid lg:grid-cols-5 gap-8">
               {/* Order Summary */}
               <div className="lg:col-span-2 order-2 lg:order-1">
@@ -321,7 +348,7 @@ function CheckoutContent() {
                       </div>
                       <div>
                         <div className="font-bold text-white">{planDetails[plan].name} Plan</div>
-                        <div className="text-sm text-slate-400 capitalize">{billing} subscription</div>
+                        <div className="text-sm text-slate-400 capitalize">{isOneTime ? 'One-time pass' : `${billing} subscription`}</div>
                       </div>
                     </div>
                   </div>

@@ -88,13 +88,22 @@ export function verifyWebhookSignature(rawBody: string, signature: string): bool
 
 /** Shape-only catalog — prices are always read from Firestore via getDynamicPricing(). */
 export const PLAN_CATALOG = {
-  pro:   { monthly: 0, yearly: 0 },
-  power: { monthly: 0, yearly: 0 },
+  starter: { oneTime: 0 } as const,
+  standard: { oneTime: 0 } as const,
+  pro: { monthly: 0, yearly: 0 } as const,
+  power: { monthly: 0, yearly: 0 } as const,
 } as const;
 
 export type PlanId = keyof typeof PLAN_CATALOG;
-export type Billing = 'monthly' | 'yearly';
+export type PlanType = 'one-time' | 'subscription';
+export type Billing = 'monthly' | 'yearly' | 'one-time';
 
 export function getPlanAmount(plan: PlanId, billing: Billing): number {
-  return PLAN_CATALOG[plan][billing];
+  const entry = PLAN_CATALOG[plan];
+  if (billing === 'one-time') return (entry as { oneTime: number }).oneTime;
+  return (entry as Record<'monthly' | 'yearly', number>)[billing];
+}
+
+export function getPlanType(plan: PlanId): PlanType {
+  return plan === 'starter' || plan === 'standard' ? 'one-time' : 'subscription';
 }

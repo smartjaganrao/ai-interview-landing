@@ -27,8 +27,8 @@ export async function POST(request: NextRequest) {
       paymentId: string;
       signature: string;
       userId?: string;
-      plan?: 'pro' | 'power';
-      billing?: 'monthly' | 'yearly';
+      plan?: 'starter' | 'standard' | 'pro' | 'power';
+      billing?: 'monthly' | 'yearly' | 'one-time';
     };
 
     if (!orderId || !paymentId || !signature) {
@@ -66,11 +66,16 @@ export async function POST(request: NextRequest) {
 
     // 3) Server-side Firestore write — best-effort, client write is the fallback
     let savedToFirestore = false;
-    const renewalDate = Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
+    const isOneTime = billing === 'one-time';
+    const renewalDate = isOneTime ? null : Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
+    const hoursMap: Record<string, number> = { starter: 1, standard: 4, pro: 0, power: 0 };
 
     if (userId && plan && billing) {
       savedToFirestore = await persistSubscription({
         userId, plan, billing, amount, paymentId, orderId, source: 'checkout',
+        hoursPurchased: isOneTime ? (hoursMap[plan] ?? 0) : undefined,
+        hoursRemaining: isOneTime ? (hoursMap[plan] ?? 0) : undefined,
+        expiresAt: isOneTime ? Date.now() + 7 * 24 * 60 * 60 * 1000 : null,
       });
     }
 
@@ -91,7 +96,10 @@ export async function POST(request: NextRequest) {
         const info = await getUserInfo(userId);
         if (info?.email) {
           await sendPaymentConfirmation({
-            email: info.email, name: info.name, plan, billing, amount, paymentId, renewalDate,
+            email: info.email, name: info.name, plan: plan as 'starter' | 'standard' | 'pro' | 'power',
+            billing: billing as 'monthly' | 'yearly' | 'one-time',
+            amount, paymentId,
+            renewalDate: renewalDate ?? Date.now(),
           });
         }
       } catch (e) {

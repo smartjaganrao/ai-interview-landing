@@ -2,9 +2,11 @@ import { Resend } from 'resend';
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <onboarding@resend.dev>';
 
-const PLAN_NAMES: Record<string, string> = { pro: 'Pro', power: 'Power' };
-const PLAN_EMOJI: Record<string, string> = { pro: '🚀', power: '⚡' };
+const PLAN_NAMES: Record<string, string> = { starter: 'Starter', standard: 'Standard', pro: 'Pro', power: 'Power' };
+const PLAN_EMOJI: Record<string, string> = { starter: '🎟️', standard: '🎫', pro: '🚀', power: '⚡' };
 const PLAN_FEATURES: Record<string, string[]> = {
+  starter: ['1 hour interview time', '7-day validity', 'Unlimited AI answers during session', 'System Audio + Mic mode', 'Screenshot Solve', 'Desi Mode'],
+  standard: ['4 hours interview time', '7-day validity', 'Unlimited AI answers during session', 'System Audio + Mic mode', 'Screenshot Solve', 'Desi Mode', 'Priority support'],
   pro: ['Unlimited AI answers', 'Unlimited voice minutes', 'Unlimited screenshots', 'Desi Mode', 'Priority support'],
   power: ['Everything in Pro', 'Multi-monitor support', 'Advanced analytics', 'Early access to new features', 'Dedicated support'],
 };
@@ -16,8 +18,8 @@ function formatDate(ts: number): string {
 export async function sendPaymentConfirmation(params: {
   email: string;
   name: string;
-  plan: 'pro' | 'power';
-  billing: 'monthly' | 'yearly';
+  plan: 'starter' | 'standard' | 'pro' | 'power';
+  billing: 'monthly' | 'yearly' | 'one-time';
   amount: number;
   paymentId: string;
   renewalDate: number;
@@ -29,7 +31,7 @@ export async function sendPaymentConfirmation(params: {
   const planName = PLAN_NAMES[params.plan] ?? params.plan;
   const emoji = PLAN_EMOJI[params.plan] ?? '✨';
   const features = PLAN_FEATURES[params.plan] ?? [];
-  const billingLabel = params.billing === 'yearly' ? 'Yearly' : 'Monthly';
+  const billingLabel = params.billing === 'yearly' ? 'Yearly' : params.billing === 'one-time' ? 'One-time pass' : 'Monthly';
 
   const html = `
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">

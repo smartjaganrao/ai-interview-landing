@@ -132,42 +132,44 @@ export async function checkAiQuota(uid: string): Promise<{
 /** Write (or update) a subscription document server-side. */
 export async function persistSubscription(params: {
   userId: string;
-  plan: 'pro' | 'power';
-  billing: 'monthly' | 'yearly';
+  plan: 'starter' | 'standard' | 'pro' | 'power';
+  billing: 'monthly' | 'yearly' | 'one-time';
   amount: number;
   paymentId: string;
   orderId: string;
   source: 'checkout' | 'webhook';
+  hoursPurchased?: number;
+  hoursRemaining?: number;
+  expiresAt?: number | null;
 }): Promise<boolean> {
   if (!db) return false;
   try {
-    // verify-payment and the Razorpay webhook can both call this for the same
-    // payment (client-side confirmation + async server confirmation racing
-    // each other) — that's fine for the two writes below (they're
-    // idempotent, last-write-wins on the same data), but without this check
-    // it logged a duplicate admin_logs entry every time. One doc ID per
-    // paymentId makes a second attempt a no-op write instead of a new row.
     const logRef = db.collection('admin_logs').doc(`subscription_activate_${params.paymentId}`);
     const alreadyLogged = (await logRef.get()).exists;
 
-    const renewalDate =
-      Date.now() + (params.billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
+    const isOneTime = params.billing === 'one-time';
+    const renewalDate = isOneTime
+      ? (params.expiresAt ?? null)
+      : Date.now() + (params.billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
 
-    // Batched so the subscription doc and the user doc's mirrored plan land
-    // together — previously two separate .set() calls, so a crash/timeout
-    // between them could leave users.plan stale while subscriptions.plan
-    // was current (getUserPlan prefers users.plan first, so a paying user
-    // could see their old plan until the two were manually reconciled).
     const batch = db.batch();
     batch.set(
       db.collection('subscriptions').doc(params.userId),
       {
         plan: params.plan,
+        planType: isOneTime ? 'one-time' : 'subscription',
         status: 'active',
         billing: params.billing,
         amount: params.amount,
         startedAt: Date.now(),
-        renewalDate,
+        ...(isOneTime
+          ? {
+              hoursPurchased: params.hoursPurchased ?? 0,
+              hoursRemaining: params.hoursRemaining ?? 0,
+              expiresAt: params.expiresAt ?? null,
+              renewalDate: null,
+            }
+          : { renewalDate }),
         paymentId: params.paymentId,
         orderId: params.orderId,
         updatedAt: Date.now(),
@@ -175,7 +177,6 @@ export async function persistSubscription(params: {
       },
       { merge: true }
     );
-    // Mirror plan onto the user doc so every surface (admin, desktop) picks it up.
     batch.set(
       db.collection('users').doc(params.userId),
       { plan: params.plan, updatedAt: Date.now() },
@@ -193,6 +194,7 @@ export async function persistSubscription(params: {
           amount: params.amount,
           paymentId: params.paymentId,
           source: params.source,
+          ...(isOneTime ? { hoursPurchased: params.hoursPurchased } : {}),
         },
         timestamp: Date.now(),
       });
@@ -203,6 +205,48 @@ export async function persistSubscription(params: {
   } catch (e) {
     console.error('[firebase-admin/landing] persistSubscription failed:', e);
     return false;
+  }
+}
+
+/** Decrement remaining hours for one-time plans. Returns true if successful. */
+export async function consumeHours(uid: string, hours: number): Promise<boolean> {
+  if (!db || hours <= 0) return false;
+  try {
+    const ref = db.collection('subscriptions').doc(uid);
+    const snap = await ref.get();
+    if (!snap.exists) return false;
+    const data = snap.data()!;
+    if (data.planType !== 'one-time') return true; // subscriptions are unlimited
+    const remaining = data.hoursRemaining ?? 0;
+    if (remaining <= 0) return false;
+    const newRemaining = Math.max(0, remaining - hours);
+    await ref.set(
+      {
+        hoursRemaining: newRemaining,
+        updatedAt: Date.now(),
+        ...(newRemaining <= 0 ? { status: 'exhausted' } : {}),
+      },
+      { merge: true }
+    );
+    return true;
+  } catch (e) {
+    console.error('[firebase-admin] consumeHours failed:', e);
+    return false;
+  }
+}
+
+/** Get remaining hours for a user. Returns 0 for subscriptions. */
+export async function getRemainingHours(uid: string): Promise<number> {
+  if (!db) return 0;
+  try {
+    const snap = await db.collection('subscriptions').doc(uid).get();
+    if (!snap.exists) return 0;
+    const data = snap.data()!;
+    if (data.planType !== 'one-time') return Infinity;
+    if (data.expiresAt && Date.now() > data.expiresAt) return 0;
+    return data.hoursRemaining ?? 0;
+  } catch {
+    return 0;
   }
 }
 
@@ -533,12 +577,14 @@ export interface Offer {
   active: boolean;
   label: string;          // e.g. "Launch offer — 20% off"
   percentOff: number;     // 0–90
-  appliesTo: 'all' | 'pro' | 'power';
+  appliesTo: 'all' | 'starter' | 'standard' | 'pro' | 'power';
   expiresAt: number | null;
 }
 
 export interface Pricing {
   plans: {
+    starter: { oneTime: number };
+    standard: { oneTime: number };
     pro: { monthly: number; yearly: number };
     power: { monthly: number; yearly: number };
   };
@@ -550,6 +596,8 @@ export const DEFAULT_OFFER: Offer = { active: false, label: '', percentOff: 0, a
 function pricingFallback(): Pricing {
   return {
     plans: {
+      starter: { oneTime: PLAN_CATALOG.starter.oneTime },
+      standard: { oneTime: PLAN_CATALOG.standard.oneTime },
       pro: { monthly: PLAN_CATALOG.pro.monthly, yearly: PLAN_CATALOG.pro.yearly },
       power: { monthly: PLAN_CATALOG.power.monthly, yearly: PLAN_CATALOG.power.yearly },
     },
@@ -565,9 +613,15 @@ export async function getDynamicPricing(): Promise<Pricing> {
     if (!snap.exists) return pricingFallback();
     const d = snap.data() ?? {};
     const fb = pricingFallback();
-    const appliesTo = ['all', 'pro', 'power'].includes(d.offer?.appliesTo) ? d.offer.appliesTo : 'all';
+    const appliesTo = ['all', 'starter', 'standard', 'pro', 'power'].includes(d.offer?.appliesTo) ? d.offer.appliesTo : 'all';
     return {
       plans: {
+        starter: {
+          oneTime: Number(d.plans?.starter?.oneTime ?? fb.plans.starter.oneTime),
+        },
+        standard: {
+          oneTime: Number(d.plans?.standard?.oneTime ?? fb.plans.standard.oneTime),
+        },
         pro: {
           monthly: Number(d.plans?.pro?.monthly ?? fb.plans.pro.monthly),
           yearly: Number(d.plans?.pro?.yearly ?? fb.plans.pro.yearly),
@@ -592,14 +646,14 @@ export async function getDynamicPricing(): Promise<Pricing> {
 }
 
 /** Is the offer currently valid for this plan? */
-export function offerApplies(offer: Offer, plan: 'pro' | 'power'): boolean {
+export function offerApplies(offer: Offer, plan: 'starter' | 'standard' | 'pro' | 'power'): boolean {
   if (!offer.active || offer.percentOff <= 0) return false;
   if (offer.expiresAt && Date.now() > offer.expiresAt) return false;
   return offer.appliesTo === 'all' || offer.appliesTo === plan;
 }
 
 /** Apply the offer (if valid) to a base amount; never drops below ₹1. */
-export function effectiveAmount(base: number, offer: Offer, plan: 'pro' | 'power'): number {
+export function effectiveAmount(base: number, offer: Offer, plan: 'starter' | 'standard' | 'pro' | 'power'): number {
   if (!offerApplies(offer, plan)) return base;
   return Math.max(1, Math.round(base * (1 - offer.percentOff / 100)));
 }
