@@ -20,7 +20,7 @@ function offerActiveFor(offer: Offer | undefined, planId: string): boolean {
 }
 
 export default function PricingPage() {
-  const [billing, setBilling] = useState<'monthly' | 'yearly' | 'one-time'>('one-time');
+  const [billing, setBilling] = useState<'monthly' | 'yearly' | 'one-time'>('monthly');
   const [currentPlan, setCurrentPlan] = useState<string>('free');
   const [pricing, setPricing] = useState<Pricing | null>(null);
   const { user } = useAuth();
@@ -62,7 +62,7 @@ export default function PricingPage() {
     if (planId === currentPlan) return 'Current Plan';
     const isOneTime = planId === 'starter' || planId === 'standard';
     const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
-    if (!isOneTime && !currentIsOneTime && (PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) return 'Downgrade (contact support)';
+    if (!isOneTime && !currentIsOneTime && (PLAN_RANK[planId] ?? 0) < (PLAN_RANK[currentPlan] ?? 0)) return 'Contact support';
     if (currentPlan !== 'free') return `Upgrade to ${planId.charAt(0).toUpperCase() + planId.slice(1)}`;
     return defaultCta;
   };
@@ -97,7 +97,7 @@ export default function PricingPage() {
       id: 'starter',
       name: 'Starter',
       tagline: 'Best for interview day',
-      price: { oneTime: 0 },
+      price: { oneTime: 99 },
       features: [
         '1 hour of interview time',
         'Valid for 7 days',
@@ -114,7 +114,7 @@ export default function PricingPage() {
       id: 'standard',
       name: 'Standard',
       tagline: 'For regular interviewers',
-      price: { oneTime: 0 },
+      price: { oneTime: 299 },
       features: [
         '4 hours of interview time',
         'Valid for 7 days',
@@ -132,7 +132,7 @@ export default function PricingPage() {
       id: 'pro',
       name: 'Pro',
       tagline: 'For serious candidates',
-      price: { monthly: 0, yearly: 0 },
+      price: { monthly: 499, yearly: 4990 },
       features: [
         'Unlimited interview hours',
         'Unlimited AI answers',
@@ -267,18 +267,22 @@ export default function PricingPage() {
                   <h3 className="text-2xl font-bold text-white mb-1">{plan.name}</h3>
                   <p className="text-sm text-slate-400 mb-4">{plan.tagline}</p>
 
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    {offerOn && (
-                      <span className="text-2xl font-bold text-slate-500 line-through mr-1">₹{cyclePrice}</span>
-                    )}
-                    <span className="text-5xl font-black text-white">₹{effCycle}</span>
-                    {isOneTime ? (
-                      <span className="text-slate-400">one-time</span>
-                    ) : (
-                      <span className="text-slate-400">/mo</span>
-                    )}
-                  </div>
-                  {offerOn && (
+                  {plan.id === 'free' ? (
+                    <div className="text-4xl font-black text-white mb-1">Free</div>
+                  ) : (
+                    <div className="flex items-baseline justify-center gap-1 mb-1">
+                      {offerOn && (
+                        <span className="text-2xl font-bold text-slate-500 line-through mr-1">₹{cyclePrice}</span>
+                      )}
+                      <span className="text-5xl font-black text-white">₹{effCycle}</span>
+                      {isOneTime ? (
+                        <span className="text-slate-400">one-time</span>
+                      ) : (
+                        <span className="text-slate-400">/mo</span>
+                      )}
+                    </div>
+                  )}
+                  {offerOn && plan.id !== 'free' && (
                     <p className="text-xs text-green-400 font-semibold mb-1">{pricing!.offer.percentOff}% off applied</p>
                   )}
                   {isOneTime && (
@@ -301,7 +305,7 @@ export default function PricingPage() {
                   disabled={isPlanDisabled(plan.id)}
                   className={`w-full mb-6 ${plan.popular && !isPlanDisabled(plan.id) ? 'btn btn-primary' : 'btn btn-secondary'} disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  {getPlanCta(plan.id, plan.cta)} →
+                  {getPlanCta(plan.id, plan.cta)}{getPlanCta(plan.id, plan.cta) === 'Current Plan' ? '' : ' →'}
                 </button>
 
                 <ul className="space-y-3">
