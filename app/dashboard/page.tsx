@@ -390,23 +390,23 @@ function DashboardContent() {
                       </a>
                     </>
                   ) : (
-                    <a
-                      href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest"
-                      target="_blank"
-                      rel="noopener"
-                      className="btn btn-secondary btn-lg"
-                    >
-                      View Releases →
-                    </a>
-                  )}
-                  <a
-                    href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest"
-                    target="_blank"
-                    rel="noopener"
-                    className="btn btn-secondary btn-lg"
-                  >
-                    View Releases
-                  </a>
+                   <a
+                     href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="btn btn-secondary btn-lg"
+                   >
+                     View Releases →
+                   </a>
+                 )}
+                   <a
+                     href="https://github.com/smartjaganrao/ai-interview-helper/releases/latest"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="btn btn-secondary btn-lg"
+                   >
+                     View Releases
+                   </a>
                 </div>
 
                 <div className="flex items-center gap-4 mt-4 text-xs text-slate-500">
