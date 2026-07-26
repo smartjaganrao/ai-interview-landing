@@ -19,6 +19,115 @@ function offerActiveFor(offer: Offer | undefined, planId: string): boolean {
   return offer.appliesTo === 'all' || offer.appliesTo === planId;
 }
 
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'JavihAI Pro',
+  description: 'Unlimited AI interview answers, voice minutes, screenshots, and mock interviews. Built for Indian job seekers.',
+  brand: { '@type': 'Brand', name: 'JavihAI' },
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Free',
+      price: '0',
+      priceCurrency: 'INR',
+      description: '10 AI answers per day, 5 voice minutes, 2 screenshots',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro Monthly',
+      price: '499',
+      priceCurrency: 'INR',
+      description: 'Unlimited AI answers, voice minutes, screenshots, and mock interviews',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro Yearly',
+      price: '4990',
+      priceCurrency: 'INR',
+      description: 'Unlimited everything, billed yearly — save 17%',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Power Monthly',
+      price: '999',
+      priceCurrency: 'INR',
+      description: 'Everything in Pro plus Desi Mode, priority AI, and company-type context',
+    },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How does the Starter pass work?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The Starter pass gives you 1 hour of interview time for ₹99. It\'s valid for 7 days and is perfect for interview day prep. No subscription, no auto-renewal — just pay once and practice.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I use JavihAI on Mac?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes! JavihAI supports both Windows and Mac (Apple Silicon M1/M2/M3 and Intel). Download the appropriate version from our download page.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is the overlay really invisible?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. JavihAI uses OS-level APIs to exclude itself from all screen captures. The interviewer sees only your screen, not the overlay, on Zoom, Google Meet, and Microsoft Teams.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is JavihAI different from Final Round AI?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and starts at ₹99 for a one-time pass — 15× cheaper than Final Round AI.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I switch plans anytime?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we\'ll prorate any charges.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is there a free trial?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes! Start with our Free plan — 10 AI answers/day, forever, no credit card required. We also offer a 7-day money-back guarantee on your first paid purchase.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What payment methods do you accept?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you offer refunds?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you\'re not satisfied, contact support for a full refund.',
+      },
+    },
+  ],
+};
+
 export default function PricingPage() {
   const [billing, setBilling] = useState<'monthly' | 'yearly' | 'one-time'>('monthly');
   const [currentPlan, setCurrentPlan] = useState<string>('free');
@@ -169,6 +278,14 @@ export default function PricingPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Navbar />
 
       <section className="pt-32 pb-20">
