@@ -59,6 +59,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-3 text-sm">
+              <li><Link href="/about" className="text-slate-400 hover:text-white transition">About Us</Link></li>
               <li><Link href="/compare" className="text-slate-400 hover:text-white transition">Compare</Link></li>
               <li><Link href="/creator" className="text-slate-400 hover:text-white transition">Creator Program 💸</Link></li>
               <li><Link href="/compare/chiku-ai" className="text-slate-400 hover:text-white transition">vs Chiku AI</Link></li>
