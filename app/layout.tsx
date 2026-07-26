@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CaptureAttribution from '@/components/CaptureAttribution';
 import WhatsAppButton from '@/components/WhatsAppButton';
+
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 const BASE_URL = 'https://javihai.in';
 
@@ -145,11 +148,11 @@ export const metadata: Metadata = {
       "India's first unlimited AI interview copilot at ₹499/mo — 100% invisible on Zoom, Meet & Teams. Free forever · 15× cheaper than Final Round AI · 7-day money-back · 2,400+ helped.",
     images: [
       {
-        url: '/logo.svg',
+        url: '/og-home.png',
         width: 1200,
         height: 630,
         alt: 'JavihAI — Real-Time AI Interview Copilot',
-        type: 'image/svg+xml',
+        type: 'image/png',
       },
     ],
   },
@@ -161,7 +164,7 @@ export const metadata: Metadata = {
     title: "JavihAI — India's First Unlimited AI Interview Tool | ₹499/mo | 100% Invisible",
     description:
       "India's first unlimited AI interview copilot. Free for freshers, ₹499/mo for unlimited, 100% invisible overlay. 2,400+ candidates hired at Google, Flipkart, Amazon India.",
-    images: ['/logo.svg'],
+    images: ['/og-home.png'],
   },
 
   icons: {
@@ -177,6 +180,18 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical: BASE_URL,
+    languages: {
+      en: BASE_URL,
+      hi: `${BASE_URL}/hi`,
+      ta: `${BASE_URL}/ta`,
+      te: `${BASE_URL}/te`,
+      kn: `${BASE_URL}/kn`,
+      ml: `${BASE_URL}/ml`,
+      bn: `${BASE_URL}/bn`,
+      mr: `${BASE_URL}/mr`,
+      gu: `${BASE_URL}/gu`,
+      pa: `${BASE_URL}/pa`,
+    },
   },
 
   verification: {
@@ -209,7 +224,23 @@ const orgSchema = {
     'Real-time AI interview copilot for India — stealth desktop overlay with instant AI answers, Desi Mode, and mock interviews.',
   foundingDate: '2024',
   areaServed: 'IN',
-  sameAs: [],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bangalore',
+    addressRegion: 'Karnataka',
+    addressCountry: 'IN',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'support@javihai.in',
+    contactType: 'customer support',
+    availableLanguage: ['English', 'Hindi', 'Tamil', 'Telugu'],
+  },
+  sameAs: [
+    'https://twitter.com/javihai',
+    'https://www.linkedin.com/company/javihai',
+    'https://github.com/smartjaganrao/ai-interview-helper',
+  ],
 };
 
 // JSON-LD: SoftwareApplication
@@ -256,6 +287,81 @@ const appSchema = {
   },
 };
 
+// JSON-LD: BreadcrumbList
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+  ],
+};
+
+const reviewSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    itemReviewed: {
+      '@type': 'SoftwareApplication',
+      name: 'JavihAI',
+      applicationCategory: 'BusinessApplication',
+    },
+    author: {
+      '@type': 'Person',
+      name: 'Arjun S.',
+    },
+    datePublished: '2025-06-15',
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: '5',
+      bestRating: '5',
+    },
+    reviewBody:
+      'I had a system design round at a product startup. Switched to System Audio mode — JavihAI caught the question and gave me a clean architecture answer before I could even panic. Got the offer.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    itemReviewed: {
+      '@type': 'SoftwareApplication',
+      name: 'JavihAI',
+      applicationCategory: 'BusinessApplication',
+    },
+    author: {
+      '@type': 'Person',
+      name: 'Priya M.',
+    },
+    datePublished: '2025-06-10',
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: '5',
+      bestRating: '5',
+    },
+    reviewBody:
+      'The Desi Mode is underrated. It knows Indian salary ranges, notice period norms, bond clauses — things that global tools just blank out on. Feels like prep made for us.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    itemReviewed: {
+      '@type': 'SoftwareApplication',
+      name: 'JavihAI',
+      applicationCategory: 'BusinessApplication',
+    },
+    author: {
+      '@type': 'Person',
+      name: 'Karthik R.',
+    },
+    datePublished: '2025-05-28',
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: '5',
+      bestRating: '5',
+    },
+    reviewBody:
+      'I was skeptical about using an AI tool during a real interview but the stealth overlay is genuinely invisible. Walked into my FAANG loop with way more confidence than before.',
+  },
+];
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -266,6 +372,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
           rel="stylesheet"
         />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -278,8 +390,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+        {reviewSchema.map((review, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(review) }}
+          />
+        ))}
       </head>
-      <body>
+      <body className={inter.className}>
         <GoogleAnalytics />
         <CaptureAttribution />
         <WhatsAppButton />
