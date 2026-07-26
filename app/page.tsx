@@ -85,6 +85,30 @@ const faqSchema = {
   ],
 };
 
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to use JavihAI for interview prep',
+  description: 'Get started with JavihAI in 3 steps: create a free account, download the desktop app, and start getting AI answers in your interviews.',
+  step: [
+    {
+      '@type': 'HowToStep',
+      name: 'Create Free Account',
+      text: 'Sign up in 30 seconds with Google — no credit card required. Get 10 AI answers/day free, forever.',
+    },
+    {
+      '@type': 'HowToStep',
+      name: 'Download Desktop App',
+      text: 'Install the 12 MB overlay for Windows 10/11 or macOS (M1/M2/M3 + Intel). Runs silently in background.',
+    },
+    {
+      '@type': 'HowToStep',
+      name: 'Open in Your Interview',
+      text: 'Join Zoom/Meet/Teams as usual. JavihAI overlay is invisible. Questions are auto-detected. Answers stream in 2 seconds.',
+    },
+  ],
+};
+
 const QUESTIONS = [
   '"Tell me about a time you improved system performance at scale."',
   '"Design a notification system for 10 million users."',
@@ -174,6 +198,10 @@ export default function LandingPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
       <Navbar />
 
