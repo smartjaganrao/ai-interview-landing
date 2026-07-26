@@ -22,6 +22,14 @@ interface Job {
 const LOCATIONS = ['All India', 'Bangalore', 'Mumbai', 'Gurgaon / Delhi NCR', 'Hyderabad', 'Pune', 'Chennai', 'Remote'];
 const ROLES     = ['', 'Software Engineer', 'Frontend Engineer', 'Backend Engineer', 'Full Stack', 'ML Engineer', 'DevOps', 'Data Engineer', 'React Native'];
 
+const jobBoardSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'JavihAI Job Recommendations',
+  description: 'Top tech jobs in India curated for JavihAI users. Practice for any of these with your AI coach.',
+  url: 'https://javihai.in/jobs',
+};
+
 export default function JobsPage() {
   const { user } = useAuth();
   const router   = useRouter();
@@ -80,6 +88,10 @@ export default function JobsPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobBoardSchema) }}
+      />
       <Navbar />
 
       <div className="pt-24 pb-20 max-w-6xl mx-auto px-4">
