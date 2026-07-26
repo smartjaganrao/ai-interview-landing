@@ -180,18 +180,6 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical: BASE_URL,
-    languages: {
-      en: BASE_URL,
-      hi: `${BASE_URL}/hi`,
-      ta: `${BASE_URL}/ta`,
-      te: `${BASE_URL}/te`,
-      kn: `${BASE_URL}/kn`,
-      ml: `${BASE_URL}/ml`,
-      bn: `${BASE_URL}/bn`,
-      mr: `${BASE_URL}/mr`,
-      gu: `${BASE_URL}/gu`,
-      pa: `${BASE_URL}/pa`,
-    },
   },
 
   verification: {
