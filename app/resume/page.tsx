@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 /* ── Types ────────────────────────────────────────────────────────────────── */
@@ -231,7 +230,6 @@ export default function ResumePage() {
   if (!user) {
     return (
       <>
-        <Navbar />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-slate-400 mb-4">Sign in to use the resume builder.</p>
@@ -264,7 +262,6 @@ export default function ResumePage() {
         }
       `}</style>
 
-      <Navbar />
 
       <div className="pt-24 pb-20 max-w-7xl mx-auto px-4">
         {/* Page header */}

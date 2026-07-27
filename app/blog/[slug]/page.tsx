@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getPostBySlug, getAllPublishedSlugs } from '@/lib/blog';
 
@@ -75,7 +74,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
-      <Navbar />
 
       <article className="pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-6">

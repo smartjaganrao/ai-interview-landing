@@ -1,12 +1,10 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function MockInterviewPage() {
   return (
     <>
-      <Navbar />
       <div className="pt-24 pb-20 max-w-3xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="badge mb-3">🎯 Mock Interview</div>

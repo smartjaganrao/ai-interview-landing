@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getPublishedPosts } from '@/lib/blog';
 
@@ -28,7 +27,6 @@ export default async function BlogIndexPage() {
 
   return (
     <>
-      <Navbar />
 
       <section className="pt-32 pb-20">
         <div className="max-w-5xl mx-auto px-6">

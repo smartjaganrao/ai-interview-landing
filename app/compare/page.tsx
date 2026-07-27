@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
@@ -22,7 +21,6 @@ const COMPETITORS = [
 export default function ComparePage() {
   return (
     <>
-      <Navbar />
       <div className="pt-28 pb-20 max-w-4xl mx-auto px-6">
         <div className="text-center mb-16">
           <div className="badge mb-4">⚔️ Comparisons</div>

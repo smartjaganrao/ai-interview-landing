@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FreeTrialModal from '@/components/FreeTrialModal';
 
@@ -203,7 +202,6 @@ export default function LandingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
-      <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
       <section className="relative pt-24 pb-16 md:pt-36 md:pb-32 overflow-hidden">

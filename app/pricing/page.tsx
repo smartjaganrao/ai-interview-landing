@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const PLAN_RANK: Record<string, number> = { free: 0, starter: 1, standard: 2, pro: 3, power: 4 };
@@ -286,7 +285,6 @@ export default function PricingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <Navbar />
 
       <section className="pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-6">

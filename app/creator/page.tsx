@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
-import Navbar from '@/components/Navbar';
 
 interface CreatorData {
   isCreator: boolean;
@@ -93,7 +92,6 @@ export default function CreatorPage() {
 
   return (
     <>
-      <Navbar />
       <section className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">
           <div className="badge mb-4">🎬 Creator Program</div>

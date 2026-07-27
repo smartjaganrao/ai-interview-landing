@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const orgSchema = {
@@ -39,7 +38,6 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
-      <Navbar />
       <div className="pt-24 pb-20">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">

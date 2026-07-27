@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import Navbar from '@/components/Navbar';
 
 const PLAN_RANK: Record<string, number> = { free: 0, starter: 1, standard: 2, pro: 3, power: 4 };
 
@@ -254,7 +253,6 @@ function CheckoutContent() {
 
   return (
     <>
-      <Navbar />
 
       <section className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">

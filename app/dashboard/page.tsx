@@ -7,7 +7,6 @@ import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc, onSnapshot, collection, query, where, getCountFromServer } from 'firebase/firestore';
 // email-only auth removed — Google sign-in only
-import Navbar from '@/components/Navbar';
 import CompleteProfileModal, { shouldShowProfilePrompt } from '@/components/CompleteProfileModal';
 
 interface UserData {
@@ -253,7 +252,6 @@ function DashboardContent() {
 
   return (
     <>
-      <Navbar />
 
       {showProfilePrompt && user && (
         <CompleteProfileModal

@@ -1,4 +1,3 @@
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getLatestRelease } from '@/lib/github-release';
 
@@ -30,7 +29,6 @@ export default async function InstallPage() {
   const downloadsReady = Boolean(macUrl || winUrl);
   return (
     <>
-      <Navbar />
 
       <section className="pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-6">

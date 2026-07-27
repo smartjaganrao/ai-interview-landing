@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 interface Job {
@@ -74,7 +73,6 @@ export default function JobsPage() {
   if (!user) {
     return (
       <>
-        <Navbar />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-slate-400 mb-4">Sign in to browse job recommendations.</p>
@@ -92,7 +90,6 @@ export default function JobsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jobBoardSchema) }}
       />
-      <Navbar />
 
       <div className="pt-24 pb-20 max-w-6xl mx-auto px-4">
         {/* Header */}

@@ -1,4 +1,3 @@
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata = {
@@ -9,7 +8,6 @@ export const metadata = {
 export default function RefundPage() {
   return (
     <>
-      <Navbar />
 
       <section className="pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-6">

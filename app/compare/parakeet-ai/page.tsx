@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
@@ -30,7 +29,6 @@ const ROWS = [
 export default function ParakeetAIComparePage() {
   return (
     <>
-      <Navbar />
       <div className="pt-28 pb-20 max-w-5xl mx-auto px-6">
 
         {/* Hero */}

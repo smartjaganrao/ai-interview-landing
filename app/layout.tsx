@@ -4,6 +4,7 @@ import './globals.css';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CaptureAttribution from '@/components/CaptureAttribution';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
@@ -394,6 +395,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GoogleAnalytics />
         <CaptureAttribution />
         <WhatsAppButton />
+        <Navbar />
         <div className="bg-gradient-mesh bg-grid min-h-screen">
           {children}
         </div>
