@@ -7,6 +7,7 @@ import { getRedirectResult, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
+import { PLANS, PlanId, AnyPlanId, migratePlanId, isPaidPlan } from '@/lib/pricing-config';
 
 const REF_STORAGE_KEY = 'javihai_ref';
 const VIA_STORAGE_KEY = 'javihai_via';
@@ -55,8 +56,11 @@ function SignupContent() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const plan = searchParams.get('plan') || 'free';
+  const rawPlan = searchParams.get('plan') || 'free';
+  const plan = migratePlanId(rawPlan as AnyPlanId) as PlanId;
   const ref = searchParams.get('ref');
+
+  const planConfig = PLANS.find(p => p.id === plan) || PLANS[0];
 
   // Persist the referral code so it survives the Google OAuth redirect round-trip.
   useEffect(() => {
@@ -73,7 +77,7 @@ function SignupContent() {
           await ensureUserDocs(cred);
           await claimReferralIfPending(cred.user);
           await attributeCreatorIfPending(cred.user);
-          router.push(plan === 'pro' || plan === 'power' ? `/checkout?plan=${plan}` : '/dashboard');
+          router.push(isPaidPlan(plan) ? `/checkout?plan=${plan}` : '/dashboard');
         }
       })
       .catch(async (err) => setError(await friendlyAuthError(err)));
@@ -178,14 +182,14 @@ function SignupContent() {
             <div className="text-center mb-8">
               <h2 className="text-3xl font-black mb-2">Create your account</h2>
               <p className="text-slate-400">
-                {plan !== 'free' ? `Sign up to get ${plan.toUpperCase()} plan` : 'Free forever, no credit card required'}
+                {plan !== 'free' ? `Sign up to get ${planConfig.name} plan` : 'Free forever, no credit card required'}
               </p>
             </div>
 
             {plan !== 'free' && (
               <div className="mb-6 p-3 rounded-xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/30">
                 <div className="text-sm text-indigo-300 flex items-center gap-2">
-                  <span className="text-xl">{plan === 'pro' ? '🚀' : '⚡'}</span>
+                  <span className="text-xl">{planConfig.emoji}</span>
                   After signup, you&apos;ll proceed to {plan.toUpperCase()} checkout
                 </div>
               </div>

@@ -6,13 +6,13 @@ import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc, onSnapshot, collection, query, where, getCountFromServer } from 'firebase/firestore';
-// email-only auth removed — Google sign-in only
 import CompleteProfileModal, { shouldShowProfilePrompt } from '@/components/CompleteProfileModal';
+import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
 
 interface UserData {
   email: string;
   name: string;
-  plan: 'free' | 'starter' | 'standard' | 'pro' | 'power';
+  plan: string;
   createdAt: number;
   phone?: string;
   experienceLevel?: string;
@@ -27,7 +27,7 @@ interface UsageData {
 }
 
 interface SubscriptionData {
-  plan: 'free' | 'starter' | 'standard' | 'pro' | 'power';
+  plan: string;
   status: string;
   billing?: 'monthly' | 'yearly' | 'one-time';
   amount?: number;
@@ -54,8 +54,6 @@ function DashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Append the signed-in user's id/email so downloads can be attributed in the
-  // admin App-Usage funnel (download -> activation). Anonymous if not signed in.
   const withAttribution = (url: string) =>
     user ? `${url}?uid=${encodeURIComponent(user.uid)}&email=${encodeURIComponent(user.email || '')}` : url;
 
@@ -66,7 +64,6 @@ function DashboardContent() {
   const [loading, setLoading] = useState(true);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
   const [showProfilePrompt, setShowProfilePrompt] = useState(false);
-  // Support ticket
   const [showSupport, setShowSupport] = useState(false);
   const [supportTab, setSupportTab] = useState<'new'|'history'>('new');
   const [ticketTitle, setTicketTitle] = useState('');
@@ -81,14 +78,10 @@ function DashboardContent() {
   }>>([]);
   const [ticketsLoading, setTicketsLoading] = useState(false);
   const [expandedTicket, setExpandedTicket] = useState<string|null>(null);
-  // Referral program
   const [referral, setReferral] = useState<{ code: string | null; link: string | null; credits: number; count: number; reward: number } | null>(null);
   const [refCopied, setRefCopied] = useState(false);
-  // Subscription cancel/resume
   const [cancelBusy, setCancelBusy] = useState(false);
-  // Latest desktop release — fetched live (no per-release manual bump needed)
   const [appVersion, setAppVersion] = useState('');
-  // "New" badge shown for 14 days after a release publishes.
   const [isNewRelease, setIsNewRelease] = useState(false);
   const [downloadsReady, setDownloadsReady] = useState(false);
 
@@ -141,23 +134,12 @@ function DashboardContent() {
     }
 
     if (user) {
-      // "Today's Usage" needs the daily doc — usage_tracking/{uid}/days/{YYYY-MM-DD},
-      // same path checkAiQuota and the desktop app's usage.service.ts both use.
-      // (Previously read a months/{YYYY-MM} doc that nothing has ever written,
-      // so this always silently fell back to showing 0 for every stat below.)
       getDoc(doc(db, 'usage_tracking', user.uid, 'days', new Date().toISOString().slice(0, 10)))
         .then((usageSnap) => {
           setUsageData(usageSnap.exists() ? (usageSnap.data() as UsageData) : { tokensUsed: 0, voiceMinutes: 0, screenshotsUsed: 0 });
         })
         .catch((err) => console.error('[dashboard] failed to load usage:', err));
 
-      // users/{uid} and subscriptions/{uid} are live listeners rather than a
-      // one-time getDoc — a plan change from the Razorpay webhook (async,
-      // can land after this page's own redirect) or an admin-panel edit
-      // wouldn't otherwise show up until a manual refresh. Each snapshot
-      // callback re-reads the other doc's last-known value from a ref so
-      // the merged plan (subscription wins over the user doc) stays correct
-      // regardless of which listener fires first or again.
       let latestUserData: UserData | null = null;
       let latestSubData: SubscriptionData | null = null;
       let gotUser = false;
@@ -199,7 +181,6 @@ function DashboardContent() {
         maybeStopLoading();
       });
 
-      // Referral info (best-effort — won't block dashboard)
       user.getIdToken().then((idToken) =>
         fetch('/api/referral/me', {
           method: 'POST',
@@ -211,7 +192,6 @@ function DashboardContent() {
           .catch(() => {})
       ).catch(() => {});
 
-      // Interview activity counts (best-effort — won't block dashboard)
       Promise.all([
         getCountFromServer(query(collection(db, 'interview_sessions'), where('userId', '==', user.uid))),
         getCountFromServer(query(collection(db, 'interview_messages'), where('userId', '==', user.uid))),
@@ -223,7 +203,6 @@ function DashboardContent() {
           });
         })
         .catch(() => {
-          // collections may not exist yet for new users; ignore
         });
 
       return () => {
@@ -241,18 +220,12 @@ function DashboardContent() {
     );
   }
 
-  const plan = userData?.plan || 'free';
-  const planConfig = {
-    free: { emoji: '🎯', color: 'from-slate-600 to-slate-700', label: 'Free' },
-    starter: { emoji: '🎟️', color: 'from-emerald-500 to-teal-600', label: 'Starter' },
-    standard: { emoji: '🎫', color: 'from-blue-500 to-cyan-600', label: 'Standard' },
-    pro: { emoji: '🚀', color: 'from-indigo-500 to-purple-600', label: 'Pro' },
-    power: { emoji: '⚡', color: 'from-purple-600 to-pink-600', label: 'Power' },
-  };
+  const rawPlan = userData?.plan || 'free';
+  const plan = migratePlanId(rawPlan) as PlanId;
+  const planConfig = getPlanById(plan) || PLANS[0];
 
   return (
     <>
-
       {showProfilePrompt && user && (
         <CompleteProfileModal
           user={user}
@@ -269,7 +242,7 @@ function DashboardContent() {
           <div className="glass-heavy rounded-xl p-4 border border-green-500/50 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-xl">✓</div>
             <div>
-              <div className="font-semibold text-white">Welcome to {planConfig[plan].label}! 🎉</div>
+              <div className="font-semibold text-white">Welcome to {planConfig.name}! 🎉</div>
               <div className="text-sm text-slate-400">Your account has been upgraded successfully.</div>
             </div>
           </div>
@@ -299,7 +272,7 @@ function DashboardContent() {
                 value: userData?.createdAt ? Math.max(1, Math.floor((Date.now() - userData.createdAt) / 86400000)) : 1,
                 label: 'Days as Member',
               },
-              { icon: planConfig[plan].emoji, value: planConfig[plan].label, label: 'Current Plan' },
+              { icon: planConfig.emoji, value: planConfig.name, label: 'Current Plan' },
             ].map((stat, i) => (
               <div key={i} className="card flex items-center gap-4 py-4">
                 <div className="text-3xl">{stat.icon}</div>
@@ -317,16 +290,16 @@ function DashboardContent() {
             <div className="card card-glow">
               <div className="flex items-center justify-between mb-4">
                 <div className="text-sm text-slate-400">Current Plan</div>
-                <div className={`px-3 py-1 rounded-full bg-gradient-to-r ${planConfig[plan].color} text-white text-xs font-semibold`}>
-                  {planConfig[plan].label}
+                <div className={`px-3 py-1 rounded-full bg-gradient-to-r ${planConfig.gradient} text-white text-xs font-semibold`}>
+                  {planConfig.name}
                 </div>
               </div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="text-4xl">{planConfig[plan].emoji}</div>
+                <div className="text-4xl">{planConfig.emoji}</div>
                 <div>
-                  <div className="text-2xl font-black text-white">{planConfig[plan].label} Plan</div>
+                  <div className="text-2xl font-black text-white">{planConfig.name} Plan</div>
                   <div className="text-sm text-slate-400">
-                    {plan === 'free' ? 'Upgrade to unlock unlimited' : 'Premium features active'}
+                    {plan === 'free' ? 'Upgrade to unlock more' : 'Premium features active'}
                   </div>
                   {subData?.planType === 'one-time' && subData.hoursRemaining !== undefined && (
                     <div className="text-xs text-indigo-300 mt-1">
@@ -411,14 +384,13 @@ function DashboardContent() {
                   <span>Windows 10/11 · macOS (Apple Silicon + Intel)</span>
                 </div>
 
-                {/* Install instructions — self-serve, covers the security warnings */}
+                {/* Install instructions */}
                 <div className="mt-6 pt-6 border-t border-slate-700/60">
                   <div className="flex items-center justify-between gap-3 mb-4">
                     <h4 className="text-sm font-bold text-slate-200">📥 How to install (2 minutes)</h4>
-                    <Link href="/install" className="text-xs text-indigo-300 hover:underline whitespace-nowrap">Full install guide →</Link>
+                    <Link href="/install" className="text-xs text-indigo-300 hover:text-indigo-300 whitespace-nowrap">Full install guide →</Link>
                   </div>
                   <div className="grid md:grid-cols-2 gap-6">
-                    {/* Windows */}
                     <div>
                       <div className="flex items-center gap-2 mb-3 font-semibold text-slate-100">
                         <span className="text-lg">🪟</span> Windows 10/11
@@ -429,7 +401,6 @@ function DashboardContent() {
                         <li>The app opens near the top of your screen. Press <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs">Alt</kbd>+<kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs">H</kbd> to show/hide it.</li>
                       </ol>
                     </div>
-                    {/* Mac */}
                     <div>
                       <div className="flex items-center gap-2 mb-3 font-semibold text-slate-100">
                         <span className="text-lg">🍎</span> macOS
@@ -447,7 +418,7 @@ function DashboardContent() {
                   </p>
                 </div>
 
-                {/* After installing — get your first answer fast */}
+                {/* After installing */}
                 <div className="mt-6 pt-6 border-t border-slate-700/60">
                   <h4 className="text-sm font-bold text-slate-200 mb-4">🚀 Your first answer in 3 steps</h4>
                   <ol className="space-y-2.5 text-sm text-slate-400 list-decimal list-inside marker:text-indigo-400 marker:font-bold">
@@ -561,7 +532,7 @@ function DashboardContent() {
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Need unlimited access?</h3>
-                    <p className="text-slate-300">Upgrade to Pro for unlimited AI answers, voice minutes, and screenshots</p>
+                    <p className="text-slate-300">Upgrade to Power for unlimited usage, AI Mock Interview, and Performance Analytics</p>
                   </div>
                   <Link href="/pricing" className="btn btn-primary">
                     See Plans →
@@ -571,16 +542,16 @@ function DashboardContent() {
             </div>
           )}
 
-          {/* Pro/Power benefits */}
-          {(plan === 'pro' || plan === 'power') && (
+          {/* Premium benefits */}
+          {(plan === 'quick_pass' || plan === 'pro' || plan === 'power') && (
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">✨ Your Premium Benefits</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
-                  { icon: '∞', label: 'Unlimited AI', desc: 'No daily limits' },
-                  { icon: '🎤', label: 'Voice Unlimited', desc: 'Use as much as needed' },
-                  { icon: '☁️', label: 'Cloud Sync', desc: 'Access anywhere' },
-                  { icon: '⚡', label: 'Priority Support', desc: '24/7 response' },
+                  { icon: '🎯', label: 'Full AI Access', desc: 'No daily limits during your pass' },
+                  { icon: '🎤', label: 'Voice Mode', desc: 'Full voice interview practice' },
+                  { icon: '💻', label: 'Screen Mode', desc: 'Invisible overlay for screen share' },
+                  { icon: plan === 'power' ? '⚡' : '🚀', label: plan === 'power' ? 'Unlimited Power' : 'Deep Practice', desc: plan === 'power' ? 'Unlimited everything' : '5 hours of deep practice' },
                 ].map((b, i) => (
                   <div key={i} className="card text-center">
                     <div className="text-4xl mb-2">{b.icon}</div>
@@ -606,18 +577,28 @@ function DashboardContent() {
                     </div>
                     <div>
                       <div className="text-sm text-slate-400 mb-1">Billing Cycle</div>
-                      <div className="text-white font-semibold capitalize">{subData.billing || 'Monthly'}</div>
+                      <div className="text-white font-semibold capitalize">{subData.billing || 'One-time'}</div>
                     </div>
                     <div>
                       <div className="text-sm text-slate-400 mb-1">Amount</div>
                       <div className="text-white font-semibold">{subData.amount ? `₹${subData.amount}` : '—'}</div>
                     </div>
-                    <div>
-                      <div className="text-sm text-slate-400 mb-1">Renews On</div>
-                      <div className="text-white font-semibold">
-                        {subData.renewalDate ? new Date(subData.renewalDate).toLocaleDateString() : '—'}
+                    {planConfig.billingType === 'subscription' && (
+                      <div>
+                        <div className="text-sm text-slate-400 mb-1">Renews On</div>
+                        <div className="text-white font-semibold">
+                          {subData.renewalDate ? new Date(subData.renewalDate).toLocaleDateString() : '—'}
+                        </div>
                       </div>
-                    </div>
+                    )}
+                    {planConfig.billingType === 'one_time' && subData.hoursRemaining !== undefined && (
+                      <div>
+                        <div className="text-sm text-slate-400 mb-1">Hours Remaining</div>
+                        <div className="text-white font-semibold">
+                          {subData.hoursRemaining.toFixed(1)}h
+                        </div>
+                      </div>
+                    )}
                   </div>
                   {subData.paymentId && (
                     <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between flex-wrap gap-3">
@@ -629,28 +610,30 @@ function DashboardContent() {
                   )}
 
                   {/* Cancel / resume */}
-                  <div className="mt-4 pt-4 border-t border-white/10">
-                    {subData.cancelAtPeriodEnd ? (
-                      <div className="flex items-center justify-between flex-wrap gap-3">
-                        <p className="text-sm text-yellow-300">
-                          ⏳ Your plan won&apos;t renew. You keep {planConfig[plan].label} access until{' '}
-                          {subData.renewalDate ? new Date(subData.renewalDate).toLocaleDateString() : 'the period ends'}.
-                        </p>
-                        <button onClick={() => toggleCancel(false)} disabled={cancelBusy}
-                          className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold disabled:opacity-50">
-                          {cancelBusy ? 'Working…' : 'Resume plan'}
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between flex-wrap gap-3">
-                        <p className="text-sm text-slate-500">Cancel anytime — you keep access until your renewal date.</p>
-                        <button onClick={() => toggleCancel(true)} disabled={cancelBusy}
-                          className="text-slate-400 hover:text-red-400 text-sm font-semibold disabled:opacity-50">
-                          {cancelBusy ? 'Working…' : 'Cancel subscription'}
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                  {planConfig.billingType === 'subscription' && (
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      {subData.cancelAtPeriodEnd ? (
+                        <div className="flex items-center justify-between flex-wrap gap-3">
+                          <p className="text-sm text-yellow-300">
+                            ⏳ Your plan won&apos;t renew. You keep {planConfig.name} access until{' '}
+                            {subData.renewalDate ? new Date(subData.renewalDate).toLocaleDateString() : 'the period ends'}.
+                          </p>
+                          <button onClick={() => toggleCancel(false)} disabled={cancelBusy}
+                            className="text-indigo-400 hover:text-indigo-300 text-sm font-semibold disabled:opacity-50">
+                            {cancelBusy ? 'Working…' : 'Resume plan'}
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between flex-wrap gap-3">
+                          <p className="text-sm text-slate-500">Cancel anytime — you keep access until your renewal date.</p>
+                          <button onClick={() => toggleCancel(true)} disabled={cancelBusy}
+                            className="text-slate-400 hover:text-red-400 text-sm font-semibold disabled:opacity-50">
+                            {cancelBusy ? 'Working…' : 'Cancel subscription'}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -713,7 +696,6 @@ function DashboardContent() {
                 <button onClick={() => { setShowSupport(false); setTicketStatus(''); }} className="text-slate-400 hover:text-white text-xl">✕</button>
               </div>
 
-              {/* Tabs */}
               <div className="flex gap-2 mb-5 border-b border-white/10 pb-3">
                 <button onClick={() => setSupportTab('new')}
                   className={`text-sm font-semibold px-3 py-1 rounded-full transition-colors ${supportTab==='new' ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-400 hover:text-white'}`}>
@@ -725,7 +707,6 @@ function DashboardContent() {
                 </button>
               </div>
 
-              {/* New Ticket */}
               {supportTab === 'new' && (
                 ticketStatus === 'sent' ? (
                   <div className="text-center py-6">
@@ -774,7 +755,6 @@ function DashboardContent() {
                 )
               )}
 
-              {/* Ticket History */}
               {supportTab === 'history' && (
                 ticketsLoading ? (
                   <p className="text-slate-400 text-sm text-center py-6">Loading…</p>

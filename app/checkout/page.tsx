@@ -6,8 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-
-const PLAN_RANK: Record<string, number> = { free: 0, starter: 1, standard: 2, pro: 3, power: 4 };
+import { PLANS, PlanId, AnyPlanId, migratePlanId, isOneTimePlan, isDowngrade, canUpgradeTo } from '@/lib/pricing-config';
 
 // Razorpay Checkout is loaded from CDN at runtime; type the global for safety.
 declare global {
@@ -29,17 +28,10 @@ interface RazorpayOptions {
   modal?: { ondismiss?: () => void };
 }
 
-const planDetails = {
-  starter: { name: 'Starter', monthly: 0, yearly: 0, oneTime: 0, emoji: '🎟️' },
-  standard: { name: 'Standard', monthly: 0, yearly: 0, oneTime: 0, emoji: '🎫' },
-  pro: { name: 'Pro', monthly: 0, yearly: 0, oneTime: 0, emoji: '🚀' },
-  power: { name: 'Power', monthly: 0, yearly: 0, oneTime: 0, emoji: '⚡' },
-};
+interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | PlanId; expiresAt: number | null }
+interface Pricing { plans: { free: { oneTime: number }; quick_pass: { oneTime: number }; pro: { oneTime: number }; power: { monthly: number; yearly: number } }; offer: Offer }
 
-interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | 'starter' | 'standard' | 'pro' | 'power'; expiresAt: number | null }
-interface Pricing { plans: { starter: { oneTime: number }; standard: { oneTime: number }; pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } }; offer: Offer }
-
-function offerActiveFor(offer: Offer | undefined, planId: 'starter' | 'standard' | 'pro' | 'power'): boolean {
+function offerActiveFor(offer: Offer | undefined, planId: PlanId): boolean {
   if (!offer || !offer.active || offer.percentOff <= 0) return false;
   if (offer.expiresAt && Date.now() > offer.expiresAt) return false;
   return offer.appliesTo === 'all' || offer.appliesTo === planId;
@@ -61,8 +53,9 @@ function CheckoutContent() {
   const router = useRouter();
   const { user, loading } = useAuth();
 
-  const plan = (searchParams.get('plan') || 'pro') as 'starter' | 'standard' | 'pro' | 'power';
-  const billing = (searchParams.get('billing') || 'monthly') as 'monthly' | 'yearly' | 'one-time';
+  const rawPlan = searchParams.get('plan') || 'pro';
+  const plan = migratePlanId(rawPlan) as PlanId;
+  const billing = (searchParams.get('billing') || (isOneTimePlan(plan) ? 'one-time' : 'monthly')) as 'monthly' | 'yearly' | 'one-time';
 
   const [step, setStep] = useState<'ready' | 'processing' | 'success' | 'error'>('ready');
   const [errorMsg, setErrorMsg] = useState('');
@@ -74,20 +67,14 @@ function CheckoutContent() {
 
   const isOneTime = billing === 'one-time';
 
-  // Price comes from admin-managed pricing (fallback to defaults), with any
-  // active offer applied; the server recomputes this authoritatively at order time.
+  const planConfig = PLANS.find(p => p.id === plan) || PLANS[0];
   const planPricing = pricing?.plans?.[plan];
   const basePrice = planPricing
-    ? (isOneTime
-        ? (planPricing as { oneTime: number }).oneTime
-        : (planPricing as { monthly?: number; yearly?: number })[billing] ?? 0)
-    : (isOneTime
-        ? (planDetails[plan] as { oneTime: number }).oneTime
-        : (planDetails[plan] as { monthly?: number; yearly?: number })[billing] ?? 0);
+    ? (isOneTime ? (planPricing as { oneTime: number }).oneTime : (planPricing as { monthly?: number; yearly?: number })[billing] ?? 0)
+    : planConfig.price;
   const offerOn = offerActiveFor(pricing?.offer, plan);
   const price = offerOn ? Math.max(1, Math.round(basePrice * (1 - pricing!.offer.percentOff / 100))) : basePrice;
 
-  // Discount preview mirrors the server rule (leave at least ₹1 on the order).
   const creditApplied = Math.max(0, Math.min(availableCredit, price - 1));
   const payable = price - creditApplied;
 
@@ -97,24 +84,21 @@ function CheckoutContent() {
     }
   }, [user, loading, router, plan]);
 
-  // Load admin-managed pricing + active offer for display.
   useEffect(() => {
     fetch('/api/pricing').then((r) => r.json()).then(setPricing).catch(() => {});
   }, []);
 
-  // Guard: check existing subscription before showing pay button
   useEffect(() => {
     if (!user) return;
     getDoc(doc(db, 'subscriptions', user.uid)).then((snap) => {
       const existing = snap.exists() ? (snap.data().plan as string) : 'free';
       const existingStatus = snap.exists() ? snap.data().status : null;
       const activePaid = existingStatus === 'active' && existing !== 'free';
-      setCurrentPlan(activePaid ? existing : 'free');
+      setCurrentPlan(activePaid ? migratePlanId(existing) : 'free');
       setSubCheckDone(true);
     }).catch(() => { setCurrentPlan('free'); setSubCheckDone(true); });
   }, [user]);
 
-  /** Lightweight check: is Razorpay configured on the server? */
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
@@ -128,7 +112,6 @@ function CheckoutContent() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!!user]);
 
-  /** Load the user's referral credit balance to preview the discount. */
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
@@ -152,8 +135,6 @@ function CheckoutContent() {
     setErrorMsg('');
 
     try {
-      // 1) Create order on the server (amount + any credit discount are set
-      //    server-side; idToken lets the server apply the user's referral credit).
       const idToken = await user.getIdToken();
       const orderRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
@@ -166,17 +147,15 @@ function CheckoutContent() {
       }
       const order = await orderRes.json();
 
-      // 2) Load Razorpay Checkout script.
       const loaded = await loadRazorpayScript();
       if (!loaded || !window.Razorpay) throw new Error('Razorpay SDK failed to load');
 
-      // 3) Open Razorpay modal.
       const rzp = new window.Razorpay({
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,
         name: 'JavihAI',
-        description: `${planDetails[plan].name} plan (${billing})`,
+        description: `${planConfig.name} plan (${billing})`,
         order_id: order.orderId,
         prefill: { email: user.email || '', name: user.displayName || '' },
         theme: { color: '#6366f1' },
@@ -184,9 +163,7 @@ function CheckoutContent() {
           ondismiss: () => setStep('ready'),
         },
         handler: async (response) => {
-          // 4) Verify signature on the server.
           try {
-            // 4a) Verify signature AND persist server-side in one call.
             const verifyRes = await fetch('/api/razorpay/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -194,7 +171,6 @@ function CheckoutContent() {
                 orderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,
                 signature: response.razorpay_signature,
-                // Context for server-side Firestore write
                 userId: user.uid,
                 plan,
                 billing,
@@ -202,26 +178,25 @@ function CheckoutContent() {
             });
             if (!verifyRes.ok) throw new Error('Payment verification failed');
 
-            // 5) Belt-and-suspenders: also write from client in case Admin SDK
-            //    is not configured on the server (FIREBASE_ADMIN_SDK_JSON missing).
             const verifyData = await verifyRes.json();
             if (!verifyData.savedToFirestore) {
               const isOneTimePlan = billing === 'one-time';
-              const hoursMap: Record<string, number> = { starter: 1, standard: 4, pro: 0, power: 0 };
-              const renewalDate = isOneTimePlan ? null : Date.now() + (billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
+              const hoursPurchased = isOneTimePlan ? planConfig.durationValue : 0;
+              const hoursRemaining = isOneTimePlan ? hoursPurchased : 0;
+              const expiresAt = isOneTimePlan ? Date.now() + planConfig.durationValue * 24 * 60 * 60 * 1000 : null;
+              const renewalDate = !isOneTimePlan ? Date.now() + (billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000 : null;
               await setDoc(
                 doc(db, 'subscriptions', user.uid),
                 {
                   plan, status: 'active', billing, amount: price,
                   planType: isOneTimePlan ? 'one-time' : 'subscription',
-                  ...(isOneTimePlan ? {
-                    hoursPurchased: hoursMap[plan] ?? 0,
-                    hoursRemaining: hoursMap[plan] ?? 0,
-                    expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
-                  } : { renewalDate }),
+                  hoursPurchased,
+                  hoursRemaining,
+                  expiresAt,
                   startedAt: Date.now(),
                   paymentId: response.razorpay_payment_id,
                   orderId: response.razorpay_order_id,
+                  ...(renewalDate ? { renewalDate } : {}),
                 },
                 { merge: true }
               );
@@ -253,7 +228,6 @@ function CheckoutContent() {
 
   return (
     <>
-
       <section className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -269,7 +243,7 @@ function CheckoutContent() {
               <div className="w-24 h-24 mx-auto rounded-full gradient-primary flex items-center justify-center text-5xl mb-6 animate-pulse-glow">✓</div>
               <h2 className="text-3xl font-black mb-4">Payment Successful! 🎉</h2>
               <p className="text-slate-300 text-lg mb-6">
-                Welcome to <span className="text-gradient font-bold">{planDetails[plan].name}</span>. Your account is upgrading…
+                Welcome to <span className="text-gradient font-bold">{planConfig.name}</span>. Your account is upgrading…
               </p>
               <Link href="/dashboard?upgraded=true" className="btn btn-primary btn-lg">Go to Dashboard →</Link>
             </div>
@@ -294,24 +268,17 @@ function CheckoutContent() {
             </div>
           )}
 
-          {/* Already on same plan */}
           {step === 'ready' && subCheckDone && currentPlan === plan && (
             <div className="max-w-2xl mx-auto card text-center">
-              <div className="text-5xl mb-4">{planDetails[plan].emoji}</div>
-              <h2 className="text-2xl font-black mb-2">You&apos;re already on {planDetails[plan].name}</h2>
+              <div className="text-5xl mb-4">{planConfig.emoji}</div>
+              <h2 className="text-2xl font-black mb-2">You&apos;re already on {planConfig.name}</h2>
               <p className="text-slate-400 mb-6">Your subscription is active. No need to pay again.</p>
               <Link href="/dashboard" className="btn btn-primary">Go to Dashboard →</Link>
             </div>
           )}
 
-          {/* Downgrade attempt */}
           {step === 'ready' && subCheckDone && currentPlan !== null && currentPlan !== plan &&
-           (() => {
-             const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
-             const nextIsOneTime = plan === 'starter' || plan === 'standard';
-             if (currentIsOneTime || nextIsOneTime) return false;
-             return (PLAN_RANK[plan] ?? 0) < (PLAN_RANK[currentPlan] ?? 0);
-           })() && (
+           isDowngrade(currentPlan as AnyPlanId, plan as AnyPlanId) && (
             <div className="max-w-2xl mx-auto card text-center">
               <div className="text-5xl mb-4">⬇️</div>
               <h2 className="text-2xl font-black mb-2">This is a downgrade</h2>
@@ -322,18 +289,12 @@ function CheckoutContent() {
               <p className="text-slate-500 text-sm mb-6">Contact support to downgrade — we&apos;ll handle it manually and prorate your billing.</p>
               <div className="flex gap-3 justify-center">
                 <Link href="/dashboard" className="btn btn-secondary">Keep {currentPlan.toUpperCase()} →</Link>
-                <button onClick={() => setStep('ready')} className="btn btn-primary"
-                  style={{ display: 'none' }}>hidden</button>
+                <button onClick={() => setStep('ready')} className="btn btn-primary" style={{ display: 'none' }}>hidden</button>
               </div>
             </div>
           )}
 
-          {step === 'ready' && (!subCheckDone || (currentPlan !== plan && (() => {
-            const currentIsOneTime = currentPlan === 'starter' || currentPlan === 'standard';
-            const nextIsOneTime = plan === 'starter' || plan === 'standard';
-            if (currentIsOneTime || nextIsOneTime) return true;
-            return (PLAN_RANK[plan] ?? 0) >= (PLAN_RANK[currentPlan ?? 'free'] ?? 0);
-          })())) && (
+          {step === 'ready' && (!subCheckDone || (currentPlan !== plan && canUpgradeTo(currentPlan as AnyPlanId, plan as AnyPlanId))) && (
             <div className="grid lg:grid-cols-5 gap-8">
               {/* Order Summary */}
               <div className="lg:col-span-2 order-2 lg:order-1">
@@ -342,10 +303,10 @@ function CheckoutContent() {
                   <div className="mb-6 pb-6 border-b border-white/10">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center text-2xl">
-                        {planDetails[plan].emoji}
+                        {planConfig.emoji}
                       </div>
                       <div>
-                        <div className="font-bold text-white">{planDetails[plan].name} Plan</div>
+                        <div className="font-bold text-white">{planConfig.name} Plan</div>
                         <div className="text-sm text-slate-400 capitalize">{isOneTime ? 'One-time pass' : `${billing} subscription`}</div>
                       </div>
                     </div>

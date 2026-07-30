@@ -1,14 +1,25 @@
 import { Resend } from 'resend';
+import { PlanId } from './pricing-config';
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <onboarding@resend.dev>';
 
-const PLAN_NAMES: Record<string, string> = { starter: 'Starter', standard: 'Standard', pro: 'Pro', power: 'Power' };
-const PLAN_EMOJI: Record<string, string> = { starter: '🎟️', standard: '🎫', pro: '🚀', power: '⚡' };
-const PLAN_FEATURES: Record<string, string[]> = {
-  starter: ['1 hour interview time', '7-day validity', 'Unlimited AI answers during session', 'System Audio + Mic mode', 'Screenshot Solve', 'Desi Mode'],
-  standard: ['4 hours interview time', '7-day validity', 'Unlimited AI answers during session', 'System Audio + Mic mode', 'Screenshot Solve', 'Desi Mode', 'Priority support'],
-  pro: ['Unlimited AI answers', 'Unlimited voice minutes', 'Unlimited screenshots', 'Desi Mode', 'Priority support'],
-  power: ['Everything in Pro', 'Multi-monitor support', 'Advanced analytics', 'Early access to new features', 'Dedicated support'],
+const PLAN_NAMES: Record<PlanId, string> = {
+  free: 'Free',
+  quick_pass: 'Quick Pass',
+  pro: 'Pro',
+  power: 'Power',
+};
+const PLAN_EMOJI: Record<PlanId, string> = {
+  free: '🎯',
+  quick_pass: '🎟️',
+  pro: '🚀',
+  power: '⚡',
+};
+const PLAN_FEATURES: Record<PlanId, string[]> = {
+  free: ['Limited AI usage', 'Explore core features', 'Limited trial experience'],
+  quick_pass: ['Full AI Interview Assistant', 'Voice Mode', 'Screen Mode', 'Coding Interview Support', 'HR Interview Support'],
+  pro: ['AI Interview Assistant', 'Voice Mode', 'Screen Mode', 'Coding Interview Support', 'HR Interview Support', 'Resume Analysis', 'Company-specific interview support'],
+  power: ['Everything in Pro', 'Unlimited Usage', 'AI Mock Interview', 'AI Interview Evaluation', 'AI Interview Score', 'Performance Analytics', 'Personalized Improvement Plan', 'Priority Support', 'Early Access Features'],
 };
 
 function formatDate(ts: number): string {
@@ -18,7 +29,7 @@ function formatDate(ts: number): string {
 export async function sendPaymentConfirmation(params: {
   email: string;
   name: string;
-  plan: 'starter' | 'standard' | 'pro' | 'power';
+  plan: PlanId;
   billing: 'monthly' | 'yearly' | 'one-time';
   amount: number;
   paymentId: string;
@@ -133,7 +144,7 @@ export async function sendPaymentFailed(params: { email: string; name: string; p
   if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
   const resend = new Resend(process.env.RESEND_API_KEY);
   const firstName = params.name?.split(' ')[0] || 'there';
-  const planName = params.plan ? (PLAN_NAMES[params.plan] ?? params.plan) : 'your plan';
+  const planName = params.plan ? (PLAN_NAMES[params.plan as PlanId] ?? params.plan) : 'your plan';
 
   const html = shell(`
   <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">Your payment didn't go through</h1>

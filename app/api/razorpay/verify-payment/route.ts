@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, getRazorpayKeys } from '@/lib/razorpay-server';
-import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission } from '@/lib/firebase-admin';
+import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission, getPlanById } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       paymentId: string;
       signature: string;
       userId?: string;
-      plan?: 'starter' | 'standard' | 'pro' | 'power';
+      plan?: string;
       billing?: 'monthly' | 'yearly' | 'one-time';
     };
 
@@ -55,11 +55,6 @@ export async function POST(request: NextRequest) {
           grossPaid = amount;
         }
         appliedCredit = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
-        // Defense-in-depth: appliedCredit is sourced from our own Razorpay
-        // order notes (create-order already bounds it to the user's actual
-        // credit balance), not client input, so this shouldn't be reachable
-        // today — but clamping here means a future bug in create-order can't
-        // redeem more credit than was actually charged off.
         appliedCredit = Math.min(appliedCredit, amount);
       } catch { /* non-fatal */ }
     }
@@ -68,21 +63,24 @@ export async function POST(request: NextRequest) {
     let savedToFirestore = false;
     const isOneTime = billing === 'one-time';
     const renewalDate = isOneTime ? null : Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
-    const hoursMap: Record<string, number> = { starter: 1, standard: 4, pro: 0, power: 0 };
+    const planConfig = getPlanById(plan as import('@/lib/pricing-config').AnyPlanId);
+    const hoursPurchased = isOneTime ? (planConfig?.durationValue ?? 0) : 0;
+    const hoursRemaining = isOneTime ? hoursPurchased : 0;
+    const expiresAt = isOneTime ? Date.now() + (planConfig?.durationValue ?? 1) * 24 * 60 * 60 * 1000 : null;
 
     if (userId && plan && billing) {
       savedToFirestore = await persistSubscription({
-        userId, plan, billing, amount, paymentId, orderId, source: 'checkout',
-        hoursPurchased: isOneTime ? (hoursMap[plan] ?? 0) : undefined,
-        hoursRemaining: isOneTime ? (hoursMap[plan] ?? 0) : undefined,
-        expiresAt: isOneTime ? Date.now() + 7 * 24 * 60 * 60 * 1000 : null,
+        userId, plan: plan as any, billing, amount, paymentId, orderId, source: 'checkout',
+        hoursPurchased,
+        hoursRemaining,
+        expiresAt,
       });
     }
 
     // 4) Referral post-processing
     if (userId) {
       try {
-        if (appliedCredit > 0) await redeemCreditForOrder(userId, orderId, appliedCredit);
+        if (appliedCredit > 0 && orderId) await redeemCreditForOrder(userId, orderId, appliedCredit);
         await rewardReferrerOnPayment(userId, orderId, paymentId);
         await accrueCreatorCommission(userId, paymentId, orderId, grossPaid);
       } catch (e) {
@@ -90,13 +88,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // 4) Send payment confirmation email
+    // 5) Send payment confirmation email
     if (userId && plan && billing) {
       try {
         const info = await getUserInfo(userId);
         if (info?.email) {
           await sendPaymentConfirmation({
-            email: info.email, name: info.name, plan: plan as 'starter' | 'standard' | 'pro' | 'power',
+            email: info.email, name: info.name, plan: plan as any,
             billing: billing as 'monthly' | 'yearly' | 'one-time',
             amount, paymentId,
             renewalDate: renewalDate ?? Date.now(),

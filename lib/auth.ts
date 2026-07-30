@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, addDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import { PlanId } from './pricing-config';
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
@@ -96,7 +97,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | undefined>
  */
 export async function ensureUserDocs(
   cred: UserCredential,
-  plan: 'free' | 'pro' | 'power' = 'free'
+  plan: PlanId = 'free'
 ): Promise<void> {
   const uid = cred.user.uid;
   const userRef = doc(db, 'users', uid);

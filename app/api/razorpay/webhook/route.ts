@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyWebhookSignature } from '@/lib/razorpay-server';
 import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission, db } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation, sendPaymentFailed } from '@/lib/email';
+import { getPlanById } from '@/lib/pricing-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -66,19 +67,20 @@ export async function POST(request: NextRequest) {
 
         const notes = payment.notes ?? {};
         const userId = notes.userId;
-        const plan = notes.plan as 'starter' | 'standard' | 'pro' | 'power' | undefined;
+        const plan = notes.plan as string | undefined;
         const billing = notes.billing as 'monthly' | 'yearly' | 'one-time' | undefined;
 
         if (userId && plan && billing) {
           const amount = payment.amount ? Math.round(payment.amount / 100) : 0;
           const isOneTime = billing === 'one-time';
-          const hoursPurchased = isOneTime ? Number(notes.hoursPurchased ?? 0) : 0;
+          const planConfig = getPlanById(plan as import('@/lib/pricing-config').AnyPlanId);
+          const hoursPurchased = isOneTime ? (planConfig?.durationValue ?? Number(notes.hoursPurchased ?? 0)) : 0;
           const hoursRemaining = isOneTime ? hoursPurchased : 0;
-          const expiresAt = isOneTime ? Date.now() + 7 * 24 * 60 * 60 * 1000 : null;
+          const expiresAt = isOneTime ? Date.now() + (planConfig?.durationValue ?? 1) * 24 * 60 * 60 * 1000 : null;
           const renewalDate = !isOneTime ? Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000) : null;
 
           const saved = await persistSubscription({
-            userId, plan, billing, amount,
+            userId, plan: plan as any, billing, amount,
             paymentId: payment.id,
             orderId: payment.order_id ?? '',
             source: 'webhook',
@@ -88,8 +90,6 @@ export async function POST(request: NextRequest) {
           });
           console.log('[razorpay/webhook] payment.captured → Firestore write:', saved ? 'ok' : 'skipped (no Admin SDK)');
 
-          // Referral + creator reconciliation (awaited + idempotent —
-          // verify-payment may have already done this; both paths are safe).
           try {
             const applied = Math.min(Number(notes.appliedCredit ?? 0) || 0, amount);
             if (applied > 0 && payment.order_id) {
@@ -102,14 +102,13 @@ export async function POST(request: NextRequest) {
             console.error('[razorpay/webhook] referral/creator reconciliation error:', e);
           }
 
-          // Send confirmation email (awaited, best-effort)
           try {
             const info = await getUserInfo(userId);
             if (info?.email) {
               await sendPaymentConfirmation({
                 email: info.email,
                 name: info.name,
-                plan: plan as 'starter' | 'standard' | 'pro' | 'power',
+                plan: plan as any,
                 billing: billing as 'monthly' | 'yearly' | 'one-time',
                 amount,
                 paymentId: payment.id,

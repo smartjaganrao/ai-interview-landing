@@ -7,7 +7,14 @@
  * gracefully rather than crash.
  */
 import * as admin from 'firebase-admin';
-import { PLAN_CATALOG } from './razorpay-server';
+import {
+  PlanId,
+  AnyPlanId,
+  PLANS,
+  PLAN_RANK,
+  migratePlanId,
+  getPlanById,
+} from './pricing-config';
 
 let db: admin.firestore.Firestore | null = null;
 
@@ -34,7 +41,7 @@ function init() {
 
 init();
 
-export { db };
+export { db, PLAN_RANK, getPlanById };
 
 /** Fetch a Firebase user's email + displayName by uid. Returns null if not found or Admin SDK absent. */
 export async function getUserInfo(uid: string): Promise<{ email: string; name: string } | null> {
@@ -66,23 +73,25 @@ const TOKENS_PER_ANSWER = 500;    // 1 "answer" ≈ 500 tokens (matches useQuota
 // these are soft ceilings, not visible limits. Real usage sits nowhere near
 // them; they only exist to cap worst-case Groq spend from abuse or a stuck
 // client looping, not to throttle genuine interview prep.
-const PAID_DAILY_LIMITS: Record<string, number> = { pro: 150, power: 300 };
+const PAID_DAILY_LIMITS: Partial<Record<PlanId, number>> = { quick_pass: 150, pro: 150, power: 300 };
 
 export function dayKey(): string {
   return new Date().toISOString().slice(0, 10); // UTC YYYY-MM-DD, consistent across server timezones
 }
 
 /** Resolve a user's plan from users/{uid}, falling back to an active subscription. */
-export async function getUserPlan(uid: string): Promise<'free' | 'pro' | 'power'> {
+export async function getUserPlan(uid: string): Promise<PlanId> {
   if (!db) return 'free';
   try {
     const u = await db.collection('users').doc(uid).get();
     const up = u.exists ? u.data()?.plan : undefined;
-    if (up === 'pro' || up === 'power') return up;
+    const migratedPlan = up ? migratePlanId(up as string) : undefined;
+    if (migratedPlan && migratedPlan !== 'free') return migratedPlan;
     const s = await db.collection('subscriptions').doc(uid).get();
     if (s.exists && s.data()?.status === 'active') {
       const sp = s.data()?.plan;
-      if (sp === 'pro' || sp === 'power') return sp;
+      const migratedSubPlan = sp ? migratePlanId(sp as string) : undefined;
+      if (migratedSubPlan && migratedSubPlan !== 'free') return migratedSubPlan;
     }
     return 'free';
   } catch {
@@ -132,7 +141,7 @@ export async function checkAiQuota(uid: string): Promise<{
 /** Write (or update) a subscription document server-side. */
 export async function persistSubscription(params: {
   userId: string;
-  plan: 'starter' | 'standard' | 'pro' | 'power';
+  plan: PlanId;
   billing: 'monthly' | 'yearly' | 'one-time';
   amount: number;
   paymentId: string;
@@ -148,9 +157,14 @@ export async function persistSubscription(params: {
     const alreadyLogged = (await logRef.get()).exists;
 
     const isOneTime = params.billing === 'one-time';
+    const planConfig = getPlanById(params.plan);
     const renewalDate = isOneTime
       ? (params.expiresAt ?? null)
       : Date.now() + (params.billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
+
+    const hoursPurchased = params.hoursPurchased ?? (planConfig ? planConfig.durationValue : 0);
+    const hoursRemaining = params.hoursRemaining ?? hoursPurchased;
+    const expiresAt = params.expiresAt ?? (isOneTime ? Date.now() + (planConfig?.durationValue ?? 1) * 24 * 60 * 60 * 1000 : null);
 
     const batch = db.batch();
     batch.set(
@@ -162,14 +176,10 @@ export async function persistSubscription(params: {
         billing: params.billing,
         amount: params.amount,
         startedAt: Date.now(),
-        ...(isOneTime
-          ? {
-              hoursPurchased: params.hoursPurchased ?? 0,
-              hoursRemaining: params.hoursRemaining ?? 0,
-              expiresAt: params.expiresAt ?? null,
-              renewalDate: null,
-            }
-          : { renewalDate }),
+        hoursPurchased,
+        hoursRemaining,
+        expiresAt,
+        ...(isOneTime ? { renewalDate: null } : { renewalDate }),
         paymentId: params.paymentId,
         orderId: params.orderId,
         updatedAt: Date.now(),
@@ -194,7 +204,7 @@ export async function persistSubscription(params: {
           amount: params.amount,
           paymentId: params.paymentId,
           source: params.source,
-          ...(isOneTime ? { hoursPurchased: params.hoursPurchased } : {}),
+          ...(isOneTime ? { hoursPurchased } : {}),
         },
         timestamp: Date.now(),
       });
@@ -217,6 +227,8 @@ export async function consumeHours(uid: string, hours: number): Promise<boolean>
     if (!snap.exists) return false;
     const data = snap.data()!;
     if (data.planType !== 'one-time') return true; // subscriptions are unlimited
+    const planConfig = getPlanById(data.plan as AnyPlanId);
+    if (planConfig?.isUnlimited) return true;
     const remaining = data.hoursRemaining ?? 0;
     if (remaining <= 0) return false;
     const newRemaining = Math.max(0, remaining - hours);
@@ -235,7 +247,7 @@ export async function consumeHours(uid: string, hours: number): Promise<boolean>
   }
 }
 
-/** Get remaining hours for a user. Returns 0 for subscriptions. */
+/** Get remaining hours for a user. Returns Infinity for unlimited plans. */
 export async function getRemainingHours(uid: string): Promise<number> {
   if (!db) return 0;
   try {
@@ -243,6 +255,8 @@ export async function getRemainingHours(uid: string): Promise<number> {
     if (!snap.exists) return 0;
     const data = snap.data()!;
     if (data.planType !== 'one-time') return Infinity;
+    const planConfig = getPlanById(data.plan as AnyPlanId);
+    if (planConfig?.isUnlimited) return Infinity;
     if (data.expiresAt && Date.now() > data.expiresAt) return 0;
     return data.hoursRemaining ?? 0;
   } catch {
@@ -506,7 +520,7 @@ export async function attributeCreator(
   const creatorDoc = q.docs[0];
   const creatorId = creatorDoc.id;
   if (creatorId === userId) return { ok: false, reason: 'self' };
-  if ((creatorDoc.data().status ?? 'active') !== 'active') return { ok: false, reason: 'inactive' };
+  if ((creatorDoc.data()?.status ?? 'active') !== 'active') return { ok: false, reason: 'inactive' };
 
   const attribRef = db.collection('creator_attributions').doc(userId);
   const res = await db.runTransaction(async (tx) => {
@@ -571,21 +585,21 @@ export async function accrueCreatorCommission(
 // ── Dynamic pricing & offers ──────────────────────────────────────────────────
 // Plan prices + one active offer live in settings/pricing (Admin-only write,
 // edited from the admin panel). The server reads this at order time, so prices
-// stay tamper-proof. Falls back to the hardcoded PLAN_CATALOG if unset.
+// stay tamper-proof. Falls back to the hardcoded PLANS if unset.
 
 export interface Offer {
   active: boolean;
   label: string;          // e.g. "Launch offer — 20% off"
   percentOff: number;     // 0–90
-  appliesTo: 'all' | 'starter' | 'standard' | 'pro' | 'power';
+  appliesTo: 'all' | PlanId;
   expiresAt: number | null;
 }
 
 export interface Pricing {
   plans: {
-    starter: { oneTime: number };
-    standard: { oneTime: number };
-    pro: { monthly: number; yearly: number };
+    free: { oneTime: number };
+    quick_pass: { oneTime: number };
+    pro: { oneTime: number };
     power: { monthly: number; yearly: number };
   };
   offer: Offer;
@@ -596,10 +610,10 @@ export const DEFAULT_OFFER: Offer = { active: false, label: '', percentOff: 0, a
 function pricingFallback(): Pricing {
   return {
     plans: {
-      starter: { oneTime: PLAN_CATALOG.starter.oneTime },
-      standard: { oneTime: PLAN_CATALOG.standard.oneTime },
-      pro: { monthly: PLAN_CATALOG.pro.monthly, yearly: PLAN_CATALOG.pro.yearly },
-      power: { monthly: PLAN_CATALOG.power.monthly, yearly: PLAN_CATALOG.power.yearly },
+      free: { oneTime: PLANS[0].price },
+      quick_pass: { oneTime: PLANS[1].price },
+      pro: { oneTime: PLANS[2].price },
+      power: { monthly: PLANS[3].price, yearly: PLANS[3].price * 10 },
     },
     offer: { ...DEFAULT_OFFER },
   };
@@ -613,18 +627,17 @@ export async function getDynamicPricing(): Promise<Pricing> {
     if (!snap.exists) return pricingFallback();
     const d = snap.data() ?? {};
     const fb = pricingFallback();
-    const appliesTo = ['all', 'starter', 'standard', 'pro', 'power'].includes(d.offer?.appliesTo) ? d.offer.appliesTo : 'all';
+    const appliesTo = ['all', 'free', 'quick_pass', 'pro', 'power'].includes(d.offer?.appliesTo) ? d.offer.appliesTo : 'all';
     return {
       plans: {
-        starter: {
-          oneTime: Number(d.plans?.starter?.oneTime ?? fb.plans.starter.oneTime),
+        free: {
+          oneTime: Number(d.plans?.free?.oneTime ?? fb.plans.free.oneTime),
         },
-        standard: {
-          oneTime: Number(d.plans?.standard?.oneTime ?? fb.plans.standard.oneTime),
+        quick_pass: {
+          oneTime: Number(d.plans?.quick_pass?.oneTime ?? fb.plans.quick_pass.oneTime),
         },
         pro: {
-          monthly: Number(d.plans?.pro?.monthly ?? fb.plans.pro.monthly),
-          yearly: Number(d.plans?.pro?.yearly ?? fb.plans.pro.yearly),
+          oneTime: Number(d.plans?.pro?.oneTime ?? fb.plans.pro.oneTime),
         },
         power: {
           monthly: Number(d.plans?.power?.monthly ?? fb.plans.power.monthly),
@@ -635,7 +648,7 @@ export async function getDynamicPricing(): Promise<Pricing> {
         active: !!d.offer?.active,
         label: String(d.offer?.label ?? ''),
         percentOff: Math.max(0, Math.min(90, Number(d.offer?.percentOff ?? 0))),
-        appliesTo,
+        appliesTo: appliesTo as Offer['appliesTo'],
         expiresAt: d.offer?.expiresAt ? Number(d.offer.expiresAt) : null,
       },
     };
@@ -646,14 +659,14 @@ export async function getDynamicPricing(): Promise<Pricing> {
 }
 
 /** Is the offer currently valid for this plan? */
-export function offerApplies(offer: Offer, plan: 'starter' | 'standard' | 'pro' | 'power'): boolean {
+export function offerApplies(offer: Offer, plan: PlanId): boolean {
   if (!offer.active || offer.percentOff <= 0) return false;
   if (offer.expiresAt && Date.now() > offer.expiresAt) return false;
   return offer.appliesTo === 'all' || offer.appliesTo === plan;
 }
 
 /** Apply the offer (if valid) to a base amount; never drops below ₹1. */
-export function effectiveAmount(base: number, offer: Offer, plan: 'starter' | 'standard' | 'pro' | 'power'): number {
+export function effectiveAmount(base: number, offer: Offer, plan: PlanId): number {
   if (!offerApplies(offer, plan)) return base;
   return Math.max(1, Math.round(base * (1 - offer.percentOff / 100)));
 }
@@ -670,7 +683,14 @@ export async function setSubscriptionCancel(uid: string, cancel: boolean): Promi
   if (!snap.exists) return false;
   await ref.set(
     { cancelAtPeriodEnd: cancel, canceledAt: cancel ? Date.now() : null, updatedAt: Date.now() },
-    { merge: true },
+    { merge: true }
   );
   return true;
+}
+
+/**
+ * Migrate legacy plan IDs to new plan IDs.
+ */
+export function migrateUserPlan(oldPlan: string): PlanId {
+  return migratePlanId(oldPlan as any);
 }

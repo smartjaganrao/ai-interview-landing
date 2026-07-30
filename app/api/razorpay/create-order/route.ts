@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRazorpayClient, getRazorpayKeyId, type PlanId, type Billing } from '@/lib/razorpay-server';
+import type { PlanId } from '@/lib/pricing-config';
+import { PLANS } from '@/lib/pricing-config';
+import { getRazorpayClient, getRazorpayKeyId } from '@/lib/razorpay-server';
 import { verifyIdToken, getReferralCredits, getDynamicPricing, effectiveAmount, offerApplies } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
@@ -23,30 +25,33 @@ export async function POST(request: NextRequest) {
 
     const { plan, billing, userId, idToken } = (await request.json()) as {
       plan: PlanId;
-      billing: Billing;
+      billing: 'one-time' | 'monthly' | 'yearly';
       userId?: string;
       idToken?: string;
     };
 
-    if (plan !== 'starter' && plan !== 'standard' && plan !== 'pro' && plan !== 'power') {
+    const validPlans: PlanId[] = ['free', 'quick_pass', 'pro', 'power'];
+    if (!validPlans.includes(plan)) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     }
     if (billing !== 'one-time' && billing !== 'monthly' && billing !== 'yearly') {
       return NextResponse.json({ error: 'Invalid billing cycle' }, { status: 400 });
     }
 
+    if (plan === 'free') {
+      return NextResponse.json({ error: 'Free plan does not require payment' }, { status: 400 });
+    }
+
     const isOneTime = billing === 'one-time';
 
-    // Base price from admin-managed pricing, then apply any active offer.
     const pricing = await getDynamicPricing();
     const planPricing = pricing.plans[plan];
     const baseAmount = isOneTime
       ? (planPricing as { oneTime: number }).oneTime
-      : (planPricing as { monthly?: number; yearly?: number })[billing] ?? 0;
+      : (planPricing as Record<'monthly' | 'yearly', number>)[billing] ?? 0;
     const amountInRupees = effectiveAmount(baseAmount, pricing.offer, plan);
     const offerOn = offerApplies(pricing.offer, plan);
 
-    // Apply referral credit only for an authenticated user (verified uid).
     let appliedCredit = 0;
     let payerUid = userId;
     if (idToken) {
@@ -61,7 +66,8 @@ export async function POST(request: NextRequest) {
     const finalRupees = amountInRupees - appliedCredit;
     const amountInPaise = finalRupees * 100;
 
-    const hoursMap: Record<string, number> = { starter: 1, standard: 4, pro: 0, power: 0 };
+    const planConfig = PLANS.find(p => p.id === plan);
+    const hoursPurchased = isOneTime ? (planConfig?.durationValue ?? 0) : 0;
 
     const order = await razorpay.orders.create({
       amount: amountInPaise,
@@ -71,14 +77,13 @@ export async function POST(request: NextRequest) {
         plan,
         billing,
         planType: isOneTime ? 'one-time' : 'subscription',
-        ...(isOneTime ? { hoursPurchased: String(hoursMap[plan] ?? 0) } : {}),
+        ...(isOneTime ? { hoursPurchased: String(hoursPurchased) } : {}),
         ...(payerUid ? { userId: payerUid } : {}),
         appliedCredit: String(appliedCredit),
         ...(offerOn ? { offer: pricing.offer.label || `${pricing.offer.percentOff}% off` } : {}),
       },
     });
 
-    // Return the public key ID from Firestore/env (never the secret)
     const keyId = await getRazorpayKeyId();
 
     return NextResponse.json({
