@@ -36,6 +36,3 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
-        env:
-          VERCEL_ORG_ID: team_EsIbfY0Y1h8z4UAgzkvPcmLR
-          VERCEL_PROJECT_ID: prj_nYLl9Am5L5CFBOGWONGaKudj41fb
