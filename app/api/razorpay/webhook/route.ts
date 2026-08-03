@@ -146,12 +146,13 @@ export async function POST(request: NextRequest) {
         const sub = event.payload?.subscription?.entity;
         const userId = sub?.notes?.userId;
         if (userId && db) {
-          await db.collection('subscriptions').doc(userId).set(
-            { status: 'cancelled', updatedAt: Date.now() },
-            { merge: true }
-          );
-          await db.collection('users').doc(userId).set(
-            { plan: 'free', updatedAt: Date.now() },
+          const subRef = db.collection('subscriptions').doc(userId);
+          const existing = await subRef.get();
+          const existingData = existing.data() as { billing?: string; renewalDate?: number } | undefined;
+          const billing = existingData?.billing === 'yearly' ? 'yearly' : 'monthly';
+          const renewalDate = existingData?.renewalDate ?? Date.now() + (billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000;
+          await subRef.set(
+            { status: 'cancelled', updatedAt: Date.now(), renewalDate },
             { merge: true }
           );
         }

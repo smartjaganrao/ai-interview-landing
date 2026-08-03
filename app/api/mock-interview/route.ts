@@ -118,28 +118,34 @@ export async function POST(req: NextRequest) {
   const role = body.profile?.targetRole?.trim() || 'Software Engineer';
   const difficulty: Difficulty = body.difficulty && body.difficulty in DIFFICULTY_GUIDE ? body.difficulty : 'medium';
 
-  /* ── Start: check free session limit then generate first question ───────── */
+  /* ── Start: mock interview is a Power-only feature. Free users get 1 free
+   *     session/day as a trial; Quick Pass and Pro users get none. ─────────── */
   if (body.action === 'start') {
     const plan = await getUserPlan(user.uid);
-    if (plan === 'free' && db) {
-      try {
-        const ref = db.collection('usage_tracking').doc(user.uid).collection('days').doc(dayKey());
-        // Use a transaction so concurrent requests can't both pass the quota check
-        // (read + increment are atomic — eliminates the TOCTOU race).
-        const allowed = await db.runTransaction(async (tx) => {
-          const snap = await tx.get(ref);
-          const sessionsToday = snap.exists ? (snap.data()?.mockSessions || 0) : 0;
-          if (sessionsToday >= FREE_MOCK_SESSIONS_PER_DAY) return false;
-          tx.set(ref, { mockSessions: sessionsToday + 1, lastUpdated: Date.now() }, { merge: true });
-          return true;
-        });
-        if (!allowed) {
-          return NextResponse.json(
-            { error: 'Free plan allows 1 mock interview per day. Upgrade to Pro for unlimited sessions.' },
-            { status: 429 }
-          );
-        }
-      } catch { /* fail open */ }
+    if (plan !== 'power' && db) {
+      if (plan === 'free') {
+        try {
+          const ref = db.collection('usage_tracking').doc(user.uid).collection('days').doc(dayKey());
+          const allowed = await db.runTransaction(async (tx) => {
+            const snap = await tx.get(ref);
+            const sessionsToday = snap.exists ? (snap.data()?.mockSessions || 0) : 0;
+            if (sessionsToday >= FREE_MOCK_SESSIONS_PER_DAY) return false;
+            tx.set(ref, { mockSessions: sessionsToday + 1, lastUpdated: Date.now() }, { merge: true });
+            return true;
+          });
+          if (!allowed) {
+            return NextResponse.json(
+              { error: 'Free plan allows 1 mock interview per day. Upgrade to Power for unlimited sessions.' },
+              { status: 429 }
+            );
+          }
+        } catch { /* fail open */ }
+      } else {
+        return NextResponse.json(
+          { error: 'AI Mock Interview is a Power plan feature. Upgrade to Power to access unlimited mock interviews with scoring and evaluation.' },
+          { status: 403 }
+        );
+      }
     }
 
     const question = await generateQuestion(body.profile, [], difficulty);

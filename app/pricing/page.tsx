@@ -254,6 +254,7 @@ export default function PricingPage() {
                 : cyclePrice;
               const highlighted = isPlanHighlighted(plan.id);
               const badge = getPlanBadge(plan.id);
+              const usageLabel = getPlanUsageLabel(plan.id);
               return (
               <div
                 key={plan.id}
@@ -292,7 +293,10 @@ export default function PricingPage() {
                   {offerOn && plan.id !== 'free' && (
                     <p className="text-xs text-green-400 font-semibold mb-1">{pricing!.offer.percentOff}% off applied</p>
                   )}
-                  <p className="text-xs text-slate-500 mb-1">{getPlanUsageLabel(plan.id)}</p>
+                  <p className="text-xs text-slate-500 mb-1">{usageLabel}</p>
+                  {plan.billingType === 'one_time' && plan.durationType === 'hours' && (
+                    <p className="text-xs text-slate-600">Unused hours carry over · expires after {plan.durationValue * 24}h</p>
+                  )}
                 </div>
 
                 {user && plan.id === currentPlan && (
