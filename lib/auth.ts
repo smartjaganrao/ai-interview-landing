@@ -6,7 +6,7 @@ import {
   AuthError,
   fetchSignInMethodsForEmail,
 } from 'firebase/auth';
-import { doc, collection, Timestamp, runTransaction } from 'firebase/firestore';
+import { doc, collection, Timestamp, runTransaction, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { PlanId } from './pricing-config';
 
@@ -85,8 +85,14 @@ export async function googleSignIn(): Promise<UserCredential | null> {
  * Ensures Firestore docs exist for a freshly authenticated user.
  * Uses a Firestore transaction so concurrent calls for the same UID
  * cannot create duplicate documents.
- * Resilient: if Firestore is unavailable (deleted DB, network error), login
- * still succeeds — the user lands on the dashboard in degraded state.
+ * Retries up to 3 times on transient errors so a momentary Firestore hiccup
+ * doesn't leave the user with no profile.
+ *
+ * Also enforces email uniqueness: if another user document already has the
+ * same email, we merge into that document instead of creating a duplicate.
+ * This protects against the same email being registered under multiple UIDs
+ * (e.g. when Firebase Auth's "one account per email" setting is off, or
+ * when a user switches sign-in methods).
  */
 export async function ensureUserDocs(
   cred: UserCredential,
@@ -94,39 +100,72 @@ export async function ensureUserDocs(
 ): Promise<void> {
   const uid = cred.user.uid;
   const userRef = doc(db, 'users', uid);
+  const email = cred.user.email ?? '';
+  const name  = cred.user.displayName || 'there';
+  const now   = Date.now();
 
-  try {
-    await runTransaction(db, async (tx) => {
-      const snap = await tx.get(userRef);
-      if (!snap.exists()) {
-        const email = cred.user.email ?? '';
-        const name  = cred.user.displayName || 'there';
-        const now   = Date.now();
+  // ── Duplicate email protection (outside transaction) ─────────────────────
+  // Firestore transactions only allow document gets, not queries, so we
+  // check for an existing user with the same email beforehand. If one is
+  // found, we merge into it instead of creating a new document.
+  let existingEmailDocId: string | null = null;
+  if (email) {
+    const emailQuery = query(collection(db, 'users'), where('email', '==', email));
+    const emailSnap = await getDocs(emailQuery);
+    const existing = emailSnap.docs.find(d => d.id !== uid);
+    if (existing) {
+      existingEmailDocId = existing.id;
+    }
+  }
 
-        tx.set(userRef, {
-          email, name, uid, plan,
-          createdAt: now,
-          settings: { theme: 'dark', language: 'en' },
-        });
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await runTransaction(db, async (tx) => {
+        const snap = await tx.get(userRef);
+        if (!snap.exists()) {
+          // If another doc already has this email, merge into it
+          if (existingEmailDocId) {
+            const existingRef = doc(db, 'users', existingEmailDocId);
+            tx.set(existingRef, {
+              uid,
+              plan,
+              updatedAt: now,
+              settings: { theme: 'dark', language: 'en' },
+            }, { merge: true });
+            tx.set(doc(db, 'subscriptions', uid), { plan, status: 'active', createdAt: now }, { merge: true });
+            return;
+          }
 
-        tx.set(doc(db, 'subscriptions', uid), {
-          plan, status: 'active', createdAt: now,
-        });
+          tx.set(userRef, {
+            email, name, uid, plan,
+            createdAt: now,
+            settings: { theme: 'dark', language: 'en' },
+          });
 
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
-        const q = collection(db, 'email_queue');
-        tx.set(doc(q), { email, name, type: 'welcome', sendAfter: Timestamp.fromMillis(now), sentAt: null, uid });
-        tx.set(doc(q), { email, name, type: 'day2',  sendAfter: Timestamp.fromMillis(now + 2 * 24 * 60 * 60 * 1000), sentAt: null, uid });
-        tx.set(doc(q), { email, name, type: 'day5',  sendAfter: Timestamp.fromMillis(now + 5 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+          tx.set(doc(db, 'subscriptions', uid), { plan, status: 'active', createdAt: now });
 
-        fetch(`${appUrl}/api/email/welcome`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name, type: 'welcome' }),
-        }).catch(() => {});
+          const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
+          const q = collection(db, 'email_queue');
+          tx.set(doc(q), { email, name, type: 'welcome', sendAfter: Timestamp.fromMillis(now), sentAt: null, uid });
+          tx.set(doc(q), { email, name, type: 'day2',  sendAfter: Timestamp.fromMillis(now + 2 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+          tx.set(doc(q), { email, name, type: 'day5',  sendAfter: Timestamp.fromMillis(now + 5 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+
+          fetch(`${appUrl}/api/email/welcome`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, name, type: 'welcome' }),
+          }).catch(() => {});
+        }
+      });
+      return;
+    } catch (e) {
+      if (attempt < 3) {
+        await new Promise(r => setTimeout(r, attempt * 500));
+        continue;
       }
-    });
-  } catch (e) {
-    console.warn('[ensureUserDocs] Firestore error (DB unavailable?):', e);
+      console.error('[ensureUserDocs] Firestore error after 3 attempts:', e);
+      throw e;
+    }
   }
 }
+

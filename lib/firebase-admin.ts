@@ -187,11 +187,20 @@ export async function persistSubscription(params: {
       },
       { merge: true }
     );
-    batch.set(
-      db.collection('users').doc(params.userId),
-      { plan: params.plan, updatedAt: Date.now() },
-      { merge: true }
-    );
+
+    const userRef = db.collection('users').doc(params.userId);
+    const userSnap = await userRef.get();
+    const update: Record<string, unknown> = { plan: params.plan, updatedAt: Date.now() };
+    if (!userSnap.exists || !userSnap.data()?.email) {
+      try {
+        const fbUser = await admin.auth().getUser(params.userId);
+        update.email = fbUser.email ?? '';
+        update.name = fbUser.displayName ?? '';
+      } catch {
+        // Admin SDK getUser can fail for deleted/disabled accounts; proceed without backfill
+      }
+    }
+    batch.set(userRef, update, { merge: true });
     if (!alreadyLogged) {
       batch.set(logRef, {
         adminUid: 'system',

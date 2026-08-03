@@ -200,7 +200,12 @@ function CheckoutContent() {
                 },
                 { merge: true }
               );
-              await setDoc(doc(db, 'users', user.uid), { plan, updatedAt: Date.now() }, { merge: true });
+              await setDoc(doc(db, 'users', user.uid), {
+                plan,
+                updatedAt: Date.now(),
+                email: user.email || '',
+                name: user.displayName || '',
+              }, { merge: true });
             }
 
             setStep('success');

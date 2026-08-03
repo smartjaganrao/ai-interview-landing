@@ -1,0 +1,12 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "email", "arrayConfig": "NOT_ARRAY", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
