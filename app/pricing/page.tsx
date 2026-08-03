@@ -53,7 +53,7 @@ const productSchema = {
       name: 'Pro',
       price: '499',
       priceCurrency: 'INR',
-      description: '5-hour deep practice pass with Resume Analysis and company-specific interview support',
+      description: '7-day unlimited pass with Resume Analysis and company-specific interview support',
     },
     {
       '@type': 'Offer',
@@ -82,7 +82,7 @@ const faqSchema = {
       name: 'What\'s the difference between Quick Pass and Pro?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Quick Pass is 1 hour for ₹99. Pro is 5 hours for ₹499 and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.',
+        text: 'Quick Pass is 1 hour for ₹99. Pro is 7 days unlimited for ₹499 and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.',
       },
     },
     {
@@ -391,9 +391,9 @@ export default function PricingPage() {
           <div className="mt-20 max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-8">Common Questions</h2>
             <div className="space-y-4">
-              {[
-                { q: 'How does the Quick Pass work?', a: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access for ₹99. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.' },
-                { q: 'What\'s the difference between Quick Pass and Pro?', a: 'Quick Pass is 1 hour for ₹99. Pro is 5 hours for ₹499 and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.' },
+               {[
+                 { q: 'How does the Quick Pass work?', a: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access for ₹99. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.' },
+                 { q: 'What\'s the difference between Quick Pass and Pro?', a: 'Quick Pass is 1 hour for ₹99. Pro is 7 days unlimited for ₹499 and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.' },
                 { q: 'Can I use JavihAI on Mac?', a: 'Yes! JavihAI supports both Windows and Mac (Apple Silicon M1/M2/M3 and Intel). Download the appropriate version from our download page.' },
                 { q: 'Is the overlay really invisible?', a: 'Yes. JavihAI uses OS-level APIs to exclude itself from all screen captures. The interviewer sees only your screen, not the overlay, on Zoom, Google Meet, and Microsoft Teams.' },
                 { q: 'How is JavihAI different from Final Round AI?', a: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and starts at ₹99 for a one-time pass — 15× cheaper than Final Round AI.' },

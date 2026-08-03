@@ -331,14 +331,19 @@ function DashboardContent() {
                       </div>
                     </div>
                   </div>
-                  {subData?.planType === 'one-time' && subData.hoursRemaining !== undefined && (
+                  {subData?.planType === 'one-time' && subData.hoursRemaining !== undefined && !planConfig.isUnlimited && (
                     <div className="text-sm text-indigo-300 mb-3">
                       {subData.hoursRemaining > 0 ? `${subData.hoursRemaining.toFixed(1)}h remaining` : 'Hours exhausted'}
                     </div>
                   )}
+                  {subData?.planType === 'one-time' && planConfig.isUnlimited && subData.expiresAt && (
+                    <div className="text-sm text-indigo-300 mb-3">
+                      {Date.now() < subData.expiresAt ? `Expires ${new Date(subData.expiresAt).toLocaleDateString()}` : 'Expired'}
+                    </div>
+                  )}
                   {plan === 'free' ? (
                     <Link href="/pricing" className="btn btn-primary w-full">Upgrade →</Link>
-                  ) : subData?.planType === 'one-time' && (subData.hoursRemaining ?? 0) <= 0 ? (
+                  ) : subData?.planType === 'one-time' && !planConfig.isUnlimited && (subData.hoursRemaining ?? 0) <= 0 ? (
                     <Link href="/pricing" className="btn btn-primary w-full">Buy Hours →</Link>
                   ) : (
                     <Link href="/pricing" className="btn btn-secondary w-full">Manage Plan</Link>
@@ -460,7 +465,7 @@ function DashboardContent() {
                       { icon: '🎯', label: 'Full AI Access', desc: 'No daily limits' },
                       { icon: '🎤', label: 'Voice Mode', desc: 'Interview practice' },
                       { icon: '💻', label: 'Screen Mode', desc: 'Invisible overlay' },
-                      { icon: plan === 'power' ? '⚡' : '🚀', label: plan === 'power' ? 'Unlimited Power' : 'Deep Practice', desc: plan === 'power' ? 'Unlimited everything' : '5 hours deep practice' },
+                       { icon: plan === 'power' ? '⚡' : '🚀', label: plan === 'power' ? 'Unlimited Power' : '7 Days Unlimited', desc: plan === 'power' ? 'Unlimited everything' : '7 days full access' },
                     ].map((b, i) => (
                       <div key={i} className="card text-center">
                         <div className="text-3xl mb-2">{b.icon}</div>
@@ -507,10 +512,16 @@ function DashboardContent() {
                                 </div>
                               </div>
                             )}
-                            {planConfig.billingType === 'one_time' && subData.hoursRemaining !== undefined && (
+                            {planConfig.billingType === 'one_time' && !planConfig.isUnlimited && subData.hoursRemaining !== undefined && (
                               <div>
                                 <div className="text-xs text-slate-400 mb-1">Hours Left</div>
                                 <div className="text-white font-semibold text-sm">{subData.hoursRemaining.toFixed(1)}h</div>
+                              </div>
+                            )}
+                            {planConfig.billingType === 'one_time' && planConfig.isUnlimited && subData.expiresAt && (
+                              <div>
+                                <div className="text-xs text-slate-400 mb-1">Expires On</div>
+                                <div className="text-white font-semibold text-sm">{new Date(subData.expiresAt).toLocaleDateString()}</div>
                               </div>
                             )}
                           </div>
