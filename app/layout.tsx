@@ -5,6 +5,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CaptureAttribution from '@/components/CaptureAttribution';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import Navbar from '@/components/Navbar';
+import { ReduxProvider } from '@/components/ReduxProvider';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
@@ -397,7 +398,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WhatsAppButton />
         <Navbar />
         <div className="bg-gradient-mesh bg-grid min-h-screen">
-          {children}
+          <ReduxProvider>
+            {children}
+          </ReduxProvider>
         </div>
       </body>
     </html>

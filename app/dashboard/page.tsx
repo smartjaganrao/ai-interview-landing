@@ -3,49 +3,13 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { doc, getDoc, onSnapshot, collection, query, where, getCountFromServer } from 'firebase/firestore';
-import { cachedGetDoc, cachedQuery } from '@/lib/firestore-cache';
-import CompleteProfileModal, { shouldShowProfilePrompt } from '@/components/CompleteProfileModal';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { refreshAllData, clearAllData, type ActivityData } from '@/lib/data-sync';
+import { setSubscription as setSubAction } from '@/lib/slices/subscriptionSlice';
+import { setUser } from '@/lib/slices/userSlice';
+import CompleteProfileModal from '@/components/CompleteProfileModal';
 import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
-
-interface UserData {
-  email: string;
-  name: string;
-  plan: string;
-  createdAt: number;
-  phone?: string;
-  experienceLevel?: string;
-  city?: string;
-  referralSource?: string;
-}
-
-interface UsageData {
-  tokensUsed: number;
-  voiceMinutes: number;
-  screenshotsUsed: number;
-}
-
-interface SubscriptionData {
-  plan: string;
-  status: string;
-  billing?: 'monthly' | 'yearly' | 'one-time';
-  amount?: number;
-  startedAt?: number;
-  renewalDate?: number;
-  paymentId?: string;
-  cancelAtPeriodEnd?: boolean;
-  planType?: 'one-time' | 'subscription';
-  hoursPurchased?: number;
-  hoursRemaining?: number;
-  expiresAt?: number;
-}
-
-interface ActivityData {
-  totalSessions: number;
-  totalQuestions: number;
-}
 
 const WINDOWS_DOWNLOAD_URL = '/api/download/win';
 const MAC_DOWNLOAD_URL = '/api/download/mac';
@@ -54,15 +18,14 @@ function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
 
-  const withAttribution = (url: string) =>
-    user ? `${url}?uid=${encodeURIComponent(user.uid)}&email=${encodeURIComponent(user.email || '')}` : url;
-
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [subData, setSubData] = useState<SubscriptionData | null>(null);
-  const [usageData, setUsageData] = useState<UsageData | null>(null);
+  const userData = useAppSelector((state) => state.user.data);
+  const subData = useAppSelector((state) => state.subscription.data);
+  const usageData = useAppSelector((state) => state.usage.data);
   const [activity, setActivity] = useState<ActivityData>({ totalSessions: 0, totalQuestions: 0 });
   const [dataReady, setDataReady] = useState({ user: false, sub: false, usage: false, activity: false });
+  const [isSyncing, setIsSyncing] = useState(false);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
   const [showProfilePrompt, setShowProfilePrompt] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
@@ -85,6 +48,9 @@ function DashboardContent() {
   const [hasSignedIn, setHasSignedIn] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
   const [cancelBusy, setCancelBusy] = useState(false);
+
+  const withAttribution = (url: string) =>
+    user ? `${url}?uid=${encodeURIComponent(user.uid)}&email=${encodeURIComponent(user.email || '')}` : url;
 
   useEffect(() => {
     fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
@@ -110,6 +76,48 @@ function DashboardContent() {
     }
   }, [user, userData]);
 
+  useEffect(() => {
+    if (!user) return;
+
+    const loadData = async () => {
+      setIsSyncing(true);
+      setDataReady({ user: false, sub: false, usage: false, activity: false });
+
+      try {
+        const result = await refreshAllData(user.uid);
+        if (result.user) setDataReady(prev => ({ ...prev, user: true }));
+        if (result.subscription) setDataReady(prev => ({ ...prev, sub: true }));
+        if (result.usage) setDataReady(prev => ({ ...prev, usage: true }));
+        setActivity(result.activity);
+        setDataReady(prev => ({ ...prev, activity: true }));
+      } catch (err) {
+        console.error('[dashboard] failed to load data:', err);
+        setDataReady({ user: true, sub: true, usage: true, activity: true });
+      } finally {
+        setIsSyncing(false);
+      }
+    };
+
+    loadData();
+  }, [user?.uid]);
+
+  const handleRefresh = async () => {
+    if (!user || isSyncing) return;
+    setIsSyncing(true);
+    try {
+      const result = await refreshAllData(user.uid);
+      setActivity(result.activity);
+      if (result.user) setDataReady(prev => ({ ...prev, user: true }));
+      if (result.subscription) setDataReady(prev => ({ ...prev, sub: true }));
+      if (result.usage) setDataReady(prev => ({ ...prev, usage: true }));
+      setDataReady(prev => ({ ...prev, activity: true }));
+    } catch {
+      console.error('[dashboard] refresh failed');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   const loadMyTickets = async () => {
     if (!user) return;
     setTicketsLoading(true);
@@ -134,7 +142,7 @@ function DashboardContent() {
         body: JSON.stringify({ idToken, cancel }),
       });
       if (res.ok) {
-        setSubData(prev => prev ? { ...prev, cancelAtPeriodEnd: cancel } : prev);
+        dispatch(setSubAction({ ...(subData || {}), cancelAtPeriodEnd: cancel } as any));
       }
     } catch { /* silent */ }
     setCancelBusy(false);
@@ -142,6 +150,7 @@ function DashboardContent() {
 
   useEffect(() => {
     if (!authLoading && !user) {
+      clearAllData();
       router.push('/auth/login');
       return;
     }
@@ -153,95 +162,6 @@ function DashboardContent() {
       setTimeout(() => setShowSuccessBanner(false), 5000);
     }
   }, [searchParams]);
-
-  useEffect(() => {
-    if (!user) return;
-    setDataReady(prev => ({ ...prev, user: false, sub: false, usage: false, activity: false }));
-
-    const dateKey = new Date().toISOString().slice(0, 10);
-    cachedGetDoc(`usage:${user.uid}:${dateKey}`, 5 * 60 * 1000, () =>
-      getDoc(doc(db, 'usage_tracking', user.uid, 'days', dateKey)).then((usageSnap) =>
-        usageSnap.exists() ? (usageSnap.data() as UsageData) : null
-      )
-    )
-      .then((usageResult) => {
-        setUsageData(usageResult || { tokensUsed: 0, voiceMinutes: 0, screenshotsUsed: 0 });
-        setDataReady(prev => ({ ...prev, usage: true }));
-      })
-      .catch((err) => {
-        console.error('[dashboard] failed to load usage:', err);
-        setDataReady(prev => ({ ...prev, usage: true }));
-      });
-
-    let latestUserData: UserData | null = null;
-    let latestSubData: SubscriptionData | null = null;
-    let gotUser = false;
-    let gotSub = false;
-    const maybeStopLoading = () => {
-      if (gotUser && gotSub) {
-        setDataReady(prev => ({ ...prev, user: true, sub: true }));
-      }
-    };
-
-    const mergeAndSetUserData = () => {
-      if (!latestUserData) return;
-      const ud = { ...latestUserData };
-      if (latestSubData?.plan) ud.plan = latestSubData.plan;
-      setUserData(ud);
-      setShowProfilePrompt(shouldShowProfilePrompt(ud));
-    };
-
-    const unsubUser = onSnapshot(doc(db, 'users', user.uid), (snap) => {
-      gotUser = true;
-      if (snap.exists()) {
-        latestUserData = snap.data() as UserData;
-        mergeAndSetUserData();
-      }
-      maybeStopLoading();
-    }, (err) => {
-      console.error('[dashboard] users listener failed:', err);
-      gotUser = true;
-      maybeStopLoading();
-    });
-
-    const unsubSub = onSnapshot(doc(db, 'subscriptions', user.uid), (snap) => {
-      gotSub = true;
-      if (snap.exists()) {
-        latestSubData = snap.data() as SubscriptionData;
-        setSubData(latestSubData);
-        mergeAndSetUserData();
-      }
-      maybeStopLoading();
-    }, (err) => {
-      console.error('[dashboard] subscriptions listener failed:', err);
-      gotSub = true;
-      maybeStopLoading();
-    });
-
-    Promise.all([
-      cachedQuery(`count:sessions:${user.uid}`, 5 * 60 * 1000, () =>
-        getCountFromServer(query(collection(db, 'interview_sessions'), where('userId', '==', user.uid))).then((sessSnap) => sessSnap.data().count)
-      ),
-      cachedQuery(`count:messages:${user.uid}`, 5 * 60 * 1000, () =>
-        getCountFromServer(query(collection(db, 'interview_messages'), where('userId', '==', user.uid))).then((msgSnap) => msgSnap.data().count)
-      ),
-    ])
-      .then(([sessCount, msgCount]) => {
-        setActivity({
-          totalSessions: sessCount,
-          totalQuestions: msgCount,
-        });
-        setDataReady(prev => ({ ...prev, activity: true }));
-      })
-      .catch(() => {
-        setDataReady(prev => ({ ...prev, activity: true }));
-      });
-
-    return () => {
-      unsubUser();
-      unsubSub();
-    };
-  }, [user]);
 
   const handleDownload = (platform: 'windows' | 'mac') => {
     localStorage.setItem('javihai_downloaded', 'true');
@@ -279,7 +199,7 @@ function DashboardContent() {
           user={user}
           onDone={(saved) => {
             setShowProfilePrompt(false);
-            if (saved) setUserData((prev) => prev ? { ...prev, ...saved } : prev);
+            if (saved) dispatch(setUser({ ...(userData || {}), ...saved } as any));
           }}
           initial={{ phone: userData?.phone, experienceLevel: userData?.experienceLevel, city: userData?.city, referralSource: userData?.referralSource }}
         />
@@ -436,7 +356,12 @@ function DashboardContent() {
                 </div>
               ) : plan === 'free' && usageData ? (
                 <div className="card">
-                  <h3 className="text-base font-bold mb-4">📊 Today&apos;s Usage</h3>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-base font-bold">📊 Today&apos;s Usage</h3>
+                    <button onClick={handleRefresh} disabled={isSyncing} className="text-xs text-indigo-400 hover:text-indigo-300 disabled:opacity-50">
+                      {isSyncing ? 'Refreshing…' : '↻ Refresh'}
+                    </button>
+                  </div>
                   <div className="grid md:grid-cols-3 gap-6 mb-6">
                     {[
                       { label: 'AI Answers', used: Math.min(usageData.tokensUsed / 500, 3), total: 3 },
@@ -713,7 +638,12 @@ function DashboardContent() {
 
           {/* ==================== ACCOUNT ==================== */}
           <div className="card">
-            <h2 className="text-lg font-bold mb-4">⚙️ Account Details</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold">⚙️ Account Details</h2>
+              <button onClick={handleRefresh} disabled={isSyncing} className="text-xs text-indigo-400 hover:text-indigo-300 disabled:opacity-50">
+                {isSyncing ? 'Refreshing…' : '↻ Refresh'}
+              </button>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               {[
                 { label: 'Email', value: userData?.email || user?.email },
