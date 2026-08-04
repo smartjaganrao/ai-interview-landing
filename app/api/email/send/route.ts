@@ -6,6 +6,10 @@ export const dynamic = 'force-dynamic';
 
 const DEFAULT_FROM = 'JavihAI <onboarding@resend.dev>';
 
+let cachedResendConfig: ResendConfig | null = null;
+let cachedResendConfigExpiresAt = 0;
+const RESEND_CONFIG_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
 interface ResendConfig {
   apiKey: string;
   fromEmail: string;
@@ -17,24 +21,33 @@ interface ResendConfig {
  * (settings/api_keys) take precedence, falling back to env vars.
  */
 async function getResendConfig(): Promise<ResendConfig | null> {
+  const now = Date.now();
+  if (cachedResendConfig && cachedResendConfigExpiresAt > now) {
+    return cachedResendConfig;
+  }
+
   try {
     if (db) {
       const doc = await db.collection('settings').doc('api_keys').get();
       const data = doc.exists ? doc.data() : null;
       if (data?.resendApiKey) {
-        return {
+        cachedResendConfig = {
           apiKey: data.resendApiKey as string,
           fromEmail: (data.resendFromEmail as string) || process.env.RESEND_FROM_EMAIL || DEFAULT_FROM,
         };
+        cachedResendConfigExpiresAt = now + RESEND_CONFIG_CACHE_TTL;
+        return cachedResendConfig;
       }
     }
   } catch { /* fall through to env */ }
 
   if (process.env.RESEND_API_KEY) {
-    return {
+    cachedResendConfig = {
       apiKey: process.env.RESEND_API_KEY,
       fromEmail: process.env.RESEND_FROM_EMAIL || DEFAULT_FROM,
     };
+    cachedResendConfigExpiresAt = now + RESEND_CONFIG_CACHE_TTL;
+    return cachedResendConfig;
   }
 
   return null;

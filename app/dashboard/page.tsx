@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc, onSnapshot, collection, query, where, getCountFromServer } from 'firebase/firestore';
+import { cachedGetDoc, cachedQuery } from '@/lib/firestore-cache';
 import CompleteProfileModal, { shouldShowProfilePrompt } from '@/components/CompleteProfileModal';
 import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
 
@@ -157,9 +158,14 @@ function DashboardContent() {
     if (!user) return;
     setDataReady(prev => ({ ...prev, user: false, sub: false, usage: false, activity: false }));
 
-    getDoc(doc(db, 'usage_tracking', user.uid, 'days', new Date().toISOString().slice(0, 10)))
-      .then((usageSnap) => {
-        setUsageData(usageSnap.exists() ? (usageSnap.data() as UsageData) : { tokensUsed: 0, voiceMinutes: 0, screenshotsUsed: 0 });
+    const dateKey = new Date().toISOString().slice(0, 10);
+    cachedGetDoc(`usage:${user.uid}:${dateKey}`, 5 * 60 * 1000, () =>
+      getDoc(doc(db, 'usage_tracking', user.uid, 'days', dateKey)).then((usageSnap) =>
+        usageSnap.exists() ? (usageSnap.data() as UsageData) : null
+      )
+    )
+      .then((usageResult) => {
+        setUsageData(usageResult || { tokensUsed: 0, voiceMinutes: 0, screenshotsUsed: 0 });
         setDataReady(prev => ({ ...prev, usage: true }));
       })
       .catch((err) => {
@@ -213,13 +219,17 @@ function DashboardContent() {
     });
 
     Promise.all([
-      getCountFromServer(query(collection(db, 'interview_sessions'), where('userId', '==', user.uid))),
-      getCountFromServer(query(collection(db, 'interview_messages'), where('userId', '==', user.uid))),
+      cachedQuery(`count:sessions:${user.uid}`, 5 * 60 * 1000, () =>
+        getCountFromServer(query(collection(db, 'interview_sessions'), where('userId', '==', user.uid))).then((sessSnap) => sessSnap.data().count)
+      ),
+      cachedQuery(`count:messages:${user.uid}`, 5 * 60 * 1000, () =>
+        getCountFromServer(query(collection(db, 'interview_messages'), where('userId', '==', user.uid))).then((msgSnap) => msgSnap.data().count)
+      ),
     ])
-      .then(([sessSnap, msgSnap]) => {
+      .then(([sessCount, msgCount]) => {
         setActivity({
-          totalSessions: sessSnap.data().count,
-          totalQuestions: msgSnap.data().count,
+          totalSessions: sessCount,
+          totalQuestions: msgCount,
         });
         setDataReady(prev => ({ ...prev, activity: true }));
       })

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { cachedGetDoc } from '@/lib/firestore-cache';
 import Footer from '@/components/Footer';
 
 /* ── Types ────────────────────────────────────────────────────────────────── */
@@ -198,9 +199,13 @@ export default function ResumePage() {
 
   useEffect(() => {
     if (!user) return;
-    getDoc(doc(db, 'subscriptions', user.uid)).then(snap => {
-      if (snap.exists() && snap.data()?.status === 'active') {
-        setPlan(snap.data()?.plan || 'free');
+    cachedGetDoc(`sub:${user.uid}`, 5 * 60 * 1000, () =>
+      getDoc(doc(db, 'subscriptions', user.uid)).then((snap) =>
+        snap.exists() ? { plan: snap.data().plan, status: snap.data().status } : null
+      )
+    ).then((result) => {
+      if (result?.status === 'active') {
+        setPlan(result.plan || 'free');
       }
     }).catch(() => {});
   }, [user]);

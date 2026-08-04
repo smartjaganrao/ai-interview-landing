@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { cachedGetDoc } from '@/lib/firestore-cache';
+import { doc } from 'firebase/firestore';
 import Footer from '@/components/Footer';
 import {
   PLANS,
@@ -156,10 +157,13 @@ export default function PricingPage() {
 
   useEffect(() => {
     if (!user) return;
-    getDoc(doc(db, 'subscriptions', user.uid)).then((snap) => {
-      if (snap.exists() && snap.data().status === 'active') {
-        const plan = snap.data().plan as AnyPlanId;
-        setCurrentPlan(migratePlanId(plan));
+    cachedGetDoc(`sub:${user.uid}`, 5 * 60 * 1000, () =>
+      getDoc(doc(db, 'subscriptions', user.uid)).then((snap) =>
+        snap.exists() ? { plan: snap.data().plan, status: snap.data().status } : null
+      )
+    ).then((result) => {
+      if (result?.status === 'active') {
+        setCurrentPlan(migratePlanId(result.plan as AnyPlanId));
       }
     }).catch(() => {});
   }, [user]);

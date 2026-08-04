@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
+import { getServerCached } from '@/lib/server-cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,13 +10,14 @@ export async function GET() {
     return NextResponse.json({ announcements: [] });
   }
 
-  // No compound where+orderBy (avoids needing a composite index) — fetch
-  // recent docs unsorted-by-filter, then filter+sort client-side.
-  const snap = await db.collection('announcements').orderBy('createdAt', 'desc').limit(20).get();
-  const announcements = snap.docs
-    .map(d => ({ id: d.id, ...d.data() }))
-    .filter((a) => (a as { active?: boolean }).active !== false)
-    .slice(0, 5);
+  const data = await getServerCached('announcements:public', 5 * 60 * 1000, async () => {
+    const snap = await db.collection('announcements').orderBy('createdAt', 'desc').limit(20).get();
+    const announcements = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter((a) => (a as { active?: boolean }).active !== false)
+      .slice(0, 5);
+    return { announcements };
+  });
 
-  return NextResponse.json({ announcements });
+  return NextResponse.json(data);
 }

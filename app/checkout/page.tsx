@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { cachedGetDoc } from '@/lib/firestore-cache';
 import { PLANS, PlanId, AnyPlanId, migratePlanId, isOneTimePlan, isDowngrade, canUpgradeTo } from '@/lib/pricing-config';
 
 // Razorpay Checkout is loaded from CDN at runtime; type the global for safety.
@@ -90,9 +91,13 @@ function CheckoutContent() {
 
   useEffect(() => {
     if (!user) return;
-    getDoc(doc(db, 'subscriptions', user.uid)).then((snap) => {
-      const existing = snap.exists() ? (snap.data().plan as string) : 'free';
-      const existingStatus = snap.exists() ? snap.data().status : null;
+    cachedGetDoc(`sub:${user.uid}`, 5 * 60 * 1000, () =>
+      getDoc(doc(db, 'subscriptions', user.uid)).then((snap) =>
+        snap.exists() ? { plan: snap.data().plan, status: snap.data().status } : null
+      )
+    ).then((result) => {
+      const existing = result?.plan || 'free';
+      const existingStatus = result?.status || null;
       const activePaid = existingStatus === 'active' && existing !== 'free';
       setCurrentPlan(activePaid ? migratePlanId(existing) : 'free');
       setSubCheckDone(true);

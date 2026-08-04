@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { cachedGetDoc } from '@/lib/firestore-cache';
 import type { User } from 'firebase/auth';
 
 const EXPERIENCE_LEVELS = ['Fresher / Student', '0-1 years', '1-3 years', '3-6 years', '6+ years'];
@@ -63,15 +64,10 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       if (referralSource) patch.referralSource = referralSource;
 
       const userRef = doc(db, 'users', user.uid);
-      // ensureUserDocs (run at sign-in) is supposed to have already created
-      // the base doc with email/name/createdAt, but it silently swallows
-      // failures (Firestore timeout/unavailable) to avoid blocking login.
-      // If that write never landed, merge:true below would otherwise create
-      // this user's *only* Firestore record with nothing but phone/profile
-      // fields — no email, no name, no createdAt. Backfill identity fields
-      // here so that can't happen.
-      const snap = await getDoc(userRef);
-      if (!snap.exists()) {
+      const snapData = await cachedGetDoc(`user:${user.uid}`, 60 * 1000, () =>
+        getDoc(userRef).then((snap) => snap.exists() ? snap.data() : null)
+      );
+      if (!snapData) {
         await setDoc(userRef, {
           uid: user.uid,
           email: user.email ?? '',

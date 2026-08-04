@@ -18,6 +18,9 @@ import {
 
 let db: admin.firestore.Firestore | null = null;
 
+const pricingCache = new Map<string, { data: Pricing; expiresAt: number }>();
+const PRICING_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 function init() {
   if (admin.apps.length) {
     db = admin.firestore();
@@ -80,22 +83,45 @@ export function dayKey(): string {
 }
 
 /** Resolve a user's plan from users/{uid}, falling back to an active subscription. */
+const planCache = new Map<string, { plan: PlanId; expiresAt: number }>();
+const PLAN_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
 export async function getUserPlan(uid: string): Promise<PlanId> {
   if (!db) return 'free';
+  const now = Date.now();
+  const cached = planCache.get(uid);
+  if (cached && cached.expiresAt > now) {
+    return cached.plan;
+  }
   try {
     const u = await db.collection('users').doc(uid).get();
     const up = u.exists ? u.data()?.plan : undefined;
     const migratedPlan = up ? migratePlanId(up as string) : undefined;
-    if (migratedPlan && migratedPlan !== 'free') return migratedPlan;
+    if (migratedPlan && migratedPlan !== 'free') {
+      planCache.set(uid, { plan: migratedPlan, expiresAt: now + PLAN_CACHE_TTL });
+      return migratedPlan;
+    }
     const s = await db.collection('subscriptions').doc(uid).get();
     if (s.exists && s.data()?.status === 'active') {
       const sp = s.data()?.plan;
       const migratedSubPlan = sp ? migratePlanId(sp as string) : undefined;
-      if (migratedSubPlan && migratedSubPlan !== 'free') return migratedSubPlan;
+      if (migratedSubPlan && migratedSubPlan !== 'free') {
+        planCache.set(uid, { plan: migratedSubPlan, expiresAt: now + PLAN_CACHE_TTL });
+        return migratedSubPlan;
+      }
     }
+    planCache.set(uid, { plan: 'free', expiresAt: now + PLAN_CACHE_TTL });
     return 'free';
   } catch {
     return 'free';
+  }
+}
+
+export function invalidatePlanCache(uid?: string): void {
+  if (uid) {
+    planCache.delete(uid);
+  } else {
+    planCache.clear();
   }
 }
 
@@ -219,6 +245,7 @@ export async function persistSubscription(params: {
       });
     }
     await batch.commit();
+    invalidatePlanCache(params.userId);
 
     return true;
   } catch (e) {
@@ -309,20 +336,46 @@ export async function getOrCreateReferralCode(uid: string): Promise<string | nul
 }
 
 /** Read the user's referral summary for the dashboard. */
+const referralCache = new Map<string, { data: { code: string | null; credits: number; count: number }; expiresAt: number }>();
+const REFERRAL_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
 export async function getReferralSummary(uid: string): Promise<{
   code: string | null; credits: number; count: number;
 }> {
   const code = await getOrCreateReferralCode(uid);
   if (!db) return { code, credits: 0, count: 0 };
+  const now = Date.now();
+  const cached = referralCache.get(uid);
+  if (cached && cached.expiresAt > now) {
+    return { ...cached.data, code };
+  }
   const snap = await db.collection('users').doc(uid).get();
   const d = snap.exists ? snap.data() : {};
-  return { code, credits: d?.referralCredits ?? 0, count: d?.referralCount ?? 0 };
+  const result = { code, credits: d?.referralCredits ?? 0, count: d?.referralCount ?? 0 };
+  referralCache.set(uid, { data: result, expiresAt: now + REFERRAL_CACHE_TTL });
+  return result;
 }
 
 export async function getReferralCredits(uid: string): Promise<number> {
   if (!db) return 0;
+  const now = Date.now();
+  const cached = referralCache.get(uid);
+  if (cached && cached.expiresAt > now) {
+    return cached.data.credits;
+  }
   const snap = await db.collection('users').doc(uid).get();
-  return snap.exists ? (snap.data()?.referralCredits ?? 0) : 0;
+  const credits = snap.exists ? (snap.data()?.referralCredits ?? 0) : 0;
+  const code = await getOrCreateReferralCode(uid);
+  referralCache.set(uid, { data: { code, credits, count: 0 }, expiresAt: now + REFERRAL_CACHE_TTL });
+  return credits;
+}
+
+export function invalidateReferralCache(uid?: string): void {
+  if (uid) {
+    referralCache.delete(uid);
+  } else {
+    referralCache.clear();
+  }
 }
 
 /**
@@ -364,6 +417,9 @@ export async function claimReferral(
   });
   if (!txResult.ok) return txResult;
 
+  invalidateReferralCache(refereeUid);
+  invalidateReferralCache(referrerUid);
+
   await db.collection('referrals').add({
     referrerUid, refereeUid, refereeEmail: refereeEmail ?? '',
     status: 'pending', rewardAmount: REFERRAL_REWARD,
@@ -382,7 +438,7 @@ export async function redeemCreditForOrder(uid: string, orderId: string, amount:
   const redemptionRef = db.collection('credit_redemptions').doc(orderId);
   const userRef = db.collection('users').doc(uid);
   try {
-    return await db.runTransaction(async (tx) => {
+    const result = await db.runTransaction(async (tx) => {
       const red = await tx.get(redemptionRef);
       if (red.exists) return false; // already redeemed for this order
       const us = await tx.get(userRef);
@@ -391,6 +447,8 @@ export async function redeemCreditForOrder(uid: string, orderId: string, amount:
       tx.set(redemptionRef, { uid, orderId, amount, redeemedAt: Date.now() });
       return true;
     });
+    if (result) invalidateReferralCache(uid);
+    return result;
   } catch (e) {
     console.error('[referral] redeemCreditForOrder failed:', e);
     return false;
@@ -427,6 +485,7 @@ export async function rewardReferrerOnPayment(refereeUid: string, orderId: strin
       return true;
     });
     if (granted) {
+      invalidateReferralCache(referrerUid);
       await db.collection('admin_logs').add({
         adminUid: 'system', adminEmail: 'referral-system', action: 'referral_reward',
         targetUserId: referrerUid, details: { refereeUid, orderId, paymentId, reward }, timestamp: Date.now(),
@@ -487,22 +546,40 @@ export async function getOrCreateCreator(uid: string, name: string, email: strin
 }
 
 /** Read a creator's summary (or null if this user hasn't become a creator). */
+const creatorCache = new Map<string, { data: { code: string; status: string; commissionBps: number; totalEarned: number; totalPaid: number; pending: number; referredCount: number; payoutUpi: string | null; }; expiresAt: number }>();
+const CREATOR_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
 export async function getCreatorSummary(uid: string): Promise<{
   code: string; status: string; commissionBps: number;
   totalEarned: number; totalPaid: number; pending: number;
   referredCount: number; payoutUpi: string | null;
 } | null> {
   if (!db) return null;
+  const now = Date.now();
+  const cached = creatorCache.get(uid);
+  if (cached && cached.expiresAt > now) {
+    return cached.data;
+  }
   const snap = await db.collection('creators').doc(uid).get();
   if (!snap.exists) return null;
   const d = snap.data()!;
   const totalEarned = d.totalEarned ?? 0;
   const totalPaid = d.totalPaid ?? 0;
-  return {
+  const result = {
     code: d.code, status: d.status ?? 'active', commissionBps: d.commissionBps ?? CREATOR_COMMISSION_BPS,
     totalEarned, totalPaid, pending: Math.max(0, totalEarned - totalPaid),
     referredCount: d.referredCount ?? 0, payoutUpi: d.payoutUpi ?? null,
   };
+  creatorCache.set(uid, { data: result, expiresAt: now + CREATOR_CACHE_TTL });
+  return result;
+}
+
+export function invalidateCreatorCache(uid?: string): void {
+  if (uid) {
+    creatorCache.delete(uid);
+  } else {
+    creatorCache.clear();
+  }
 }
 
 export async function setCreatorPayoutUpi(uid: string, upi: string): Promise<boolean> {
@@ -511,6 +588,7 @@ export async function setCreatorPayoutUpi(uid: string, upi: string): Promise<boo
   const snap = await ref.get();
   if (!snap.exists) return false;
   await ref.set({ payoutUpi: upi.trim().slice(0, 120), updatedAt: Date.now() }, { merge: true });
+  invalidateCreatorCache(uid);
   return true;
 }
 
@@ -631,13 +709,22 @@ function pricingFallback(): Pricing {
 /** Read current plan prices + active offer (settings/pricing), or sane defaults. */
 export async function getDynamicPricing(): Promise<Pricing> {
   if (!db) return pricingFallback();
+  const now = Date.now();
+  const cached = pricingCache.get('pricing');
+  if (cached && cached.expiresAt > now) {
+    return cached.data;
+  }
   try {
     const snap = await db.collection('settings').doc('pricing').get();
-    if (!snap.exists) return pricingFallback();
+    if (!snap.exists) {
+      const fb = pricingFallback();
+      pricingCache.set('pricing', { data: fb, expiresAt: now + PRICING_CACHE_TTL });
+      return fb;
+    }
     const d = snap.data() ?? {};
     const fb = pricingFallback();
     const appliesTo = ['all', 'free', 'quick_pass', 'pro', 'power'].includes(d.offer?.appliesTo) ? d.offer.appliesTo : 'all';
-    return {
+    const result: Pricing = {
       plans: {
         free: {
           oneTime: Number(d.plans?.free?.oneTime ?? fb.plans.free.oneTime),
@@ -661,10 +748,16 @@ export async function getDynamicPricing(): Promise<Pricing> {
         expiresAt: d.offer?.expiresAt ? Number(d.offer.expiresAt) : null,
       },
     };
+    pricingCache.set('pricing', { data: result, expiresAt: now + PRICING_CACHE_TTL });
+    return result;
   } catch (e) {
     console.error('[pricing] getDynamicPricing failed, using defaults:', e);
     return pricingFallback();
   }
+}
+
+export function invalidatePricingCache(): void {
+  pricingCache.delete('pricing');
 }
 
 /** Is the offer currently valid for this plan? */
