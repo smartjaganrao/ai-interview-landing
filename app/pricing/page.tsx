@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
 import { cachedGetDoc } from '@/lib/firestore-cache';
-import { doc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import Footer from '@/components/Footer';
 import {
   PLANS,

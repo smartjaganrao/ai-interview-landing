@@ -11,10 +11,11 @@ export async function POST(request: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (!db) return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
 
+    const firestore = db;
     const cacheKey = `support:tickets:${user.uid}`;
 
     const tickets = await getServerCached(cacheKey, 30 * 1000, async () => {
-      const snap = await db
+      const snap = await firestore
         .collection('support_tickets')
         .where('userId', '==', user.uid)
         .limit(20)
