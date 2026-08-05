@@ -684,10 +684,10 @@ export interface Offer {
 
 export interface Pricing {
   plans: {
-    free: { oneTime: number };
-    quick_pass: { oneTime: number };
-    pro: { oneTime: number };
-    power: { monthly: number; yearly: number };
+    free: { oneTime: number; displayOrder: number };
+    quick_pass: { oneTime: number; displayOrder: number };
+    pro: { oneTime: number; displayOrder: number };
+    power: { monthly: number; yearly: number; displayOrder: number };
   };
   offer: Offer;
 }
@@ -697,10 +697,10 @@ export const DEFAULT_OFFER: Offer = { active: false, label: '', percentOff: 0, a
 function pricingFallback(): Pricing {
   return {
     plans: {
-      free: { oneTime: PLANS[0].price },
-      quick_pass: { oneTime: PLANS[1].price },
-      pro: { oneTime: PLANS[2].price },
-      power: { monthly: PLANS[3].price, yearly: PLANS[3].price * 10 },
+      free: { oneTime: PLANS[0].price, displayOrder: PLANS[0].displayOrder },
+      quick_pass: { oneTime: PLANS[1].price, displayOrder: PLANS[1].displayOrder },
+      pro: { oneTime: PLANS[2].price, displayOrder: PLANS[2].displayOrder },
+      power: { monthly: PLANS[3].price, yearly: PLANS[3].price * 10, displayOrder: PLANS[3].displayOrder },
     },
     offer: { ...DEFAULT_OFFER },
   };
@@ -728,16 +728,20 @@ export async function getDynamicPricing(): Promise<Pricing> {
       plans: {
         free: {
           oneTime: Number(d.plans?.free?.oneTime ?? fb.plans.free.oneTime),
+          displayOrder: Number(d.plans?.free?.displayOrder ?? fb.plans.free.displayOrder),
         },
         quick_pass: {
           oneTime: Number(d.plans?.quick_pass?.oneTime ?? fb.plans.quick_pass.oneTime),
+          displayOrder: Number(d.plans?.quick_pass?.displayOrder ?? fb.plans.quick_pass.displayOrder),
         },
         pro: {
           oneTime: Number(d.plans?.pro?.oneTime ?? fb.plans.pro.oneTime),
+          displayOrder: Number(d.plans?.pro?.displayOrder ?? fb.plans.pro.displayOrder),
         },
         power: {
           monthly: Number(d.plans?.power?.monthly ?? fb.plans.power.monthly),
           yearly: Number(d.plans?.power?.yearly ?? fb.plans.power.yearly),
+          displayOrder: Number(d.plans?.power?.displayOrder ?? fb.plans.power.displayOrder),
         },
       },
       offer: {

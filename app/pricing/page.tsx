@@ -20,7 +20,7 @@ import {
 } from '@/lib/pricing-config';
 
 interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | PlanId; expiresAt: number | null }
-interface Pricing { plans: { free: { oneTime: number }; quick_pass: { oneTime: number }; pro: { oneTime: number }; power: { monthly: number; yearly: number } }; offer: Offer }
+interface Pricing { plans: { free: { oneTime: number; displayOrder: number }; quick_pass: { oneTime: number; displayOrder: number }; pro: { oneTime: number; displayOrder: number }; power: { monthly: number; yearly: number; displayOrder: number } }; offer: Offer }
 
 function offerActiveFor(offer: Offer | undefined, planId: PlanId): boolean {
   if (!offer || !offer.active || offer.percentOff <= 0 || planId === 'free') return false;
@@ -206,7 +206,11 @@ export default function PricingPage() {
     return false;
   };
 
-  const sortedPlans = [...PLANS].sort((a, b) => a.displayOrder - b.displayOrder);
+  const sortedPlans = [...PLANS].sort((a, b) => {
+    const aOrder = pricing?.plans?.[a.id]?.displayOrder ?? a.displayOrder;
+    const bOrder = pricing?.plans?.[b.id]?.displayOrder ?? b.displayOrder;
+    return aOrder - bOrder;
+  });
 
   return (
     <>
@@ -348,8 +352,17 @@ export default function PricingPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {[
-                    { name: 'Price', getValue: (p: typeof PLANS[0]) => p.id === 'free' ? 'Free' : `₹${p.price}${p.billingType === 'subscription' ? '/mo' : ''}` },
+                   {[
+                     { name: 'Price', getValue: (p: typeof PLANS[0]) => {
+                       if (p.id === 'free') return 'Free';
+                       const planPricing = pricing?.plans?.[p.id];
+                       if (p.billingType === 'subscription') {
+                         const monthly = (planPricing as { monthly?: number } | undefined)?.monthly ?? p.price;
+                         return `₹${monthly}/mo`;
+                       }
+                       const oneTime = (planPricing as { oneTime?: number } | undefined)?.oneTime ?? p.price;
+                       return `₹${oneTime}`;
+                     } },
                     { name: 'Billing', getValue: (p: typeof PLANS[0]) => p.id === 'free' ? '—' : p.billingType === 'subscription' ? 'Monthly' : 'One-time' },
                     { name: 'Validity', getValue: (p: typeof PLANS[0]) => p.id === 'free' ? 'Forever' : getPlanUsageLabel(p.id) },
                     { name: 'AI Interview Assistant', getValue: () => '✓' },

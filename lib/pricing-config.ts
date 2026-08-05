@@ -270,6 +270,7 @@ export function canDowngradeTo(currentPlan: AnyPlanId, targetPlan: AnyPlanId): b
   const target = migratePlanId(targetPlan);
   if (current === target) return false;
   if (target === 'free') return true;
+  if (current === 'free') return false;
   const currentIsOneTime = isOneTimePlan(current);
   const targetIsOneTime = isOneTimePlan(target);
   if (!currentIsOneTime && targetIsOneTime) return true;
@@ -281,6 +282,8 @@ export function isDowngrade(currentPlan: AnyPlanId, targetPlan: AnyPlanId): bool
   const current = migratePlanId(currentPlan);
   const target = migratePlanId(targetPlan);
   if (current === target) return false;
+  if (target === 'free') return true;
+  if (current === 'free') return false;
   const currentIsOneTime = isOneTimePlan(current);
   const targetIsOneTime = isOneTimePlan(target);
   if (!currentIsOneTime && targetIsOneTime) return true;
@@ -302,8 +305,8 @@ export function getDowngradePath(currentPlan: AnyPlanId): PlanId[] {
 
 export function getPlanValidityLabel(plan: AnyPlanId): string {
   const config = getPlanById(plan);
-  if (!config || config.id === 'free') return '';
-  if (config.isUnlimited) return `${config.durationValue} Day${config.durationValue !== 1 ? 's' : ''}`;
+  if (!config || config.id === 'free') return 'Forever';
+  if (config.billingType === 'subscription') return 'Monthly';
   if (config.durationType === 'hours') return `${config.durationValue} Hour${config.durationValue !== 1 ? 's' : ''}`;
   if (config.durationType === 'days') return `${config.durationValue} Day${config.durationValue !== 1 ? 's' : ''}`;
   if (config.durationType === 'month') return `${config.durationValue} Month${config.durationValue !== 1 ? 's' : ''}`;
@@ -312,10 +315,8 @@ export function getPlanValidityLabel(plan: AnyPlanId): string {
 
 export function getPlanBillingLabel(plan: AnyPlanId): string {
   const config = getPlanById(plan);
-  if (!config || config.id === 'free') return '';
-  if (config.billingType === 'one_time') return 'One-time purchase';
-  if (config.billingType === 'subscription') return 'Monthly subscription';
-  return '';
+  if (!config || config.id === 'free') return '—';
+  return config.billingType === 'subscription' ? 'Monthly' : 'One-time';
 }
 
 export function isPaidPlan(plan: AnyPlanId): boolean {
