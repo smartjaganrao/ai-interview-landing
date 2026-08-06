@@ -117,7 +117,12 @@ const QUESTIONS = [
 ];
 
 interface PricingData {
-  plans: { pro: { monthly: number; yearly: number }; power: { monthly: number; yearly: number } };
+  plans: {
+    free: { oneTime: number };
+    quick_pass: { oneTime: number };
+    pro: { oneTime: number };
+    power: { monthly: number; yearly: number };
+  };
   offer: { active: boolean; label: string; percentOff: number; appliesTo: string; expiresAt: number | null };
 }
 
@@ -134,7 +139,7 @@ export default function LandingPage() {
   const [typedQ, setTypedQ] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const [pricing, setPricing] = useState<PricingData>({
-    plans: { pro: { monthly: 0, yearly: 0 }, power: { monthly: 0, yearly: 0 } },
+    plans: { free: { oneTime: 0 }, quick_pass: { oneTime: 0 }, pro: { oneTime: 0 }, power: { monthly: 0, yearly: 0 } },
     offer: { active: false, label: '', percentOff: 0, appliesTo: 'all', expiresAt: null },
   });
   // Latest desktop release — fetched live so this never drifts from what's
@@ -704,7 +709,7 @@ export default function LandingPage() {
                   <th className="text-left px-5 py-4 text-slate-400 font-semibold w-44">Feature</th>
                   <th className="px-4 py-4 text-center">
                     <div className="text-white font-bold text-base">JavihAI</div>
-                    <div className="text-indigo-400 text-xs font-semibold mt-0.5">₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo</div>
+                     <div className="text-indigo-400 text-xs font-semibold mt-0.5">₹{effectivePrice(pricing.plans.pro.oneTime, pricing.offer, 'pro')}</div>
                   </th>
                   <th className="px-4 py-4 text-center">
                     <div className="text-slate-400 font-semibold">Final Round AI</div>
@@ -762,9 +767,9 @@ export default function LandingPage() {
           <div className="text-center mb-12">
             <div className="badge mb-4">💸 India&apos;s Cheapest Pricing</div>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
-              Free for Freshers. <span className="text-gradient">₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}/mo</span> for Pros.
+              Free for Freshers. <span className="text-gradient">₹{effectivePrice(pricing.plans.pro.oneTime, pricing.offer, 'pro')}</span> for Pros.
             </h2>
-            <p className="text-slate-400">Competitors charge ₹1,199–₹7,695/mo. We charge ₹{effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}. Start free — no card needed.</p>
+             <p className="text-slate-400">Competitors charge ₹1,199–₹7,695/mo. We charge ₹{effectivePrice(pricing.plans.pro.oneTime, pricing.offer, 'pro')}. Start free — no card needed.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -780,11 +785,11 @@ export default function LandingPage() {
                 href: '/auth/signup',
                 highlight: false,
               },
-              {
+               {
                 name: 'Pro',
-                price: `₹${effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro')}`,
-                origPrice: effectivePrice(pricing.plans.pro.monthly, pricing.offer, 'pro') !== pricing.plans.pro.monthly ? `₹${pricing.plans.pro.monthly}` : null,
-                period: '/month',
+                price: `₹${effectivePrice(pricing.plans.pro.oneTime, pricing.offer, 'pro')}`,
+                origPrice: effectivePrice(pricing.plans.pro.oneTime, pricing.offer, 'pro') !== pricing.plans.pro.oneTime ? `₹${pricing.plans.pro.oneTime}` : null,
+                period: 'one-time',
                 desc: 'For working professionals & job switchers.',
                 features: ['Unlimited AI answers', '60 voice minutes / day', 'Unlimited screenshots', 'Unlimited mock interviews', 'Job URL auto-fill + skill detect', 'Priority support'],
                 cta: 'Get Pro →',
