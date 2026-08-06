@@ -46,7 +46,7 @@ const faqSchema = {
       name: 'How much does JavihAI cost? Is there a free plan?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'JavihAI has a permanent free plan — no time limit, no credit card. Pro is ₹499/month for unlimited AI answers. Power is ₹999/month with Desi Mode and priority AI. All paid plans include a 7-day money-back guarantee. JavihAI is 15× cheaper than Final Round AI.',
+        text: 'JavihAI has a permanent free plan — no time limit, no credit card. Paid plans unlock unlimited AI answers, Desi Mode, and priority support. All paid plans include a 7-day money-back guarantee. JavihAI is 15× cheaper than Final Round AI.',
       },
     },
     {
@@ -994,7 +994,7 @@ export default function LandingClient(props: LandingClientProps) {
                 stars: 5,
               },
               {
-                quote: "Was paying ₹7,000/mo for Final Round AI. Switched to JavihAI at ₹499 and honestly the answers are better. The Indian context makes a huge difference in HR rounds.",
+                quote: "Was paying ₹7,000/mo for Final Round AI. Switched to JavihAI and honestly the answers are better. The Indian context makes a huge difference in HR rounds.",
                 name: 'Divya K.',
                 role: 'ML Engineer · Pune',
                 company: 'Joined Flipkart',
@@ -1146,7 +1146,7 @@ export default function LandingClient(props: LandingClientProps) {
               },
               {
                 q: 'How much does JavihAI cost? Is there a free plan?',
-                a: 'JavihAI has a permanent free plan with 10 AI answers per day — no credit card, no time limit. Pro is ₹499/month for unlimited answers. Power is ₹999/month with Desi Mode and unlimited everything. Both paid plans include a 7-day money-back guarantee. For comparison, Final Round AI costs ₹7,695/month — 15× more expensive.',
+                a: 'JavihAI has a permanent free plan with 10 AI answers per day — no credit card, no time limit. Paid plans unlock unlimited answers, Desi Mode, and more. Both paid plans include a 7-day money-back guarantee. For comparison, Final Round AI costs much more — JavihAI is 15× cheaper.',
               },
               {
                 q: 'Can I cancel my subscription anytime?',
