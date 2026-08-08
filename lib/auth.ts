@@ -128,6 +128,8 @@ export async function ensureUserDocs(
             const existingRef = doc(db, 'users', existingEmailDocId);
             tx.set(existingRef, {
               uid,
+              email,
+              name,
               plan,
               updatedAt: now,
               settings: { theme: 'dark', language: 'en' },
@@ -155,6 +157,14 @@ export async function ensureUserDocs(
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, name, type: 'welcome' }),
           }).catch(() => {});
+        } else {
+          const existing = snap.data() as Record<string, unknown> | undefined;
+          const updates: Record<string, unknown> = {};
+          if (email && !existing?.email) updates.email = email;
+          if (name && existing?.name !== name && !(existing?.name as string)?.trim()) updates.name = name;
+          if (Object.keys(updates).length > 0) {
+            tx.set(userRef, { ...updates, updatedAt: now }, { merge: true });
+          }
         }
       });
       return;

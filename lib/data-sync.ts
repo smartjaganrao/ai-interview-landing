@@ -6,6 +6,51 @@ import { setUser, clearUser } from '@/lib/slices/userSlice';
 import { setSubscription as setSubAction, clearSubscription } from '@/lib/slices/subscriptionSlice';
 import { setUsage as setUsageAction, clearUsage } from '@/lib/slices/usageSlice';
 
+const DASHBOARD_CACHE_KEY = 'dashboard_data_cache';
+const DASHBOARD_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
+interface CachedDashboardData {
+  user: UserData | null;
+  subscription: SubscriptionData | null;
+  usage: UsageData | null;
+  activity: ActivityData;
+  ts: number;
+}
+
+function readDashboardCache(uid: string): CachedDashboardData | null {
+  try {
+    const raw = localStorage.getItem(`${DASHBOARD_CACHE_KEY}:${uid}`);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as CachedDashboardData;
+    if (Date.now() - parsed.ts > DASHBOARD_CACHE_TTL) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function writeDashboardCache(uid: string, data: CachedDashboardData): void {
+  try {
+    localStorage.setItem(`${DASHBOARD_CACHE_KEY}:${uid}`, JSON.stringify(data));
+  } catch {
+    // quota / private mode — ignore
+  }
+}
+
+export function clearDashboardCache(uid?: string): void {
+  try {
+    if (uid) {
+      localStorage.removeItem(`${DASHBOARD_CACHE_KEY}:${uid}`);
+    } else {
+      Object.keys(localStorage)
+        .filter(k => k.startsWith(DASHBOARD_CACHE_KEY))
+        .forEach(k => localStorage.removeItem(k));
+    }
+  } catch {
+    // ignore
+  }
+}
+
 export interface UserData {
   email: string;
   name: string;
@@ -143,18 +188,32 @@ export async function refreshAllData(uid: string): Promise<{
   subscription: SubscriptionData | null;
   usage: UsageData | null;
   activity: ActivityData;
+  ts: number;
 }> {
+  // Serve from localStorage cache if fresh (avoids Firestore reads on
+  // dashboard re-navigation / tab switches).
+  const cached = readDashboardCache(uid);
+  if (cached) {
+    if (cached.user) store.dispatch(setUser(cached.user));
+    if (cached.subscription) store.dispatch(setSubAction(cached.subscription));
+    if (cached.usage) store.dispatch(setUsageAction(cached.usage));
+    return cached;
+  }
+
   const [user, subscription, usage, activity] = await Promise.all([
     syncUserData(uid),
     syncSubscriptionData(uid),
     syncUsageData(uid),
     syncActivityData(uid),
   ]);
-  return { user, subscription, usage, activity };
+  const result = { user, subscription, usage, activity, ts: Date.now() };
+  writeDashboardCache(uid, result);
+  return result;
 }
 
 export function clearAllData(): void {
   store.dispatch(clearUser());
   store.dispatch(clearSubscription());
   store.dispatch(clearUsage());
+  clearDashboardCache();
 }
