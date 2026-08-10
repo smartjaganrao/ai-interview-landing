@@ -134,8 +134,35 @@ function effectivePrice(base: number, offer: PricingData['offer'], plan: 'pro' |
 
 interface LandingClientProps {
   initialPricing: PricingData;
-  initialRelease?: { version: string; publishedAt: string; macUrl?: string; winUrl?: string } | null;
 }
+
+function userCardClasses(color: string) {
+  return color === 'purple'
+    ? 'p-4 rounded-xl bg-purple-500/8 border border-purple-500/15 hover:border-purple-500/25 transition-smooth'
+    : 'p-4 rounded-xl bg-blue-500/8 border border-blue-500/15 hover:border-blue-500/25 transition-smooth';
+}
+
+function userTitleClasses(color: string) {
+  return color === 'purple'
+    ? 'font-semibold text-purple-400 text-sm mb-0.5'
+    : 'font-semibold text-blue-400 text-sm mb-0.5';
+}
+
+const GRADIENT_CLASSES: Record<string, string> = {
+  'from-blue-500 to-indigo-500': 'bg-gradient-to-br from-blue-500 to-indigo-500',
+  'from-indigo-500 to-purple-500': 'bg-gradient-to-br from-indigo-500 to-purple-500',
+  'from-purple-500 to-blue-500': 'bg-gradient-to-br from-purple-500 to-blue-500',
+  'from-blue-500 to-purple-500': 'bg-gradient-to-br from-blue-500 to-purple-500',
+  'from-orange-500 to-red-500': 'bg-gradient-to-br from-orange-500 to-red-500',
+  'from-blue-500 to-green-500': 'bg-gradient-to-br from-blue-500 to-green-500',
+  'from-sky-500 to-blue-500': 'bg-gradient-to-br from-sky-500 to-blue-500',
+  'from-violet-500 to-purple-500': 'bg-gradient-to-br from-violet-500 to-purple-500',
+  'from-slate-800 to-slate-900': 'bg-gradient-to-b from-slate-800 to-slate-900',
+  'from-blue-950 to-slate-900': 'bg-gradient-to-b from-blue-950 to-slate-900',
+  'from-pink-950 to-slate-900': 'bg-gradient-to-b from-pink-950 to-slate-900',
+  'from-red-950 to-slate-900': 'bg-gradient-to-b from-red-950 to-slate-900',
+  'from-green-950 to-slate-900': 'bg-gradient-to-b from-green-950 to-slate-900',
+};
 
 export default function LandingClient(props: LandingClientProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -418,11 +445,11 @@ export default function LandingClient(props: LandingClientProps) {
                     { emoji: '👨‍💻', title: 'Coders & Engineers', desc: 'Coding rounds on HackerRank, LeetCode, CodeSignal & more', color: 'blue' },
                     { emoji: '🏆', title: 'Career Switchers', desc: 'Changing roles, upskilling, interviewing at new companies', color: 'purple' },
                   ].map((user) => (
-                    <div key={user.title} className={`p-4 rounded-xl bg-${user.color}-500/8 border border-${user.color}-500/15 hover:border-${user.color}-500/25 transition-smooth`}>
+                    <div key={user.title} className={userCardClasses(user.color)}>
                       <div className="flex items-center gap-3">
                         <span className="text-2xl flex-shrink-0">{user.emoji}</span>
                         <div>
-                          <div className={`font-semibold text-${user.color}-400 text-sm mb-0.5`}>{user.title}</div>
+                          <div className={userTitleClasses(user.color)}>{user.title}</div>
                           <div className="text-slate-400 text-xs leading-relaxed">{user.desc}</div>
                         </div>
                       </div>
@@ -476,7 +503,7 @@ export default function LandingClient(props: LandingClientProps) {
               },
             ].map((step) => (
               <div key={step.num} className="text-center relative z-10">
-                <div className={`inline-flex w-20 h-20 rounded-2xl bg-gradient-to-br ${step.color} items-center justify-center text-4xl mb-5 shadow-lg shadow-blue-500/20`}>
+                <div className={`inline-flex w-20 h-20 rounded-2xl items-center justify-center text-4xl mb-5 shadow-lg shadow-blue-500/20 ${GRADIENT_CLASSES[step.color] || 'bg-gradient-to-br from-blue-500 to-purple-500'}`}>
                   {step.icon}
                 </div>
                 <div className="text-xs text-slate-600 font-bold tracking-widest mb-2">{step.num}</div>
@@ -593,7 +620,7 @@ export default function LandingClient(props: LandingClientProps) {
                     {feature.badge}
                   </div>
                 )}
-                <div className={`inline-flex w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-bounce shadow-lg`}>
+                <div className={`inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-bounce shadow-lg ${GRADIENT_CLASSES[feature.gradient] || 'bg-gradient-to-br from-blue-500 to-purple-500'}`}>
                   {feature.icon}
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{feature.title}</h3>
@@ -987,7 +1014,7 @@ export default function LandingClient(props: LandingClientProps) {
                 <button
                   key={s.platform}
                   onClick={() => window.dispatchEvent(new Event('open-whatsapp-form'))}
-                  className={`glass-card border ${s.border} bg-gradient-to-b ${s.color} hover:scale-105 transition-bounce text-center group`}
+                  className={`glass-card border ${s.border} text-center group hover:scale-105 transition-bounce ${GRADIENT_CLASSES[s.color] || 'bg-gradient-to-b from-slate-800 to-slate-900'}`}
                 >
                   <div className="text-3xl mb-2">{s.icon}</div>
                   <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
@@ -1001,7 +1028,7 @@ export default function LandingClient(props: LandingClientProps) {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`glass-card border ${s.border} bg-gradient-to-b ${s.color} hover:scale-105 transition-bounce text-center group no-underline`}
+                  className={`glass-card border ${s.border} text-center group hover:scale-105 transition-bounce no-underline ${GRADIENT_CLASSES[s.color] || 'bg-gradient-to-b from-slate-800 to-slate-900'}`}
                 >
                   <div className="text-3xl mb-2">{s.icon}</div>
                   <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
@@ -1031,7 +1058,7 @@ export default function LandingClient(props: LandingClientProps) {
                 <Link href="/#features" className="footer-link block">Features</Link>
                 <Link href="/pricing" className="footer-link block">Pricing</Link>
                 <Link href="/#how-it-works" className="footer-link block">How It Works</Link>
-                <Link href="/#download" className="footer-link block">Download</Link>
+                <Link href="/" className="footer-link block">Download</Link>
               </div>
             </div>
             <div>
