@@ -131,6 +131,7 @@ export async function ensureUserDocs(
               email,
               name,
               plan,
+              createdAt: now,
               updatedAt: now,
               settings: { theme: 'dark', language: 'en' },
             }, { merge: true });
@@ -162,6 +163,7 @@ export async function ensureUserDocs(
           const updates: Record<string, unknown> = {};
           if (email && !existing?.email) updates.email = email;
           if (name && existing?.name !== name && !(existing?.name as string)?.trim()) updates.name = name;
+          if (!existing?.createdAt) updates.createdAt = now;
           if (Object.keys(updates).length > 0) {
             tx.set(userRef, { ...updates, updatedAt: now }, { merge: true });
           }
