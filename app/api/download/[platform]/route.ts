@@ -53,6 +53,11 @@ export async function GET(
       const token = process.env.GITHUB_TOKEN;
       const assetMatch = release.assets.find((a) => a.name === assetName);
 
+      if (!token) {
+        console.error('[download] GITHUB_TOKEN is not set — cannot proxy private repo asset');
+        return NextResponse.json({ error: 'Download not configured' }, { status: 500 });
+      }
+
       if (token && assetMatch) {
         logDownload(req, platform, release.tag_name);
         const assetRes = await fetch(
