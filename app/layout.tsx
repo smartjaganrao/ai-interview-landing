@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
@@ -11,6 +11,17 @@ const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 const BASE_URL = 'https://javihai.in';
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
@@ -21,108 +32,6 @@ export const metadata: Metadata = {
 
   description:
     "India's first unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Built for freshers & working professionals. Hears your interviewer & answers in <2s. Free forever. 15× cheaper than Final Round AI. 7-day money-back guarantee. Trusted by 2,400+ candidates at Google, Microsoft, Flipkart & more.",
-
-  keywords: [
-    // High-intent India-specific
-    'AI interview assistant India',
-    'AI interview copilot India',
-    'real-time interview AI India',
-    'interview copilot India free',
-    'best AI interview tool India',
-    'AI interview help India',
-    'interview AI India',
-    'interview preparation AI India',
-
-    // "First unlimited" positioning
-    "India's first unlimited AI interview tool",
-    'unlimited AI interview answers India',
-    'unlimited interview copilot',
-    'unlimited AI interview assistant cheap',
-
-    // Stealth / undetectable angle (high search volume)
-    'undetectable AI interview tool',
-    'stealth AI interview assistant',
-    '100% invisible AI interview tool',
-    'AI interview overlay',
-    'invisible interview assistant',
-    'screen share invisible AI overlay',
-    'AI interview tool undetectable zoom',
-
-    // Competitor alternatives (people comparing)
-    'Final Round AI alternative India',
-    'Final Round AI alternative free',
-    'Chiku AI alternative',
-    'Cluely alternative India',
-    'LockedIn AI alternative India',
-    'Parakeet AI alternative',
-    'cheaper than Final Round AI',
-
-    // Role-specific keywords
-    'technical interview AI assistant',
-    'coding interview AI help',
-    'system design interview AI',
-    'behavioral interview AI',
-    'software engineer interview prep AI',
-    'FAANG interview preparation India',
-    'product manager interview AI',
-
-    // Feature keywords
-    'AI mock interview free India',
-    'AI interview answer generator',
-    'real-time interview answers',
-    'interview answer generator AI',
-    'AI resume interview prep',
-    'job interview AI tool',
-    'desktop interview AI app',
-    'AI interview software Windows Mac',
-
-    // India market + cheapest + audience
-    'interview prep India free',
-    'Naukri interview preparation',
-    'Desi Mode interview AI',
-    'IIT NIT interview prep AI',
-    'Flipkart Google Amazon interview India',
-    'affordable AI interview tool India',
-    'INR interview AI tool',
-    'interview AI tool Hindi Tamil Telugu',
-    "India's cheapest AI interview tool",
-    'cheapest AI interview copilot India',
-    'low cost AI interview assistant India',
-    'AI interview tool for freshers India',
-    'AI interview tool for freshers free',
-    'best AI interview tool freshers',
-    'fresher interview prep AI',
-    'first job interview AI tool',
-    'campus placement AI assistant',
-    'AI interview tool for working professionals',
-    'job switch interview AI India',
-    'interview prep for experienced professionals',
-    'career change interview AI',
-
-    // Coding rounds
-    'AI for HackerRank coding round',
-    'AI for LeetCode interview',
-    'coding round AI assistant India',
-    'HackerRank AI solver',
-    'LeetCode AI helper India',
-    'CodeSignal AI assistant',
-    'coding interview AI tool India',
-    'crack coding round AI',
-    'online assessment AI helper',
-    'OA round AI tool India',
-
-    // "Smartest & most affordable" positioning
-    "India's smartest AI interview copilot",
-    'smartest AI interview assistant India',
-    'best value AI interview tool India',
-    'most affordable AI interview copilot',
-    'smart and cheap AI interview tool India',
-    'top AI interview copilot India',
-
-    // Brand
-    'JavihAI',
-    'javihai interview',
-  ],
 
   authors: [{ name: 'JavihAI', url: BASE_URL }],
   creator: 'JavihAI',
@@ -339,12 +248,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
           rel="stylesheet"
         />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
