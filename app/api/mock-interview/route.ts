@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
+import type { ChatCompletionCreateParamsNonStreaming } from 'groq-sdk/resources/chat/completions';
 import { verifyIdToken, getUserPlan, dayKey, db } from '@/lib/firebase-admin';
 
 const FREE_MOCK_SESSIONS_PER_DAY = 1;
@@ -13,6 +14,35 @@ const DIFFICULTY_GUIDE: Record<Difficulty, string> = {
   medium: 'Ask mid-level questions that require some depth — trade-offs, "how would you approach X", debugging scenarios, or behavioral questions with follow-up nuance.',
   hard: 'Ask senior-level, challenging questions — system design, deep technical trade-offs, edge cases, ambiguous/open-ended problems, or questions that probe judgment under pressure.',
 };
+
+// Groq deprecates model IDs without warning (e.g. llama-3.1-8b-instant
+// vanished 2026-08) — tried in order after the requested model 404s with
+// "model_not_found" instead of falling through to the canned default.
+const FALLBACK_MODELS = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b', 'qwen/qwen3.6-27b', 'groq/compound-mini'];
+
+function isModelNotFoundError(err: unknown): boolean {
+  const e = err as { status?: number; error?: { error?: { code?: string } } };
+  return e?.status === 404 && e?.error?.error?.code === 'model_not_found';
+}
+
+async function createChatCompletionWithFallback(
+  groq: Groq,
+  params: Omit<ChatCompletionCreateParamsNonStreaming, 'model'>,
+  preferredModel: string,
+) {
+  const candidates = [preferredModel, ...FALLBACK_MODELS.filter(m => m !== preferredModel)];
+  let lastErr: unknown;
+  for (const model of candidates) {
+    try {
+      return await groq.chat.completions.create({ ...params, model });
+    } catch (err) {
+      lastErr = err;
+      if (!isModelNotFoundError(err)) throw err;
+      console.warn(`[mock-interview] Model "${model}" no longer exists, trying next fallback...`);
+    }
+  }
+  throw lastErr;
+}
 
 function getGroq() {
   if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY not set');
@@ -66,12 +96,11 @@ ${hasJD
 Generate exactly ONE new interview question at the difficulty level given above. Mix question types across a session — technical, behavioral, and role-specific — and vary the angle each time so it doesn't feel scripted. Reply with ONLY the question text, no preamble, no numbering, no quotes.`;
 
   try {
-    const completion = await getGroq().chat.completions.create({
-      model: 'llama-3.1-8b-instant',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 120,
-      temperature: 0.95,
-    });
+    const completion = await createChatCompletionWithFallback(
+      getGroq(),
+      { messages: [{ role: 'user', content: prompt }], max_tokens: 120, temperature: 0.95 },
+      'openai/gpt-oss-20b',
+    );
     const q = completion.choices[0]?.message?.content?.trim();
     if (q) return q.replace(/^["']|["']$/g, '');
   } catch (err) {
@@ -180,12 +209,11 @@ Scoring guide:
 - 0-49: Needs work — off-topic, too vague, or missing fundamentals`;
 
   try {
-    const completion = await getGroq().chat.completions.create({
-      model: 'llama-3.1-8b-instant',
-      messages: [{ role: 'user', content: scorePrompt }],
-      max_tokens: 256,
-      temperature: 0.3,
-    });
+    const completion = await createChatCompletionWithFallback(
+      getGroq(),
+      { messages: [{ role: 'user', content: scorePrompt }], max_tokens: 256, temperature: 0.3 },
+      'openai/gpt-oss-20b',
+    );
 
     const raw = completion.choices[0]?.message?.content?.trim() ?? '';
     let score = 65;
