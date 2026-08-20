@@ -6,7 +6,10 @@ import Link from 'next/link';
 import { getRedirectResult } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
+import { googleSignIn, ensureUserDocs, friendlyAuthError, persistAttribution, isProfileComplete } from '@/lib/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import CompleteProfileModal from '@/components/CompleteProfileModal';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,34 +17,74 @@ export default function LoginPage() {
 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [fetchedUserData, setFetchedUserData] = useState<any>(null);
+  const [pendingAuth, setPendingAuth] = useState(false);
 
   // Handle Google redirect result (when popup falls back to redirect)
   useEffect(() => {
     getRedirectResult(auth)
       .then(async (cred) => {
         if (cred) {
+          setPendingAuth(true);
           await ensureUserDocs(cred);
+          await persistAttribution(cred.user.uid);
+
+          const userRef = doc(db, 'users', cred.user.uid);
+          const snap = await getDoc(userRef);
+          const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
+
+          if (!isProfileComplete(userData)) {
+            setFetchedUserData(userData);
+            setShowProfileModal(true);
+            setPendingAuth(false);
+            return;
+          }
+          setPendingAuth(false);
           router.push('/dashboard');
+        } else {
+          setPendingAuth(false);
         }
       })
-      .catch(async (err) => setError(await friendlyAuthError(err)));
+      .catch(async (err) => {
+        setPendingAuth(false);
+        setError(await friendlyAuthError(err));
+      });
   }, [router]);
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && !pendingAuth) {
       router.push('/dashboard');
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, pendingAuth]);
 
   const handleGoogleLogin = async () => {
+    setPendingAuth(true);
     setError('');
     setIsLoading(true);
     try {
       const cred = await googleSignIn();
-      if (!cred) return; // redirect in progress; result handled on return
+      if (!cred) {
+        setPendingAuth(false);
+        return; // redirect in progress; result handled on return
+      }
       await ensureUserDocs(cred);
+      await persistAttribution(cred.user.uid);
+
+      const userRef = doc(db, 'users', cred.user.uid);
+      const snap = await getDoc(userRef);
+      const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
+
+      if (!isProfileComplete(userData)) {
+        setFetchedUserData(userData);
+        setShowProfileModal(true);
+        setPendingAuth(false);
+        return;
+      }
+      setPendingAuth(false);
       router.push('/dashboard');
     } catch (err) {
+      setPendingAuth(false);
       setError(await friendlyAuthError(err));
     } finally {
       setIsLoading(false);
@@ -134,6 +177,25 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
+      {showProfileModal && user && (
+        <CompleteProfileModal
+          user={user}
+          onDone={() => {
+            setShowProfileModal(false);
+            router.push('/dashboard');
+          }}
+          initial={{
+            phone: (fetchedUserData?.phone as string) || undefined,
+            fullName: (fetchedUserData?.fullName as string) || (fetchedUserData?.profile?.fullName as string) || user.displayName || '',
+            whatsapp: (fetchedUserData?.whatsapp as string) || (fetchedUserData?.profile?.whatsapp as string) || (fetchedUserData?.phone as string) || '',
+            experienceLevel: (fetchedUserData?.experienceLevel as string) || (fetchedUserData?.profile?.experienceLevel as string) || undefined,
+            city: (fetchedUserData?.city as string) || (fetchedUserData?.profile?.city as string) || undefined,
+            jobRole: (fetchedUserData?.jobRole as string) || (fetchedUserData?.profile?.jobRole as string) || undefined,
+            referralSource: (fetchedUserData?.referralSource as string) || (fetchedUserData?.acquisition?.customerSelectedSource as string) || undefined,
+          }}
+        />
+      )}
     </div>
   );
 }

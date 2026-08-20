@@ -6,8 +6,11 @@ import Link from 'next/link';
 import { getRedirectResult, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
-import { googleSignIn, ensureUserDocs, friendlyAuthError } from '@/lib/auth';
+import { googleSignIn, ensureUserDocs, friendlyAuthError, persistAttribution, isProfileComplete } from '@/lib/auth';
 import { PLANS, PlanId, AnyPlanId, migratePlanId, isPaidPlan } from '@/lib/pricing-config';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import CompleteProfileModal from '@/components/CompleteProfileModal';
 
 const REF_STORAGE_KEY = 'javihai_ref';
 const VIA_STORAGE_KEY = 'javihai_via';
@@ -55,6 +58,10 @@ function SignupContent() {
 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [pendingDestination, setPendingDestination] = useState<string | null>(null);
+  const [fetchedUserData, setFetchedUserData] = useState<any>(null);
+  const [pendingAuth, setPendingAuth] = useState(false);
 
   const rawPlan = searchParams.get('plan') || 'free';
   const plan = migratePlanId(rawPlan as AnyPlanId) as PlanId;
@@ -74,40 +81,80 @@ function SignupContent() {
     getRedirectResult(auth)
       .then(async (cred) => {
         if (cred) {
+          setPendingAuth(true);
           await ensureUserDocs(cred);
+          await persistAttribution(cred.user.uid);
           await claimReferralIfPending(cred.user);
           await attributeCreatorIfPending(cred.user);
+
+          const userRef = doc(db, 'users', cred.user.uid);
+          const snap = await getDoc(userRef);
+          const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
+
+          if (!isProfileComplete(userData)) {
+            setFetchedUserData(userData);
+            setShowProfileModal(true);
+            setPendingDestination(isPaidPlan(plan) ? `/checkout?plan=${plan}` : '/dashboard');
+            setPendingAuth(false);
+            return;
+          }
+          setPendingAuth(false);
           router.push(isPaidPlan(plan) ? `/checkout?plan=${plan}` : '/dashboard');
+        } else {
+          setPendingAuth(false);
         }
       })
-      .catch(async (err) => setError(await friendlyAuthError(err)));
+      .catch(async (err) => {
+        setPendingAuth(false);
+        setError(await friendlyAuthError(err));
+      });
   }, [router, plan]);
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && !pendingAuth) {
       if (plan === 'pro' || plan === 'power') {
         router.push(`/checkout?plan=${plan}`);
       } else {
         router.push('/dashboard');
       }
     }
-  }, [user, loading, router, plan]);
+  }, [user, loading, router, plan, pendingAuth]);
 
   const handleGoogleSignup = async () => {
+    setPendingAuth(true);
     setError('');
     setIsLoading(true);
     try {
       const cred = await googleSignIn();
-      if (!cred) return; // redirect in progress; result handled on return
+      if (!cred) {
+        setPendingAuth(false);
+        return; // redirect in progress; result handled on return
+      }
       await ensureUserDocs(cred);
+      await persistAttribution(cred.user.uid);
       await claimReferralIfPending(cred.user);
       await attributeCreatorIfPending(cred.user);
+
+      const userRef = doc(db, 'users', cred.user.uid);
+      const snap = await getDoc(userRef);
+      const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
+
+      if (!isProfileComplete(userData)) {
+        setFetchedUserData(userData);
+        setShowProfileModal(true);
+        setPendingDestination(isPaidPlan(plan) ? `/checkout?plan=${plan}` : '/dashboard');
+        setPendingAuth(false);
+        return;
+      }
+
+      setPendingAuth(false);
       if (plan === 'pro' || plan === 'power') {
         router.push(`/checkout?plan=${plan}`);
       } else {
         router.push('/dashboard');
       }
     } catch (err) {
+      setPendingAuth(false);
       setError(await friendlyAuthError(err));
     } finally {
       setIsLoading(false);
@@ -240,6 +287,27 @@ function SignupContent() {
           </div>
         </div>
       </div>
+
+      {showProfileModal && user && (
+        <CompleteProfileModal
+          user={user}
+          onDone={() => {
+            setShowProfileModal(false);
+            if (pendingDestination) {
+              router.push(pendingDestination);
+            }
+          }}
+          initial={{
+            phone: (fetchedUserData?.phone as string) || undefined,
+            fullName: (fetchedUserData?.fullName as string) || (fetchedUserData?.profile?.fullName as string) || user.displayName || '',
+            whatsapp: (fetchedUserData?.whatsapp as string) || (fetchedUserData?.profile?.whatsapp as string) || (fetchedUserData?.phone as string) || '',
+            experienceLevel: (fetchedUserData?.experienceLevel as string) || (fetchedUserData?.profile?.experienceLevel as string) || undefined,
+            city: (fetchedUserData?.city as string) || (fetchedUserData?.profile?.city as string) || undefined,
+            jobRole: (fetchedUserData?.jobRole as string) || (fetchedUserData?.profile?.jobRole as string) || undefined,
+            referralSource: (fetchedUserData?.referralSource as string) || (fetchedUserData?.acquisition?.customerSelectedSource as string) || undefined,
+          }}
+        />
+      )}
     </div>
   );
 }

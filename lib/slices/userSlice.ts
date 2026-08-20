@@ -1,14 +1,36 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export interface UserData {
+export interface UserData extends Record<string, unknown> {
   email: string;
   name: string;
   plan: string;
   createdAt: number;
   phone?: string;
+  fullName?: string;
+  whatsapp?: string;
   experienceLevel?: string;
+  jobRole?: string;
   city?: string;
   referralSource?: string;
+  profileCompleted?: boolean;
+  acquisition?: {
+    customerSelectedSource?: string;
+    firstTouchSource?: string;
+    firstTouchMedium?: string;
+    firstTouchCampaign?: string;
+    firstTouchContent?: string;
+    firstTouchTerm?: string;
+    firstTouchReferrer?: string;
+    firstTouchLandingPage?: string;
+    firstTouchAt?: number;
+    lastTouchSource?: string;
+    lastTouchMedium?: string;
+    lastTouchCampaign?: string;
+    lastTouchContent?: string;
+    lastTouchAt?: number;
+    referralCode?: string;
+    creatorCode?: string;
+  };
 }
 
 interface UserState {

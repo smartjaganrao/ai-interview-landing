@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { refreshAllData, clearAllData, type ActivityData } from '@/lib/data-sync';
 import { setSubscription as setSubAction } from '@/lib/slices/subscriptionSlice';
 import { setUser } from '@/lib/slices/userSlice';
-import CompleteProfileModal from '@/components/CompleteProfileModal';
+import CompleteProfileModal, { isProfileComplete } from '@/components/CompleteProfileModal';
 import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
 
 const WINDOWS_DOWNLOAD_URL = '/api/download/win';
@@ -75,6 +75,14 @@ function DashboardContent() {
       }
     }
   }, [user, userData]);
+
+  useEffect(() => {
+    if (!authLoading && user && userData && dataReady.user) {
+      if (!isProfileComplete(userData)) {
+        setShowProfilePrompt(true);
+      }
+    }
+  }, [user, userData, authLoading, dataReady.user]);
 
   useEffect(() => {
     if (!user) return;
@@ -201,7 +209,15 @@ function DashboardContent() {
             setShowProfilePrompt(false);
             if (saved) dispatch(setUser({ ...(userData || {}), ...saved } as any));
           }}
-          initial={{ phone: userData?.phone, experienceLevel: userData?.experienceLevel, city: userData?.city, referralSource: userData?.referralSource }}
+          initial={{
+            phone: userData?.phone,
+            fullName: userData?.fullName || user.displayName || '',
+            whatsapp: userData?.whatsapp || userData?.phone || '',
+            experienceLevel: userData?.experienceLevel,
+            city: userData?.city,
+            jobRole: userData?.jobRole,
+            referralSource: userData?.referralSource,
+          }}
         />
       )}
 
@@ -647,11 +663,13 @@ function DashboardContent() {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               {[
                 { label: 'Email', value: userData?.email || user?.email },
-                { label: 'Name', value: userData?.name || 'Not set' },
-                { label: 'Mobile', value: userData?.phone || 'Not set' },
+                { label: 'Name', value: userData?.name || userData?.fullName || 'Not set' },
+                { label: 'WhatsApp', value: userData?.whatsapp || userData?.phone || 'Not set' },
+                { label: 'Job Role', value: userData?.jobRole || 'Not set' },
                 { label: 'Experience', value: userData?.experienceLevel || 'Not set' },
                 { label: 'City', value: userData?.city || 'Not set' },
                 { label: 'Member Since', value: userData?.createdAt ? new Date(userData.createdAt).toLocaleDateString() : '-' },
+                { label: 'How did you hear about us?', value: userData?.referralSource || userData?.acquisition?.customerSelectedSource || 'Not set' },
                 { label: 'User ID', value: user?.uid?.slice(0, 16) + '...' },
               ].map((item, i) => (
                 <div key={i}>
@@ -661,7 +679,7 @@ function DashboardContent() {
               ))}
             </div>
             <button onClick={() => setShowProfilePrompt(true)} className="text-sm text-indigo-400 hover:text-indigo-300 font-semibold mt-4">
-              {userData?.phone ? 'Edit details' : '+ Add phone & details'}
+              {isProfileComplete(userData) ? 'Edit details' : '+ Complete profile'}
             </button>
           </div>
 

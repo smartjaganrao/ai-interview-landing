@@ -6,7 +6,7 @@ import {
   AuthError,
   fetchSignInMethodsForEmail,
 } from 'firebase/auth';
-import { doc, collection, Timestamp, runTransaction, query, where, getDocs } from 'firebase/firestore';
+import { doc, collection, Timestamp, runTransaction, query, where, getDocs, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { PlanId } from './pricing-config';
 
@@ -179,5 +179,73 @@ export async function ensureUserDocs(
       throw e;
     }
   }
+}
+
+/**
+ * Reads the persisted attribution from localStorage and writes the technical
+ * (first-touch / last-touch / referrer / creator) attribution into the user's
+ * Firestore document. Best-effort — never blocks the auth flow.
+ */
+export async function persistAttribution(uid: string): Promise<void> {
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem('javihai_attribution') : null;
+    if (!raw) return;
+    const attribution = JSON.parse(raw);
+    const userRef = doc(db, 'users', uid);
+    const patch: Record<string, unknown> = {};
+
+    if (attribution.referralCode) patch.referralCode = attribution.referralCode;
+    if (attribution.creatorCode) patch.creatorCode = attribution.creatorCode;
+
+    const firstTouch = (attribution.firstTouch || {}) as Record<string, unknown>;
+    const lastTouch = (attribution.lastTouch || {}) as Record<string, unknown>;
+
+    patch.acquisition = {
+      firstTouchSource: firstTouch.source || null,
+      firstTouchMedium: firstTouch.medium || null,
+      firstTouchCampaign: firstTouch.campaign || null,
+      firstTouchContent: firstTouch.content || null,
+      firstTouchTerm: firstTouch.term || null,
+      firstTouchReferrer: firstTouch.referrer || null,
+      firstTouchLandingPage: firstTouch.landingPage || null,
+      firstTouchAt: firstTouch.at || null,
+      lastTouchSource: lastTouch.source || null,
+      lastTouchMedium: lastTouch.medium || null,
+      lastTouchCampaign: lastTouch.campaign || null,
+      lastTouchContent: lastTouch.content || null,
+      lastTouchAt: lastTouch.at || null,
+    };
+
+    await setDoc(userRef, patch, { merge: true });
+  } catch {
+    // attribution is best-effort
+  }
+}
+
+/**
+ * Checks whether a user document represents a fully completed profile.
+ * Supports both the new nested profile structure and legacy flat fields.
+ */
+export function isProfileComplete(userData: Record<string, unknown> | null | undefined): boolean {
+  if (!userData) return false;
+
+  // New structure with explicit flag
+  if (userData.profileCompleted === true) return true;
+
+  // Nested profile object
+  const profile = userData.profile as Record<string, unknown> | undefined;
+  if (profile) {
+    return !!(
+      (profile.fullName as string)?.trim() &&
+      (profile.whatsapp as string)?.trim() &&
+      (profile.experienceLevel as string)?.trim() &&
+      (profile.jobRole as string)?.trim() &&
+      (profile.city as string)?.trim() &&
+      (userData.acquisition as Record<string, unknown>)?.customerSelectedSource
+    );
+  }
+
+  // Legacy flat fields
+  return false;
 }
 

@@ -2,7 +2,7 @@ import { db } from '@/lib/firebase';
 import { doc, getDoc, getCountFromServer, query, collection, where } from 'firebase/firestore';
 import { migratePlanId } from '@/lib/pricing-config';
 import { store } from '@/lib/redux-store';
-import { setUser, clearUser } from '@/lib/slices/userSlice';
+import { setUser, clearUser, type UserData } from '@/lib/slices/userSlice';
 import { setSubscription as setSubAction, clearSubscription } from '@/lib/slices/subscriptionSlice';
 import { setUsage as setUsageAction, clearUsage } from '@/lib/slices/usageSlice';
 
@@ -51,17 +51,6 @@ export function clearDashboardCache(uid?: string): void {
   }
 }
 
-export interface UserData {
-  email: string;
-  name: string;
-  plan: string;
-  createdAt: number;
-  phone?: string;
-  experienceLevel?: string;
-  city?: string;
-  referralSource?: string;
-}
-
 export interface SubscriptionData {
   plan: string;
   status: string;
@@ -98,15 +87,22 @@ export async function syncUserData(uid: string): Promise<UserData | null> {
     const snap = await getDoc(doc(db, 'users', uid));
     if (!snap.exists()) return null;
     const data = snap.data() as Record<string, unknown>;
+    const profile = data.profile as Record<string, unknown> | undefined;
+    const acquisition = data.acquisition as Record<string, unknown> | undefined;
     const userData: UserData = {
       email: (data.email as string) || '',
       name: (data.name as string) || 'User',
       plan: migratePlanId((data.plan as string) || 'free'),
       createdAt: (data.createdAt as number) || Date.now(),
-      phone: data.phone as string | undefined,
-      experienceLevel: data.experienceLevel as string | undefined,
-      city: data.city as string | undefined,
-      referralSource: data.referralSource as string | undefined,
+      phone: (profile?.whatsapp as string) || (data.phone as string) || undefined,
+      fullName: (profile?.fullName as string) || (data.fullName as string) || undefined,
+      whatsapp: (profile?.whatsapp as string) || (data.whatsapp as string) || undefined,
+      experienceLevel: (profile?.experienceLevel as string) || (data.experienceLevel as string) || undefined,
+      jobRole: (profile?.jobRole as string) || (data.jobRole as string) || undefined,
+      city: (profile?.city as string) || (data.city as string) || undefined,
+      referralSource: (data.referralSource as string) || (acquisition?.customerSelectedSource as string) || undefined,
+      profileCompleted: (profile?.profileCompleted as boolean) || false,
+      acquisition: acquisition as UserData['acquisition'],
     };
     store.dispatch(setUser(userData));
     return userData;
