@@ -111,14 +111,14 @@ function SignupContent() {
   }, [router, plan]);
 
   useEffect(() => {
-    if (!loading && user && !pendingAuth) {
+    if (!loading && user && !pendingAuth && !showProfileModal) {
       if (plan === 'pro' || plan === 'power') {
         router.push(`/checkout?plan=${plan}`);
       } else {
         router.push('/dashboard');
       }
     }
-  }, [user, loading, router, plan, pendingAuth]);
+  }, [user, loading, router, plan, pendingAuth, showProfileModal]);
 
   const handleGoogleSignup = async () => {
     setPendingAuth(true);

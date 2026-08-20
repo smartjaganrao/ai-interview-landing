@@ -53,10 +53,10 @@ export default function LoginPage() {
   }, [router]);
 
   useEffect(() => {
-    if (!loading && user && !pendingAuth) {
+    if (!loading && user && !pendingAuth && !showProfileModal) {
       router.push('/dashboard');
     }
-  }, [user, loading, router, pendingAuth]);
+  }, [user, loading, router, pendingAuth, showProfileModal]);
 
   const handleGoogleLogin = async () => {
     setPendingAuth(true);
