@@ -9,10 +9,19 @@ import { refreshAllData, clearAllData, type ActivityData } from '@/lib/data-sync
 import { setSubscription as setSubAction } from '@/lib/slices/subscriptionSlice';
 import { setUser } from '@/lib/slices/userSlice';
 import CompleteProfileModal, { isProfileComplete } from '@/components/CompleteProfileModal';
+import DownloadStepsModal from '@/components/DownloadStepsModal';
 import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
 
 const WINDOWS_DOWNLOAD_URL = '/api/download/win';
 const MAC_DOWNLOAD_URL = '/api/download/mac';
+
+function detectDesktopOS(): 'mac' | 'windows' | null {
+  if (typeof navigator === 'undefined') return null;
+  const ua = navigator.userAgent;
+  if (/Windows/i.test(ua)) return 'windows';
+  if (/Macintosh|Mac OS X/i.test(ua) && !/iPhone|iPad|iPod/i.test(ua)) return 'mac';
+  return null;
+}
 
 function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
@@ -44,13 +53,18 @@ function DashboardContent() {
   const [expandedTicket, setExpandedTicket] = useState<string|null>(null);
   const [appVersion, setAppVersion] = useState('');
   const [hasDownloaded, setHasDownloaded] = useState(false);
-  const [hasInstalled, setHasInstalled] = useState(false);
-  const [hasSignedIn, setHasSignedIn] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
   const [cancelBusy, setCancelBusy] = useState(false);
+  const [detectedOS, setDetectedOS] = useState<'mac' | 'windows' | null>(null);
+  const [showInstallHelp, setShowInstallHelp] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [modalOS, setModalOS] = useState<'windows' | 'mac'>('windows');
 
-  const withAttribution = (url: string) =>
-    user ? `${url}?uid=${encodeURIComponent(user.uid)}&email=${encodeURIComponent(user.email || '')}` : url;
+  const withAttribution = (url: string) => {
+    if (!user) return url;
+    const sep = url.includes('?') ? '&' : '?';
+    return `${url}${sep}uid=${encodeURIComponent(user.uid)}&email=${encodeURIComponent(user.email || '')}`;
+  };
 
   useEffect(() => {
     fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
@@ -59,22 +73,29 @@ function DashboardContent() {
   }, []);
 
   useEffect(() => {
+    setDetectedOS(detectDesktopOS());
+  }, []);
+
+  useEffect(() => {
     if (user) {
-      const checkInstall = localStorage.getItem('javihai_installed');
       const checkDownload = localStorage.getItem('javihai_downloaded');
-      setHasInstalled(!!checkInstall);
       setHasDownloaded(!!checkDownload);
-      setHasSignedIn(true);
 
       const created = userData?.createdAt || Date.now();
       const isNew = (Date.now() - created) < 7 * 86400000;
       setIsNewUser(isNew);
-
-      if (isNew) {
-        setTimeout(() => setShowSupport(true), 1500);
-      }
     }
   }, [user, userData]);
+
+  // Proactive install help — fires only on the real friction point: they
+  // clicked download but haven't started a session a while later. Firing
+  // this blindly on page load (before anyone has even tried anything) just
+  // trains people to ignore it.
+  useEffect(() => {
+    if (!hasDownloaded || activity.totalSessions > 0) return;
+    const timer = setTimeout(() => setShowInstallHelp(true), 45000);
+    return () => clearTimeout(timer);
+  }, [hasDownloaded, activity.totalSessions]);
 
   useEffect(() => {
     if (!authLoading && user && userData && dataReady.user) {
@@ -171,11 +192,14 @@ function DashboardContent() {
     }
   }, [searchParams]);
 
-  const handleDownload = (platform: 'windows' | 'mac') => {
+  const handleDownload = (platform: 'windows' | 'mac', arch?: 'x64') => {
     localStorage.setItem('javihai_downloaded', 'true');
     setHasDownloaded(true);
-    const url = platform === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL;
+    const base = platform === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL;
+    const url = arch ? `${base}?arch=${arch}` : base;
     window.open(withAttribution(url), '_blank');
+    setModalOS(platform);
+    setShowDownloadModal(true);
   };
 
   if (authLoading) {
@@ -189,8 +213,13 @@ function DashboardContent() {
   const rawPlan = userData?.plan || 'free';
   const plan = migratePlanId(rawPlan) as PlanId;
   const planConfig = getPlanById(plan) || PLANS[0];
-  const onboardingProgress = [hasDownloaded, hasInstalled, hasSignedIn].filter(Boolean).length;
-  const onboardingPercent = (onboardingProgress / 3) * 100;
+  // Two honest, verifiable steps only — "installed" can't be observed from
+  // the browser (nothing on the desktop side reports back to this localStorage),
+  // and a signed-in check would be trivially true just by being on this page.
+  // "First session" comes from real Firestore session counts instead.
+  const hasFirstSession = activity.totalSessions > 0;
+  const onboardingProgress = [hasDownloaded, hasFirstSession].filter(Boolean).length;
+  const onboardingPercent = (onboardingProgress / 2) * 100;
 
   const StatCardSkeleton = () => (
     <div className="card animate-pulse text-center">
@@ -221,6 +250,14 @@ function DashboardContent() {
         />
       )}
 
+      <DownloadStepsModal
+        open={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        os={modalOS}
+        onSwitchOS={setModalOS}
+        downloadUrl={withAttribution(modalOS === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL)}
+      />
+
       {showSuccessBanner && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
           <div className="glass-heavy rounded-xl p-4 border border-green-500/50 flex items-center gap-3">
@@ -242,19 +279,42 @@ function DashboardContent() {
             <div className="lg:col-span-2 card card-glow bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-pink-500/10">
               <div className="badge text-xs mb-3">🚀 Get Started</div>
               <h1 className="text-xl md:text-2xl font-black mb-1.5">
-                Download <span className="text-gradient">JavihAI</span> Desktop
+                Download <span className="text-gradient">JavihAI</span>{' '}Desktop
               </h1>
               <p className="text-slate-400 text-sm mb-4 max-w-lg">
                 The AI interview coach that listens, thinks, and answers for you.
               </p>
               <div className="flex flex-col sm:flex-row gap-2.5">
-                <button onClick={() => handleDownload('windows')} className="btn btn-primary">
+                <button onClick={() => handleDownload('windows')} className={`btn ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary'}`}>
                   ⬇ Windows {appVersion ? `(${appVersion})` : ''}
                 </button>
-                <button onClick={() => handleDownload('mac')} className="btn btn-primary">
+                <button onClick={() => handleDownload('mac')} className={`btn ${detectedOS === 'mac' ? 'btn-primary' : 'btn-secondary'}`}>
                   ⬇ Mac {appVersion ? `(${appVersion})` : ''}
                 </button>
               </div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
+                <button onClick={() => handleDownload('mac', 'x64')} className="text-xs text-slate-500 hover:text-slate-300">
+                  Intel Mac? Get the x64 build
+                </button>
+                <Link href="/install" className="text-xs text-slate-500 hover:text-slate-300 underline underline-offset-2">
+                  Full install guide →
+                </Link>
+              </div>
+
+              {hasDownloaded ? (
+                <div className="mt-4 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-xs text-slate-300 leading-relaxed">
+                  <strong className="text-white">Downloaded — here&apos;s what&apos;s next:</strong>{' '}
+                  your browser may first ask you to <strong className="text-white">&quot;Keep&quot;</strong> the file (Windows only —{' '}
+                  <Link href="/install" className="text-indigo-300 hover:underline">see what that looks like</Link>).
+                  Then run it — Windows or Mac will show a one-time security prompt — click <strong className="text-white">&quot;Run anyway&quot;</strong> or{' '}
+                  <strong className="text-white">&quot;Open&quot;</strong> (expected for a new app, not a threat), then sign in
+                  with this account ({user?.email}).
+                </div>
+              ) : (
+                <p className="text-[11px] text-slate-500 mt-3 leading-relaxed">
+                  After downloading: your browser may ask you to &quot;Keep&quot; the file (Windows) → run it → approve the security prompt (normal for a new app) → sign in with this account.
+                </p>
+              )}
             </div>
 
             {/* Plan Card */}
@@ -299,6 +359,34 @@ function DashboardContent() {
             </div>
           </div>
 
+          {/* ==================== INSTALL HELP NUDGE ==================== */}
+          {/* Only appears if they downloaded but haven't started a session a
+              while later — a real signal something's stuck, not a guess. */}
+          {showInstallHelp && (
+            <div className="card border-amber-500/30 bg-amber-500/5 mb-4 flex items-start justify-between gap-4 flex-wrap">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">🤔</span>
+                <div>
+                  <div className="font-semibold text-white text-sm">Still setting up JavihAI?</div>
+                  <p className="text-xs text-slate-400 mt-0.5 max-w-md">
+                    If the security prompt or sign-in is giving you trouble, the install guide covers every step —
+                    or message us directly and we&apos;ll get you sorted.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Link href="/install" className="btn btn-secondary text-xs px-3 py-1.5">Install guide</Link>
+                <button
+                  onClick={() => { setShowInstallHelp(false); setShowSupport(true); window.dispatchEvent(new Event('open-whatsapp-form')); }}
+                  className="btn btn-primary text-xs px-3 py-1.5"
+                >
+                  Get help
+                </button>
+                <button onClick={() => setShowInstallHelp(false)} className="text-slate-500 hover:text-white text-lg px-1" aria-label="Dismiss">✕</button>
+              </div>
+            </div>
+          )}
+
           {/* ==================== STATS ==================== */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             {!dataReady.user || !dataReady.activity ? (
@@ -336,38 +424,37 @@ function DashboardContent() {
                       <p className="text-xs text-slate-400 mt-0.5">Complete these steps to unlock full potential</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-xl font-black text-gradient">{onboardingProgress}/3</div>
+                      <div className="text-xl font-black text-gradient">{onboardingProgress}/2</div>
                       <div className="text-[10px] text-slate-400 uppercase tracking-wider">Completed</div>
                     </div>
                   </div>
                   <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
                     <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500" style={{ width: `${onboardingPercent}%` }}></div>
                   </div>
-                  <div className="grid md:grid-cols-3 gap-3">
+                  <div className="grid md:grid-cols-2 gap-3">
                     <div className={`p-3 rounded-xl border ${hasDownloaded ? 'bg-green-500/10 border-green-500/30' : 'bg-white/5 border-white/10'}`}>
                       <div className="flex items-center gap-2.5">
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${hasDownloaded ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-slate-400'}`}>
                           {hasDownloaded ? '✓' : '1'}
                         </div>
-                        <span className="text-sm font-medium">{hasDownloaded ? 'Downloaded' : 'Download App'}</span>
+                        <span className="text-sm font-medium">{hasDownloaded ? 'Downloaded' : 'Download the app'}</span>
                       </div>
                     </div>
-                    <div className={`p-3 rounded-xl border ${hasInstalled ? 'bg-green-500/10 border-green-500/30' : 'bg-white/5 border-white/10'}`}>
-                      <div className="flex items-center gap-2.5">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${hasInstalled ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-slate-400'}`}>
-                          {hasInstalled ? '✓' : '2'}
+                    {hasFirstSession ? (
+                      <div className="p-3 rounded-xl border bg-green-500/10 border-green-500/30">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-green-500/20 text-green-400">✓</div>
+                          <span className="text-sm font-medium">First session done</span>
                         </div>
-                        <span className="text-sm font-medium">{hasInstalled ? 'Installed' : 'Install & Sign In'}</span>
                       </div>
-                    </div>
-                    <div className={`p-3 rounded-xl border ${hasSignedIn ? 'bg-green-500/10 border-green-500/30' : 'bg-white/5 border-white/10'}`}>
-                      <div className="flex items-center gap-2.5">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${hasSignedIn ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-slate-400'}`}>
-                          {hasSignedIn ? '✓' : '3'}
+                    ) : (
+                      <Link href="/install" className="p-3 rounded-xl border bg-white/5 border-white/10 hover:border-indigo-500/30 transition-all block">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-white/10 text-slate-400">2</div>
+                          <span className="text-sm font-medium">Install &amp; start a session</span>
                         </div>
-                        <span className="text-sm font-medium">{hasSignedIn ? 'Signed In' : 'Start Practicing'}</span>
-                      </div>
-                    </div>
+                      </Link>
+                    )}
                   </div>
                 </div>
               ) : plan === 'free' && usageData ? (

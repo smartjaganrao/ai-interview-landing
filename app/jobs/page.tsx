@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
 import Footer from '@/components/Footer';
 
 interface Job {
@@ -30,8 +29,7 @@ const jobBoardSchema = {
 };
 
 export default function JobsPage() {
-  const { user } = useAuth();
-  const router   = useRouter();
+  const router = useRouter();
 
   const [jobs,    setJobs]    = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
@@ -69,20 +67,6 @@ export default function JobsPage() {
       return next;
     });
   };
-
-  if (!user) {
-    return (
-      <>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-slate-400 mb-4">Sign in to browse job recommendations.</p>
-            <button onClick={() => router.push('/auth/login')} className="btn btn-primary">Sign In</button>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
 
   return (
     <>

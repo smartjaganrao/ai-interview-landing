@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -192,7 +191,6 @@ function Section({ title, accent, template, children }: { title: string; accent:
 /* ── Main Page ────────────────────────────────────────────────────────────── */
 export default function ResumePage() {
   const { user } = useAuth();
-  const router = useRouter();
   const [data, setData] = useState<ResumeData>(BLANK);
   const [template, setTemplate] = useState('classic');
   const [plan, setPlan] = useState<string>('free');
@@ -231,20 +229,6 @@ export default function ResumePage() {
   const handlePrint = () => {
     window.print();
   };
-
-  if (!user) {
-    return (
-      <>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-slate-400 mb-4">Sign in to use the resume builder.</p>
-            <button onClick={() => router.push('/auth/login')} className="btn btn-primary">Sign In</button>
-          </div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
 
   const inputCls = 'w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500';
   const labelCls = 'block text-xs text-slate-400 mb-1';

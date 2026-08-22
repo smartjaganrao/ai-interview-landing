@@ -6,8 +6,13 @@ export const maxDuration = 300;
 
 const REPO = 'smartjaganrao/ai-interview-helper';
 const EXT: Record<string, string> = { win: '.exe', mac: '.dmg' };
-const MAC_PREFERRED_SUBSTRING = 'mac-universal.dmg';
-const LATEST_RELEASE_URL = `https://github.com/${REPO}/releases/latest`;
+const MAC_ARM64_SUBSTRING = 'mac-arm64.dmg';
+const MAC_X64_SUBSTRING = 'mac-x64.dmg';
+// Last-resort fallback only — the live release hasn't been re-cut with the
+// arch-split build yet, so mac-arm64.dmg/mac-x64.dmg don't exist there. Once
+// a new release IS cut, this is never reached (the two lookups above win).
+const MAC_UNIVERSAL_SUBSTRING = 'mac-universal.dmg';
+const WIN_PREFERRED_SUBSTRING = 'portable-win-x64.exe';
 
 /**
  * Records a download attempt to `download_events` so the admin App-Usage funnel
@@ -29,10 +34,6 @@ function logDownload(req: NextRequest, platform: string, version: string) {
   }).catch(() => { /* never block the download */ });
 }
 
-function buildDirectUrl(tag: string, assetName: string) {
-  return `https://github.com/${REPO}/releases/download/${tag}/${assetName}`;
-}
-
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ platform: string }> }
@@ -44,43 +45,55 @@ export async function GET(
   }
 
   const release = await getLatestReleaseRaw();
-  if (release) {
-    const assetName = platform === 'mac'
-      ? release.assets.find((a) => a.name.includes(MAC_PREFERRED_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name
-      : release.assets.find((a) => a.name.endsWith(ext))?.name;
-
-    if (assetName) {
-      const token = process.env.GITHUB_TOKEN;
-      const assetMatch = release.assets.find((a) => a.name === assetName);
-
-      if (!token) {
-        console.error('[download] GITHUB_TOKEN is not set — cannot proxy private repo asset');
-        return NextResponse.json({ error: 'Download not configured' }, { status: 500 });
-      }
-
-      if (token && assetMatch) {
-        logDownload(req, platform, release.tag_name);
-        const assetRes = await fetch(
-          `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
-          { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
-        );
-
-        if (assetRes.ok && assetRes.body) {
-          return new Response(assetRes.body, {
-            headers: {
-              'Content-Type': 'application/octet-stream',
-              'Content-Disposition': `attachment; filename="${assetName}"`,
-            },
-          });
-        }
-
-        console.error(`[download] authenticated proxy failed status=${assetRes.status}`);
-      }
-
-      logDownload(req, platform, release.tag_name);
-      return NextResponse.redirect(buildDirectUrl(release.tag_name, assetName), 302);
-    }
+  if (!release) {
+    console.error('[download] no release data available — cannot serve direct download');
+    return NextResponse.json({ error: 'Download temporarily unavailable' }, { status: 503 });
   }
 
-  return NextResponse.redirect(LATEST_RELEASE_URL, 302);
+  // ?arch=x64 lets the install page offer Intel Mac users the x64 build
+  // directly instead of only ever serving the arm64-preferred default.
+  const arch = new URL(req.url).searchParams.get('arch');
+  const macSubstring = arch === 'x64' ? MAC_X64_SUBSTRING : MAC_ARM64_SUBSTRING;
+  const macFallbackSubstring = arch === 'x64' ? MAC_ARM64_SUBSTRING : MAC_X64_SUBSTRING;
+
+  const assetName = platform === 'mac'
+    ? (release.assets.find((a) => a.name.includes(macSubstring) && !a.name.endsWith('.blockmap'))?.name
+      ?? release.assets.find((a) => a.name.includes(macFallbackSubstring) && !a.name.endsWith('.blockmap'))?.name
+      ?? release.assets.find((a) => a.name.includes(MAC_UNIVERSAL_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name)
+    : release.assets.find((a) => a.name.includes(WIN_PREFERRED_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name;
+
+  if (!assetName) {
+    console.error(`[download] no matching asset found for platform=${platform} arch=${arch ?? 'default'}`);
+    return NextResponse.json({ error: 'Download temporarily unavailable' }, { status: 503 });
+  }
+
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) {
+    console.error('[download] GITHUB_TOKEN is not set — cannot proxy private repo asset');
+    return NextResponse.json({ error: 'Download not configured' }, { status: 500 });
+  }
+
+  const assetMatch = release.assets.find((a) => a.name === assetName);
+  if (!assetMatch) {
+    console.error(`[download] asset "${assetName}" disappeared between lookup and fetch`);
+    return NextResponse.json({ error: 'Download temporarily unavailable' }, { status: 503 });
+  }
+
+  logDownload(req, platform, release.tag_name);
+  const assetRes = await fetch(
+    `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
+    { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }
+  );
+
+  if (!assetRes.ok || !assetRes.body) {
+    console.error(`[download] authenticated proxy failed status=${assetRes.status}`);
+    return NextResponse.json({ error: 'Download failed, please try again' }, { status: 502 });
+  }
+
+  return new Response(assetRes.body, {
+    headers: {
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${assetName}"`,
+    },
+  });
 }

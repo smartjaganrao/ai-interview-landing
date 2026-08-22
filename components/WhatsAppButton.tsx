@@ -1,6 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
+
+// Pages where an auto-popped chat widget does more harm than good — the
+// homepage hero holds the primary download CTA, and /install holds the
+// step-by-step guide; on mobile this widget covers nearly the full
+// viewport, burying both. It's still one tap away via the bubble.
+const AUTO_OPEN_EXCLUDED_PATHS = ['/', '/install'];
 
 const RAW = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
 const NUMBER = RAW.replace(/[^\d]/g, '');
@@ -23,7 +30,7 @@ const FAQS: FAQItem[] = [
   {
     id: 'faq-1',
     question: 'How do I install JavihAI?',
-    answer: 'To install JavihAI:\n\n1. Click the download button in the dashboard\n2. Run the .exe (Windows) or .dmg (Mac)\n3. Sign in with your account\n4. Grant microphone permission\n\nNeed more help? I can connect you to our support team.',
+    answer: 'To install JavihAI:\n\n1. Download it from the homepage or javihai.in/install\n2. Run the file — Windows/Mac will show a one-time security prompt, click "Run anyway" or "Open" (normal for a new app)\n3. Sign in with your account\n4. Grant microphone permission\n\nFull walkthrough with screenshots: javihai.in/install. Need more help? I can connect you to our support team.',
     keywords: ['install', 'setup', 'download', 'exe', 'dmg', 'setup', 'install'],
   },
   {
@@ -100,6 +107,8 @@ function matchFAQ(input: string): FAQItem | null {
 }
 
 export default function WhatsAppButton() {
+  const pathname = usePathname();
+  const autoOpenDisabled = AUTO_OPEN_EXCLUDED_PATHS.includes(pathname);
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -135,14 +144,14 @@ export default function WhatsAppButton() {
   }, []);
 
   useEffect(() => {
-    if (!open && !hasAutoOpened) {
+    if (!open && !hasAutoOpened && !autoOpenDisabled) {
       const timer = setTimeout(() => {
         setHasAutoOpened(true);
         setOpen(true);
       }, 2500);
       return () => clearTimeout(timer);
     }
-  }, [open, hasAutoOpened]);
+  }, [open, hasAutoOpened, autoOpenDisabled]);
 
   const resetChat = useCallback(() => {
     setMessages([
@@ -317,7 +326,7 @@ export default function WhatsAppButton() {
               : '24px',
           }}
         >
-          <div className="bg-slate-900 border border-green-500/30 rounded-2xl shadow-2xl animate-scale-in overflow-hidden flex flex-col max-h-[520px]">
+          <div className="bg-slate-900 border border-green-500/30 rounded-2xl shadow-2xl animate-scale-in overflow-hidden flex flex-col h-[560px] max-h-[calc(100vh-96px)]">
             {/* Header */}
             <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4 flex items-center justify-between flex-shrink-0">
               <div className="flex items-center gap-3">
@@ -341,7 +350,7 @@ export default function WhatsAppButton() {
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 bg-slate-950/50 min-h-[180px] max-h-[240px]">
+            <div className="flex-1 overflow-y-auto p-4 bg-slate-950/50 min-h-0">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -382,7 +391,7 @@ export default function WhatsAppButton() {
               {faqVisible && messages.length <= 1 && (
                 <div className="mb-3">
                   <div className="text-xs font-semibold text-slate-400 mb-2 flex items-center gap-1">
-                    <span>💡</span> Quick Help
+                    <span>💡</span>{' '}Quick Help
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {SUGGESTED_QUESTIONS.map((q) => (

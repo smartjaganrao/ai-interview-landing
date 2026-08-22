@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import FreeTrialModal from '@/components/FreeTrialModal';
+import DownloadStepsModal from '@/components/DownloadStepsModal';
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -97,7 +98,7 @@ const howToSchema = {
     {
       '@type': 'HowToStep',
       name: 'Download Desktop App',
-      text: 'Install the 12 MB overlay for Windows 10/11 or macOS (M1/M2/M3 + Intel). Runs silently in background.',
+      text: 'Install the free desktop overlay for Windows 10/11 or macOS (Apple Silicon or Intel). Runs silently in background.',
     },
     {
       '@type': 'HowToStep',
@@ -164,6 +165,18 @@ const GRADIENT_CLASSES: Record<string, string> = {
   'from-green-950 to-slate-900': 'bg-gradient-to-b from-green-950 to-slate-900',
 };
 
+// Highlights the visitor's own OS as the primary download button instead of
+// making them pick between two equal-weight buttons. Arch (arm64 vs x64)
+// can't be reliably detected from the UA string on modern browsers, so Mac
+// always defaults to arm64 with a manual x64 link alongside it.
+function detectDesktopOS(): 'mac' | 'windows' | null {
+  if (typeof navigator === 'undefined') return null;
+  const ua = navigator.userAgent;
+  if (/Windows/i.test(ua)) return 'windows';
+  if (/Macintosh|Mac OS X/i.test(ua) && !/iPhone|iPad|iPod/i.test(ua)) return 'mac';
+  return null;
+}
+
 export default function LandingClient(props: LandingClientProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [questionIdx, setQuestionIdx] = useState(0);
@@ -173,8 +186,18 @@ export default function LandingClient(props: LandingClientProps) {
   const [appVersion, setAppVersion] = useState('');
   const [isNewRelease, setIsNewRelease] = useState(false);
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [downloadModalOS, setDownloadModalOS] = useState<'windows' | 'mac'>('windows');
+
+  const openDownloadModal = (os: 'windows' | 'mac') => {
+    setDownloadModalOS(os);
+    setShowDownloadModal(true);
+  };
+  const [detectedOS, setDetectedOS] = useState<'mac' | 'windows' | null>(null);
 
   useEffect(() => {
+    setDetectedOS(detectDesktopOS());
+
     fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
       if (d?.version) setAppVersion(d.version);
       if (d?.publishedAt) setIsNewRelease(Date.now() - new Date(d.publishedAt).getTime() < 14 * 86400000);
@@ -268,26 +291,75 @@ export default function LandingClient(props: LandingClientProps) {
           </p>
 
           {/* Primary CTAs */}
-          <div className="mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+          <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-4">
               <a
                 href="/api/download/win"
-                className="btn btn-primary btn-xl shadow-lg hover:shadow-blue-500/25 w-full sm:w-auto"
+                target="_blank"
+                rel="noopener"
+                onClick={() => openDownloadModal('windows')}
+                className={`btn btn-xl w-full sm:w-auto ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary shadow-lg hover:shadow-blue-500/25'}`}
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
                 Download for Windows — Free
               </a>
               <a
                 href="/api/download/mac"
-                className="btn btn-secondary btn-xl w-full sm:w-auto"
+                target="_blank"
+                rel="noopener"
+                onClick={() => openDownloadModal('mac')}
+                className={`btn btn-xl w-full sm:w-auto ${detectedOS === 'mac' ? 'btn-primary shadow-lg hover:shadow-blue-500/25' : 'btn-secondary'}`}
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg>
                 Download for Mac — Free
               </a>
             </div>
-            <p className="text-xs sm:text-sm text-slate-500 text-center">
-              12 MB · No card needed · Sign in with Google after install
+            <p className="text-xs sm:text-sm text-slate-500 text-center mb-1.5">
+              Free forever for freshers · No card needed · 2-minute setup
             </p>
+            <p className="text-xs text-slate-600 text-center">
+              Intel Mac? <a href="/api/download/mac?arch=x64" target="_blank" rel="noopener" onClick={() => openDownloadModal('mac')} className="text-slate-500 hover:text-slate-300 underline underline-offset-2">Get the x64 build</a>
+              {' '}&middot; Prefer a written guide? <Link href="/install" className="text-slate-500 hover:text-slate-300 underline underline-offset-2">Read the install steps →</Link>
+            </p>
+          </div>
+
+          {/* What happens after you click — the security-prompt moment is the
+              #1 reason a first-time visitor abandons an unsigned-app install,
+              so pre-empt it here instead of letting it surprise them. */}
+          <div className="max-w-3xl mx-auto mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
+              {[
+                { n: '1', text: 'Download starts instantly — no sign-up needed first.' },
+                { n: '2', text: 'Windows or Mac shows a one-time security prompt. Click "Run anyway" or "Open" — expected for a brand-new app, not a threat.' },
+                { n: '3', text: 'Sign in with Google inside the app and start practicing.' },
+              ].map((step) => (
+                <div key={step.n} className="flex items-start gap-2.5 text-left">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-slate-400 flex items-center justify-center mt-0.5">
+                    {step.n}
+                  </span>
+                  <p className="text-xs text-slate-500 leading-relaxed">{step.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Account CTA — secondary to Download, for visitors who'd rather
+              start with an account (or already have one) than download first. */}
+          <div className="flex justify-center animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
+            <div className="inline-flex items-center gap-1 p-1 rounded-full glass border border-white/10">
+              <Link
+                href="/auth/signup"
+                className="flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+              >
+                ✨ Create free account
+              </Link>
+              <Link
+                href="/auth/login"
+                className="px-5 py-2 rounded-full text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all"
+              >
+                Sign in
+              </Link>
+            </div>
           </div>
 
           {/* Live demo mockup */}
@@ -346,7 +418,7 @@ export default function LandingClient(props: LandingClientProps) {
                         <div><span className="text-blue-400 font-bold">3. Rate Limiting</span> — Token bucket per user to avoid spam. Global limit: 10M notifs/min during IPL or election surges.</div>
                         <div><span className="text-blue-400 font-bold">4. Deduplication</span> — Redis set with 24h TTL to prevent duplicate sends on retry.</div>
                         <div className="text-slate-500 text-[10px] sm:text-xs pt-1 flex items-center gap-2">
-                          <span className="text-yellow-400">★</span> Tailored for Indian scale · invisible to interviewer
+                          <span className="text-yellow-400">★</span>{' '}Tailored for Indian scale · invisible to interviewer
                         </div>
                       </div>
                     </div>
@@ -491,7 +563,7 @@ export default function LandingClient(props: LandingClientProps) {
                 num: '02',
                 icon: '⬇',
                 title: 'Download Desktop App',
-                desc: 'Install the 12 MB overlay for Windows 10/11 or macOS (M1/M2/M3 + Intel). Runs silently in background.',
+                desc: 'Install the free desktop overlay for Windows 10/11 or macOS (Apple Silicon or Intel). Runs silently in background.',
                 color: 'from-indigo-500 to-purple-500',
               },
               {
@@ -627,6 +699,59 @@ export default function LandingClient(props: LandingClientProps) {
                 <p className="text-slate-400 leading-relaxed text-sm">{feature.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          FREE TOOLS — no download required
+      ═══════════════════════════════════════════════════════════════ */}
+      <section className="section-py bg-slate-950/40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <div className="section-label">🧰 Also free</div>
+            <h2 className="section-heading mb-4">
+              Tools You Can Use <span className="text-gradient">Right Now</span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              No download, no sign-in required — build your resume or find your next role before you even
+              install the desktop app.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <Link href="/resume" className="card card-glow group block">
+              <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-blue-500 to-indigo-500 group-hover:scale-110 transition-bounce shadow-lg">
+                📄
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Resume Builder</h3>
+              <p className="text-slate-400 leading-relaxed text-sm mb-4">
+                ATS-ready templates, live preview, one-click PDF export — all in your browser. Two premium templates included with Pro.
+              </p>
+              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Build your resume →</span>
+            </Link>
+
+            <Link href="/jobs" className="card card-glow group block">
+              <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-indigo-500 to-purple-500 group-hover:scale-110 transition-bounce shadow-lg">
+                💼
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Job Recommendations</h3>
+              <p className="text-slate-400 leading-relaxed text-sm mb-4">
+                Curated tech roles across India — search by role, skill, or city, then practice for any of them with JavihAI.
+              </p>
+              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Browse jobs →</span>
+            </Link>
+
+            <Link href="/mock-interview" className="card card-glow group block">
+              <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-purple-500 to-blue-500 group-hover:scale-110 transition-bounce shadow-lg">
+                🗣️
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Voice Mock Interview</h3>
+              <p className="text-slate-400 leading-relaxed text-sm mb-4">
+                Speak your answers to questions generated from your profile and JD — scored live, inside the desktop app.
+              </p>
+              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">See how it works →</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -1101,6 +1226,13 @@ export default function LandingClient(props: LandingClientProps) {
       </footer>
 
       <FreeTrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />
+      <DownloadStepsModal
+        open={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        os={downloadModalOS}
+        onSwitchOS={setDownloadModalOS}
+        downloadUrl={downloadModalOS === 'windows' ? '/api/download/win' : '/api/download/mac'}
+      />
     </>
   );
 }

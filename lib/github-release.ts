@@ -21,7 +21,7 @@ export interface LatestRelease {
 // Used only if GitHub is unreachable or misconfigured — keeps pages rendering
 // instead of throwing, at the cost of showing a stale version.
 const FALLBACK: LatestRelease = {
-  version: 'v1.13.12',
+  version: 'v1.13.13',
   releaseUrl: `https://github.com/${REPO}/releases/latest`,
   macUrl: null,
   winUrl: null,
@@ -97,11 +97,21 @@ export async function getLatestRelease(): Promise<LatestRelease> {
   const toDirectUrl = (assetName: string) =>
     `https://github.com/${REPO}/releases/download/${release.tag_name}/${assetName}`;
 
+  // Prefer arm64 (Apple Silicon), then x64. Universal is a last-resort
+  // fallback only — it's what the live release actually has until a new
+  // release is cut with the arch-split build; once one is, this branch
+  // is never reached since arm64/x64 will exist.
+  const macAsset =
+    release.assets.find((a) => a.name.includes('mac-arm64.dmg')) ??
+    release.assets.find((a) => a.name.includes('mac-x64.dmg')) ??
+    release.assets.find((a) => a.name.includes('mac-universal.dmg'));
+  const winAsset = release.assets.find((a) => a.name.includes('portable-win-x64.exe'));
+
   return {
     version: release.tag_name,
     releaseUrl: release.html_url,
-    macUrl: toDirectUrl(release.assets.find((a) => a.name.endsWith('.dmg'))?.name ?? ''),
-    winUrl: toDirectUrl(release.assets.find((a) => a.name.endsWith('.exe'))?.name ?? ''),
+    macUrl: toDirectUrl(macAsset?.name ?? ''),
+    winUrl: toDirectUrl(winAsset?.name ?? ''),
     publishedAt: release.published_at,
   };
 }
