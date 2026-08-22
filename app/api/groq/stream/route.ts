@@ -39,6 +39,14 @@ async function fetchGroqWithFallback(
         max_tokens: max_tokens ?? 1024,
         stream: true,
         stream_options: { include_usage: true },
+        // gpt-oss-*/qwen3.6 are reasoning models that emit a hidden <think>
+        // block before the real answer, and that reasoning counts against
+        // max_tokens — on a tight budget the whole response can go to
+        // reasoning with empty visible content (confirmed directly against
+        // the Groq API). `hidden` keeps it out of the visible content;
+        // callers with reasoning-heavy prompts (e.g. desktop's screenshot
+        // analysis) also raise max_tokens to compensate.
+        reasoning_format: 'hidden',
       }),
     });
     if (res.ok && res.body) return { ok: true, res: res as Response & { body: ReadableStream<Uint8Array> } };
