@@ -11,26 +11,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: updatedAt ? new Date(updatedAt) : now,
   }));
 
+  // No lastModified on these — they're static marketing pages with no real
+  // per-page "content changed at" signal. Claiming new Date() on every build
+  // told Google every page "just changed" on every crawl, which per Google's
+  // sitemap guidance teaches it to ignore lastmod entirely rather than help
+  // it prioritize re-crawls. Omitting is valid per the sitemap spec; blog
+  // entries below keep their real updatedAt, which is an honest signal.
   return [
-    { url: base, lastModified: now },
-    { url: `${base}/about`, lastModified: now },
-    { url: `${base}/pricing`, lastModified: now },
-    { url: `${base}/mock-interview`, lastModified: now },
-    { url: `${base}/blog`, lastModified: now },
-    { url: `${base}/install`, lastModified: now },
-    { url: `${base}/resume`, lastModified: now },
-    { url: `${base}/jobs`, lastModified: now },
-    { url: `${base}/compare`, lastModified: now },
-    { url: `${base}/compare/chiku-ai`, lastModified: now },
-    { url: `${base}/compare/final-round-ai`, lastModified: now },
-    { url: `${base}/compare/interview-coder`, lastModified: now },
-    { url: `${base}/compare/cluely`, lastModified: now },
-    { url: `${base}/compare/lockedin-ai`, lastModified: now },
-    { url: `${base}/compare/parakeet-ai`, lastModified: now },
-    { url: `${base}/privacy`, lastModified: now },
-    { url: `${base}/terms`, lastModified: now },
-    { url: `${base}/refund`, lastModified: now },
-    { url: `${base}/creator`, lastModified: now },
+    { url: base },
+    { url: `${base}/about` },
+    { url: `${base}/pricing` },
+    { url: `${base}/mock-interview` },
+    { url: `${base}/blog` },
+    { url: `${base}/install` },
+    { url: `${base}/resume` },
+    { url: `${base}/jobs` },
+    { url: `${base}/compare` },
+    { url: `${base}/compare/chiku-ai` },
+    { url: `${base}/compare/final-round-ai` },
+    { url: `${base}/compare/interview-coder` },
+    { url: `${base}/compare/cluely` },
+    { url: `${base}/compare/lockedin-ai` },
+    { url: `${base}/compare/parakeet-ai` },
+    { url: `${base}/privacy` },
+    { url: `${base}/terms` },
+    { url: `${base}/refund` },
+    { url: `${base}/creator` },
     ...blogEntries,
   ];
 }
