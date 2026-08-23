@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: 'JavihAI Pricing — Free, Pro & Power',
     description: 'Free plan with 10 answers/day. Pro ₹499/mo. Power ₹999/mo. 7-day refund.',
   },
-  alternates: { canonical: 'https://javihai.in/pricing' },
+  alternates: { canonical: 'https://www.javihai.in/pricing' },
 };
 
 export default function PricingLayout({ children }: { children: React.ReactNode }) {

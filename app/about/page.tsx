@@ -5,8 +5,8 @@ const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'JavihAI',
-  url: 'https://javihai.in',
-  logo: 'https://javihai.in/logo.svg',
+  url: 'https://www.javihai.in',
+  logo: 'https://www.javihai.in/logo.svg',
   description:
     'Real-time AI interview copilot for India — stealth desktop overlay with instant AI answers, Desi Mode, and mock interviews.',
   foundingDate: '2024',
@@ -28,7 +28,7 @@ export const metadata = {
   title: 'About JavihAI — India\'s First Unlimited AI Interview Copilot',
   description:
     'JavihAI is built by Indian engineers for Indian candidates. Learn why 2,400+ candidates trust JavihAI for Zoom, Meet & Teams interviews. Free forever plan available.',
-  alternates: { canonical: 'https://javihai.in/about' },
+  alternates: { canonical: 'https://www.javihai.in/about' },
 };
 
 export default function AboutPage() {

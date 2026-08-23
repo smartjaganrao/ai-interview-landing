@@ -997,7 +997,7 @@ export default function LandingClient(props: LandingClientProps) {
               '@context': 'https://schema.org',
               '@type': 'Product',
               name: 'JavihAI',
-              url: 'https://javihai.in',
+              url: 'https://www.javihai.in',
               aggregateRating: {
                 '@type': 'AggregateRating',
                 ratingValue: '4.9',

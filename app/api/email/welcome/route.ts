@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     <h2 style="font-size:18px;margin:0 0 16px;color:#fff;">🚀 3 steps to your first session</h2>
     <div style="margin-bottom:12px;padding-left:8px;border-left:3px solid #6366f1;">
       <strong style="color:#e2e8f0;">Step 1</strong><br/>
-      <span style="color:#94a3b8;">Go to your <a href="https://javihai.in/dashboard" style="color:#818cf8;">Dashboard</a> and download the desktop app (Mac or Windows)</span>
+      <span style="color:#94a3b8;">Go to your <a href="https://www.javihai.in/dashboard" style="color:#818cf8;">Dashboard</a> and download the desktop app (Mac or Windows)</span>
     </div>
     <div style="margin-bottom:12px;padding-left:8px;border-left:3px solid #6366f1;">
       <strong style="color:#e2e8f0;">Step 2</strong><br/>
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
   </div>
 
   <div style="text-align:center;margin:32px 0;">
-    <a href="https://javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
+    <a href="https://www.javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
       Open Dashboard →
     </a>
   </div>
@@ -63,15 +63,15 @@ export async function POST(req: NextRequest) {
   <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;">
     <h3 style="font-size:14px;color:#94a3b8;margin:0 0 12px;">Also available for you:</h3>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <a href="https://javihai.in/resume" style="background:#334155;color:#e2e8f0;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;">📄 Resume Builder</a>
-      <a href="https://javihai.in/jobs" style="background:#334155;color:#e2e8f0;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;">💼 Job Recommendations</a>
-      <a href="https://javihai.in/mock-interview" style="background:#334155;color:#e2e8f0;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;">🎯 Mock Interview</a>
+      <a href="https://www.javihai.in/resume" style="background:#334155;color:#e2e8f0;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;">📄 Resume Builder</a>
+      <a href="https://www.javihai.in/jobs" style="background:#334155;color:#e2e8f0;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;">💼 Job Recommendations</a>
+      <a href="https://www.javihai.in/mock-interview" style="background:#334155;color:#e2e8f0;padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;">🎯 Mock Interview</a>
     </div>
   </div>
 
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
-    JavihAI · <a href="https://javihai.in" style="color:#6366f1;">javihai.in</a> ·
-    <a href="https://javihai.in/privacy" style="color:#475569;">Privacy</a> ·
+    JavihAI · <a href="https://www.javihai.in" style="color:#6366f1;">javihai.in</a> ·
+    <a href="https://www.javihai.in/privacy" style="color:#475569;">Privacy</a> ·
     Reply to this email for support
   </p>
 </div>
@@ -104,10 +104,10 @@ export async function POST(req: NextRequest) {
     <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin:0 0 12px;">
       Practice with a full AI-powered mock interview — pick your role, get asked real questions, get scored.
     </p>
-    <a href="https://javihai.in/mock-interview" style="display:inline-block;background:#6366f1;color:white;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">Start Mock Interview →</a>
+    <a href="https://www.javihai.in/mock-interview" style="display:inline-block;background:#6366f1;color:white;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">Start Mock Interview →</a>
   </div>
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
-    Reply to this email if you need help · <a href="https://javihai.in" style="color:#6366f1;">javihai.in</a>
+    Reply to this email if you need help · <a href="https://www.javihai.in" style="color:#6366f1;">javihai.in</a>
   </p>
 </div>
 </body></html>`,
@@ -154,14 +154,14 @@ export async function POST(req: NextRequest) {
   </div>
 
   <div style="text-align:center;">
-    <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
+    <a href="https://www.javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
       Upgrade to Pro →
     </a>
     <p style="color:#475569;font-size:12px;margin-top:12px;">7-day money-back guarantee. Cancel anytime.</p>
   </div>
 
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
-    <a href="https://javihai.in" style="color:#6366f1;">javihai.in</a> · Reply if you have any questions
+    <a href="https://www.javihai.in" style="color:#6366f1;">javihai.in</a> · Reply if you have any questions
   </p>
 </div>
 </body></html>`,

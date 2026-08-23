@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const created = await getOrCreateCreator(user.uid, info?.name ?? '', user.email ?? info?.email ?? '');
     if (!created) return NextResponse.json({ error: 'Could not create creator profile' }, { status: 503 });
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.javihai.in';
     return NextResponse.json({ isCreator: true, ...created, link: `${appUrl}/?via=${created.code}` });
   } catch (e) {
     console.error('[creator/apply]', e);

@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const summary = await getCreatorSummary(user.uid);
     if (!summary) return NextResponse.json({ isCreator: false, commissionBps: CREATOR_COMMISSION_BPS });
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.javihai.in';
     return NextResponse.json({
       isCreator: true,
       ...summary,

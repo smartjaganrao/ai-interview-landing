@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Final Round AI — 15× Cheaper, Same Real-Time Overlay' },
   description: 'JavihAI vs Final Round AI: both offer a real-time invisible overlay for live interviews. JavihAI costs ₹499/month vs Final Round AI ₹7,695/month — save 93% with the same core feature.',
   keywords: ['final round ai alternative', 'final round ai vs javihai', 'cheaper ai interview assistant india', 'real-time interview ai india', 'final round ai india price'],
-  alternates: { canonical: 'https://javihai.in/compare/final-round-ai' },
+  alternates: { canonical: 'https://www.javihai.in/compare/final-round-ai' },
   openGraph: {
     title: 'JavihAI vs Final Round AI — 15× Cheaper, Same Overlay',
     description: 'JavihAI ₹499/month vs Final Round AI ₹7,695/month. Same real-time invisible overlay — save 93%.',

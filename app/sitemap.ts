@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllPublishedSlugs } from '@/lib/blog';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = 'https://javihai.in';
+  const base = 'https://www.javihai.in';
   const now = new Date();
 
   const blogSlugs = await getAllPublishedSlugs();

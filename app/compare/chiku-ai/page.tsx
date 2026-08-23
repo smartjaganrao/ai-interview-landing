@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Chiku AI — Same Features, 7× Cheaper' },
   description: 'JavihAI vs Chiku AI: both are Indian AI interview assistants with Desi Mode, voice transcription, and real-time answers. JavihAI starts at ₹499/month vs Chiku AI ₹3,499/month — save ₹3,000/month.',
   keywords: ['chiku ai alternative', 'chiku ai vs javihai', 'affordable ai interview assistant india', 'desi mode interview ai', 'best indian interview AI app'],
-  alternates: { canonical: 'https://javihai.in/compare/chiku-ai' },
+  alternates: { canonical: 'https://www.javihai.in/compare/chiku-ai' },
   openGraph: {
     title: 'JavihAI vs Chiku AI — Same Features, 7× Cheaper',
     description: 'JavihAI ₹499/month vs Chiku AI ₹3,499/month. Same Desi Mode, voice transcription, real-time answers — save ₹3,000/month.',

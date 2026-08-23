@@ -9,7 +9,7 @@ import { ReduxProvider } from '@/components/ReduxProvider';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
-const BASE_URL = 'https://javihai.in';
+const BASE_URL = 'https://www.javihai.in';
 
 export const viewport: Viewport = {
   width: 'device-width',

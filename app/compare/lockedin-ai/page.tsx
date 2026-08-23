@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs LockedIn AI — 9× Cheaper, Built for India' },
   description: 'JavihAI vs LockedIn AI: LockedIn AI\'s Unlimited Pro plan runs about $49.99/month (~₹4,749). JavihAI gives unlimited real-time AI interview help from ₹499/month, with Indian languages and pricing.',
   keywords: ['lockedin ai alternative india', 'lockedin ai vs javihai', 'lockedin ai pricing india', 'cheaper than lockedin ai', 'ai interview assistant india'],
-  alternates: { canonical: 'https://javihai.in/compare/lockedin-ai' },
+  alternates: { canonical: 'https://www.javihai.in/compare/lockedin-ai' },
   openGraph: {
     title: 'JavihAI vs LockedIn AI — 9× Cheaper, Built for India',
     description: 'JavihAI ₹499/month vs LockedIn AI\'s Unlimited Pro at ~$49.99/month (~₹4,749). Same real-time interview help, built for India.',

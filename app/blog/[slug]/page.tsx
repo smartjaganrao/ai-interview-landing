@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Footer from '@/components/Footer';
 import { getPostBySlug, getAllPublishedSlugs } from '@/lib/blog';
 
-const BASE_URL = 'https://javihai.in';
+const BASE_URL = 'https://www.javihai.in';
 
 // Re-checked at most every 5 minutes so edits/unpublishes propagate without
 // a redeploy (mirrors app/install/page.tsx's revalidate pattern).

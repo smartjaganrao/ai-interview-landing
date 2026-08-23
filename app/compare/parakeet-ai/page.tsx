@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Parakeet AI — 28× Cheaper, Unlimited Answers' },
   description: 'JavihAI vs Parakeet AI: Parakeet AI\'s unlimited plan costs about $149.90/month (~₹14,240), and its base tier runs on credits that expire per session. JavihAI is unlimited from ₹499/month, no credits.',
   keywords: ['parakeet ai alternative india', 'parakeet ai vs javihai', 'parakeet ai pricing india', 'cheaper than parakeet ai', 'ai interview copilot without credits'],
-  alternates: { canonical: 'https://javihai.in/compare/parakeet-ai' },
+  alternates: { canonical: 'https://www.javihai.in/compare/parakeet-ai' },
   openGraph: {
     title: 'JavihAI vs Parakeet AI — 28× Cheaper, Unlimited Answers',
     description: 'JavihAI ₹499/month vs Parakeet AI\'s unlimited plan at ~$149.90/month (~₹14,240). No credits, no session limits.',
