@@ -331,6 +331,27 @@ export default function LandingClient(props: LandingClientProps) {
             </p>
           </div>
 
+          {/* Account CTA — secondary to Download, for visitors who'd rather
+              start with an account (or already have one) than download first.
+              Placed right under Download so it's in the first viewport, not
+              buried below the 3-step explainer and demo mockup. */}
+          <div className="flex justify-center mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="inline-flex items-center gap-1 p-1 rounded-full glass border border-white/10">
+              <Link
+                href="/auth/signup"
+                className="flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+              >
+                ✨ Create free account
+              </Link>
+              <Link
+                href="/auth/login"
+                className="px-5 py-2 rounded-full text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all"
+              >
+                Sign in
+              </Link>
+            </div>
+          </div>
+
           {/* What happens after you click — the security-prompt moment is the
               #1 reason a first-time visitor abandons an unsigned-app install,
               so pre-empt it here instead of letting it surprise them. */}
@@ -348,25 +369,6 @@ export default function LandingClient(props: LandingClientProps) {
                   <p className="text-xs text-slate-500 leading-relaxed">{step.text}</p>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Account CTA — secondary to Download, for visitors who'd rather
-              start with an account (or already have one) than download first. */}
-          <div className="flex justify-center animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
-            <div className="inline-flex items-center gap-1 p-1 rounded-full glass border border-white/10">
-              <Link
-                href="/auth/signup"
-                className="flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
-              >
-                ✨ Create free account
-              </Link>
-              <Link
-                href="/auth/login"
-                className="px-5 py-2 rounded-full text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all"
-              >
-                Sign in
-              </Link>
             </div>
           </div>
 
