@@ -27,6 +27,14 @@ const faqSchema = {
     },
     {
       '@type': 'Question',
+      name: 'Are there other precautions to take before starting an interview with JavihAI?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes — a couple of simple ones. JavihAI itself is invisible during screen shares, but other running apps (password managers, chat clients, other overlays) can still show icons in your menu bar or taskbar. Check it before you start and hide anything unnecessary — on Mac, System Settings → Control Center → Menu Bar lets you toggle individual app icons off. Also close apps that might trigger notification popups during the call.',
+      },
+    },
+    {
+      '@type': 'Question',
       name: 'Is my interview data private and secure?',
       acceptedAnswer: {
         '@type': 'Answer',
@@ -1030,6 +1038,10 @@ export default function LandingClient(props: LandingClientProps) {
               {
                 q: 'Is JavihAI visible to the interviewer during screen share?',
                 a: 'No. The JavihAI window uses OS-level exclusion from screen capture on both Windows and Mac. The interviewer sees only your screen — not the overlay. It has been tested on Zoom, Google Meet, Microsoft Teams, and Webex.',
+              },
+              {
+                q: 'Are there other precautions I should take before starting an interview?',
+                a: 'A couple of quick ones: JavihAI itself is never visible in a screen share, but other apps can still show icons in your menu bar (Mac) or taskbar (Windows) — password managers, chat apps, other overlays. Glance at it before you start and hide anything you don\'t want visible — on Mac, System Settings → Control Center → Menu Bar lets you toggle individual app icons off. Also close notification popups (Slack, email, WhatsApp) so nothing pops up mid-interview.',
               },
               {
                 q: 'Is my interview audio stored or recorded anywhere?',
