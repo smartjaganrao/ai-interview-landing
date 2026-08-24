@@ -209,6 +209,7 @@ export default async function InstallPage() {
                 <li>The overlay is excluded from screen sharing and never appears in the taskbar or Alt+Tab / App Switcher.</li>
                 <li>When <strong className="text-white">you</strong> share your whole screen, the overlay hides itself automatically. Press <kbd className={kbd}>Alt</kbd>/<kbd className={kbd}>⌥</kbd> + <kbd className={kbd}>Shift</kbd> + <kbd className={kbd}>S</kbd> to bring it back (still hidden from the people you&apos;re sharing with).</li>
                 <li>Toggle visibility any time with <kbd className={kbd}>Alt</kbd>/<kbd className={kbd}>⌥</kbd> + <kbd className={kbd}>H</kbd>.</li>
+                <li>JavihAI itself never shows up in your menu bar (Mac) or system tray (Windows) — but other apps you have running still can. Before you start, glance at it and hide anything you don&apos;t want visible. On Mac: <strong className="text-white">System Settings → Control Center → Menu Bar</strong>.</li>
               </ul>
             </Disclosure>
 
