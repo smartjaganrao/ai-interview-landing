@@ -766,8 +766,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_pricing_route",
-      "community": 11,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -777,8 +777,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_api_pricing_route_get",
-      "community": 11,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "get()"
     },
     {
@@ -1690,8 +1690,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_creator_page",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -1701,8 +1701,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "app_creator_page_creatordata",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "creatordata"
     },
     {
@@ -1712,8 +1712,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "app_creator_page_creatorpage",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "creatorpage()"
     },
     {
@@ -2119,8 +2119,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_page",
-      "community": 11,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "page.tsx"
     },
     {
@@ -2130,8 +2130,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "app_page_page",
-      "community": 11,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "page()"
     },
     {
@@ -2174,8 +2174,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_pricing_page",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -2196,8 +2196,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_pricing_page_pricing",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "pricing"
     },
     {
@@ -2207,8 +2207,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_pricing_page_offeractivefor",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "offeractivefor()"
     },
     {
@@ -2218,8 +2218,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "app_pricing_page_productschema",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "productschema"
     },
     {
@@ -2229,8 +2229,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "app_pricing_page_faqschema",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "faqschema"
     },
     {
@@ -2240,8 +2240,8 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "app_pricing_page_pricingpage",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "pricingpage()"
     },
     {
@@ -2592,8 +2592,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_completeprofilemodal",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "completeprofilemodal.tsx"
     },
     {
@@ -2603,8 +2603,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_completeprofilemodal_experience_levels",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "experience_levels"
     },
     {
@@ -2614,8 +2614,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_completeprofilemodal_acquisition_sources",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "acquisition_sources"
     },
     {
@@ -2625,8 +2625,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "components_completeprofilemodal_profiledetails",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "profiledetails"
     },
     {
@@ -2636,8 +2636,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "components_completeprofilemodal_props",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "props"
     },
     {
@@ -2647,8 +2647,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "components_completeprofilemodal_stripcountrycode",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "stripcountrycode()"
     },
     {
@@ -2658,8 +2658,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "components_completeprofilemodal_completeprofilemodal",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "completeprofilemodal()"
     },
     {
@@ -2669,8 +2669,8 @@
       "source_location": "L301",
       "_origin": "ast",
       "id": "components_completeprofilemodal_shouldshowprofileprompt",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "shouldshowprofileprompt()"
     },
     {
@@ -2680,8 +2680,8 @@
       "source_location": "L305",
       "_origin": "ast",
       "id": "components_completeprofilemodal_isprofilecomplete",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "isprofilecomplete()"
     },
     {
@@ -3054,8 +3054,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_navbar",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "navbar.tsx"
     },
     {
@@ -3065,8 +3065,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_navbar_announcement",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "announcement"
     },
     {
@@ -3076,8 +3076,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_navbar_whatsnewbell",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "whatsnewbell()"
     },
     {
@@ -3087,8 +3087,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "components_navbar_app_paths",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "app_paths"
     },
     {
@@ -3098,8 +3098,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "components_navbar_navbar",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "navbar()"
     },
     {
@@ -3274,8 +3274,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useauth",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "useauth.ts"
     },
     {
@@ -3285,8 +3285,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "hooks_useauth_useauth",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 86,
+      "community_name": "page.tsx",
       "norm_label": "useauth()"
     },
     {
@@ -3681,8 +3681,8 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "lib_email_sendpaymentfailed",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "sendpaymentfailed()"
     },
     {
@@ -3868,8 +3868,8 @@
       "source_location": "L258",
       "_origin": "ast",
       "id": "lib_firebase_admin_consumehours",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "consumehours()"
     },
     {
@@ -3879,8 +3879,8 @@
       "source_location": "L287",
       "_origin": "ast",
       "id": "lib_firebase_admin_getremaininghours",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getremaininghours()"
     },
     {
@@ -4110,8 +4110,8 @@
       "source_location": "L697",
       "_origin": "ast",
       "id": "lib_firebase_admin_pricingfallback",
-      "community": 11,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "pricingfallback()"
     },
     {
@@ -4121,8 +4121,8 @@
       "source_location": "L710",
       "_origin": "ast",
       "id": "lib_firebase_admin_getdynamicpricing",
-      "community": 11,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getdynamicpricing()"
     },
     {
@@ -4176,8 +4176,8 @@
       "source_location": "L800",
       "_origin": "ast",
       "id": "lib_firebase_admin_migrateuserplan",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 121,
+      "community_name": "page.tsx",
       "norm_label": "migrateuserplan()"
     },
     {
@@ -4264,7 +4264,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "lib_firestore_cache_cachedgetdoc",
-      "community": 121,
+      "community": 62,
       "community_name": "page.tsx",
       "norm_label": "cachedgetdoc()"
     },
@@ -4506,8 +4506,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_hooks",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "hooks.ts"
     },
     {
@@ -4561,8 +4561,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_pricing_config_anyplanid",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 121,
+      "community_name": "page.tsx",
       "norm_label": "anyplanid"
     },
     {
@@ -4572,8 +4572,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_pricing_config_billingtype",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "billingtype"
     },
     {
@@ -4616,8 +4616,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "lib_pricing_config_plans",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 11,
+      "community_name": "page.tsx",
       "norm_label": "plans"
     },
     {
@@ -4627,8 +4627,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "lib_pricing_config_plan_rank",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "plan_rank"
     },
     {
@@ -4704,8 +4704,8 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "lib_pricing_config_getplanbadge",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "getplanbadge()"
     },
     {
@@ -4715,8 +4715,8 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "lib_pricing_config_isplanhighlighted",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "isplanhighlighted()"
     },
     {
@@ -4814,8 +4814,8 @@
       "source_location": "L235",
       "_origin": "ast",
       "id": "lib_pricing_config_getplanusagelabel",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 62,
+      "community_name": "page.tsx",
       "norm_label": "getplanusagelabel()"
     },
     {
@@ -5001,8 +5001,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplanamount",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplanamount()"
     },
     {
@@ -5012,8 +5012,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplantype",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplantype()"
     },
     {
@@ -5023,8 +5023,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_redux_store",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "redux-store.ts"
     },
     {
@@ -5034,8 +5034,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "lib_redux_store_persistconfig",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "persistconfig"
     },
     {
@@ -5045,8 +5045,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "lib_redux_store_rootreducer",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "rootreducer"
     },
     {
@@ -5056,8 +5056,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "lib_redux_store_persistedreducer",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "persistedreducer"
     },
     {
@@ -5067,8 +5067,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "lib_redux_store_makestore",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "makestore()"
     },
     {
@@ -5078,8 +5078,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "lib_redux_store_store_persistor",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "{ store, persistor }"
     },
     {
@@ -5089,8 +5089,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "lib_redux_store_rootstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "rootstate"
     },
     {
@@ -5100,8 +5100,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "lib_redux_store_appdispatch",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "appdispatch"
     },
     {
@@ -5177,8 +5177,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptionslice.ts"
     },
     {
@@ -5188,8 +5188,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptiondata",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptiondata"
     },
     {
@@ -5199,8 +5199,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptionstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptionstate"
     },
     {
@@ -5210,8 +5210,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_initialstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "initialstate"
     },
     {
@@ -5221,8 +5221,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptionslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptionslice"
     },
     {
@@ -5232,8 +5232,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_slices_usageslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usageslice.ts"
     },
     {
@@ -5243,8 +5243,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usagedata",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usagedata"
     },
     {
@@ -5254,8 +5254,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usagestate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usagestate"
     },
     {
@@ -5265,8 +5265,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "lib_slices_usageslice_initialstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "initialstate"
     },
     {
@@ -5276,8 +5276,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usageslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usageslice"
     },
     {
@@ -5523,21 +5523,10 @@
       "norm_label": "sync-version"
     },
     {
-      "label": "post-release-announcement",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L16",
-      "_origin": "ast",
-      "id": "package_scripts_post_release_announcement",
-      "community": 98,
-      "community_name": "scripts",
-      "norm_label": "post-release-announcement"
-    },
-    {
       "label": "dependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "package_dependencies",
       "community": 6,
@@ -5548,29 +5537,29 @@
       "label": "@reduxjs/toolkit",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "package_dependencies_reduxjs_toolkit",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 280,
+      "community_name": "@reduxjs/toolkit",
       "norm_label": "@reduxjs/toolkit"
     },
     {
       "label": "@reduxjs/toolkit",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "reduxjs_toolkit",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 280,
+      "community_name": "@reduxjs/toolkit",
       "norm_label": "@reduxjs/toolkit"
     },
     {
       "label": "clsx",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "package_dependencies_clsx",
       "community": 6,
@@ -5581,7 +5570,7 @@
       "label": "clsx",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "clsx",
       "community": 6,
@@ -5592,29 +5581,29 @@
       "label": "firebase",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "package_dependencies_firebase",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "firebase"
     },
     {
       "label": "firebase",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "firebase",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "firebase"
     },
     {
       "label": "firebase-admin",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_dependencies_firebase_admin",
       "community": 6,
@@ -5625,7 +5614,7 @@
       "label": "firebase-admin",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "firebase_admin",
       "community": 6,
@@ -5636,7 +5625,7 @@
       "label": "groq-sdk",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_dependencies_groq_sdk",
       "community": 201,
@@ -5647,7 +5636,7 @@
       "label": "groq-sdk",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "groq_sdk",
       "community": 201,
@@ -5658,7 +5647,7 @@
       "label": "next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_dependencies_next",
       "community": 6,
@@ -5669,7 +5658,7 @@
       "label": "next",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "next",
       "community": 6,
@@ -5680,29 +5669,29 @@
       "label": "razorpay",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "package_dependencies_razorpay",
-      "community": 173,
-      "community_name": "Robots.txt Configuration",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "razorpay"
     },
     {
       "label": "razorpay",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "razorpay",
-      "community": 173,
-      "community_name": "Robots.txt Configuration",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "razorpay"
     },
     {
       "label": "react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_dependencies_react",
       "community": 6,
@@ -5713,7 +5702,7 @@
       "label": "react",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "react",
       "community": 6,
@@ -5724,7 +5713,7 @@
       "label": "react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
       "community": 202,
@@ -5735,7 +5724,7 @@
       "label": "react-dom",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "react_dom",
       "community": 202,
@@ -5746,29 +5735,29 @@
       "label": "react-redux",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_dependencies_react_redux",
-      "community": 279,
-      "community_name": "How AI Search Works",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react-redux"
     },
     {
       "label": "react-redux",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "react_redux",
-      "community": 279,
-      "community_name": "How AI Search Works",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react-redux"
     },
     {
       "label": "recharts",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_dependencies_recharts",
       "community": 6,
@@ -5779,7 +5768,7 @@
       "label": "recharts",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "recharts",
       "community": 6,
@@ -5790,51 +5779,51 @@
       "label": "redux-persist",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_dependencies_redux_persist",
-      "community": 280,
-      "community_name": "@reduxjs/toolkit",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "redux-persist"
     },
     {
       "label": "redux-persist",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "redux_persist",
-      "community": 280,
-      "community_name": "@reduxjs/toolkit",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "redux-persist"
     },
     {
       "label": "resend",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_dependencies_resend",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 281,
+      "community_name": "resend",
       "norm_label": "resend"
     },
     {
       "label": "resend",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "resend",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 281,
+      "community_name": "resend",
       "norm_label": "resend"
     },
     {
       "label": "zustand",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_dependencies_zustand",
       "community": 6,
@@ -5845,7 +5834,7 @@
       "label": "zustand",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "zustand",
       "community": 6,
@@ -5856,7 +5845,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 4,
@@ -5867,7 +5856,7 @@
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
       "community": 4,
@@ -5878,7 +5867,7 @@
       "label": "@types/node",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "types_node",
       "community": 4,
@@ -5889,7 +5878,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 4,
@@ -5900,7 +5889,7 @@
       "label": "@types/react",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "types_react",
       "community": 4,
@@ -5911,7 +5900,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 4,
@@ -5922,7 +5911,7 @@
       "label": "@types/react-dom",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "types_react_dom",
       "community": 4,
@@ -5933,7 +5922,7 @@
       "label": "autoprefixer",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_devdependencies_autoprefixer",
       "community": 4,
@@ -5944,7 +5933,7 @@
       "label": "autoprefixer",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "autoprefixer",
       "community": 4,
@@ -5955,7 +5944,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 4,
@@ -5966,7 +5955,7 @@
       "label": "eslint",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "eslint",
       "community": 4,
@@ -5977,7 +5966,7 @@
       "label": "eslint-config-next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_config_next",
       "community": 4,
@@ -5988,7 +5977,7 @@
       "label": "eslint-config-next",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "eslint_config_next",
       "community": 4,
@@ -5999,7 +5988,7 @@
       "label": "postcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_devdependencies_postcss",
       "community": 4,
@@ -6010,7 +5999,7 @@
       "label": "postcss",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "postcss",
       "community": 4,
@@ -6021,7 +6010,7 @@
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
       "community": 4,
@@ -6032,7 +6021,7 @@
       "label": "tailwindcss",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "tailwindcss",
       "community": 4,
@@ -6043,7 +6032,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 4,
@@ -6054,7 +6043,7 @@
       "label": "typescript",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "typescript",
       "community": 4,
@@ -6302,94 +6291,6 @@
       "community": 13,
       "community_name": "deploy-firestore-rules.mjs",
       "norm_label": "deployrules()"
-    },
-    {
-      "label": "post-release-announcement.mjs",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "post-release-announcement.mjs"
-    },
-    {
-      "label": "__dir",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L25",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement_dir",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "__dir"
-    },
-    {
-      "label": "root",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L26",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement_root",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "root"
-    },
-    {
-      "label": "envPath",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L29",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement_envpath",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "envpath"
-    },
-    {
-      "label": "args",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L47",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement_args",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "args"
-    },
-    {
-      "label": "notes",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement_notes",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "notes"
-    },
-    {
-      "label": "db",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L85",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement_db",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "db"
-    },
-    {
-      "label": "now",
-      "file_type": "code",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L92",
-      "_origin": "ast",
-      "id": "scripts_post_release_announcement_now",
-      "community": 86,
-      "community_name": "page.tsx",
-      "norm_label": "now"
     },
     {
       "label": "setup-firestore.mjs",
@@ -7058,8 +6959,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_before_starting",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "before starting"
     },
     {
@@ -7069,8 +6970,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_1_current_ai_visibility",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "1. current ai visibility"
     },
     {
@@ -7080,8 +6981,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_2_content_domain",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "2. content & domain"
     },
     {
@@ -7091,8 +6992,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_3_goals",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "3. goals"
     },
     {
@@ -7102,8 +7003,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_4_competitive_landscape",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "4. competitive landscape"
     },
     {
@@ -7113,8 +7014,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_how_ai_search_works",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "how ai search works"
     },
     {
@@ -7124,8 +7025,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_the_ai_search_landscape",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "the ai search landscape"
     },
     {
@@ -7135,8 +7036,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_key_difference_from_traditional_seo",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "key difference from traditional seo"
     },
     {
@@ -7146,8 +7047,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_google_s_official_stance_vs_multi_platform_reality",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "google's official stance vs. multi-platform reality"
     },
     {
@@ -7157,8 +7058,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_query_fan_out_google_ai_search",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "query fan-out (google ai search)"
     },
     {
@@ -7168,8 +7069,8 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_ai_visibility_audit",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "ai visibility audit"
     },
     {
@@ -7179,8 +7080,8 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_1_check_ai_answers_for_your_key_queries",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 1: check ai answers for your key queries"
     },
     {
@@ -7190,8 +7091,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_2_analyze_citation_patterns",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 2: analyze citation patterns"
     },
     {
@@ -7201,8 +7102,8 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_3_content_extractability_check",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 3: content extractability check"
     },
     {
@@ -7212,8 +7113,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_4_ai_bot_access_check",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 4: ai bot access check"
     },
     {
@@ -7223,8 +7124,8 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_optimization_strategy",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "optimization strategy"
     },
     {
@@ -7234,8 +7135,8 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_the_three_pillars",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "the three pillars"
     },
     {
@@ -7245,8 +7146,8 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_pillar_1_structure_make_content_extractable",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "pillar 1: structure \u2014 make content extractable"
     },
     {
@@ -7256,8 +7157,8 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_pillar_2_authority_make_content_citable",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "pillar 2: authority \u2014 make content citable"
     },
     {
@@ -7267,8 +7168,8 @@
       "source_location": "L248",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_pillar_3_presence_be_where_ai_looks",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "pillar 3: presence \u2014 be where ai looks"
     },
     {
@@ -7278,8 +7179,8 @@
       "source_location": "L268",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_machine_readable_files_for_ai_agents",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "machine-readable files for ai agents"
     },
     {
@@ -7289,8 +7190,8 @@
       "source_location": "L320",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_schema_markup_for_ai",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "schema markup for ai"
     },
     {
@@ -7322,8 +7223,8 @@
       "source_location": "L388",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_monitoring_ai_visibility",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 173,
+      "community_name": "Robots.txt Configuration",
       "norm_label": "monitoring ai visibility"
     },
     {
@@ -7333,8 +7234,8 @@
       "source_location": "L390",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_what_to_track",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 173,
+      "community_name": "Robots.txt Configuration",
       "norm_label": "what to track"
     },
     {
@@ -7344,8 +7245,8 @@
       "source_location": "L401",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_ai_visibility_monitoring_tools",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 173,
+      "community_name": "Robots.txt Configuration",
       "norm_label": "ai visibility monitoring tools"
     },
     {
@@ -7355,8 +7256,8 @@
       "source_location": "L410",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_diy_monitoring_no_tools",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 173,
+      "community_name": "Robots.txt Configuration",
       "norm_label": "diy monitoring (no tools)"
     },
     {
@@ -7366,8 +7267,8 @@
       "source_location": "L418",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_search_console_expectations",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 173,
+      "community_name": "Robots.txt Configuration",
       "norm_label": "search console expectations"
     },
     {
@@ -7531,8 +7432,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_aeo_and_geo_content_patterns",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "aeo and geo content patterns"
     },
     {
@@ -7542,8 +7443,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_contents",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "contents"
     },
     {
@@ -7630,8 +7531,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_generative_engine_optimization_geo_patterns",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "generative engine optimization (geo) patterns"
     },
     {
@@ -7641,8 +7542,8 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_statistic_citation_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "statistic citation block"
     },
     {
@@ -7652,8 +7553,8 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_expert_quote_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "expert quote block"
     },
     {
@@ -7663,8 +7564,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_authoritative_claim_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "authoritative claim block"
     },
     {
@@ -7674,8 +7575,8 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_self_contained_answer_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "self-contained answer block"
     },
     {
@@ -7685,8 +7586,8 @@
       "source_location": "L217",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_evidence_sandwich_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "evidence sandwich block"
     },
     {
@@ -7696,8 +7597,8 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_domain_specific_geo_tactics",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "domain-specific geo tactics"
     },
     {
@@ -7707,8 +7608,8 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_technology_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "technology content"
     },
     {
@@ -7718,8 +7619,8 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_health_medical_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "health/medical content"
     },
     {
@@ -7729,8 +7630,8 @@
       "source_location": "L250",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_financial_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "financial content"
     },
     {
@@ -7740,8 +7641,8 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_legal_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "legal content"
     },
     {
@@ -7751,8 +7652,8 @@
       "source_location": "L262",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_business_marketing_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "business/marketing content"
     },
     {
@@ -7762,8 +7663,8 @@
       "source_location": "L270",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_voice_search_optimization",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "voice search optimization"
     },
     {
@@ -7773,8 +7674,8 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_question_formats_for_voice",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "question formats for voice"
     },
     {
@@ -7784,8 +7685,8 @@
       "source_location": "L282",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_voice_optimized_answer_structure",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "voice-optimized answer structure"
     },
     {
@@ -17904,8 +17805,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_common_schemas",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "common schemas"
     },
     {
@@ -17915,8 +17816,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_website_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "website schema"
     },
     {
@@ -17926,8 +17827,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_organization_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "organization schema"
     },
     {
@@ -17937,8 +17838,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_webapplication_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "webapplication schema"
     },
     {
@@ -17948,8 +17849,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_faqpage_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "faqpage schema"
     },
     {
@@ -17959,8 +17860,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "product schema"
     },
     {
@@ -17970,8 +17871,8 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_snippet_vs_merchant_listing_experience",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "product snippet vs merchant listing experience"
     },
     {
@@ -17981,8 +17882,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_article_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "article schema"
     },
     {
@@ -17992,8 +17893,8 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_breadcrumblist_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "breadcrumblist schema"
     },
     {
@@ -18300,8 +18201,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_sitemap_configuration",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "sitemap configuration"
     },
     {
@@ -18311,8 +18212,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_basic_static_sitemap",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "basic static sitemap"
     },
     {
@@ -18322,8 +18223,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_dynamic_sitemap_with_database",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "dynamic sitemap with database"
     },
     {
@@ -18333,8 +18234,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_image_sitemap",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "image sitemap"
     },
     {
@@ -18344,8 +18245,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_video_sitemap",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "video sitemap"
     },
     {
@@ -18355,8 +18256,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_multiple_sitemaps_large_sites",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "multiple sitemaps (large sites)"
     },
     {
@@ -18366,8 +18267,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_localized_sitemap",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "localized sitemap"
     },
     {
@@ -31591,7 +31492,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L868",
+      "source_location": "L866",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -31603,7 +31504,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L530",
+      "source_location": "L528",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -31615,7 +31516,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L534",
+      "source_location": "L532",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -35173,7 +35074,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -35195,7 +35096,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -35305,17 +35206,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L16",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "package_scripts",
-      "target": "package_scripts_post_release_announcement",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
@@ -35360,7 +35250,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35371,7 +35261,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35382,7 +35272,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35393,7 +35283,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35404,7 +35294,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35415,7 +35305,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35426,7 +35316,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35437,7 +35327,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35448,7 +35338,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35459,7 +35349,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35470,7 +35360,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35481,7 +35371,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35492,7 +35382,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35503,7 +35393,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -35514,7 +35404,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L18",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35526,7 +35416,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L19",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35538,7 +35428,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L20",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35550,7 +35440,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L21",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35562,7 +35452,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L22",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35574,7 +35464,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L23",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35586,7 +35476,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L24",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35598,7 +35488,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L25",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35610,7 +35500,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L26",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35622,7 +35512,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L27",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35634,7 +35524,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L28",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35646,7 +35536,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L29",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35658,7 +35548,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L30",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35670,7 +35560,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L31",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35682,7 +35572,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35693,7 +35583,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L38",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35704,7 +35594,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35715,7 +35605,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35726,7 +35616,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L41",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35737,7 +35627,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L34",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35748,7 +35638,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35759,7 +35649,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35770,7 +35660,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L42",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -35781,7 +35671,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L34",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35793,7 +35683,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L35",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35805,7 +35695,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L36",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35817,7 +35707,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35829,7 +35719,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L38",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35841,7 +35731,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L39",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35853,7 +35743,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L40",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35865,7 +35755,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L41",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -35877,7 +35767,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L42",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -36081,83 +35971,6 @@
       "_origin": "ast",
       "source": "scripts_deploy_firestore_rules",
       "target": "scripts_deploy_firestore_rules_sa",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_post_release_announcement",
-      "target": "scripts_post_release_announcement_args",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L85",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_post_release_announcement",
-      "target": "scripts_post_release_announcement_db",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L25",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_post_release_announcement",
-      "target": "scripts_post_release_announcement_dir",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_post_release_announcement",
-      "target": "scripts_post_release_announcement_envpath",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_post_release_announcement",
-      "target": "scripts_post_release_announcement_notes",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L92",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_post_release_announcement",
-      "target": "scripts_post_release_announcement_now",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/post-release-announcement.mjs",
-      "source_location": "L26",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_post_release_announcement",
-      "target": "scripts_post_release_announcement_root",
       "confidence_score": 1.0
     },
     {
@@ -53210,5 +53023,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "eb7541c9667845eefa1e6ecafe5ce3856c30ab76"
+  "built_at_commit": "7483f0db448a37ac0119646fdf35e382dd51f2ce"
 }
