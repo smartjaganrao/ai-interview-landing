@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { PlanId } from './pricing-config';
 
-const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <onboarding@resend.dev>';
+const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <javihaiofficial@gmail.com>';
 
 const PLAN_NAMES: Record<PlanId, string> = {
   free: 'Free',
