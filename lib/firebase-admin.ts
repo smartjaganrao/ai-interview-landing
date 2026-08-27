@@ -35,6 +35,11 @@ function init() {
 
   try {
     const serviceAccount = JSON.parse(raw);
+    // Vercel/env var packaging often mangles multi-line PEM keys:
+    // convert literal "\n" sequences back to real newlines before init.
+    if (serviceAccount.private_key && typeof serviceAccount.private_key === 'string') {
+      serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+    }
     admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
     db = admin.firestore();
   } catch (e) {
