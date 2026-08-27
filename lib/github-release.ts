@@ -102,10 +102,10 @@ export async function getLatestRelease(): Promise<LatestRelease> {
   // release is cut with the arch-split build; once one is, this branch
   // is never reached since arm64/x64 will exist.
   const macAsset =
-    release.assets.find((a) => a.name.includes('mac-arm64.dmg')) ??
-    release.assets.find((a) => a.name.includes('mac-x64.dmg')) ??
-    release.assets.find((a) => a.name.includes('mac-universal.dmg'));
-  const winAsset = release.assets.find((a) => a.name.includes('portable-win-x64.exe'));
+    release.assets.find((a) => a.name.includes('mac-arm64.dmg') && !a.name.endsWith('.blockmap')) ??
+    release.assets.find((a) => a.name.includes('mac-x64.dmg') && !a.name.endsWith('.blockmap')) ??
+    release.assets.find((a) => a.name.includes('mac-universal.dmg') && !a.name.endsWith('.blockmap'));
+  const winAsset = release.assets.find((a) => a.name.includes('portable-win-x64.exe') && !a.name.endsWith('.sha256'));
 
   return {
     version: release.tag_name,
