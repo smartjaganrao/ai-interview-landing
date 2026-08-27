@@ -34,12 +34,38 @@ function init() {
   }
 
   try {
-    const serviceAccount = JSON.parse(raw);
-    // Vercel/env var packaging often mangles multi-line PEM keys:
-    // convert literal "\n" sequences back to real newlines before init.
+    const raw = process.env.FIREBASE_ADMIN_SDK_JSON;
+    if (!raw) {
+      console.warn('[firebase-admin/landing] FIREBASE_ADMIN_SDK_JSON not set — server-side Firestore writes disabled.');
+      return;
+    }
+
+    let serviceAccount: any = null;
+    // First attempt: standard parse.
+    try {
+      serviceAccount = JSON.parse(raw);
+    } catch {
+      // Fallback: env-var packaging often corrupts multi-line PEM keys.
+      // Try to sanitize only the private_key value and re-parse.
+      try {
+        const sanitized = raw.replace(/("private_key"\s*:\s*")([\s\S]*?)(")/, (_match, start, key, end) => {
+          const normalized = key.replace(/\n/g, '\\n').replace(/\r/g, '');
+          return `${start}${normalized}${end}`;
+        });
+        serviceAccount = JSON.parse(sanitized);
+        if (serviceAccount.private_key && typeof serviceAccount.private_key === 'string') {
+          serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+        }
+      } catch {
+        console.error('[firebase-admin/landing] Failed to parse service account JSON after sanitization.');
+        return;
+      }
+    }
+
     if (serviceAccount.private_key && typeof serviceAccount.private_key === 'string') {
       serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
     }
+
     admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
     db = admin.firestore();
   } catch (e) {
