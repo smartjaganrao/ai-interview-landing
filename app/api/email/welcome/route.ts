@@ -114,13 +114,13 @@ export async function POST(req: NextRequest) {
     },
 
     day5: {
-      subject: `${firstName}, you're leaving ₹499/month of value on the table 💡`,
+      subject: `${firstName}, unlock unlimited AI interview help 💡`,
       html: `
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
   <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">Ready to go unlimited, ${firstName}?</h1>
   <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
-    You've been using JavihAI for a few days. Here's what Pro unlocks for just <strong style="color:#e2e8f0;">₹499/month</strong> — that's less than a coffee at Starbucks.
+    You've been using JavihAI for a few days. Here's what the Pro plan unlocks — unlimited answers, voice minutes, and screenshots.
   </p>
 
   <div style="background:#1e293b;border-radius:12px;padding:24px;margin-bottom:24px;">
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
       <tr style="border-bottom:1px solid #334155;">
         <th style="text-align:left;padding:8px;color:#94a3b8;font-size:13px;">Feature</th>
         <th style="text-align:center;padding:8px;color:#94a3b8;font-size:13px;">Free</th>
-        <th style="text-align:center;padding:8px;color:#818cf8;font-size:13px;">Pro ₹499/mo</th>
+        <th style="text-align:center;padding:8px;color:#818cf8;font-size:13px;">Pro</th>
       </tr>
       <tr style="border-bottom:1px solid #1e293b;">
         <td style="padding:10px 8px;color:#e2e8f0;font-size:14px;">AI answers</td>
@@ -149,13 +149,12 @@ export async function POST(req: NextRequest) {
   </div>
 
   <div style="background:#312e81;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
-    <p style="color:#c4b5fd;margin:0 0 4px;font-size:13px;">vs Final Round AI: ₹7,695/month | vs Chiku AI: ₹3,499/month</p>
-    <p style="color:#fff;font-weight:800;font-size:20px;margin:0;">JavihAI Pro = ₹499/month. Same features. 15× cheaper.</p>
+    <p style="color:#fff;font-weight:800;font-size:20px;margin:0;">JavihAI Pro. Same features. Better value.</p>
   </div>
 
   <div style="text-align:center;">
     <a href="https://www.javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
-      Upgrade to Pro →
+      View Plans →
     </a>
     <p style="color:#475569;font-size:12px;margin-top:12px;">7-day money-back guarantee. Cancel anytime.</p>
   </div>

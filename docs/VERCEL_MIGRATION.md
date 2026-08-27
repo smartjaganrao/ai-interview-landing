@@ -62,7 +62,7 @@ Both projects are currently under the same Vercel team/org: `javih-ai1` / `team_
 | `NEXT_PUBLIC_FIREBASE_APP_ID` | `1:475876914174:web:caceda87b97359476546af` | Public |
 | `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | `G-MEZ0DJ7R0B` | Google Analytics |
 | `NEXT_PUBLIC_APP_URL` | `https://www.javihai.in` | Public |
-| `NEXT_PUBLIC_RAZORPAY_KEY_ID` | `rzp_test_T1TBjrCUzf0Abw` | Razorpay public key |
+| `NEXT_PUBLIC_RAZORPAY_KEY_ID` | `rzp_live_TUlkL1eXGn4ocz` | Razorpay public key |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | `919884160332` | WhatsApp click-to-chat |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | `G-MEZ0DJ7R0B` | Legacy GA var (duplicate?) |
 

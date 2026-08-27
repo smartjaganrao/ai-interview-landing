@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Pricing — Free, Pro & Power Plans',
   description:
-    'JavihAI pricing: Free plan with 10 AI answers/day (no time limit), Pro at ₹499/month for unlimited use, Power at ₹999/month with priority AI models. 7-day money-back guarantee. 15× cheaper than Final Round AI.',
+    'JavihAI pricing: Free plan available, Pro and Power plans for unlimited use. 7-day money-back guarantee. Cancel anytime.',
   keywords: [
     'JavihAI pricing', 'AI interview tool price India', 'affordable interview AI',
     'interview prep subscription India', 'Final Round AI cheaper alternative',
@@ -11,11 +11,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'JavihAI Pricing — Free, Pro & Power Plans',
     description:
-      'Free plan available. Pro from ₹499/month. Power at ₹999/month. 7-day money-back guarantee. Cancel anytime.',
+      'Free plan available. Pro and Power plans for unlimited use. 7-day money-back guarantee. Cancel anytime.',
   },
   twitter: {
     title: 'JavihAI Pricing — Free, Pro & Power',
-    description: 'Free plan with 10 answers/day. Pro ₹499/mo. Power ₹999/mo. 7-day refund.',
+    description: 'Free plan available. Pro and Power plans with 7-day refund.',
   },
   alternates: { canonical: 'https://www.javihai.in/pricing' },
 };

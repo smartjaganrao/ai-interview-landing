@@ -168,7 +168,7 @@ export default function CreatorPage() {
                     {copied ? '✓ Copied!' : 'Copy Link'}
                   </button>
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`I'm sharing JavihAI — India's cheapest AI interview copilot (₹499/mo vs ₹7,695/mo elsewhere). Sign up with my link: ${data.link ?? ''}`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(`I'm sharing JavihAI — India's cheapest AI interview copilot. Sign up with my link: ${data.link ?? ''}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-secondary whitespace-nowrap"

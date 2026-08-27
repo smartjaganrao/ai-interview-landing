@@ -36,7 +36,7 @@ const FAQS: FAQItem[] = [
   {
     id: 'faq-2',
     question: 'Is JavihAI free?',
-    answer: 'Yes! We offer a free tier with daily limits. You get:\n\n• 3 AI answers per day\n• 5 voice minutes per day\n• 2 screenshots per day\n\nFor unlimited access, check out our Power plan starting at ₹199/month.',
+    answer: 'Yes! We offer a free tier with daily limits. You get:\n\n• 3 AI answers per day\n• 5 voice minutes per day\n• 2 screenshots per day\n\nFor unlimited access, check out our Power plan on the pricing page.',
     keywords: ['free', 'price', 'cost', 'pricing', 'subscription', 'plan', 'payment', 'money', 'paid', 'purchase'],
   },
   {

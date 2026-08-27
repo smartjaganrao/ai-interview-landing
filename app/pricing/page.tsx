@@ -28,44 +28,6 @@ function offerActiveFor(offer: Offer | undefined, planId: PlanId): boolean {
   return offer.appliesTo === 'all' || offer.appliesTo === planId;
 }
 
-const productSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: 'JavihAI Pro',
-  description: 'Unlimited AI interview answers, voice minutes, screenshots, and mock interviews. Built for Indian job seekers.',
-  brand: { '@type': 'Brand', name: 'JavihAI' },
-  offers: [
-    {
-      '@type': 'Offer',
-      name: 'Free',
-      price: '0',
-      priceCurrency: 'INR',
-      description: 'Limited AI usage, explore core features, limited trial experience',
-    },
-    {
-      '@type': 'Offer',
-      name: 'Quick Pass',
-      price: '99',
-      priceCurrency: 'INR',
-      description: '1-hour full access pass with AI Interview Assistant, Voice Mode, Screen Mode',
-    },
-    {
-      '@type': 'Offer',
-      name: 'Pro',
-      price: '499',
-      priceCurrency: 'INR',
-      description: '7-day unlimited pass with Resume Analysis and company-specific interview support',
-    },
-    {
-      '@type': 'Offer',
-      name: 'Power',
-      price: '999',
-      priceCurrency: 'INR',
-      description: 'Monthly subscription with unlimited usage, AI Mock Interview, Performance Analytics, and Personalized Improvement Plan',
-    },
-  ],
-};
-
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -75,7 +37,7 @@ const faqSchema = {
       name: 'How does the Quick Pass work?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access for ₹99. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.',
+        text: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.',
       },
     },
     {
@@ -83,7 +45,7 @@ const faqSchema = {
       name: 'What\'s the difference between Quick Pass and Pro?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Quick Pass is 1 hour for ₹99. Pro is 7 days unlimited for ₹499 and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.',
+        text: 'Quick Pass is 1 hour one-time access. Pro is a longer unlimited pass and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.',
       },
     },
     {
@@ -107,7 +69,7 @@ const faqSchema = {
       name: 'How is JavihAI different from Final Round AI?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and starts at ₹99 for a one-time pass — 15× cheaper than Final Round AI.',
+        text: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and is more affordable than alternatives.',
       },
     },
     {
@@ -216,10 +178,6 @@ export default function PricingPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
-      <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
@@ -252,12 +210,14 @@ export default function PricingPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {sortedPlans.map((plan) => {
               const isOneTime = plan.billingType === 'one_time';
-              const base = (pricing?.plans?.[plan.id] ?? { oneTime: plan.price }) as { oneTime?: number; monthly?: number; yearly?: number };
+              const planPricing = pricing?.plans?.[plan.id];
+              const hasPricing = !!planPricing;
+              const base: { oneTime?: number; monthly?: number; yearly?: number } = planPricing ?? { oneTime: 0, monthly: 0, yearly: 0 };
               const cyclePrice = isOneTime
-                ? base.oneTime ?? plan.price
-                : (plan.id === 'power' ? base.monthly ?? plan.price : base.oneTime ?? plan.price);
+                ? (base.oneTime ?? 0)
+                : (plan.id === 'power' ? base.monthly ?? 0 : base.oneTime ?? 0);
               const offerOn = offerActiveFor(pricing?.offer, plan.id);
-              const effCycle = offerOn
+              const effCycle = offerOn && hasPricing
                 ? Math.max(1, Math.round(cyclePrice * (1 - pricing!.offer.percentOff / 100)))
                 : cyclePrice;
               const highlighted = isPlanHighlighted(plan.id);
@@ -287,18 +247,24 @@ export default function PricingPage() {
                     <div className="text-4xl font-black text-white mb-1">Free</div>
                   ) : (
                     <div className="flex items-baseline justify-center gap-1 mb-1">
-                      {offerOn && (
+                      {offerOn && hasPricing && (
                         <span className="text-2xl font-bold text-slate-500 line-through mr-1">₹{cyclePrice}</span>
                       )}
-                      <span className="text-5xl font-black text-white">₹{effCycle}</span>
-                      {isOneTime ? (
-                        <span className="text-slate-400">one-time</span>
+                      {hasPricing ? (
+                        <>
+                          <span className="text-5xl font-black text-white">₹{effCycle}</span>
+                          {isOneTime ? (
+                            <span className="text-slate-400">one-time</span>
+                          ) : (
+                            <span className="text-slate-400">/mo</span>
+                          )}
+                        </>
                       ) : (
-                        <span className="text-slate-400">/mo</span>
+                        <span className="text-5xl font-black text-white">—</span>
                       )}
                     </div>
                   )}
-                  {offerOn && plan.id !== 'free' && (
+                  {offerOn && plan.id !== 'free' && hasPricing && (
                     <p className="text-xs text-green-400 font-semibold mb-1">{pricing!.offer.percentOff}% off applied</p>
                   )}
                   <p className="text-xs text-slate-500 mb-1">{usageLabel}</p>
@@ -352,17 +318,19 @@ export default function PricingPage() {
                   </tr>
                 </thead>
                 <tbody>
-                   {[
-                     { name: 'Price', getValue: (p: typeof PLANS[0]) => {
-                       if (p.id === 'free') return 'Free';
-                       const planPricing = pricing?.plans?.[p.id];
-                       if (p.billingType === 'subscription') {
-                         const monthly = (planPricing as { monthly?: number } | undefined)?.monthly ?? p.price;
-                         return `₹${monthly}/mo`;
-                       }
-                       const oneTime = (planPricing as { oneTime?: number } | undefined)?.oneTime ?? p.price;
-                       return `₹${oneTime}`;
-                     } },
+                    {[
+                      { name: 'Price', getValue: (p: typeof PLANS[0]) => {
+                        if (p.id === 'free') return 'Free';
+                        const planPricing = pricing?.plans?.[p.id];
+                        if (!planPricing) return '—';
+                        const pricingData = planPricing as { oneTime?: number; monthly?: number };
+                        if (p.billingType === 'subscription') {
+                          const monthly = pricingData.monthly ?? 0;
+                          return `₹${monthly}/mo`;
+                        }
+                        const oneTime = pricingData.oneTime ?? 0;
+                        return `₹${oneTime}`;
+                      } },
                     { name: 'Billing', getValue: (p: typeof PLANS[0]) => p.id === 'free' ? '—' : p.billingType === 'subscription' ? 'Monthly' : 'One-time' },
                     { name: 'Validity', getValue: (p: typeof PLANS[0]) => p.id === 'free' ? 'Forever' : getPlanUsageLabel(p.id) },
                     { name: 'AI Interview Assistant', getValue: () => '✓' },
@@ -409,16 +377,16 @@ export default function PricingPage() {
             <h2 className="text-3xl font-bold text-center mb-8">Common Questions</h2>
             <div className="space-y-4">
                {[
-                 { q: 'How does the Quick Pass work?', a: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access for ₹99. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.' },
-                 { q: 'What\'s the difference between Quick Pass and Pro?', a: 'Quick Pass is 1 hour for ₹99. Pro is 7 days unlimited for ₹499 and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.' },
-                { q: 'Can I use JavihAI on Mac?', a: 'Yes! JavihAI supports both Windows and Mac (Apple Silicon M1/M2/M3 and Intel). Download the appropriate version from our download page.' },
-                { q: 'Is the overlay really invisible?', a: 'Yes. JavihAI uses OS-level APIs to exclude itself from all screen captures. The interviewer sees only your screen, not the overlay, on Zoom, Google Meet, and Microsoft Teams.' },
-                { q: 'How is JavihAI different from Final Round AI?', a: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and starts at ₹99 for a one-time pass — 15× cheaper than Final Round AI.' },
-                { q: 'Can I switch plans anytime?', a: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we\'ll prorate any charges.' },
-                { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan — limited AI usage, forever, no credit card required. We also offer a 7-day money-back guarantee on your first paid purchase.' },
-                { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.' },
-                { q: 'Do you offer refunds?', a: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you\'re not satisfied, contact support for a full refund.' },
-              ].map((item, i) => (
+                 { q: 'How does the Quick Pass work?', a: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.' },
+                 { q: 'What\'s the difference between Quick Pass and Pro?', a: 'Quick Pass is 1 hour one-time access. Pro is a longer unlimited pass and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.' },
+                 { q: 'Can I use JavihAI on Mac?', a: 'Yes! JavihAI supports both Windows and Mac (Apple Silicon M1/M2/M3 and Intel). Download the appropriate version from our download page.' },
+                 { q: 'Is the overlay really invisible?', a: 'Yes. JavihAI uses OS-level APIs to exclude itself from all screen captures. The interviewer sees only your screen, not the overlay, on Zoom, Google Meet, and Microsoft Teams.' },
+                 { q: 'How is JavihAI different from Final Round AI?', a: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and is more affordable than alternatives.' },
+                 { q: 'Can I switch plans anytime?', a: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we\'ll prorate any charges.' },
+                 { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan — limited AI usage, forever, no credit card required. We also offer a 7-day money-back guarantee on your first paid purchase.' },
+                 { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.' },
+                 { q: 'Do you offer refunds?', a: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you\'re not satisfied, contact support for a full refund.' },
+               ].map((item, i) => (
                 <div key={i} className="card">
                   <h4 className="text-lg font-semibold text-white mb-2">{item.q}</h4>
                   <p className="text-slate-400">{item.a}</p>
