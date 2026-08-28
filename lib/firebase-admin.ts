@@ -257,10 +257,12 @@ export async function persistSubscription(params: {
     const userRef = db.collection('users').doc(params.userId);
     const userSnap = await userRef.get();
     const update: Record<string, unknown> = { plan: params.plan, updatedAt: Date.now() };
-    if (!userSnap.exists || !userSnap.data()?.email) {
+    let resolvedEmail = userSnap.data()?.email as string | undefined;
+    if (!userSnap.exists || !resolvedEmail) {
       try {
         const fbUser = await admin.auth().getUser(params.userId);
-        update.email = fbUser.email ?? '';
+        resolvedEmail = fbUser.email ?? '';
+        update.email = resolvedEmail;
         update.name = fbUser.displayName ?? '';
       } catch {
         // Admin SDK getUser can fail for deleted/disabled accounts; proceed without backfill
@@ -273,6 +275,10 @@ export async function persistSubscription(params: {
         adminEmail: 'razorpay-webhook',
         action: 'subscription_activate',
         targetUserId: params.userId,
+        // Denormalized so the admin notification feed can show WHO paid
+        // without a second lookup per item — mirrors how refund logs
+        // already carry targetUserEmail.
+        targetUserEmail: resolvedEmail || '',
         details: {
           plan: params.plan,
           billing: params.billing,
