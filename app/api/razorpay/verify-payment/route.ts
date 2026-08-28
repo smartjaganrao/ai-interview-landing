@@ -22,7 +22,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { orderId, paymentId, signature, userId, plan, billing } = (await request.json()) as {
+    const {
+      orderId, paymentId, signature,
+      userId: bodyUserId, plan: bodyPlan, billing: bodyBilling,
+    } = (await request.json()) as {
       orderId: string;
       paymentId: string;
       signature: string;
@@ -48,6 +51,15 @@ export async function POST(request: NextRequest) {
     let grossPaid = 0;
     let appliedCredit = 0;
     let couponCode: string | null = null;
+    // Plan/billing/userId are re-derived from the order's own notes — written
+    // server-side at create-order time — rather than trusted from this
+    // request's body. Without this, a user could pay for a cheap plan, then
+    // call this endpoint again with the same real orderId/paymentId/signature
+    // but a body claiming a different (more expensive) plan or another
+    // user's uid, and persistSubscription would grant it.
+    let plan = bodyPlan;
+    let billing = bodyBilling;
+    let userId = bodyUserId;
     if (razorpay) {
       try {
         const ord = await razorpay.orders.fetch(orderId);
@@ -59,6 +71,9 @@ export async function POST(request: NextRequest) {
         appliedCredit = Number(notes?.appliedCredit ?? 0) || 0;
         appliedCredit = Math.min(appliedCredit, amount);
         couponCode = notes?.coupon || null;
+        if (notes?.plan) plan = notes.plan;
+        if (notes?.billing) billing = notes.billing as typeof bodyBilling;
+        if (notes?.userId) userId = notes.userId;
       } catch { /* non-fatal */ }
     }
 

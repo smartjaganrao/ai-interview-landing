@@ -7,9 +7,12 @@ export const dynamic = 'force-dynamic';
 /**
  * POST { code, plan } — validity + discount preview for the checkout page's
  * coupon input. Deliberately returns one collapsed "invalid_or_expired"
- * reason rather than distinguishing wrong-plan/expired/not-found, so this
- * endpoint can't be used as an oracle to brute-force or enumerate codes.
- * The actual charge is always re-validated server-side again in
+ * reason rather than distinguishing wrong-plan/expired/not-found, so a
+ * failed guess doesn't reveal *why* it failed. This endpoint is still a
+ * valid/invalid boolean per guess with no rate limiting, though, so it
+ * remains usable to brute-force unpublicized codes given enough attempts —
+ * an accepted gap for now given the small scale of this product, not a
+ * solved one. The actual charge is always re-validated server-side again in
  * create-order — this endpoint is a preview only, never trusted for amount.
  */
 export async function POST(request: NextRequest) {

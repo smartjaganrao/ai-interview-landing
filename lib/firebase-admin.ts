@@ -237,7 +237,14 @@ export async function persistSubscription(params: {
         hoursPurchased,
         hoursRemaining,
         expiresAt,
-        couponCode: params.couponCode ?? null,
+        // Conditional, not `params.couponCode ?? null` — this is a
+        // {merge:true} write and persistSubscription is called from both
+        // verify-payment (which resolves couponCode from the order's notes)
+        // and the webhook (which does not pass couponCode at all). Writing
+        // an unconditional field here would let whichever call lands second
+        // stomp the field back to null, discarding a correctly-recorded
+        // coupon depending on write order/timing.
+        ...(params.couponCode !== undefined ? { couponCode: params.couponCode } : {}),
         ...(isOneTime ? { renewalDate: null } : { renewalDate }),
         paymentId: params.paymentId,
         orderId: params.orderId,

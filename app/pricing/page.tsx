@@ -207,13 +207,14 @@ export default function PricingPage() {
             </p>
           </div>
 
-          {/* Featured coupon banner takes priority over the generic site-wide
-              offer banner — showing both would imply they stack, but a coupon
-              always replaces the offer at checkout, never adds to it. The
-              offer itself still applies normally to anyone who checks out
-              without entering a coupon. */}
-          {featuredCoupon ? (
-            <div className="max-w-2xl mx-auto mb-10 -mt-6">
+          {/* A coupon always replaces the offer at checkout, never stacks
+              with it — but that's a per-transaction rule, not a display
+              rule. Only suppress the generic offer banner here when the
+              featured coupon is itself site-wide (appliesTo: 'all'); a
+              plan-specific coupon shouldn't hide the offer from visitors
+              browsing a different plan the coupon doesn't cover. */}
+          {featuredCoupon && (
+            <div className="max-w-2xl mx-auto mb-4 -mt-6">
               <div className="card text-center bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30 py-4">
                 <span className="text-purple-200 font-semibold">
                   🎟️ Use code{' '}
@@ -236,7 +237,8 @@ export default function PricingPage() {
                 </span>
               </div>
             </div>
-          ) : (
+          )}
+          {(!featuredCoupon || featuredCoupon.appliesTo !== 'all') &&
             pricing?.offer?.active && pricing.offer.percentOff > 0 &&
             (!pricing.offer.expiresAt || Date.now() < pricing.offer.expiresAt) && (
               <div className="max-w-2xl mx-auto mb-10 -mt-6">
@@ -246,8 +248,7 @@ export default function PricingPage() {
                   </span>
                 </div>
               </div>
-            )
-          )}
+            )}
 
           {/* Pricing cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">

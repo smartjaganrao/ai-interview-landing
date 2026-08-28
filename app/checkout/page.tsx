@@ -439,7 +439,7 @@ function CheckoutContent() {
                   <div className="flex justify-between items-baseline pt-4 border-t border-white/10">
                     <span className="text-lg font-semibold">Total</span>
                     <div>
-                      {(offerOn || creditApplied > 0) && (
+                      {(offerOn || couponOn || creditApplied > 0) && (
                         <div className="text-sm text-slate-500 line-through text-right">₹{basePrice}</div>
                       )}
                       <div className="text-3xl font-black text-gradient">₹{payable}</div>
