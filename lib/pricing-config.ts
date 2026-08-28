@@ -158,7 +158,11 @@ export const PLAN_MIGRATION: Record<LegacyPlanId, PlanId> = {
 };
 
 export function migratePlanId(plan: AnyPlanId | string): PlanId {
-  if (plan === 'quick_pass' || plan === 'free' || plan === 'power') return plan as PlanId;
+  // 'pro' is ambiguous: it's both a current PlanId and (per PLAN_MIGRATION) a
+  // legacy id that used to mean today's 'power'. Exempting it here means any
+  // caller passing today's real 'pro' plan passes through unchanged instead
+  // of being silently rewritten to 'power' — see [[stable-release-caution]].
+  if (plan === 'quick_pass' || plan === 'free' || plan === 'power' || plan === 'pro') return plan as PlanId;
   return PLAN_MIGRATION[plan as LegacyPlanId] ?? 'free';
 }
 
