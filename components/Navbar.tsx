@@ -140,6 +140,9 @@ export default function Navbar() {
               <Link href="/mock-interview" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
                 Mock Interview
               </Link>
+              <Link href="/pricing" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+                Plans
+              </Link>
             </>
           ) : (
             <>
@@ -223,6 +226,9 @@ export default function Navbar() {
                 </Link>
                 <Link href="/mock-interview" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
                   Mock Interview
+                </Link>
+                <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
+                  Plans
                 </Link>
               </>
             ) : (
