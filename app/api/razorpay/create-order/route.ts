@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { PlanId } from '@/lib/pricing-config';
 import { PLANS } from '@/lib/pricing-config';
 import { getRazorpayClient, getRazorpayKeyId } from '@/lib/razorpay-server';
-import { verifyIdToken, getReferralCredits, getDynamicPricing, effectiveAmount, offerApplies } from '@/lib/firebase-admin';
+import { verifyIdToken, getReferralCredits, getDynamicPricing, effectiveAmount, offerApplies, getCoupon, applyCouponDiscount } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,11 +23,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { plan, billing, userId, idToken } = (await request.json()) as {
+    const { plan, billing, userId, idToken, couponCode } = (await request.json()) as {
       plan: PlanId;
       billing: 'one-time' | 'monthly' | 'yearly';
       userId?: string;
       idToken?: string;
+      couponCode?: string;
     };
 
     const validPlans: PlanId[] = ['free', 'quick_pass', 'pro', 'power'];
@@ -49,8 +50,26 @@ export async function POST(request: NextRequest) {
     const baseAmount = isOneTime
       ? (planPricing as { oneTime: number }).oneTime
       : (planPricing as Record<'monthly' | 'yearly', number>)[billing] ?? 0;
-    const amountInRupees = effectiveAmount(baseAmount, pricing.offer, plan);
-    const offerOn = offerApplies(pricing.offer, plan);
+    // A coupon REPLACES the site-wide offer for this transaction — never both.
+    let amountInRupees: number;
+    let offerOn = false;
+    let appliedCoupon: Awaited<ReturnType<typeof getCoupon>> = null;
+    if (couponCode) {
+      appliedCoupon = await getCoupon(couponCode, plan);
+      if (!appliedCoupon) {
+        // Coupon went invalid/expired between checkout-page validation and
+        // now — fail loud rather than silently falling back to a different
+        // price the user never agreed to.
+        return NextResponse.json(
+          { error: 'This coupon is no longer valid.', code: 'coupon_invalid' },
+          { status: 400 }
+        );
+      }
+      amountInRupees = applyCouponDiscount(baseAmount, appliedCoupon);
+    } else {
+      amountInRupees = effectiveAmount(baseAmount, pricing.offer, plan);
+      offerOn = offerApplies(pricing.offer, plan);
+    }
 
     let appliedCredit = 0;
     let payerUid = userId;
@@ -80,7 +99,11 @@ export async function POST(request: NextRequest) {
         ...(isOneTime ? { hoursPurchased: String(hoursPurchased) } : {}),
         ...(payerUid ? { userId: payerUid } : {}),
         appliedCredit: String(appliedCredit),
-        ...(offerOn ? { offer: pricing.offer.label || `${pricing.offer.percentOff}% off` } : {}),
+        ...(appliedCoupon
+          ? { coupon: appliedCoupon.code }
+          : offerOn
+          ? { offer: pricing.offer.label || `${pricing.offer.percentOff}% off` }
+          : {}),
       },
     });
 
@@ -94,6 +117,7 @@ export async function POST(request: NextRequest) {
       appliedCredit,
       originalAmount: baseAmount * 100,
       offerApplied: offerOn,
+      couponApplied: !!appliedCoupon,
     });
   } catch (error: unknown) {
     const rzpErr = error as { error?: { description?: string }; statusCode?: number };

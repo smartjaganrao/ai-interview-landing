@@ -47,6 +47,7 @@ export async function POST(request: NextRequest) {
     let amount = 0;
     let grossPaid = 0;
     let appliedCredit = 0;
+    let couponCode: string | null = null;
     if (razorpay) {
       try {
         const ord = await razorpay.orders.fetch(orderId);
@@ -54,8 +55,10 @@ export async function POST(request: NextRequest) {
           amount = Math.round(ord.amount / 100);
           grossPaid = amount;
         }
-        appliedCredit = Number((ord?.notes as Record<string, string> | undefined)?.appliedCredit ?? 0) || 0;
+        const notes = ord?.notes as Record<string, string> | undefined;
+        appliedCredit = Number(notes?.appliedCredit ?? 0) || 0;
         appliedCredit = Math.min(appliedCredit, amount);
+        couponCode = notes?.coupon || null;
       } catch { /* non-fatal */ }
     }
 
@@ -74,6 +77,7 @@ export async function POST(request: NextRequest) {
         hoursPurchased,
         hoursRemaining,
         expiresAt,
+        couponCode,
       });
     }
 

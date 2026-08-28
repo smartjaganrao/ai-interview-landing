@@ -207,6 +207,7 @@ export async function persistSubscription(params: {
   hoursPurchased?: number;
   hoursRemaining?: number;
   expiresAt?: number | null;
+  couponCode?: string | null;
 }): Promise<boolean> {
   if (!db) return false;
   try {
@@ -236,6 +237,7 @@ export async function persistSubscription(params: {
         hoursPurchased,
         hoursRemaining,
         expiresAt,
+        couponCode: params.couponCode ?? null,
         ...(isOneTime ? { renewalDate: null } : { renewalDate }),
         paymentId: params.paymentId,
         orderId: params.orderId,
@@ -806,6 +808,109 @@ export function offerApplies(offer: Offer, plan: PlanId): boolean {
 export function effectiveAmount(base: number, offer: Offer, plan: PlanId): number {
   if (!offerApplies(offer, plan)) return base;
   return Math.max(1, Math.round(base * (1 - offer.percentOff / 100)));
+}
+
+// ── Coupons ────────────────────────────────────────────────────────────────
+// settings/coupons: { coupons: Record<CODE, CouponRecord> } — single doc,
+// same shape/cache pattern as settings/pricing. Admin-only write. A coupon
+// REPLACES the site-wide offer for a transaction, it never stacks with it.
+
+const couponsCache = new Map<string, { data: CouponsDoc; expiresAt: number }>();
+const COUPONS_CACHE_TTL = 5 * 60 * 1000; // mirrors PRICING_CACHE_TTL
+
+export type DiscountType = 'percent' | 'flat';
+
+export interface CouponRecord {
+  code: string;                  // stored uppercase; map key === code
+  label: string;
+  discountType: DiscountType;
+  discountValue: number;         // percent: 1–90; flat: rupees, >=1
+  appliesTo: 'all' | PlanId;
+  active: boolean;
+  featured: boolean;             // shown in the public /pricing banner
+  expiresAt: number | null;
+  createdAt: number;
+  updatedAt: number;
+}
+
+interface CouponsDoc {
+  coupons: Record<string, CouponRecord>;
+}
+
+/** Read all coupons (5-min cached), or {} if unset/unreachable. */
+export async function getCoupons(): Promise<CouponsDoc> {
+  if (!db) return { coupons: {} };
+  const now = Date.now();
+  const cached = couponsCache.get('coupons');
+  if (cached && cached.expiresAt > now) return cached.data;
+  try {
+    const snap = await db.collection('settings').doc('coupons').get();
+    const raw = snap.exists ? (snap.data()?.coupons ?? {}) : {};
+    const coupons: Record<string, CouponRecord> = {};
+    for (const [rawCode, c] of Object.entries(raw as Record<string, Partial<CouponRecord>>)) {
+      const code = rawCode.trim().toUpperCase();
+      if (!code) continue;
+      coupons[code] = {
+        code,
+        label: String(c.label ?? code),
+        discountType: c.discountType === 'flat' ? 'flat' : 'percent',
+        discountValue: Number(c.discountValue) || 0,
+        appliesTo: (['all', 'free', 'quick_pass', 'pro', 'power'] as string[]).includes(c.appliesTo as string)
+          ? (c.appliesTo as CouponRecord['appliesTo'])
+          : 'all',
+        active: !!c.active,
+        featured: !!c.featured,
+        expiresAt: c.expiresAt ? Number(c.expiresAt) : null,
+        createdAt: Number(c.createdAt) || now,
+        updatedAt: Number(c.updatedAt) || now,
+      };
+    }
+    const result: CouponsDoc = { coupons };
+    couponsCache.set('coupons', { data: result, expiresAt: now + COUPONS_CACHE_TTL });
+    return result;
+  } catch (e) {
+    console.error('[coupons] getCoupons failed, treating as none:', e);
+    return { coupons: {} };
+  }
+}
+
+export function invalidateCouponsCache(): void {
+  couponsCache.delete('coupons');
+}
+
+function couponIsValid(c: CouponRecord | undefined, plan: PlanId): c is CouponRecord {
+  if (!c || !c.active) return false;
+  if (c.expiresAt && Date.now() > c.expiresAt) return false;
+  return c.appliesTo === 'all' || c.appliesTo === plan;
+}
+
+/** Look up + validate a coupon for a specific plan. The only function anything should trust for validity. */
+export async function getCoupon(codeRaw: string, plan: PlanId): Promise<CouponRecord | null> {
+  const code = (codeRaw || '').trim().toUpperCase();
+  if (!code) return null;
+  const { coupons } = await getCoupons();
+  const c = coupons[code];
+  return couponIsValid(c, plan) ? c : null;
+}
+
+/** The single coupon to advertise publicly on /pricing, if any. */
+export async function getFeaturedCoupon(): Promise<CouponRecord | null> {
+  const { coupons } = await getCoupons();
+  const now = Date.now();
+  const candidates = Object.values(coupons).filter(
+    (c) => c.featured && c.active && (!c.expiresAt || c.expiresAt > now)
+  );
+  if (candidates.length === 0) return null;
+  candidates.sort((a, b) => b.updatedAt - a.updatedAt);
+  return candidates[0];
+}
+
+/** Apply a coupon's discount to a base amount; never drops below ₹1. */
+export function applyCouponDiscount(base: number, coupon: CouponRecord): number {
+  if (coupon.discountType === 'flat') {
+    return Math.max(1, Math.round(base - coupon.discountValue));
+  }
+  return Math.max(1, Math.round(base * (1 - coupon.discountValue / 100)));
 }
 
 /**

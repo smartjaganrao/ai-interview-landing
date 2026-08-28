@@ -31,6 +31,7 @@ interface RazorpayOptions {
 
 interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | PlanId; expiresAt: number | null }
 interface Pricing { plans: { free: { oneTime: number }; quick_pass: { oneTime: number }; pro: { oneTime: number }; power: { monthly: number; yearly: number } }; offer: Offer }
+interface CouponPreview { code: string; label: string; discountType: 'percent' | 'flat'; discountValue: number; appliesTo: 'all' | PlanId }
 
 function offerActiveFor(offer: Offer | undefined, planId: PlanId): boolean {
   if (!offer || !offer.active || offer.percentOff <= 0) return false;
@@ -66,6 +67,12 @@ function CheckoutContent() {
   const [availableCredit, setAvailableCredit] = useState(0);
   const [pricing, setPricing] = useState<Pricing | null>(null);
 
+  // Coupon — replaces the site-wide offer entirely when applied, never stacks.
+  const [couponInput, setCouponInput] = useState(() => searchParams.get('coupon') || '');
+  const [couponStatus, setCouponStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle');
+  const [appliedCoupon, setAppliedCoupon] = useState<CouponPreview | null>(null);
+  const [couponMessage, setCouponMessage] = useState('');
+
   const isOneTime = billing === 'one-time';
 
   const planConfig = PLANS.find(p => p.id === plan) || PLANS[0];
@@ -73,11 +80,56 @@ function CheckoutContent() {
   const basePrice = planPricing
     ? (isOneTime ? (planPricing as { oneTime: number }).oneTime : (planPricing as { monthly?: number; yearly?: number })[billing] ?? 0)
     : planConfig.price;
-  const offerOn = offerActiveFor(pricing?.offer, plan);
-  const price = offerOn ? Math.max(1, Math.round(basePrice * (1 - pricing!.offer.percentOff / 100))) : basePrice;
+
+  const couponOn = !!appliedCoupon;
+  const couponDiscount = (base: number, c: CouponPreview) =>
+    c.discountType === 'flat'
+      ? Math.max(1, Math.round(base - c.discountValue))
+      : Math.max(1, Math.round(base * (1 - c.discountValue / 100)));
+
+  const offerOn = !couponOn && offerActiveFor(pricing?.offer, plan);
+  const price = couponOn
+    ? couponDiscount(basePrice, appliedCoupon!)
+    : offerOn
+    ? Math.max(1, Math.round(basePrice * (1 - pricing!.offer.percentOff / 100)))
+    : basePrice;
 
   const creditApplied = Math.max(0, Math.min(availableCredit, price - 1));
   const payable = price - creditApplied;
+
+  const handleApplyCoupon = async () => {
+    const code = couponInput.trim();
+    if (!code) return;
+    setCouponStatus('checking');
+    setCouponMessage('');
+    try {
+      const res = await fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, plan }),
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setAppliedCoupon(data.coupon);
+        setCouponStatus('valid');
+        setCouponMessage(`🎉 ${data.coupon.label || data.coupon.code} applied`);
+      } else {
+        setAppliedCoupon(null);
+        setCouponStatus('invalid');
+        setCouponMessage("That code isn't valid for this plan.");
+      }
+    } catch {
+      setAppliedCoupon(null);
+      setCouponStatus('invalid');
+      setCouponMessage('Could not check that code — try again.');
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponStatus('idle');
+    setCouponMessage('');
+  };
 
   useEffect(() => {
     if (!loading && !user) {
@@ -144,10 +196,19 @@ function CheckoutContent() {
       const orderRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan, billing, userId: user.uid, idToken }),
+        body: JSON.stringify({ plan, billing, userId: user.uid, idToken, couponCode: appliedCoupon?.code }),
       });
       if (!orderRes.ok) {
         const err = await orderRes.json();
+        if (err.code === 'coupon_invalid') {
+          // Expired/deactivated between validation and now — recover in
+          // place rather than dropping into the generic error screen or
+          // silently proceeding at a price the user never agreed to.
+          handleRemoveCoupon();
+          setCouponMessage('Your coupon expired or is no longer valid — price updated without it.');
+          setStep('ready');
+          return;
+        }
         throw new Error(err.error || 'Could not create order');
       }
       const order = await orderRes.json();
@@ -195,6 +256,7 @@ function CheckoutContent() {
                 {
                   plan, status: 'active', billing, amount: price,
                   planType: isOneTimePlan ? 'one-time' : 'subscription',
+                  couponCode: appliedCoupon?.code ?? null,
                   hoursPurchased,
                   hoursRemaining,
                   expiresAt,
@@ -333,8 +395,45 @@ function CheckoutContent() {
                         <span>-₹{basePrice - price}</span>
                       </div>
                     )}
+                    {couponOn && (
+                      <div className="flex justify-between text-green-400">
+                        <span>🎟️ {appliedCoupon!.label || appliedCoupon!.code}</span>
+                        <span>-₹{basePrice - price}</span>
+                      </div>
+                    )}
                     {creditApplied > 0 && (
                       <div className="flex justify-between text-green-400"><span>🎁 Referral credit</span><span>-₹{creditApplied}</span></div>
+                    )}
+                  </div>
+
+                  <div className="mb-6 pb-6 border-b border-white/10">
+                    <label className="text-sm text-slate-400 mb-2 block">Have a coupon?</label>
+                    {couponOn ? (
+                      <div className="flex items-center justify-between p-2.5 rounded-lg bg-green-500/10 border border-green-500/20">
+                        <span className="text-sm text-green-300">🎟️ {appliedCoupon!.code} applied</span>
+                        <button onClick={handleRemoveCoupon} className="text-xs text-slate-400 hover:text-white">Remove</button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                          onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleApplyCoupon(); } }}
+                          placeholder="Enter code"
+                          className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50"
+                        />
+                        <button
+                          onClick={handleApplyCoupon}
+                          disabled={couponStatus === 'checking' || !couponInput.trim()}
+                          className="btn btn-secondary px-4 disabled:opacity-50"
+                        >
+                          {couponStatus === 'checking' ? '…' : 'Apply'}
+                        </button>
+                      </div>
+                    )}
+                    {couponMessage && !couponOn && (
+                      <p className={`text-xs mt-2 ${couponStatus === 'invalid' ? 'text-red-400' : 'text-green-400'}`}>{couponMessage}</p>
                     )}
                   </div>
                   <div className="flex justify-between items-baseline pt-4 border-t border-white/10">

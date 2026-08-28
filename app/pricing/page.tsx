@@ -21,6 +21,7 @@ import {
 
 interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | PlanId; expiresAt: number | null }
 interface Pricing { plans: { free: { oneTime: number; displayOrder: number }; quick_pass: { oneTime: number; displayOrder: number }; pro: { oneTime: number; displayOrder: number }; power: { monthly: number; yearly: number; displayOrder: number } }; offer: Offer }
+interface FeaturedCoupon { code: string; label: string; discountType: 'percent' | 'flat'; discountValue: number; appliesTo: 'all' | PlanId }
 
 function offerActiveFor(offer: Offer | undefined, planId: PlanId): boolean {
   if (!offer || !offer.active || offer.percentOff <= 0 || planId === 'free') return false;
@@ -110,11 +111,17 @@ const faqSchema = {
 export default function PricingPage() {
   const [currentPlan, setCurrentPlan] = useState<PlanId>('free');
   const [pricing, setPricing] = useState<Pricing | null>(null);
+  const [featuredCoupon, setFeaturedCoupon] = useState<FeaturedCoupon | null>(null);
+  const [couponCopied, setCouponCopied] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     fetch('/api/pricing').then((r) => r.json()).then(setPricing).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/coupons/featured').then((r) => r.json()).then((d) => setFeaturedCoupon(d.coupon)).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -146,7 +153,13 @@ export default function PricingPage() {
       return;
     }
     const billing = isOneTime ? 'one-time' : 'monthly';
-    router.push(`/checkout?plan=${planId}&billing=${billing}`);
+    // Prefill (never auto-apply) the featured coupon's code into the
+    // checkout input when it's relevant to this plan — the user still has
+    // to click Apply there, keeping redemption manual.
+    const couponForPlan = featuredCoupon && (featuredCoupon.appliesTo === 'all' || featuredCoupon.appliesTo === planId)
+      ? `&coupon=${encodeURIComponent(featuredCoupon.code)}`
+      : '';
+    router.push(`/checkout?plan=${planId}&billing=${billing}${couponForPlan}`);
   };
 
   const getPlanCta = (planId: PlanId, defaultCta: string) => {
@@ -194,16 +207,46 @@ export default function PricingPage() {
             </p>
           </div>
 
-          {/* Active offer banner */}
-          {pricing?.offer?.active && pricing.offer.percentOff > 0 &&
-           (!pricing.offer.expiresAt || Date.now() < pricing.offer.expiresAt) && (
+          {/* Featured coupon banner takes priority over the generic site-wide
+              offer banner — showing both would imply they stack, but a coupon
+              always replaces the offer at checkout, never adds to it. The
+              offer itself still applies normally to anyone who checks out
+              without entering a coupon. */}
+          {featuredCoupon ? (
             <div className="max-w-2xl mx-auto mb-10 -mt-6">
-              <div className="card text-center bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-green-500/30 py-4">
-                <span className="text-green-300 font-semibold">
-                  🎉 {pricing.offer.label || `Limited offer — ${pricing.offer.percentOff}% off`}
+              <div className="card text-center bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30 py-4">
+                <span className="text-purple-200 font-semibold">
+                  🎟️ Use code{' '}
+                  <button
+                    onClick={() => {
+                      navigator.clipboard?.writeText(featuredCoupon.code).catch(() => {});
+                      setCouponCopied(true);
+                      setTimeout(() => setCouponCopied(false), 2000);
+                    }}
+                    className="underline decoration-dotted underline-offset-4 hover:text-white"
+                    title="Copy code"
+                  >
+                    {featuredCoupon.code}
+                  </button>{' '}
+                  for {featuredCoupon.discountType === 'percent' ? `${featuredCoupon.discountValue}% off` : `₹${featuredCoupon.discountValue} off`}
+                  {featuredCoupon.appliesTo !== 'all' &&
+                    ` on ${PLANS.find((p) => p.id === featuredCoupon.appliesTo)?.name ?? featuredCoupon.appliesTo}`}
+                  {featuredCoupon.label ? ` — ${featuredCoupon.label}` : ''}
+                  {couponCopied && <span className="ml-2 text-green-400">Copied!</span>}
                 </span>
               </div>
             </div>
+          ) : (
+            pricing?.offer?.active && pricing.offer.percentOff > 0 &&
+            (!pricing.offer.expiresAt || Date.now() < pricing.offer.expiresAt) && (
+              <div className="max-w-2xl mx-auto mb-10 -mt-6">
+                <div className="card text-center bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-green-500/30 py-4">
+                  <span className="text-green-300 font-semibold">
+                    🎉 {pricing.offer.label || `Limited offer — ${pricing.offer.percentOff}% off`}
+                  </span>
+                </div>
+              </div>
+            )
           )}
 
           {/* Pricing cards */}
