@@ -835,6 +835,7 @@ export interface CouponRecord {
   appliesTo: 'all' | PlanId;
   active: boolean;
   featured: boolean;             // shown in the public /pricing banner
+  popup: boolean;                // shown as the new-customer welcome popup
   expiresAt: number | null;
   createdAt: number;
   updatedAt: number;
@@ -867,6 +868,7 @@ export async function getCoupons(): Promise<CouponsDoc> {
           : 'all',
         active: !!c.active,
         featured: !!c.featured,
+        popup: !!c.popup,
         expiresAt: c.expiresAt ? Number(c.expiresAt) : null,
         createdAt: Number(c.createdAt) || now,
         updatedAt: Number(c.updatedAt) || now,
@@ -906,6 +908,23 @@ export async function getFeaturedCoupon(): Promise<CouponRecord | null> {
   const now = Date.now();
   const candidates = Object.values(coupons).filter(
     (c) => c.featured && c.active && (!c.expiresAt || c.expiresAt > now)
+  );
+  if (candidates.length === 0) return null;
+  candidates.sort((a, b) => b.updatedAt - a.updatedAt);
+  return candidates[0];
+}
+
+/**
+ * The single coupon to show as the new-customer welcome popup, if any.
+ * Requires a real expiresAt in the future — a "limited time" popup with no
+ * actual deadline isn't meaningful, so a popup-flagged coupon without one
+ * is treated as not-ready rather than shown without a countdown.
+ */
+export async function getPopupCoupon(): Promise<CouponRecord | null> {
+  const { coupons } = await getCoupons();
+  const now = Date.now();
+  const candidates = Object.values(coupons).filter(
+    (c) => c.popup && c.active && c.expiresAt && c.expiresAt > now
   );
   if (candidates.length === 0) return null;
   candidates.sort((a, b) => b.updatedAt - a.updatedAt);

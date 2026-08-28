@@ -1,15 +1,19 @@
 import { NextResponse } from 'next/server';
-import { getFeaturedCoupon } from '@/lib/firebase-admin';
+import { getFeaturedCoupon, getPopupCoupon } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * GET — the single coupon (if any) to advertise on the public /pricing page.
- * Returns only safe-to-display fields, never the full coupons map, so this
- * endpoint can't be used to enumerate unpublicized codes.
+ * GET — the coupon(s) to surface publicly, with only safe-to-display fields
+ * (never the full coupons map, so this can't be used to enumerate codes):
+ * - `coupon`: shown on the /pricing page banner.
+ * - `popup`: shown as the new-customer welcome popup. Includes expiresAt
+ *   (unlike `coupon`) since the popup needs it to render a live countdown.
+ * These are independent flags — a coupon can be featured, popup, both, or
+ * neither.
  */
 export async function GET() {
-  const coupon = await getFeaturedCoupon();
+  const [coupon, popup] = await Promise.all([getFeaturedCoupon(), getPopupCoupon()]);
   return NextResponse.json(
     {
       coupon: coupon
@@ -21,7 +25,17 @@ export async function GET() {
             appliesTo: coupon.appliesTo,
           }
         : null,
+      popup: popup
+        ? {
+            code: popup.code,
+            label: popup.label,
+            discountType: popup.discountType,
+            discountValue: popup.discountValue,
+            appliesTo: popup.appliesTo,
+            expiresAt: popup.expiresAt,
+          }
+        : null,
     },
-    { headers: { 'Cache-Control': 'public, max-age=30, stale-while-revalidate=120' } }
+    { headers: { 'Cache-Control': 'public, max-age=15, stale-while-revalidate=30' } }
   );
 }

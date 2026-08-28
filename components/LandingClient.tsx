@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import FreeTrialModal from '@/components/FreeTrialModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
+import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -1239,6 +1240,7 @@ export default function LandingClient(props: LandingClientProps) {
         </div>
       </footer>
 
+      <NewCustomerOfferPopup />
       <FreeTrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />
       <DownloadStepsModal
         open={showDownloadModal}

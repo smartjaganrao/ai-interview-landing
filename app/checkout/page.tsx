@@ -131,6 +131,18 @@ function CheckoutContent() {
     setCouponMessage('');
   };
 
+  // Arrived via a flash-sale popup link (?autoApply=1) — skip the manual
+  // "Apply" click. The popup already made the offer and deadline explicit;
+  // requiring a second confirmation click here undercuts the "buy now"
+  // urgency. Every other entry point (pricing banner, a typed-in code)
+  // still requires clicking Apply, unchanged.
+  useEffect(() => {
+    if (searchParams.get('autoApply') === '1' && couponInput.trim()) {
+      Promise.resolve().then(() => handleApplyCoupon());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!loading && !user) {
       router.push(`/auth/signup?plan=${plan}`);
