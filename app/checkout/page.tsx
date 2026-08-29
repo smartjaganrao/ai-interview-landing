@@ -79,7 +79,10 @@ function CheckoutContent() {
   const planPricing = pricing?.plans?.[plan];
   const basePrice = planPricing
     ? (isOneTime ? (planPricing as { oneTime: number }).oneTime : (planPricing as { monthly?: number; yearly?: number })[billing] ?? 0)
-    : planConfig.price;
+    : 0;
+  // A paid plan pricing at ₹0 is always a broken read (settings/pricing
+  // unreachable) or not-yet-loaded — never a real, payable price.
+  const pricingReady = plan === 'free' || basePrice > 0;
 
   const couponOn = !!appliedCoupon;
   const couponDiscount = (base: number, c: CouponPreview) =>
@@ -398,7 +401,7 @@ function CheckoutContent() {
                     </div>
                   </div>
                   <div className="space-y-3 mb-6 text-sm">
-                    <div className="flex justify-between text-slate-400"><span>Subtotal</span><span>₹{basePrice}</span></div>
+                    <div className="flex justify-between text-slate-400"><span>Subtotal</span><span>{pricingReady ? `₹${basePrice}` : '—'}</span></div>
                     <div className="flex justify-between text-slate-400"><span>Tax (GST)</span><span>Included</span></div>
                     {billing === 'yearly' && (
                       <div className="flex justify-between text-green-400"><span>Yearly discount</span><span>-17%</span></div>
@@ -453,10 +456,10 @@ function CheckoutContent() {
                   <div className="flex justify-between items-baseline pt-4 border-t border-white/10">
                     <span className="text-lg font-semibold">Total</span>
                     <div>
-                      {(offerOn || couponOn || creditApplied > 0) && (
+                      {pricingReady && (offerOn || couponOn || creditApplied > 0) && (
                         <div className="text-sm text-slate-500 line-through text-right">₹{basePrice}</div>
                       )}
-                      <div className="text-3xl font-black text-gradient">₹{payable}</div>
+                      <div className="text-3xl font-black text-gradient">{pricingReady ? `₹${payable}` : '—'}</div>
                       <div className="text-xs text-slate-400 text-right">Charged {billing}</div>
                     </div>
                   </div>
@@ -488,6 +491,18 @@ function CheckoutContent() {
                         ← Back to pricing
                       </Link>
                     </div>
+                  ) : pricing !== null && !pricingReady ? (
+                    <div className="p-5 rounded-xl bg-yellow-500/10 border border-yellow-500/30 mb-4">
+                      <div className="text-yellow-300">
+                        <strong>⏳ Pricing temporarily unavailable.</strong>
+                        <p className="text-sm mt-2 text-yellow-200">
+                          We couldn&apos;t load current pricing. Please try again in a few minutes.
+                        </p>
+                      </div>
+                      <Link href="/pricing" className="btn btn-secondary mt-4">
+                        ← Back to pricing
+                      </Link>
+                    </div>
                   ) : (
                     <>
                       <div className="mb-6 p-4 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-sm text-indigo-200">
@@ -496,11 +511,11 @@ function CheckoutContent() {
 
                       <button
                         onClick={handlePay}
-                        disabled={billingConfigured === null}
+                        disabled={billingConfigured === null || !pricingReady}
                         className="w-full btn btn-primary btn-lg"
-                        style={{ opacity: billingConfigured === null ? 0.6 : 1 }}
+                        style={{ opacity: billingConfigured === null || !pricingReady ? 0.6 : 1 }}
                       >
-                        {billingConfigured === null ? 'Loading…' : `Pay ₹${payable} with Razorpay →`}
+                        {billingConfigured === null || !pricingReady ? 'Loading…' : `Pay ₹${payable} with Razorpay →`}
                       </button>
 
                       <div className="flex items-center justify-center gap-4 text-xs text-slate-500 pt-6">

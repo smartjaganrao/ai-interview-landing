@@ -257,11 +257,14 @@ export default function PricingPage() {
             {sortedPlans.map((plan) => {
               const isOneTime = plan.billingType === 'one_time';
               const planPricing = pricing?.plans?.[plan.id];
-              const hasPricing = !!planPricing;
               const base: { oneTime?: number; monthly?: number; yearly?: number } = planPricing ?? { oneTime: 0, monthly: 0, yearly: 0 };
               const cyclePrice = isOneTime
                 ? (base.oneTime ?? 0)
                 : (plan.id === 'power' ? base.monthly ?? 0 : base.oneTime ?? 0);
+              // A paid plan pricing at exactly ₹0 is always a broken read
+              // (settings/pricing unreachable), never a real price — treat it
+              // the same as "not loaded yet" so it shows "—" instead of ₹0.
+              const hasPricing = !!planPricing && cyclePrice > 0;
               const offerOn = offerActiveFor(pricing?.offer, plan.id);
               const effCycle = offerOn && hasPricing
                 ? Math.max(1, Math.round(cyclePrice * (1 - pricing!.offer.percentOff / 100)))
@@ -372,10 +375,11 @@ export default function PricingPage() {
                         const pricingData = planPricing as { oneTime?: number; monthly?: number };
                         if (p.billingType === 'subscription') {
                           const monthly = pricingData.monthly ?? 0;
-                          return `₹${monthly}/mo`;
+                          // ₹0 on a paid plan is always a broken read, never a real price.
+                          return monthly > 0 ? `₹${monthly}/mo` : '—';
                         }
                         const oneTime = pricingData.oneTime ?? 0;
-                        return `₹${oneTime}`;
+                        return oneTime > 0 ? `₹${oneTime}` : '—';
                       } },
                     { name: 'Billing', getValue: (p: typeof PLANS[0]) => p.id === 'free' ? '—' : p.billingType === 'subscription' ? 'Monthly' : 'One-time' },
                     { name: 'Validity', getValue: (p: typeof PLANS[0]) => p.id === 'free' ? 'Forever' : getPlanUsageLabel(p.id) },

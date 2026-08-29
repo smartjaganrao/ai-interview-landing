@@ -50,6 +50,18 @@ export async function POST(request: NextRequest) {
     const baseAmount = isOneTime
       ? (planPricing as { oneTime: number }).oneTime
       : (planPricing as Record<'monthly' | 'yearly', number>)[billing] ?? 0;
+
+    // A paid plan must never price out at ₹0 — that's always a broken read
+    // (e.g. settings/pricing unreachable), never a legitimate price. Fail
+    // the checkout rather than create a free/near-free Razorpay order.
+    if (baseAmount <= 0) {
+      console.error(`[razorpay/create-order] refusing order: baseAmount=${baseAmount} for plan=${plan} billing=${billing}`);
+      return NextResponse.json(
+        { error: 'Pricing is temporarily unavailable. Please try again in a few minutes.' },
+        { status: 503 }
+      );
+    }
+
     // A coupon REPLACES the site-wide offer for this transaction — never both.
     let amountInRupees: number;
     let offerOn = false;

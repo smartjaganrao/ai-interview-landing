@@ -810,7 +810,12 @@ export async function getDynamicPricing(): Promise<Pricing> {
     pricingCache.set('pricing', { data: result, expiresAt: now + PRICING_CACHE_TTL });
     return result;
   } catch (e) {
-    console.error('[pricing] getDynamicPricing failed, using defaults:', e);
+    console.error('[pricing] getDynamicPricing failed:', e);
+    // Prefer stale-but-real prices over the hardcoded (all-zero) fallback —
+    // a transient Firestore read failure must never make paid plans look or
+    // compute as free. Only fall through to pricingFallback() if this
+    // instance has never completed a successful read at all.
+    if (cached) return cached.data;
     return pricingFallback();
   }
 }
