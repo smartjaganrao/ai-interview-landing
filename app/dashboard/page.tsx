@@ -134,7 +134,7 @@ function DashboardContent() {
     if (!user || isSyncing) return;
     setIsSyncing(true);
     try {
-      const result = await refreshAllData(user.uid);
+      const result = await refreshAllData(user.uid, { force: true });
       setActivity(result.activity);
       if (result.user) setDataReady(prev => ({ ...prev, user: true }));
       if (result.subscription) setDataReady(prev => ({ ...prev, sub: true }));

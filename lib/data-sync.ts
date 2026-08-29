@@ -179,7 +179,7 @@ export async function syncActivityData(uid: string): Promise<ActivityData> {
   }
 }
 
-export async function refreshAllData(uid: string): Promise<{
+export async function refreshAllData(uid: string, opts?: { force?: boolean }): Promise<{
   user: UserData | null;
   subscription: SubscriptionData | null;
   usage: UsageData | null;
@@ -188,7 +188,7 @@ export async function refreshAllData(uid: string): Promise<{
 }> {
   // Serve from localStorage cache if fresh (avoids Firestore reads on
   // dashboard re-navigation / tab switches).
-  const cached = readDashboardCache(uid);
+  const cached = opts?.force ? null : readDashboardCache(uid);
   if (cached) {
     if (cached.user) store.dispatch(setUser(cached.user));
     if (cached.subscription) store.dispatch(setSubAction(cached.subscription));
