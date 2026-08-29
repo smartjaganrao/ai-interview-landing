@@ -3,6 +3,36 @@ const docCache = new Map<string, CacheEntry<unknown>>();
 const queryCache = new Map<string, CacheEntry<unknown>>();
 const pending = new Map<string, Promise<unknown>>();
 
+const LS_PREFIX = 'fc_cache:';
+
+function readLocalStorageEntry<T>(key: string): CacheEntry<T> | null {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + key);
+    if (!raw) return null;
+    const entry = JSON.parse(raw) as CacheEntry<T>;
+    if (entry.expiresAt <= Date.now()) return null;
+    return entry;
+  } catch {
+    return null;
+  }
+}
+
+function writeLocalStorageEntry<T>(key: string, entry: CacheEntry<T>): void {
+  try {
+    localStorage.setItem(LS_PREFIX + key, JSON.stringify(entry));
+  } catch {
+    // quota / private mode — ignore
+  }
+}
+
+function removeLocalStorageEntry(key: string): void {
+  try {
+    localStorage.removeItem(LS_PREFIX + key);
+  } catch {
+    // ignore
+  }
+}
+
 export async function cachedGetDoc<T>(
   key: string,
   ttlMs: number,
@@ -14,6 +44,12 @@ export async function cachedGetDoc<T>(
     return entry.data;
   }
 
+  const persisted = readLocalStorageEntry<T>(key);
+  if (persisted) {
+    docCache.set(key, persisted);
+    return persisted.data;
+  }
+
   if (pending.has(key)) {
     return pending.get(key) as Promise<T | null>;
   }
@@ -21,7 +57,9 @@ export async function cachedGetDoc<T>(
   const promise = fetcher().then((data) => {
     pending.delete(key);
     if (data !== null && data !== undefined) {
-      docCache.set(key, { data, expiresAt: now + ttlMs });
+      const cacheEntry = { data, expiresAt: now + ttlMs };
+      docCache.set(key, cacheEntry);
+      writeLocalStorageEntry(key, cacheEntry);
     }
     return data;
   }).catch((err) => {
@@ -44,13 +82,21 @@ export async function cachedQuery<T>(
     return entry.data;
   }
 
+  const persisted = readLocalStorageEntry<T>(key);
+  if (persisted) {
+    queryCache.set(key, persisted);
+    return persisted.data;
+  }
+
   if (pending.has(key)) {
     return pending.get(key) as Promise<T>;
   }
 
   const promise = fetcher().then((data) => {
     pending.delete(key);
-    queryCache.set(key, { data, expiresAt: now + ttlMs });
+    const cacheEntry = { data, expiresAt: now + ttlMs };
+    queryCache.set(key, cacheEntry);
+    writeLocalStorageEntry(key, cacheEntry);
     return data;
   }).catch((err) => {
     pending.delete(key);
@@ -63,10 +109,12 @@ export async function cachedQuery<T>(
 
 export function invalidateDocCache(key: string): void {
   docCache.delete(key);
+  removeLocalStorageEntry(key);
 }
 
 export function invalidateQueryCache(key: string): void {
   queryCache.delete(key);
+  removeLocalStorageEntry(key);
 }
 
 export function clearDocCache(): void {

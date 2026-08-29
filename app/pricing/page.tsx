@@ -117,7 +117,9 @@ export default function PricingPage() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch('/api/pricing').then((r) => r.json()).then(setPricing).catch(() => {});
+    cachedGetDoc<Pricing>('pricing:public', 60 * 1000, () =>
+      fetch('/api/pricing').then((r) => r.json())
+    ).then(setPricing).catch(() => {});
   }, []);
 
   useEffect(() => {
