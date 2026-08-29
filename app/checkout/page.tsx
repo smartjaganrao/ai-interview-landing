@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { db } from '@/lib/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { cachedGetDoc } from '@/lib/firestore-cache';
-import { PLANS, PlanId, AnyPlanId, migratePlanId, isOneTimePlan, isDowngrade, canUpgradeTo } from '@/lib/pricing-config';
+import { PLANS, PlanId, AnyPlanId, migratePlanId, isOneTimePlan, isDowngrade, canUpgradeTo, isPricingHealthy } from '@/lib/pricing-config';
 
 // Razorpay Checkout is loaded from CDN at runtime; type the global for safety.
 declare global {
@@ -153,8 +153,11 @@ function CheckoutContent() {
   }, [user, loading, router, plan]);
 
   useEffect(() => {
-    cachedGetDoc<Pricing>('pricing:public', 60 * 1000, () =>
-      fetch('/api/pricing').then((r) => r.json())
+    cachedGetDoc<Pricing>(
+      'pricing:public',
+      60 * 1000,
+      () => fetch('/api/pricing').then((r) => r.json()),
+      isPricingHealthy
     ).then(setPricing).catch(() => {});
   }, []);
 

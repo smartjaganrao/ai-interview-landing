@@ -60,8 +60,8 @@
     "semantic_hash": ""
   },
   "app/api/email/welcome/route.ts": {
-    "mtime": 1787461167.498145,
-    "ast_hash": "59fa8f855a776ea26bf3a6f21d9ec163",
+    "mtime": 1787833261.069178,
+    "ast_hash": "5c37b604ec489f938d4f1132c48d243b",
     "semantic_hash": ""
   },
   "app/api/free-trial/route.ts": {
@@ -85,13 +85,13 @@
     "semantic_hash": ""
   },
   "app/api/pricing/route.ts": {
-    "mtime": 1785348631.3461914,
-    "ast_hash": "27e0b8960e684e71b9b113c991852992",
-    "semantic_hash": "27e0b8960e684e71b9b113c991852992"
+    "mtime": 1787942554.1596653,
+    "ast_hash": "f82db709ddb889414ba15c4ec027a525",
+    "semantic_hash": ""
   },
   "app/api/razorpay/create-order/route.ts": {
-    "mtime": 1785394258.9214337,
-    "ast_hash": "9b05e3c9743b64187df164b42abb3a7c",
+    "mtime": 1787917525.0543332,
+    "ast_hash": "190f6f216546fa73fe5790e77d0fb741",
     "semantic_hash": ""
   },
   "app/api/razorpay/status/route.ts": {
@@ -100,8 +100,8 @@
     "semantic_hash": "4f79acff7f0d0193295ef3b43040041e"
   },
   "app/api/razorpay/verify-payment/route.ts": {
-    "mtime": 1785394297.7085586,
-    "ast_hash": "2a37287b224d0221e9e17f7e44e19309",
+    "mtime": 1787921636.9954112,
+    "ast_hash": "67e4020610d6ef157a4d853c49347184",
     "semantic_hash": ""
   },
   "app/api/razorpay/webhook/route.ts": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "app/checkout/page.tsx": {
-    "mtime": 1785770900.4449365,
-    "ast_hash": "2bb10b6c67a7a7a52fa443ed96600297",
+    "mtime": 1787923227.1716385,
+    "ast_hash": "380332276be757d6b0d612cd88976c3c",
     "semantic_hash": ""
   },
   "app/compare/chiku-ai/page.tsx": {
@@ -210,8 +210,8 @@
     "semantic_hash": ""
   },
   "app/creator/page.tsx": {
-    "mtime": 1786283089.2262826,
-    "ast_hash": "780823236d8532506a16b6a66a056da7",
+    "mtime": 1787833348.6369963,
+    "ast_hash": "d1f76c8279e0457745f33c8b92ca1bc1",
     "semantic_hash": ""
   },
   "app/dashboard/page.tsx": {
@@ -260,13 +260,13 @@
     "semantic_hash": ""
   },
   "app/pricing/layout.tsx": {
-    "mtime": 1787461178.4666734,
-    "ast_hash": "05e3f1ad7f11424439487e8f08cc03ce",
+    "mtime": 1787833097.0207932,
+    "ast_hash": "5f07099e6b745a3130c8f43625f71b79",
     "semantic_hash": ""
   },
   "app/pricing/page.tsx": {
-    "mtime": 1785953693.487853,
-    "ast_hash": "2ce9ebaa5ba5e9c15387fdcc38cbc099",
+    "mtime": 1787921741.0670388,
+    "ast_hash": "f88febdd170469905d9bc965d249b2da",
     "semantic_hash": ""
   },
   "app/privacy/page.tsx": {
@@ -330,13 +330,13 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1786283125.2106957,
-    "ast_hash": "f61d7dfcccb3a50cb4e5a72338e8fd58",
+    "mtime": 1787924012.733728,
+    "ast_hash": "bb922da2372579e809f63c93e57204c0",
     "semantic_hash": ""
   },
   "components/WhatsAppButton.tsx": {
-    "mtime": 1787347318.410499,
-    "ast_hash": "967a3561819058d3afd9ada983f9a46c",
+    "mtime": 1787833136.5515742,
+    "ast_hash": "2219a1116bb6885c8a2fad64631af7f4",
     "semantic_hash": ""
   },
   "hooks/useAuth.ts": {
@@ -355,13 +355,13 @@
     "semantic_hash": "1e6ff11edce0c8c4f06ae6ea1a9bd51f"
   },
   "lib/email.ts": {
-    "mtime": 1787461167.5023434,
-    "ast_hash": "660045535c6cb0a40a43badff0091de1",
+    "mtime": 1787718869.1471207,
+    "ast_hash": "858dff31d71b0d954288635bc70ab908",
     "semantic_hash": ""
   },
   "lib/firebase-admin.ts": {
-    "mtime": 1785953167.6160264,
-    "ast_hash": "796fc2f8f99ebb8b7275226afd53c269",
+    "mtime": 1787998777.6856601,
+    "ast_hash": "c2d070c7e188359e6587d2552fa32d6b",
     "semantic_hash": ""
   },
   "lib/firebase.ts": {
@@ -370,8 +370,8 @@
     "semantic_hash": "1f0aa0fd99ab287dd76adfa4f6cd5641"
   },
   "lib/github-release.ts": {
-    "mtime": 1787577601.5652618,
-    "ast_hash": "3ffa06ad18ff3a61d248ff788f6e2ae7",
+    "mtime": 1787828767.5026162,
+    "ast_hash": "e7ac1eeab33e38c120b61b82db1df53d",
     "semantic_hash": ""
   },
   "lib/razorpay-server.ts": {
@@ -460,8 +460,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1787580596.3800588,
-    "ast_hash": "a586f68be87fe88f76eacf8223af7d8b",
+    "mtime": 1787922983.8031464,
+    "ast_hash": "6a34e0d018fa4360783241f2ac79a395",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {
@@ -495,8 +495,8 @@
     "semantic_hash": ""
   },
   "lib/pricing-config.ts": {
-    "mtime": 1785953371.3116639,
-    "ast_hash": "4770fa8b309d8ea15b591b95c4b17898",
+    "mtime": 1787911669.4707956,
+    "ast_hash": "aaf68bc66ab790cd1ff11576dabcdb6e",
     "semantic_hash": ""
   },
   "lib/redux-store.ts": {
@@ -1382,6 +1382,46 @@
   "scripts/post-release-announcement.mjs": {
     "mtime": 1787585647.0266776,
     "ast_hash": "d15d7cfa30091bb8af90bae1831b47e3",
+    "semantic_hash": ""
+  },
+  "app/api/coupons/featured/route.ts": {
+    "mtime": 1787922931.5574954,
+    "ast_hash": "d2fb0785a6520f6ce995d99985de33a9",
+    "semantic_hash": ""
+  },
+  "app/api/coupons/invalidate/route.ts": {
+    "mtime": 1787917139.0719044,
+    "ast_hash": "93e33d0d0b69fe09fb8a9395066ad69e",
+    "semantic_hash": ""
+  },
+  "app/api/coupons/validate/route.ts": {
+    "mtime": 1787921797.4952402,
+    "ast_hash": "8d09355ad8c0a447c7773631d5e0a1f9",
+    "semantic_hash": ""
+  },
+  "components/NewCustomerOfferPopup.tsx": {
+    "mtime": 1787923178.329338,
+    "ast_hash": "a802a25f10bdb4760741a1debc520adb",
+    "semantic_hash": ""
+  },
+  "scripts/export-vercel-env.sh": {
+    "mtime": 1787811911.9446383,
+    "ast_hash": "b6043e0210c23fea3182c30879fe6b6d",
+    "semantic_hash": ""
+  },
+  "scripts/import-vercel-env.sh": {
+    "mtime": 1787811930.829161,
+    "ast_hash": "2578beab3711a4999700b4a111fd15f6",
+    "semantic_hash": ""
+  },
+  "scripts/post-release-email-blast.mjs": {
+    "mtime": 1787718881.2586203,
+    "ast_hash": "0298e54e87fd2e24b411f25f149001f6",
+    "semantic_hash": ""
+  },
+  "docs/VERCEL_MIGRATION.md": {
+    "mtime": 1787831666.8438938,
+    "ast_hash": "d4621c7733ea90078c39deb90ba38ddf",
     "semantic_hash": ""
   }
 }

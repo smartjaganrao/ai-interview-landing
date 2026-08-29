@@ -17,6 +17,7 @@ import {
   isPlanHighlighted,
   getPlanBadge,
   getPlanUsageLabel,
+  isPricingHealthy,
 } from '@/lib/pricing-config';
 
 interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | PlanId; expiresAt: number | null }
@@ -117,8 +118,11 @@ export default function PricingPage() {
   const router = useRouter();
 
   useEffect(() => {
-    cachedGetDoc<Pricing>('pricing:public', 60 * 1000, () =>
-      fetch('/api/pricing').then((r) => r.json())
+    cachedGetDoc<Pricing>(
+      'pricing:public',
+      60 * 1000,
+      () => fetch('/api/pricing').then((r) => r.json()),
+      isPricingHealthy
     ).then(setPricing).catch(() => {});
   }, []);
 

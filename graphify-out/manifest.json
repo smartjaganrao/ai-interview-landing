@@ -90,8 +90,8 @@
     "semantic_hash": ""
   },
   "app/api/razorpay/create-order/route.ts": {
-    "mtime": 1787917525.0543332,
-    "ast_hash": "190f6f216546fa73fe5790e77d0fb741",
+    "mtime": 1788025047.4274883,
+    "ast_hash": "c909129c17902c22384cb03bb8187ba8",
     "semantic_hash": ""
   },
   "app/api/razorpay/status/route.ts": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "app/checkout/page.tsx": {
-    "mtime": 1787923227.1716385,
-    "ast_hash": "380332276be757d6b0d612cd88976c3c",
+    "mtime": 1788025307.4700963,
+    "ast_hash": "4a86515366c353819877bcdc1ce80258",
     "semantic_hash": ""
   },
   "app/compare/chiku-ai/page.tsx": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "app/dashboard/page.tsx": {
-    "mtime": 1787348387.2977564,
-    "ast_hash": "0224687e87b5aef59902e081909ac08b",
+    "mtime": 1788012495.5786998,
+    "ast_hash": "0ac4f29398d3f25423a67fbd1c85097d",
     "semantic_hash": ""
   },
   "app/install/page.tsx": {
@@ -265,8 +265,8 @@
     "semantic_hash": ""
   },
   "app/pricing/page.tsx": {
-    "mtime": 1787921741.0670388,
-    "ast_hash": "f88febdd170469905d9bc965d249b2da",
+    "mtime": 1788025195.1747515,
+    "ast_hash": "b517d1407509a2fd0c8de5a23cdba5cd",
     "semantic_hash": ""
   },
   "app/privacy/page.tsx": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "lib/firebase-admin.ts": {
-    "mtime": 1787998777.6856601,
-    "ast_hash": "c2d070c7e188359e6587d2552fa32d6b",
+    "mtime": 1788025047.4277968,
+    "ast_hash": "859d88f45aba290cf7cd080b6c5ea419",
     "semantic_hash": ""
   },
   "lib/firebase.ts": {
@@ -370,8 +370,8 @@
     "semantic_hash": "1f0aa0fd99ab287dd76adfa4f6cd5641"
   },
   "lib/github-release.ts": {
-    "mtime": 1787828767.5026162,
-    "ast_hash": "e7ac1eeab33e38c120b61b82db1df53d",
+    "mtime": 1788013924.0163927,
+    "ast_hash": "affc18f4a347d9491123e142f1d47157",
     "semantic_hash": ""
   },
   "lib/razorpay-server.ts": {
@@ -475,13 +475,13 @@
     "semantic_hash": ""
   },
   "lib/data-sync.ts": {
-    "mtime": 1787209955.76914,
-    "ast_hash": "92a098643b62faf31243d43209f4b3e6",
+    "mtime": 1788012495.5797212,
+    "ast_hash": "f57d851b71bc62bfe5617b62b496bea9",
     "semantic_hash": ""
   },
   "lib/firestore-cache.ts": {
-    "mtime": 1785771146.5746977,
-    "ast_hash": "7cd9100fba2671df12e5e40ecffaef6f",
+    "mtime": 1788012495.580077,
+    "ast_hash": "4de0ab9fadafaa6dd23b35d473b85639",
     "semantic_hash": ""
   },
   "lib/firestore-metrics.ts": {

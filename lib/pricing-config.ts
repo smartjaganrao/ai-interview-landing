@@ -176,6 +176,18 @@ export function isOneTimePlan(plan: AnyPlanId): boolean {
   return config ? config.billingType === 'one_time' : false;
 }
 
+/**
+ * True if every paid plan has a real (non-zero) price. A fetched /api/pricing
+ * response with any paid plan at ₹0 is always a broken read (settings/pricing
+ * unreachable), never a legitimate price — used to reject that response as a
+ * cache value so callers keep serving the last known-good cached pricing.
+ */
+export function isPricingHealthy(p: {
+  plans: { quick_pass: { oneTime: number }; pro: { oneTime: number }; power: { monthly: number } };
+}): boolean {
+  return p.plans.quick_pass.oneTime > 0 && p.plans.pro.oneTime > 0 && p.plans.power.monthly > 0;
+}
+
 export function getPlanHours(plan: AnyPlanId): number {
   const config = getPlanById(plan);
   return config ? config.durationValue : 0;

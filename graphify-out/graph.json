@@ -238,8 +238,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_apply_route",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "route.ts"
     },
     {
@@ -249,8 +249,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_creator_apply_route_post",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "post()"
     },
     {
@@ -1382,8 +1382,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "app_checkout_page_offer",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "offer"
     },
     {
@@ -1404,8 +1404,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "app_checkout_page_couponpreview",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "couponpreview"
     },
     {
@@ -1445,7 +1445,7 @@
       "label": "CheckoutPage()",
       "file_type": "code",
       "source_file": "app/checkout/page.tsx",
-      "source_location": "L529",
+      "source_location": "L546",
       "_origin": "ast",
       "id": "app_checkout_page_checkoutpage",
       "community": 121,
@@ -1767,8 +1767,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_creator_page",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "page.tsx"
     },
     {
@@ -1778,8 +1778,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "app_creator_page_creatordata",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "creatordata"
     },
     {
@@ -1789,8 +1789,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "app_creator_page_creatorpage",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "creatorpage()"
     },
     {
@@ -2251,8 +2251,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_pricing_page",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "page.tsx"
     },
     {
@@ -2262,8 +2262,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_pricing_page_offer",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "offer"
     },
     {
@@ -2273,8 +2273,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_pricing_page_pricing",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "pricing"
     },
     {
@@ -2284,8 +2284,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_pricing_page_featuredcoupon",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "featuredcoupon"
     },
     {
@@ -2295,8 +2295,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_pricing_page_offeractivefor",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "offeractivefor()"
     },
     {
@@ -2306,8 +2306,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "app_pricing_page_faqschema",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "faqschema"
     },
     {
@@ -2317,8 +2317,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "app_pricing_page_pricingpage",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "pricingpage()"
     },
     {
@@ -2669,8 +2669,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_completeprofilemodal",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "completeprofilemodal.tsx"
     },
     {
@@ -2680,8 +2680,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_completeprofilemodal_experience_levels",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "experience_levels"
     },
     {
@@ -2691,8 +2691,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_completeprofilemodal_acquisition_sources",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "acquisition_sources"
     },
     {
@@ -2702,8 +2702,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "components_completeprofilemodal_profiledetails",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "profiledetails"
     },
     {
@@ -2713,8 +2713,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "components_completeprofilemodal_props",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "props"
     },
     {
@@ -2724,8 +2724,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "components_completeprofilemodal_stripcountrycode",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "stripcountrycode()"
     },
     {
@@ -2735,8 +2735,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "components_completeprofilemodal_completeprofilemodal",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "completeprofilemodal()"
     },
     {
@@ -2746,8 +2746,8 @@
       "source_location": "L301",
       "_origin": "ast",
       "id": "components_completeprofilemodal_shouldshowprofileprompt",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "shouldshowprofileprompt()"
     },
     {
@@ -2757,8 +2757,8 @@
       "source_location": "L305",
       "_origin": "ast",
       "id": "components_completeprofilemodal_isprofilecomplete",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "isprofilecomplete()"
     },
     {
@@ -3131,8 +3131,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_navbar",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "navbar.tsx"
     },
     {
@@ -3142,8 +3142,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_navbar_announcement",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "announcement"
     },
     {
@@ -3153,8 +3153,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_navbar_whatsnewbell",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "whatsnewbell()"
     },
     {
@@ -3164,8 +3164,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "components_navbar_app_paths",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "app_paths"
     },
     {
@@ -3175,8 +3175,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "components_navbar_navbar",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "navbar()"
     },
     {
@@ -3186,8 +3186,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "newcustomerofferpopup.tsx"
     },
     {
@@ -3197,8 +3197,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_popupcoupon",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "popupcoupon"
     },
     {
@@ -3208,8 +3208,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_formatcountdown",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "formatcountdown()"
     },
     {
@@ -3219,8 +3219,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_newcustomerofferpopup",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "newcustomerofferpopup()"
     },
     {
@@ -3395,8 +3395,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useauth",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "useauth.ts"
     },
     {
@@ -3406,8 +3406,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "hooks_useauth_useauth",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "useauth()"
     },
     {
@@ -3956,8 +3956,8 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "lib_firebase_admin_invalidateplancache",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "invalidateplancache()"
     },
     {
@@ -4066,8 +4066,8 @@
       "source_location": "L428",
       "_origin": "ast",
       "id": "lib_firebase_admin_invalidatereferralcache",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "invalidatereferralcache()"
     },
     {
@@ -4110,8 +4110,8 @@
       "source_location": "L563",
       "_origin": "ast",
       "id": "lib_firebase_admin_creatorcodebase",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "creatorcodebase()"
     },
     {
@@ -4121,8 +4121,8 @@
       "source_location": "L569",
       "_origin": "ast",
       "id": "lib_firebase_admin_getorcreatecreator",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "getorcreatecreator()"
     },
     {
@@ -4198,8 +4198,8 @@
       "source_location": "L732",
       "_origin": "ast",
       "id": "lib_firebase_admin_offer",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "offer"
     },
     {
@@ -4250,7 +4250,7 @@
       "label": "invalidatePricingCache()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L818",
+      "source_location": "L823",
       "_origin": "ast",
       "id": "lib_firebase_admin_invalidatepricingcache",
       "community": 1,
@@ -4261,7 +4261,7 @@
       "label": "offerApplies()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L823",
+      "source_location": "L828",
       "_origin": "ast",
       "id": "lib_firebase_admin_offerapplies",
       "community": 11,
@@ -4272,7 +4272,7 @@
       "label": "effectiveAmount()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L830",
+      "source_location": "L835",
       "_origin": "ast",
       "id": "lib_firebase_admin_effectiveamount",
       "community": 11,
@@ -4283,7 +4283,7 @@
       "label": "couponsCache",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L840",
+      "source_location": "L845",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponscache",
       "community": 1,
@@ -4294,7 +4294,7 @@
       "label": "DiscountType",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L843",
+      "source_location": "L848",
       "_origin": "ast",
       "id": "lib_firebase_admin_discounttype",
       "community": 1,
@@ -4305,18 +4305,18 @@
       "label": "CouponRecord",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L845",
+      "source_location": "L850",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponrecord",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "couponrecord"
     },
     {
       "label": "CouponsDoc",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L859",
+      "source_location": "L864",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponsdoc",
       "community": 1,
@@ -4327,7 +4327,7 @@
       "label": "getCoupons()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L864",
+      "source_location": "L869",
       "_origin": "ast",
       "id": "lib_firebase_admin_getcoupons",
       "community": 1,
@@ -4338,7 +4338,7 @@
       "label": "invalidateCouponsCache()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L901",
+      "source_location": "L906",
       "_origin": "ast",
       "id": "lib_firebase_admin_invalidatecouponscache",
       "community": 1,
@@ -4349,7 +4349,7 @@
       "label": "couponIsValid()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L905",
+      "source_location": "L910",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponisvalid",
       "community": 11,
@@ -4360,7 +4360,7 @@
       "label": "getCoupon()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L912",
+      "source_location": "L917",
       "_origin": "ast",
       "id": "lib_firebase_admin_getcoupon",
       "community": 11,
@@ -4371,7 +4371,7 @@
       "label": "getFeaturedCoupon()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L921",
+      "source_location": "L926",
       "_origin": "ast",
       "id": "lib_firebase_admin_getfeaturedcoupon",
       "community": 1,
@@ -4382,7 +4382,7 @@
       "label": "getPopupCoupon()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L938",
+      "source_location": "L943",
       "_origin": "ast",
       "id": "lib_firebase_admin_getpopupcoupon",
       "community": 1,
@@ -4393,7 +4393,7 @@
       "label": "applyCouponDiscount()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L950",
+      "source_location": "L955",
       "_origin": "ast",
       "id": "lib_firebase_admin_applycoupondiscount",
       "community": 11,
@@ -4404,7 +4404,7 @@
       "label": "setSubscriptionCancel()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L962",
+      "source_location": "L967",
       "_origin": "ast",
       "id": "lib_firebase_admin_setsubscriptioncancel",
       "community": 12,
@@ -4415,11 +4415,11 @@
       "label": "migrateUserPlan()",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L977",
+      "source_location": "L982",
       "_origin": "ast",
       "id": "lib_firebase_admin_migrateuserplan",
-      "community": 31,
-      "community_name": "next-env.d.ts",
+      "community": 121,
+      "community_name": "page.tsx",
       "norm_label": "migrateuserplan()"
     },
     {
@@ -4451,8 +4451,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_firestore_cache",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "firestore-cache.ts"
     },
     {
@@ -4462,8 +4462,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_firestore_cache_cacheentry",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "cacheentry"
     },
     {
@@ -4473,8 +4473,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "lib_firestore_cache_doccache",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "doccache"
     },
     {
@@ -4484,8 +4484,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_firestore_cache_querycache",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "querycache"
     },
     {
@@ -4495,63 +4495,96 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_firestore_cache_pending",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "pending"
+    },
+    {
+      "label": "readLocalStorageEntry()",
+      "file_type": "code",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "lib_firestore_cache_readlocalstorageentry",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
+      "norm_label": "readlocalstorageentry()"
+    },
+    {
+      "label": "writeLocalStorageEntry()",
+      "file_type": "code",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "lib_firestore_cache_writelocalstorageentry",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
+      "norm_label": "writelocalstorageentry()"
+    },
+    {
+      "label": "removeLocalStorageEntry()",
+      "file_type": "code",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "lib_firestore_cache_removelocalstorageentry",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
+      "norm_label": "removelocalstorageentry()"
     },
     {
       "label": "cachedGetDoc()",
       "file_type": "code",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L6",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "lib_firestore_cache_cachedgetdoc",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "cachedgetdoc()"
     },
     {
       "label": "cachedQuery()",
       "file_type": "code",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L36",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "lib_firestore_cache_cachedquery",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "cachedquery()"
     },
     {
       "label": "invalidateDocCache()",
       "file_type": "code",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L64",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "lib_firestore_cache_invalidatedoccache",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "invalidatedoccache()"
     },
     {
       "label": "invalidateQueryCache()",
       "file_type": "code",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L68",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "lib_firestore_cache_invalidatequerycache",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "invalidatequerycache()"
     },
     {
       "label": "clearDocCache()",
       "file_type": "code",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L72",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "lib_firestore_cache_cleardoccache",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "cleardoccache()"
     },
     {
@@ -4748,8 +4781,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_hooks",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "hooks.ts"
     },
     {
@@ -4781,8 +4814,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_pricing_config_planid",
-      "community": 121,
-      "community_name": "page.tsx",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "planid"
     },
     {
@@ -4858,8 +4891,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "lib_pricing_config_plans",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "plans"
     },
     {
@@ -4869,8 +4902,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "lib_pricing_config_plan_rank",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "plan_rank"
     },
     {
@@ -4891,8 +4924,8 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "lib_pricing_config_migrateplanid",
-      "community": 31,
-      "community_name": "next-env.d.ts",
+      "community": 121,
+      "community_name": "page.tsx",
       "norm_label": "migrateplanid()"
     },
     {
@@ -4946,8 +4979,8 @@
       "source_location": "L189",
       "_origin": "ast",
       "id": "lib_pricing_config_getplanbadge",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "getplanbadge()"
     },
     {
@@ -4957,8 +4990,8 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "lib_pricing_config_isplanhighlighted",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "isplanhighlighted()"
     },
     {
@@ -5056,8 +5089,8 @@
       "source_location": "L239",
       "_origin": "ast",
       "id": "lib_pricing_config_getplanusagelabel",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "getplanusagelabel()"
     },
     {
@@ -5100,8 +5133,8 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "lib_pricing_config_getupgradepath",
-      "community": 31,
-      "community_name": "next-env.d.ts",
+      "community": 121,
+      "community_name": "page.tsx",
       "norm_label": "getupgradepath()"
     },
     {
@@ -5111,8 +5144,8 @@
       "source_location": "L304",
       "_origin": "ast",
       "id": "lib_pricing_config_getdowngradepath",
-      "community": 31,
-      "community_name": "next-env.d.ts",
+      "community": 121,
+      "community_name": "page.tsx",
       "norm_label": "getdowngradepath()"
     },
     {
@@ -5265,8 +5298,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_redux_store",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "redux-store.ts"
     },
     {
@@ -5276,8 +5309,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "lib_redux_store_persistconfig",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "persistconfig"
     },
     {
@@ -5287,8 +5320,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "lib_redux_store_rootreducer",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "rootreducer"
     },
     {
@@ -5298,8 +5331,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "lib_redux_store_persistedreducer",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "persistedreducer"
     },
     {
@@ -5309,8 +5342,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "lib_redux_store_makestore",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "makestore()"
     },
     {
@@ -5320,8 +5353,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "lib_redux_store_store_persistor",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "{ store, persistor }"
     },
     {
@@ -5331,8 +5364,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "lib_redux_store_rootstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "rootstate"
     },
     {
@@ -5342,8 +5375,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "lib_redux_store_appdispatch",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "appdispatch"
     },
     {
@@ -5419,8 +5452,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptionslice.ts"
     },
     {
@@ -5430,8 +5463,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptiondata",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptiondata"
     },
     {
@@ -5441,8 +5474,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptionstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptionstate"
     },
     {
@@ -5452,8 +5485,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_initialstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "initialstate"
     },
     {
@@ -5463,8 +5496,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptionslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "subscriptionslice"
     },
     {
@@ -5474,8 +5507,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_slices_usageslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usageslice.ts"
     },
     {
@@ -5485,8 +5518,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usagedata",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usagedata"
     },
     {
@@ -5496,8 +5529,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usagestate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usagestate"
     },
     {
@@ -5507,8 +5540,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "lib_slices_usageslice_initialstate",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "initialstate"
     },
     {
@@ -5518,8 +5551,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usageslice",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "usageslice"
     },
     {
@@ -7489,8 +7522,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_before_starting",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "before starting"
     },
     {
@@ -7500,8 +7533,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_1_current_ai_visibility",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "1. current ai visibility"
     },
     {
@@ -7511,8 +7544,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_2_content_domain",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "2. content & domain"
     },
     {
@@ -7522,8 +7555,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_3_goals",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "3. goals"
     },
     {
@@ -7533,8 +7566,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_4_competitive_landscape",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "4. competitive landscape"
     },
     {
@@ -7544,8 +7577,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_how_ai_search_works",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 288,
+      "community_name": "How AI Search Works",
       "norm_label": "how ai search works"
     },
     {
@@ -7555,8 +7588,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_the_ai_search_landscape",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 288,
+      "community_name": "How AI Search Works",
       "norm_label": "the ai search landscape"
     },
     {
@@ -7566,8 +7599,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_key_difference_from_traditional_seo",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 288,
+      "community_name": "How AI Search Works",
       "norm_label": "key difference from traditional seo"
     },
     {
@@ -7577,8 +7610,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_google_s_official_stance_vs_multi_platform_reality",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 288,
+      "community_name": "How AI Search Works",
       "norm_label": "google's official stance vs. multi-platform reality"
     },
     {
@@ -7588,8 +7621,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_query_fan_out_google_ai_search",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 288,
+      "community_name": "How AI Search Works",
       "norm_label": "query fan-out (google ai search)"
     },
     {
@@ -7599,8 +7632,8 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_ai_visibility_audit",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 286,
+      "community_name": "AI Visibility Audit",
       "norm_label": "ai visibility audit"
     },
     {
@@ -7610,8 +7643,8 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_1_check_ai_answers_for_your_key_queries",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 286,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 1: check ai answers for your key queries"
     },
     {
@@ -7621,8 +7654,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_2_analyze_citation_patterns",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 286,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 2: analyze citation patterns"
     },
     {
@@ -7632,8 +7665,8 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_3_content_extractability_check",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 286,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 3: content extractability check"
     },
     {
@@ -7643,8 +7676,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_step_4_ai_bot_access_check",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 286,
+      "community_name": "AI Visibility Audit",
       "norm_label": "step 4: ai bot access check"
     },
     {
@@ -7654,8 +7687,8 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_optimization_strategy",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "optimization strategy"
     },
     {
@@ -7665,8 +7698,8 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_the_three_pillars",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "the three pillars"
     },
     {
@@ -7676,8 +7709,8 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_pillar_1_structure_make_content_extractable",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "pillar 1: structure \u2014 make content extractable"
     },
     {
@@ -7687,8 +7720,8 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_pillar_2_authority_make_content_citable",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "pillar 2: authority \u2014 make content citable"
     },
     {
@@ -7698,8 +7731,8 @@
       "source_location": "L248",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_pillar_3_presence_be_where_ai_looks",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "pillar 3: presence \u2014 be where ai looks"
     },
     {
@@ -7709,8 +7742,8 @@
       "source_location": "L268",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_machine_readable_files_for_ai_agents",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "machine-readable files for ai agents"
     },
     {
@@ -7720,8 +7753,8 @@
       "source_location": "L320",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_schema_markup_for_ai",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 133,
+      "community_name": "Optimization Strategy",
       "norm_label": "schema markup for ai"
     },
     {
@@ -7753,8 +7786,8 @@
       "source_location": "L388",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_monitoring_ai_visibility",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 287,
+      "community_name": "Monitoring AI Visibility",
       "norm_label": "monitoring ai visibility"
     },
     {
@@ -7764,8 +7797,8 @@
       "source_location": "L390",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_what_to_track",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 287,
+      "community_name": "Monitoring AI Visibility",
       "norm_label": "what to track"
     },
     {
@@ -7775,8 +7808,8 @@
       "source_location": "L401",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_ai_visibility_monitoring_tools",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 287,
+      "community_name": "Monitoring AI Visibility",
       "norm_label": "ai visibility monitoring tools"
     },
     {
@@ -7786,8 +7819,8 @@
       "source_location": "L410",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_diy_monitoring_no_tools",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 287,
+      "community_name": "Monitoring AI Visibility",
       "norm_label": "diy monitoring (no tools)"
     },
     {
@@ -7797,8 +7830,8 @@
       "source_location": "L418",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_skill_search_console_expectations",
-      "community": 36,
-      "community_name": "AI SEO",
+      "community": 287,
+      "community_name": "Monitoring AI Visibility",
       "norm_label": "search console expectations"
     },
     {
@@ -7962,8 +7995,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_aeo_and_geo_content_patterns",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "aeo and geo content patterns"
     },
     {
@@ -7973,8 +8006,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_contents",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "contents"
     },
     {
@@ -8061,8 +8094,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_generative_engine_optimization_geo_patterns",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "generative engine optimization (geo) patterns"
     },
     {
@@ -8072,8 +8105,8 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_statistic_citation_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "statistic citation block"
     },
     {
@@ -8083,8 +8116,8 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_expert_quote_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "expert quote block"
     },
     {
@@ -8094,8 +8127,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_authoritative_claim_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "authoritative claim block"
     },
     {
@@ -8105,8 +8138,8 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_self_contained_answer_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "self-contained answer block"
     },
     {
@@ -8116,8 +8149,8 @@
       "source_location": "L217",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_evidence_sandwich_block",
-      "community": 133,
-      "community_name": "Optimization Strategy",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "evidence sandwich block"
     },
     {
@@ -8127,8 +8160,8 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_domain_specific_geo_tactics",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "domain-specific geo tactics"
     },
     {
@@ -8138,8 +8171,8 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_technology_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "technology content"
     },
     {
@@ -8149,8 +8182,8 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_health_medical_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "health/medical content"
     },
     {
@@ -8160,8 +8193,8 @@
       "source_location": "L250",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_financial_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "financial content"
     },
     {
@@ -8171,8 +8204,8 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_legal_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "legal content"
     },
     {
@@ -8182,8 +8215,8 @@
       "source_location": "L262",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_business_marketing_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "business/marketing content"
     },
     {
@@ -8193,8 +8226,8 @@
       "source_location": "L270",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_voice_search_optimization",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "voice search optimization"
     },
     {
@@ -8204,8 +8237,8 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_question_formats_for_voice",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "question formats for voice"
     },
     {
@@ -8215,8 +8248,8 @@
       "source_location": "L282",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_voice_optimized_answer_structure",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 111,
+      "community_name": "Answer Engine Optimization (AEO) Patterns",
       "norm_label": "voice-optimized answer structure"
     },
     {
@@ -17752,8 +17785,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_essential_files",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "essential files"
     },
     {
@@ -17763,8 +17796,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_layout_tsx_root_metadata",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "app/layout.tsx - root metadata"
     },
     {
@@ -17774,8 +17807,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_sitemap_ts_dynamic_sitemap",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "app/sitemap.ts - dynamic sitemap"
     },
     {
@@ -17785,8 +17818,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_robots_ts_robots_configuration",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "app/robots.ts - robots configuration"
     },
     {
@@ -17796,8 +17829,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_manifest_ts_web_app_manifest",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "app/manifest.ts - web app manifest"
     },
     {
@@ -17807,8 +17840,8 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_og_twitter_images",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "og / twitter images"
     },
     {
@@ -18929,8 +18962,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_google_indexing_issues",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Indexing Issues",
       "norm_label": "google indexing issues"
     },
     {
@@ -18940,8 +18973,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_discovered_currently_not_indexed",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Indexing Issues",
       "norm_label": "\"discovered - currently not indexed\""
     },
     {
@@ -18951,8 +18984,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_crawled_currently_not_indexed",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Indexing Issues",
       "norm_label": "\"crawled - currently not indexed\""
     },
     {
@@ -18962,8 +18995,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_url_is_not_on_google",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Indexing Issues",
       "norm_label": "\"url is not on google\""
     },
     {
@@ -18973,8 +19006,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_blocked_by_robots_txt",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Indexing Issues",
       "norm_label": "\"blocked by robots.txt\""
     },
     {
@@ -27335,7 +27368,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L68",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -27347,7 +27380,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L70",
+      "source_location": "L82",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -27359,7 +27392,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L58",
+      "source_location": "L70",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -27383,7 +27416,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L80",
+      "source_location": "L92",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -27395,7 +27428,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L71",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -27407,7 +27440,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L77",
+      "source_location": "L89",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -27419,7 +27452,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L88",
+      "source_location": "L100",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -27443,7 +27476,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/razorpay/create-order/route.ts",
-      "source_location": "L110",
+      "source_location": "L122",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_razorpay_create_order_route_post",
@@ -29490,7 +29523,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/checkout/page.tsx",
-      "source_location": "L529",
+      "source_location": "L546",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_checkout_page",
@@ -29759,7 +29792,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/checkout/page.tsx",
-      "source_location": "L90",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_checkout_page_checkoutcontent",
@@ -29771,7 +29804,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/checkout/page.tsx",
-      "source_location": "L228",
+      "source_location": "L233",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_checkout_page_checkoutcontent",
@@ -29795,7 +29828,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/checkout/page.tsx",
-      "source_location": "L158",
+      "source_location": "L156",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_checkout_page_checkoutcontent",
@@ -29808,7 +29841,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/checkout/page.tsx",
-      "source_location": "L381",
+      "source_location": "L386",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_checkout_page_checkoutcontent",
@@ -29820,7 +29853,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/checkout/page.tsx",
-      "source_location": "L365",
+      "source_location": "L370",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_checkout_page_checkoutcontent",
@@ -31451,7 +31484,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L263",
+      "source_location": "L268",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31476,7 +31509,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L129",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31488,7 +31521,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L268",
+      "source_location": "L273",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31500,7 +31533,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L330",
+      "source_location": "L335",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31512,7 +31545,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L269",
+      "source_location": "L274",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31524,7 +31557,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L149",
+      "source_location": "L151",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31536,7 +31569,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L267",
+      "source_location": "L272",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31548,7 +31581,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L135",
+      "source_location": "L137",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31560,7 +31593,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L171",
+      "source_location": "L173",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -31572,7 +31605,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/pricing/page.tsx",
-      "source_location": "L234",
+      "source_location": "L236",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_pricing_page_pricingpage",
@@ -33907,7 +33940,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L950",
+      "source_location": "L955",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -33962,7 +33995,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L905",
+      "source_location": "L910",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -33973,7 +34006,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L845",
+      "source_location": "L850",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -33984,7 +34017,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L840",
+      "source_location": "L845",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -33995,7 +34028,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L859",
+      "source_location": "L864",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34050,7 +34083,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L843",
+      "source_location": "L848",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34061,7 +34094,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L830",
+      "source_location": "L835",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34072,7 +34105,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L912",
+      "source_location": "L917",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34083,7 +34116,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L864",
+      "source_location": "L869",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34116,7 +34149,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L921",
+      "source_location": "L926",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34149,7 +34182,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L938",
+      "source_location": "L943",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34226,7 +34259,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L901",
+      "source_location": "L906",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34259,7 +34292,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L818",
+      "source_location": "L823",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34281,7 +34314,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L977",
+      "source_location": "L982",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34303,7 +34336,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L823",
+      "source_location": "L828",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34435,7 +34468,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L962",
+      "source_location": "L967",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin",
@@ -34758,7 +34791,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L831",
+      "source_location": "L836",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin_effectiveamount",
@@ -34770,7 +34803,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L850",
+      "source_location": "L855",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin_couponrecord",
@@ -34782,7 +34815,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L915",
+      "source_location": "L920",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin_getcoupon",
@@ -34794,7 +34827,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L922",
+      "source_location": "L927",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin_getfeaturedcoupon",
@@ -34806,7 +34839,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L939",
+      "source_location": "L944",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin_getpopupcoupon",
@@ -34818,7 +34851,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L917",
+      "source_location": "L922",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin_getcoupon",
@@ -34831,7 +34864,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "lib/firebase-admin.ts",
-      "source_location": "L978",
+      "source_location": "L983",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firebase_admin_migrateuserplan",
@@ -34852,7 +34885,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L6",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firestore_cache",
@@ -34863,7 +34896,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L36",
+      "source_location": "L74",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firestore_cache",
@@ -34885,7 +34918,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L72",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firestore_cache",
@@ -34907,7 +34940,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L64",
+      "source_location": "L110",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firestore_cache",
@@ -34918,7 +34951,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/firestore-cache.ts",
-      "source_location": "L68",
+      "source_location": "L115",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_firestore_cache",
@@ -34945,6 +34978,111 @@
       "_origin": "ast",
       "source": "lib_firestore_cache",
       "target": "lib_firestore_cache_querycache",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache",
+      "target": "lib_firestore_cache_readlocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache",
+      "target": "lib_firestore_cache_removelocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache",
+      "target": "lib_firestore_cache_writelocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache_cachedgetdoc",
+      "target": "lib_firestore_cache_readlocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache_cachedquery",
+      "target": "lib_firestore_cache_readlocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache_cachedgetdoc",
+      "target": "lib_firestore_cache_writelocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache_cachedquery",
+      "target": "lib_firestore_cache_writelocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L112",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache_invalidatedoccache",
+      "target": "lib_firestore_cache_removelocalstorageentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/firestore-cache.ts",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_firestore_cache_invalidatequerycache",
+      "target": "lib_firestore_cache_removelocalstorageentry",
       "confidence_score": 1.0
     },
     {
@@ -54914,5 +55052,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4fe5604af1b3fef008570ce0e9e891ec3e739844"
+  "built_at_commit": "b2ab2da47815e177764373c1f29f899d47e0cf2c"
 }
