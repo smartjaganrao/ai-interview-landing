@@ -117,7 +117,10 @@ export function dayKey(): string {
 const planCache = new Map<string, { plan: PlanId; expiresAt: number }>();
 const PLAN_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 
-export async function getUserPlan(uid: string): Promise<PlanId> {
+export async function getUserPlan(
+  uid: string,
+  prefetchedUserSnap?: FirebaseFirestore.DocumentSnapshot,
+): Promise<PlanId> {
   if (!db) return 'free';
   const now = Date.now();
   const cached = planCache.get(uid);
@@ -125,7 +128,10 @@ export async function getUserPlan(uid: string): Promise<PlanId> {
     return cached.plan;
   }
   try {
-    const u = await db.collection('users').doc(uid).get();
+    // Accept an already-fetched users/{uid} snapshot (checkAiQuota's ban
+    // check reads this same doc) instead of reading it again on a cache
+    // miss — every other caller just omits this and behaves as before.
+    const u = prefetchedUserSnap ?? await db.collection('users').doc(uid).get();
     const up = u.exists ? u.data()?.plan : undefined;
     const migratedPlan = up ? migratePlanId(up as string) : undefined;
     if (migratedPlan && migratedPlan !== 'free') {
@@ -170,16 +176,19 @@ export function invalidatePlanCache(uid?: string): void {
 export async function checkAiQuota(uid: string): Promise<{
   allowed: boolean; plan: string; used: number; limit: number; banned?: boolean;
 }> {
+  let userSnap: FirebaseFirestore.DocumentSnapshot | undefined;
   if (db) {
     try {
-      const u = await db.collection('users').doc(uid).get();
-      if (u.data()?.status === 'banned') {
+      userSnap = await db.collection('users').doc(uid).get();
+      if (userSnap.data()?.status === 'banned') {
         return { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
       }
     } catch { /* fail open on read error, same policy as the rest of this function */ }
   }
 
-  const plan = await getUserPlan(uid);
+  // Pass the snapshot along so a getUserPlan cache miss doesn't re-read the
+  // same users/{uid} doc a second time in this same request.
+  const plan = await getUserPlan(uid, userSnap);
   const limit = plan === 'free' ? FREE_AI_ANSWERS : (PAID_DAILY_LIMITS[plan] ?? Infinity);
 
   let tokensUsed = 0;
