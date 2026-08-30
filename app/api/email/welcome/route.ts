@@ -11,7 +11,10 @@ export async function POST(req: NextRequest) {
   }
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const { email, name, type } = await req.json() as { email: string; name: string; type: 'welcome' | 'day2' | 'day5' };
+  const { email, name, type, referralLink } = await req.json() as {
+    email: string; name: string; type: 'welcome' | 'day2' | 'day5' | 'referral';
+    referralLink?: string;
+  };
 
   const firstName = name?.split(' ')[0] || 'there';
 
@@ -167,7 +170,29 @@ export async function POST(req: NextRequest) {
     },
   };
 
-  const t = templates[type];
+  const referralTemplate = referralLink ? {
+    subject: `${firstName}, give ₹100 get ₹100 — share JavihAI`,
+    html: `
+<!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
+<div style="max-width:600px;margin:0 auto;padding:40px 24px;">
+  <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">You've got a referral link, ${firstName} 🎁</h1>
+  <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
+    Know someone prepping for interviews? Share your link — when they upgrade to a paid plan, you both get
+    <strong style="color:#e2e8f0;">₹100 account credit</strong>.
+  </p>
+  <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
+    <p style="color:#94a3b8;font-size:13px;margin:0 0 8px;">Your referral link</p>
+    <p style="color:#a5b4fc;font-size:14px;font-family:monospace;word-break:break-all;margin:0;">${referralLink}</p>
+  </div>
+  <div style="text-align:center;margin:28px 0;">
+    <a href="${referralLink}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Copy & share your link →</a>
+  </div>
+  <p style="color:#64748b;font-size:13px;">Credit applies automatically once your friend's first payment goes through. No limit on how many friends you refer.</p>
+</div>
+</body></html>`,
+  } : null;
+
+  const t = type === 'referral' ? referralTemplate : templates[type];
   if (!t) return NextResponse.json({ ok: false, error: 'Unknown type' }, { status: 400 });
 
   const { data, error } = await resend.emails.send({ from: FROM, to: email, subject: t.subject, html: t.html });
