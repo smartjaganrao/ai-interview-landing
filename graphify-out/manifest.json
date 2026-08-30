@@ -175,37 +175,37 @@
     "semantic_hash": ""
   },
   "app/compare/chiku-ai/page.tsx": {
-    "mtime": 1788119905.9800262,
+    "mtime": 1788120041.8610222,
     "ast_hash": "b06d737e6b4f2174195379e7b547c092",
     "semantic_hash": ""
   },
   "app/compare/cluely/page.tsx": {
-    "mtime": 1788119737.3644872,
+    "mtime": 1788120041.861302,
     "ast_hash": "e934583f53dab822a4b87294192846d4",
     "semantic_hash": ""
   },
   "app/compare/final-round-ai/page.tsx": {
-    "mtime": 1788119714.0138438,
+    "mtime": 1788120041.861543,
     "ast_hash": "4b9a218c9bb22aef5832f7aacd5abd22",
     "semantic_hash": ""
   },
   "app/compare/interview-coder/page.tsx": {
-    "mtime": 1788119770.8711753,
+    "mtime": 1788120041.8618171,
     "ast_hash": "4c75ece1d8baf2b45c467b859088bbc9",
     "semantic_hash": ""
   },
   "app/compare/lockedin-ai/page.tsx": {
-    "mtime": 1788119791.799797,
+    "mtime": 1788120041.8620586,
     "ast_hash": "a57879df579854ac793bbbebcca390a1",
     "semantic_hash": ""
   },
   "app/compare/page.tsx": {
-    "mtime": 1788119873.7541063,
+    "mtime": 1788120041.8622851,
     "ast_hash": "0def9ec72087793f56c27f8314b7da95",
     "semantic_hash": ""
   },
   "app/compare/parakeet-ai/page.tsx": {
-    "mtime": 1788119811.2176843,
+    "mtime": 1788120041.8625252,
     "ast_hash": "2fd8c19fc4575363a528a2b1d5d72137",
     "semantic_hash": ""
   },
@@ -330,8 +330,8 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1788085276.8734107,
-    "ast_hash": "3c1d65609c35b77dd69a89bb43b6e4de",
+    "mtime": 1788120651.2513666,
+    "ast_hash": "af4bd999715dbefe511ee9fe54e7c298",
     "semantic_hash": ""
   },
   "components/WhatsAppButton.tsx": {
