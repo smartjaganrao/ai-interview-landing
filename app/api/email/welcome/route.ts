@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { LOGO_HEADER } from '@/lib/email';
 
 // Use verified domain once javihai.in DNS is confirmed in Resend dashboard.
 // Until then Resend's shared domain works for testing.
@@ -24,11 +25,7 @@ export async function POST(req: NextRequest) {
       html: `
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
-  <div style="text-align:center;margin-bottom:32px;">
-    <div style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:16px;padding:16px 24px;">
-      <span style="color:white;font-size:24px;font-weight:800;">JavihAI</span>
-    </div>
-  </div>
+  ${LOGO_HEADER}
   <h1 style="font-size:28px;font-weight:800;margin-bottom:8px;">Welcome aboard, ${firstName}! 🎉</h1>
   <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:32px;">
     You've just unlocked India's most affordable real-time AI interview coach. Here's how to get the most out of JavihAI in your first 5 minutes.
@@ -86,6 +83,7 @@ export async function POST(req: NextRequest) {
       html: `
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
+  ${LOGO_HEADER}
   <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">Hi ${firstName}, quick tip 👋</h1>
   <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
     Most users who enable <strong style="color:#e2e8f0;">Desi Mode</strong> say their answers sound more natural in Indian interviews.
@@ -121,6 +119,7 @@ export async function POST(req: NextRequest) {
       html: `
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
+  ${LOGO_HEADER}
   <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">Ready to go unlimited, ${firstName}?</h1>
   <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
     You've been using JavihAI for a few days. Here's what the Pro plan unlocks — unlimited answers, voice minutes, and screenshots.
@@ -175,6 +174,7 @@ export async function POST(req: NextRequest) {
     html: `
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
+  ${LOGO_HEADER}
   <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">You've got a referral link, ${firstName} 🎁</h1>
   <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
     Know someone prepping for interviews? Share your link — when they upgrade to a paid plan, you both get

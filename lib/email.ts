@@ -3,6 +3,13 @@ import { PlanId } from './pricing-config';
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <javihaiofficial@gmail.com>';
 
+// PNG (not the site's logo.svg) — Outlook desktop doesn't render SVG in emails at all.
+export const LOGO_HEADER = `
+  <div style="text-align:center;margin-bottom:28px;">
+    <img src="https://www.javihai.in/icon-192.png" width="40" height="40" alt="JavihAI" style="border-radius:10px;vertical-align:middle;" />
+    <span style="vertical-align:middle;color:#fff;font-size:22px;font-weight:800;margin-left:10px;">JavihAI</span>
+  </div>`;
+
 const PLAN_NAMES: Record<PlanId, string> = {
   free: 'Free',
   quick_pass: 'Quick Pass',
@@ -48,11 +55,7 @@ export async function sendPaymentConfirmation(params: {
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
 
-  <div style="text-align:center;margin-bottom:32px;">
-    <div style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:16px;padding:16px 24px;">
-      <span style="color:white;font-size:24px;font-weight:800;">JavihAI</span>
-    </div>
-  </div>
+  ${LOGO_HEADER}
 
   <div style="background:linear-gradient(135deg,#312e81,#4c1d95);border-radius:16px;padding:32px;text-align:center;margin-bottom:24px;">
     <div style="font-size:48px;margin-bottom:12px;">${emoji}</div>
@@ -126,11 +129,7 @@ function shell(bodyHtml: string): string {
   return `
 <!DOCTYPE html><html><body style="font-family:Inter,sans-serif;background:#0f172a;color:#e2e8f0;padding:0;margin:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
-  <div style="text-align:center;margin-bottom:28px;">
-    <div style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:16px;padding:14px 22px;">
-      <span style="color:white;font-size:22px;font-weight:800;">JavihAI</span>
-    </div>
-  </div>
+  ${LOGO_HEADER}
   ${bodyHtml}
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
     JavihAI · <a href="https://www.javihai.in" style="color:#6366f1;">javihai.in</a> ·
