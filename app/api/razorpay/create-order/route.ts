@@ -51,11 +51,13 @@ export async function POST(request: NextRequest) {
       ? (planPricing as { oneTime: number }).oneTime
       : (planPricing as Record<'monthly' | 'yearly', number>)[billing] ?? 0;
 
-    // A paid plan must never price out at ₹0 — that's always a broken read
-    // (e.g. settings/pricing unreachable), never a legitimate price. Fail
-    // the checkout rather than create a free/near-free Razorpay order.
-    if (baseAmount <= 0) {
-      console.error(`[razorpay/create-order] refusing order: baseAmount=${baseAmount} for plan=${plan} billing=${billing}`);
+    // Never charge against the static fallback — pricing-fallback-sync keeps
+    // it looking realistic on purpose, so a plausible/non-zero amount here
+    // does NOT mean it's safe; only pricing.degraded reliably tells us
+    // getDynamicPricing() actually reached Firestore. Keep the <= 0 check
+    // too as a second, independent line of defense.
+    if (baseAmount <= 0 || pricing.degraded) {
+      console.error(`[razorpay/create-order] refusing order: baseAmount=${baseAmount} degraded=${!!pricing.degraded} for plan=${plan} billing=${billing}`);
       return NextResponse.json(
         { error: 'Pricing is temporarily unavailable. Please try again in a few minutes.' },
         { status: 503 }

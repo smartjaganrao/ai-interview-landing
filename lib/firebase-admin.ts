@@ -745,6 +745,16 @@ export interface Pricing {
     power: { monthly: number; yearly: number; displayOrder: number };
   };
   offer: Offer;
+  /**
+   * True only when this is the static placeholder (Firestore unreachable and
+   * no cached value existed) rather than real settings/pricing data. Do NOT
+   * infer "is this real" from whether the numbers look non-zero/plausible —
+   * pricing-fallback-sync intentionally keeps this placeholder close to real
+   * prices, so a plausibility/zero check can no longer tell them apart.
+   * Every consumer that decides whether to display or charge a price MUST
+   * check this flag explicitly.
+   */
+  degraded?: boolean;
 }
 
 export const DEFAULT_OFFER: Offer = { active: false, label: '', percentOff: 0, appliesTo: 'all', expiresAt: null };
@@ -758,6 +768,7 @@ function pricingFallback(): Pricing {
       power: { monthly: PLANS[3].price, yearly: PLANS[3].price * 10, displayOrder: PLANS[3].displayOrder },
     },
     offer: { ...DEFAULT_OFFER },
+    degraded: true,
   };
 }
 

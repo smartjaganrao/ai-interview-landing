@@ -30,7 +30,7 @@ interface RazorpayOptions {
 }
 
 interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | PlanId; expiresAt: number | null }
-interface Pricing { plans: { free: { oneTime: number }; quick_pass: { oneTime: number }; pro: { oneTime: number }; power: { monthly: number; yearly: number } }; offer: Offer }
+interface Pricing { plans: { free: { oneTime: number }; quick_pass: { oneTime: number }; pro: { oneTime: number }; power: { monthly: number; yearly: number } }; offer: Offer; degraded?: boolean }
 interface CouponPreview { code: string; label: string; discountType: 'percent' | 'flat'; discountValue: number; appliesTo: 'all' | PlanId }
 
 function offerActiveFor(offer: Offer | undefined, planId: PlanId): boolean {
@@ -82,7 +82,7 @@ function CheckoutContent() {
     : 0;
   // A paid plan pricing at ₹0 is always a broken read (settings/pricing
   // unreachable) or not-yet-loaded — never a real, payable price.
-  const pricingReady = plan === 'free' || basePrice > 0;
+  const pricingReady = plan === 'free' || (basePrice > 0 && !pricing?.degraded);
 
   const couponOn = !!appliedCoupon;
   const couponDiscount = (base: number, c: CouponPreview) =>

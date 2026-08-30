@@ -177,14 +177,19 @@ export function isOneTimePlan(plan: AnyPlanId): boolean {
 }
 
 /**
- * True if every paid plan has a real (non-zero) price. A fetched /api/pricing
- * response with any paid plan at ₹0 is always a broken read (settings/pricing
- * unreachable), never a legitimate price — used to reject that response as a
- * cache value so callers keep serving the last known-good cached pricing.
+ * True if a fetched /api/pricing response is safe to display/cache/act on.
+ * Checks the explicit `degraded` flag from getDynamicPricing() — NOT just
+ * whether the numbers look non-zero/plausible, since pricing-fallback-sync
+ * deliberately keeps the emergency placeholder close to real prices, so a
+ * zero/plausibility check alone can no longer tell a real read from a
+ * fallback one. Keep the >0 checks too as a second, independent signal for
+ * older cached responses that predate the `degraded` field.
  */
 export function isPricingHealthy(p: {
   plans: { quick_pass: { oneTime: number }; pro: { oneTime: number }; power: { monthly: number } };
+  degraded?: boolean;
 }): boolean {
+  if (p.degraded) return false;
   return p.plans.quick_pass.oneTime > 0 && p.plans.pro.oneTime > 0 && p.plans.power.monthly > 0;
 }
 

@@ -21,7 +21,7 @@ import {
 } from '@/lib/pricing-config';
 
 interface Offer { active: boolean; label: string; percentOff: number; appliesTo: 'all' | PlanId; expiresAt: number | null }
-interface Pricing { plans: { free: { oneTime: number; displayOrder: number }; quick_pass: { oneTime: number; displayOrder: number }; pro: { oneTime: number; displayOrder: number }; power: { monthly: number; yearly: number; displayOrder: number } }; offer: Offer }
+interface Pricing { plans: { free: { oneTime: number; displayOrder: number }; quick_pass: { oneTime: number; displayOrder: number }; pro: { oneTime: number; displayOrder: number }; power: { monthly: number; yearly: number; displayOrder: number } }; offer: Offer; degraded?: boolean }
 interface FeaturedCoupon { code: string; label: string; discountType: 'percent' | 'flat'; discountValue: number; appliesTo: 'all' | PlanId }
 
 function offerActiveFor(offer: Offer | undefined, planId: PlanId): boolean {
@@ -268,7 +268,7 @@ export default function PricingPage() {
               // A paid plan pricing at exactly ₹0 is always a broken read
               // (settings/pricing unreachable), never a real price — treat it
               // the same as "not loaded yet" so it shows "—" instead of ₹0.
-              const hasPricing = !!planPricing && cyclePrice > 0;
+              const hasPricing = !!planPricing && cyclePrice > 0 && !pricing?.degraded;
               const offerOn = offerActiveFor(pricing?.offer, plan.id);
               const effCycle = offerOn && hasPricing
                 ? Math.max(1, Math.round(cyclePrice * (1 - pricing!.offer.percentOff / 100)))
@@ -375,7 +375,7 @@ export default function PricingPage() {
                       { name: 'Price', getValue: (p: typeof PLANS[0]) => {
                         if (p.id === 'free') return 'Free';
                         const planPricing = pricing?.plans?.[p.id];
-                        if (!planPricing) return '—';
+                        if (!planPricing || pricing?.degraded) return '—';
                         const pricingData = planPricing as { oneTime?: number; monthly?: number };
                         if (p.billingType === 'subscription') {
                           const monthly = pricingData.monthly ?? 0;
