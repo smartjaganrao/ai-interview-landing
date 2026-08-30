@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyIdToken, checkAiQuota } from '@/lib/firebase-admin';
+import { verifyIdToken, checkAiQuota, notifyQuotaExceededOnce } from '@/lib/firebase-admin';
 
 export const runtime = 'nodejs';
 
@@ -85,6 +85,10 @@ export async function POST(req: NextRequest) {
       if (!quota.allowed) {
         if (quota.banned) {
           return NextResponse.json({ error: 'This account has been suspended.' }, { status: 403 });
+        }
+        if (plan === 'free' && user.email) {
+          // Fire-and-forget — never await on the response path, dedup'd to once/day internally.
+          void notifyQuotaExceededOnce(user.uid, user.email, '');
         }
         return NextResponse.json(
           { error: plan === 'free' ? 'Daily AI quota reached. Upgrade to Pro for unlimited AI.' : 'Daily AI quota reached. Try again tomorrow, or contact support if this is unexpected.' },

@@ -15,6 +15,7 @@ import {
   migratePlanId,
   getPlanById,
 } from './pricing-config';
+import { sendQuotaUpgradeNudge } from './email';
 
 let db: admin.firestore.Firestore | null = null;
 
@@ -217,6 +218,30 @@ export async function checkAiQuota(uid: string): Promise<QuotaResult> {
   const result: QuotaResult = { allowed: used < limit, plan, used, limit };
   quotaCache.set(uid, { result, expiresAt: now + QUOTA_CACHE_TTL });
   return result;
+}
+
+/**
+ * Fire-and-forget: emails a free-plan user the first time they hit their daily
+ * AI quota, at most once per calendar day. Never throws — callers on the hot
+ * quota-exceeded response path should not await this.
+ *
+ * Dedup lives in usage_tracking/{uid}/days/{dayKey()}.quotaNudgeSentAt, a field
+ * checkAiQuota never reads — this can't affect quota enforcement or counts.
+ */
+export async function notifyQuotaExceededOnce(uid: string, email: string, name: string): Promise<void> {
+  if (!db || !email) return;
+  try {
+    const dayRef = db.collection('usage_tracking').doc(uid).collection('days').doc(dayKey());
+    const daySnap = await dayRef.get();
+    if (daySnap.exists && daySnap.data()?.quotaNudgeSentAt) return;
+
+    const result = await sendQuotaUpgradeNudge({ email, name });
+    if (result.ok) {
+      await dayRef.set({ quotaNudgeSentAt: Date.now() }, { merge: true });
+    }
+  } catch (err) {
+    console.error('[firebase-admin] notifyQuotaExceededOnce failed:', err);
+  }
 }
 
 export function invalidateQuotaCache(uid?: string): void {
