@@ -324,6 +324,10 @@ export async function persistSubscription(params: {
     }
     await batch.commit();
     invalidatePlanCache(params.userId);
+    // Otherwise a user blocked by quota right before upgrading could still
+    // read their pre-upgrade cached checkAiQuota() result for up to
+    // QUOTA_CACHE_TTL after payment succeeds.
+    invalidateQuotaCache(params.userId);
 
     return true;
   } catch (e) {
