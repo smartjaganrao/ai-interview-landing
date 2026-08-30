@@ -4,8 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { sendRenewalReminder } from '@/lib/email';
-import { getReferralSummary } from '@/lib/firebase-admin';
+import { sendRenewalReminder, sendCheckoutAbandonedReminder } from '@/lib/email';
+import { getReferralSummary, getUserInfo } from '@/lib/firebase-admin';
+import { getRazorpayClient } from '@/lib/razorpay-server';
+import type { PlanId } from '@/lib/pricing-config';
 
 function getAdmin() {
   if (!getApps().length) {
@@ -105,5 +107,50 @@ export async function GET(req: NextRequest) {
     console.error('[email/schedule] renewal reminders failed:', err);
   }
 
-  return NextResponse.json({ sent, count: sent.length, reminders, reminderCount: reminders.length });
+  // ── Checkout-abandon recovery ───────────────────────────────────────────────
+  // Reads Razorpay's own order list (read-only, no writes to the checkout/
+  // payment path) for orders created 1–24h ago that never reached 'paid'.
+  // Dedup lives in a brand-new checkout_abandon_sent/{orderId} collection so
+  // this can't collide with any existing collection or enforcement logic.
+  const abandoned: string[] = [];
+  try {
+    const razorpay = await getRazorpayClient();
+    if (razorpay) {
+      const orders = await razorpay.orders.all({
+        from: Math.floor((now - 24 * 60 * 60 * 1000) / 1000),
+        to: Math.floor((now - 60 * 60 * 1000) / 1000),
+        count: 100,
+      });
+
+      for (const order of orders.items) {
+        if (order.status === 'paid') continue;
+        const uid = order.notes?.userId as string | undefined;
+        const plan = order.notes?.plan as PlanId | undefined;
+        if (!uid || !plan) continue;
+
+        const sentRef = db.collection('checkout_abandon_sent').doc(order.id);
+        if ((await sentRef.get()).exists) continue;
+
+        const userInfo = await getUserInfo(uid);
+        if (!userInfo?.email) continue;
+
+        const res = await sendCheckoutAbandonedReminder({
+          email: userInfo.email, name: userInfo.name,
+          plan, amount: Number(order.amount) / 100,
+        });
+        if (res.ok) {
+          await sentRef.set({ sentAt: now, uid, plan });
+          abandoned.push(`${plan}:${userInfo.email}`);
+        }
+      }
+    }
+  } catch (err) {
+    console.error('[email/schedule] checkout-abandon recovery failed:', err);
+  }
+
+  return NextResponse.json({
+    sent, count: sent.length,
+    reminders, reminderCount: reminders.length,
+    abandoned, abandonedCount: abandoned.length,
+  });
 }

@@ -1,16 +1,16 @@
 # Graph Report - ai-interview-landing  (2026-08-31)
 
 ## Corpus Check
-- 274 files · ~198,684 words
+- 274 files · ~198,874 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2328 nodes · 2648 edges · 290 communities (186 shown, 104 thin omitted)
+- 2328 nodes · 2651 edges · 290 communities (186 shown, 104 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d7edb8e1`
+- Built from commit: `01383584`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -577,7 +577,7 @@ Cohesion: 0.18
 Nodes (16): CouponPreview, Offer, faqSchema, FeaturedCoupon, Offer, offerActiveFor(), Pricing, PricingPage() (+8 more)
 
 ### Community 73 - "Open Knowledge Format (OKF)"
-Cohesion: 0.15
+Cohesion: 0.14
 Nodes (13): 1. Suganthan's free web tool (recommended for most sites), 2. WordPress plugin (pending wp.org approval), 3. By hand, A minimal concept file, Honest framing, Hosting & discovery, How to ship one, Open Knowledge Format (OKF) (+5 more)
 
 ### Community 74 - "Desktop release gate"
@@ -681,7 +681,7 @@ Cohesion: 0.18
 Nodes (11): scripts, build, creator-payouts, deploy-rules, dev, lint, post-release-announcement, setup-db (+3 more)
 
 ### Community 99 - "How Each AI Platform Picks Sources"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Allowing AI Bots in robots.txt, ChatGPT, Claude, Google AI Overviews, How Each AI Platform Picks Sources, Microsoft Copilot, Perplexity, The Fundamentals (+1 more)
 
 ### Community 100 - "SKILL.md"

@@ -238,8 +238,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_apply_route",
-      "community": 286,
-      "community_name": "getUserInfo",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -249,8 +249,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_creator_apply_route_post",
-      "community": 286,
-      "community_name": "getUserInfo",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "post()"
     },
     {
@@ -433,7 +433,7 @@
       "label": "getAdmin()",
       "file_type": "code",
       "source_file": "app/api/email/schedule/route.ts",
-      "source_location": "L10",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "app_api_email_schedule_route_getadmin",
       "community": 10,
@@ -444,7 +444,7 @@
       "label": "GET()",
       "file_type": "code",
       "source_file": "app/api/email/schedule/route.ts",
-      "source_location": "L19",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "app_api_email_schedule_route_get",
       "community": 10,
@@ -997,8 +997,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_referral_me_route",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1008,8 +1008,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_referral_me_route_post",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "post()"
     },
     {
@@ -3824,8 +3824,8 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "lib_email_sendpaymentfailed",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "sendpaymentfailed()"
     },
     {
@@ -3884,6 +3884,17 @@
       "norm_label": "sendquotaupgradenudge()"
     },
     {
+      "label": "sendCheckoutAbandonedReminder()",
+      "file_type": "code",
+      "source_file": "lib/email.ts",
+      "source_location": "L347",
+      "_origin": "ast",
+      "id": "lib_email_sendcheckoutabandonedreminder",
+      "community": 10,
+      "community_name": "email.ts",
+      "norm_label": "sendcheckoutabandonedreminder()"
+    },
+    {
       "label": "firebase-admin.ts",
       "file_type": "code",
       "source_file": "lib/firebase-admin.ts",
@@ -3923,8 +3934,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "lib_firebase_admin_getuserinfo",
-      "community": 286,
-      "community_name": "getUserInfo",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getuserinfo()"
     },
     {
@@ -4121,8 +4132,8 @@
       "source_location": "L449",
       "_origin": "ast",
       "id": "lib_firebase_admin_getreferralsummary",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "getreferralsummary()"
     },
     {
@@ -4187,8 +4198,8 @@
       "source_location": "L615",
       "_origin": "ast",
       "id": "lib_firebase_admin_creatorcodebase",
-      "community": 286,
-      "community_name": "getUserInfo",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "creatorcodebase()"
     },
     {
@@ -4198,8 +4209,8 @@
       "source_location": "L621",
       "_origin": "ast",
       "id": "lib_firebase_admin_getorcreatecreator",
-      "community": 286,
-      "community_name": "getUserInfo",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getorcreatecreator()"
     },
     {
@@ -4913,8 +4924,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_pricing_config_anyplanid",
-      "community": 72,
-      "community_name": "firebase",
+      "community": 121,
+      "community_name": "page.tsx",
       "norm_label": "anyplanid"
     },
     {
@@ -4924,8 +4935,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_pricing_config_billingtype",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "billingtype"
     },
     {
@@ -4979,8 +4990,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "lib_pricing_config_plan_rank",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "firebase",
       "norm_label": "plan_rank"
     },
     {
@@ -5331,8 +5342,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "lib_razorpay_server_getrazorpaykeyid",
-      "community": 11,
-      "community_name": "page.tsx",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "getrazorpaykeyid()"
     },
     {
@@ -5364,8 +5375,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplanamount",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplanamount()"
     },
     {
@@ -5375,8 +5386,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplantype",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplantype()"
     },
     {
@@ -17939,8 +17950,8 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_key_principles",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "key principles"
     },
     {
@@ -17950,8 +17961,8 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_cache_components_seo",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "cache components & seo"
     },
     {
@@ -17961,8 +17972,8 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_rendering_strategy_for_seo",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "rendering strategy for seo"
     },
     {
@@ -17972,8 +17983,8 @@
       "source_location": "L216",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_core_web_vitals_targets",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "core web vitals targets"
     },
     {
@@ -17983,8 +17994,8 @@
       "source_location": "L229",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_ranking_signals_beyond_technical_seo",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "ranking signals beyond technical seo"
     },
     {
@@ -19105,8 +19116,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_google_search_console_usage",
-      "community": 287,
-      "community_name": "Google Search Console Usage",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "google search console usage"
     },
     {
@@ -19116,8 +19127,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_url_inspection_tool",
-      "community": 287,
-      "community_name": "Google Search Console Usage",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "url inspection tool"
     },
     {
@@ -19127,8 +19138,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_request_indexing",
-      "community": 287,
-      "community_name": "Google Search Console Usage",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "request indexing"
     },
     {
@@ -19138,8 +19149,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_pages_report",
-      "community": 287,
-      "community_name": "Google Search Console Usage",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "pages report"
     },
     {
@@ -19149,8 +19160,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_common_technical_issues",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "common technical issues"
     },
     {
@@ -19160,8 +19171,8 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_javascript_rendering_problems",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "javascript rendering problems"
     },
     {
@@ -19171,8 +19182,8 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_duplicate_content",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "duplicate content"
     },
     {
@@ -19182,8 +19193,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_redirect_chains",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "redirect chains"
     },
     {
@@ -19193,8 +19204,8 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_slow_page_speed",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "slow page speed"
     },
     {
@@ -19204,8 +19215,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_accidentally_blocked_from_ai_search",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "accidentally blocked from ai search"
     },
     {
@@ -26489,7 +26500,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/schedule/route.ts",
-      "source_location": "L19",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_email_schedule_route",
@@ -26500,7 +26511,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/schedule/route.ts",
-      "source_location": "L10",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_email_schedule_route",
@@ -26517,6 +26528,18 @@
       "_origin": "ast",
       "source": "app_api_email_schedule_route",
       "target": "lib_email",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route",
+      "target": "lib_email_sendcheckoutabandonedreminder",
       "confidence_score": 1.0
     },
     {
@@ -26556,11 +26579,71 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route",
+      "target": "lib_firebase_admin_getuserinfo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route",
+      "target": "lib_pricing_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route",
+      "target": "lib_pricing_config_planid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route",
+      "target": "lib_razorpay_server",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route",
+      "target": "lib_razorpay_server_getrazorpayclient",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/schedule/route.ts",
-      "source_location": "L26",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_email_schedule_route_get",
@@ -26573,7 +26656,19 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/email/schedule/route.ts",
-      "source_location": "L92",
+      "source_location": "L137",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route_get",
+      "target": "lib_email_sendcheckoutabandonedreminder"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L94",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_email_schedule_route_get",
@@ -26585,11 +26680,35 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/email/schedule/route.ts",
-      "source_location": "L42",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_email_schedule_route_get",
       "target": "lib_firebase_admin_getreferralsummary"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L134",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route_get",
+      "target": "lib_firebase_admin_getuserinfo"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/email/schedule/route.ts",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_schedule_route_get",
+      "target": "lib_razorpay_server_getrazorpayclient"
     },
     {
       "relation": "contains",
@@ -33962,6 +34081,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
+      "source_location": "L347",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_email",
+      "target": "lib_email_sendcheckoutabandonedreminder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email.ts",
       "source_location": "L252",
       "weight": 1.0,
       "_origin": "ast",
@@ -34104,6 +34234,18 @@
       "_origin": "ast",
       "source": "lib_email_sendrenewalreminder",
       "target": "lib_email_formatdate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/email.ts",
+      "source_location": "L353",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_email_sendcheckoutabandonedreminder",
+      "target": "lib_email_shell",
       "confidence_score": 1.0
     },
     {
@@ -55408,5 +55550,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "01383584a38b12016085e5adcd65d5bc5507114b"
+  "built_at_commit": "2a57f5205ec519c0827bdf52fe65ef4011e44d3e"
 }
