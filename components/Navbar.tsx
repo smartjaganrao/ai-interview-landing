@@ -83,6 +83,89 @@ function WhatsNewBell() {
   );
 }
 
+interface FeaturedCoupon {
+  code: string;
+  label: string;
+  discountType: 'percent' | 'flat';
+  discountValue: number;
+  appliesTo: string;
+}
+
+const BANNER_DISMISS_KEY_PREFIX = 'offerBannerDismissed:';
+
+/**
+ * Slim announcement-bar strip above the nav row, inside the same fixed
+ * container as the rest of Navbar so the two share one box instead of
+ * fighting over `top-0` — see [[dynamic-pricing]] skill for the coupon
+ * model this reads from. Same /api/coupons/featured `coupon` field the
+ * /pricing page's inline card already shows (NewCustomerOfferPopup is a
+ * separate flow, for the `popup` field). Shown to all visitors, no
+ * auth/plan targeting. Dismissal is keyed by coupon code in localStorage,
+ * so closing it stays closed for that code but a newly-featured coupon
+ * shows again.
+ */
+function OfferBanner() {
+  const [coupon, setCoupon] = useState<FeaturedCoupon | null>(null);
+  const [dismissed, setDismissed] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/coupons/featured')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const c: FeaturedCoupon | null = d?.coupon ?? null;
+        if (!c) return;
+        try {
+          if (localStorage.getItem(`${BANNER_DISMISS_KEY_PREFIX}${c.code}`)) return;
+        } catch { /* ignore */ }
+        setCoupon(c);
+      })
+      .catch(() => {});
+  }, []);
+
+  if (!coupon || dismissed) return null;
+
+  const discountText = coupon.discountType === 'percent'
+    ? `${coupon.discountValue}% off`
+    : `₹${coupon.discountValue} off`;
+
+  return (
+    <div className="bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-center gap-3 text-sm text-white relative">
+        <span className="font-semibold text-center">
+          🎟️ Use code{' '}
+          <button
+            onClick={() => {
+              navigator.clipboard?.writeText(coupon.code).catch(() => {});
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            className="underline decoration-dotted underline-offset-4 hover:text-white/80 font-mono"
+            title="Copy code"
+          >
+            {coupon.code}
+          </button>{' '}
+          for {discountText}
+          {coupon.label ? ` — ${coupon.label}` : ''}
+          {copied && <span className="ml-2 text-white/90">Copied!</span>}
+        </span>
+        <button
+          onClick={() => {
+            try { localStorage.setItem(`${BANNER_DISMISS_KEY_PREFIX}${coupon.code}`, '1'); } catch { /* ignore */ }
+            setDismissed(true);
+          }}
+          aria-label="Dismiss offer"
+          className="absolute right-6 p-1 rounded hover:bg-white/20 transition-smooth"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 const APP_PATHS = ['/dashboard', '/resume', '/jobs', '/mock-interview', '/creator'];
 
 export default function Navbar() {
@@ -108,6 +191,7 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${
       scrolled ? 'glass-heavy py-3' : 'py-5'
     }`}>
+      <OfferBanner />
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
