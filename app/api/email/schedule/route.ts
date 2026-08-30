@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { sendRenewalReminder } from '@/lib/email';
+import { getReferralSummary } from '@/lib/firebase-admin';
 
 function getAdmin() {
   if (!getApps().length) {
@@ -34,12 +35,18 @@ export async function GET(req: NextRequest) {
     .get();
 
   for (const doc of snap.docs) {
-    const { email, name, type } = doc.data() as { email: string; name: string; type: string };
+    const { email, name, type, uid } = doc.data() as { email: string; name: string; type: string; uid?: string };
     try {
+      let referralLink: string | undefined;
+      if (type === 'referral' && uid) {
+        const { code } = await getReferralSummary(uid);
+        referralLink = code ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/signup?ref=${code}` : undefined;
+        if (!referralLink) continue; // no code yet — leave sentAt unset, retry next day
+      }
       const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email/welcome`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, type }),
+        body: JSON.stringify({ email, name, type, referralLink }),
       });
       if (res.ok) {
         await doc.ref.update({ sentAt: Timestamp.fromMillis(now) });

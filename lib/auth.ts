@@ -152,6 +152,7 @@ export async function ensureUserDocs(
           tx.set(doc(q), { email, name, type: 'welcome', sendAfter: Timestamp.fromMillis(now), sentAt: null, uid });
           tx.set(doc(q), { email, name, type: 'day2',  sendAfter: Timestamp.fromMillis(now + 2 * 24 * 60 * 60 * 1000), sentAt: null, uid });
           tx.set(doc(q), { email, name, type: 'day5',  sendAfter: Timestamp.fromMillis(now + 5 * 24 * 60 * 60 * 1000), sentAt: null, uid });
+          tx.set(doc(q), { email, name, type: 'referral', sendAfter: Timestamp.fromMillis(now + 3 * 24 * 60 * 60 * 1000), sentAt: null, uid });
 
           fetch(`${appUrl}/api/email/welcome`, {
             method: 'POST',
