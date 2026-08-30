@@ -238,8 +238,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_apply_route",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "route.ts"
     },
     {
@@ -249,8 +249,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_creator_apply_route_post",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "post()"
     },
     {
@@ -513,19 +513,19 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_email_welcome_route",
-      "community": 27,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "route.ts"
     },
     {
       "label": "POST()",
       "file_type": "code",
       "source_file": "app/api/email/welcome/route.ts",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "app_api_email_welcome_route_post",
-      "community": 27,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "post()"
     },
     {
@@ -997,8 +997,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_referral_me_route",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1008,8 +1008,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_referral_me_route_post",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "post()"
     },
     {
@@ -3755,7 +3755,7 @@
       "label": "PLAN_NAMES",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L6",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "lib_email_plan_names",
       "community": 10,
@@ -3766,7 +3766,7 @@
       "label": "PLAN_EMOJI",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L12",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "lib_email_plan_emoji",
       "community": 10,
@@ -3777,7 +3777,7 @@
       "label": "PLAN_FEATURES",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L18",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "lib_email_plan_features",
       "community": 10,
@@ -3788,7 +3788,7 @@
       "label": "formatDate()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L25",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "lib_email_formatdate",
       "community": 10,
@@ -3799,18 +3799,18 @@
       "label": "sendPaymentConfirmation()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L29",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "lib_email_sendpaymentconfirmation",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "sendpaymentconfirmation()"
     },
     {
       "label": "shell()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L125",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "lib_email_shell",
       "community": 10,
@@ -3821,7 +3821,7 @@
       "label": "sendPaymentFailed()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L143",
+      "source_location": "L142",
       "_origin": "ast",
       "id": "lib_email_sendpaymentfailed",
       "community": 5,
@@ -3832,7 +3832,7 @@
       "label": "sendRenewalReminder()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L166",
+      "source_location": "L165",
       "_origin": "ast",
       "id": "lib_email_sendrenewalreminder",
       "community": 10,
@@ -3843,7 +3843,7 @@
       "label": "sendNewTicketAlert()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L195",
+      "source_location": "L194",
       "_origin": "ast",
       "id": "lib_email_sendnewticketalert",
       "community": 10,
@@ -3854,7 +3854,7 @@
       "label": "sendTicketReply()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L225",
+      "source_location": "L224",
       "_origin": "ast",
       "id": "lib_email_sendticketreply",
       "community": 10,
@@ -3865,7 +3865,7 @@
       "label": "sendFreeTrialVoucher()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L252",
+      "source_location": "L251",
       "_origin": "ast",
       "id": "lib_email_sendfreetrialvoucher",
       "community": 10,
@@ -3876,7 +3876,7 @@
       "label": "sendQuotaUpgradeNudge()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L320",
+      "source_location": "L319",
       "_origin": "ast",
       "id": "lib_email_sendquotaupgradenudge",
       "community": 10,
@@ -3887,7 +3887,7 @@
       "label": "sendCheckoutAbandonedReminder()",
       "file_type": "code",
       "source_file": "lib/email.ts",
-      "source_location": "L347",
+      "source_location": "L346",
       "_origin": "ast",
       "id": "lib_email_sendcheckoutabandonedreminder",
       "community": 10,
@@ -3934,8 +3934,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "lib_firebase_admin_getuserinfo",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "getuserinfo()"
     },
     {
@@ -4132,8 +4132,8 @@
       "source_location": "L449",
       "_origin": "ast",
       "id": "lib_firebase_admin_getreferralsummary",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getreferralsummary()"
     },
     {
@@ -4198,8 +4198,8 @@
       "source_location": "L615",
       "_origin": "ast",
       "id": "lib_firebase_admin_creatorcodebase",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "creatorcodebase()"
     },
     {
@@ -4209,8 +4209,8 @@
       "source_location": "L621",
       "_origin": "ast",
       "id": "lib_firebase_admin_getorcreatecreator",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 138,
+      "community_name": "Before Starting",
       "norm_label": "getorcreatecreator()"
     },
     {
@@ -5342,8 +5342,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "lib_razorpay_server_getrazorpaykeyid",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 11,
+      "community_name": "page.tsx",
       "norm_label": "getrazorpaykeyid()"
     },
     {
@@ -8435,8 +8435,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_okf",
-      "community": 73,
-      "community_name": "Open Knowledge Format (OKF)",
+      "community": 137,
+      "community_name": "SKILL.md",
       "norm_label": "okf.md"
     },
     {
@@ -8589,8 +8589,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_platform_ranking_factors",
-      "community": 137,
-      "community_name": "SKILL.md",
+      "community": 99,
+      "community_name": "How Each AI Platform Picks Sources",
       "norm_label": "platform-ranking-factors.md"
     },
     {
@@ -17950,8 +17950,8 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_key_principles",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 80,
+      "community_name": "Next.js SEO Optimization",
       "norm_label": "key principles"
     },
     {
@@ -17961,8 +17961,8 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_cache_components_seo",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 80,
+      "community_name": "Next.js SEO Optimization",
       "norm_label": "cache components & seo"
     },
     {
@@ -17972,8 +17972,8 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_rendering_strategy_for_seo",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 80,
+      "community_name": "Next.js SEO Optimization",
       "norm_label": "rendering strategy for seo"
     },
     {
@@ -17983,8 +17983,8 @@
       "source_location": "L216",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_core_web_vitals_targets",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 80,
+      "community_name": "Next.js SEO Optimization",
       "norm_label": "core web vitals targets"
     },
     {
@@ -17994,8 +17994,8 @@
       "source_location": "L229",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_ranking_signals_beyond_technical_seo",
-      "community": 138,
-      "community_name": "Before Starting",
+      "community": 80,
+      "community_name": "Next.js SEO Optimization",
       "norm_label": "ranking signals beyond technical seo"
     },
     {
@@ -18467,8 +18467,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_common_schemas",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "common schemas"
     },
     {
@@ -18478,8 +18478,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_website_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "website schema"
     },
     {
@@ -18489,8 +18489,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_organization_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "organization schema"
     },
     {
@@ -18500,8 +18500,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_webapplication_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "webapplication schema"
     },
     {
@@ -18511,8 +18511,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_faqpage_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "faqpage schema"
     },
     {
@@ -18522,8 +18522,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "product schema"
     },
     {
@@ -18533,8 +18533,8 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_snippet_vs_merchant_listing_experience",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "product snippet vs merchant listing experience"
     },
     {
@@ -18544,8 +18544,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_article_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "article schema"
     },
     {
@@ -18555,8 +18555,8 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_breadcrumblist_schema",
-      "community": 55,
-      "community_name": "JSON-LD Structured Data in Next.js",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "breadcrumblist schema"
     },
     {
@@ -18841,8 +18841,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_sitemap_robots_txt_in_next_js",
-      "community": 292,
-      "community_name": "Robots.txt Configuration",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "sitemap & robots.txt in next.js"
     },
     {
@@ -18852,8 +18852,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_contents",
-      "community": 292,
-      "community_name": "Robots.txt Configuration",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "contents"
     },
     {
@@ -18984,8 +18984,8 @@
       "source_location": "L245",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_static_file_conventions",
-      "community": 292,
-      "community_name": "Robots.txt Configuration",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "static file conventions"
     },
     {
@@ -18995,8 +18995,8 @@
       "source_location": "L270",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_sitemap_best_practices",
-      "community": 292,
-      "community_name": "Robots.txt Configuration",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "sitemap best practices"
     },
     {
@@ -19006,8 +19006,8 @@
       "source_location": "L284",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_robots_txt_best_practices",
-      "community": 292,
-      "community_name": "Robots.txt Configuration",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "robots.txt best practices"
     },
     {
@@ -19017,8 +19017,8 @@
       "source_location": "L291",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_metadataroute_robots_fields",
-      "community": 292,
-      "community_name": "Robots.txt Configuration",
+      "community": 60,
+      "community_name": "firestore-cache.ts",
       "norm_label": "`metadataroute.robots` fields"
     },
     {
@@ -26782,11 +26782,23 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/welcome/route.ts",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_email_welcome_route",
       "target": "app_api_email_welcome_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/welcome/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_email_welcome_route",
+      "target": "lib_email",
       "confidence_score": 1.0
     },
     {
@@ -34037,7 +34049,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L25",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34048,7 +34060,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L12",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34059,7 +34071,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L18",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34070,7 +34082,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L6",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34081,7 +34093,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L347",
+      "source_location": "L346",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34092,7 +34104,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L252",
+      "source_location": "L251",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34103,7 +34115,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L195",
+      "source_location": "L194",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34114,7 +34126,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L29",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34125,7 +34137,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L143",
+      "source_location": "L142",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34136,7 +34148,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L320",
+      "source_location": "L319",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34147,7 +34159,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L166",
+      "source_location": "L165",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34158,7 +34170,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L225",
+      "source_location": "L224",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34169,7 +34181,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L125",
+      "source_location": "L128",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email",
@@ -34217,7 +34229,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L80",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendpaymentconfirmation",
@@ -34229,7 +34241,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L174",
+      "source_location": "L173",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendrenewalreminder",
@@ -34241,7 +34253,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L353",
+      "source_location": "L352",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendcheckoutabandonedreminder",
@@ -34253,7 +34265,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L261",
+      "source_location": "L260",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendfreetrialvoucher",
@@ -34265,7 +34277,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L201",
+      "source_location": "L200",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendnewticketalert",
@@ -34277,7 +34289,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L149",
+      "source_location": "L148",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendpaymentfailed",
@@ -34289,7 +34301,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L325",
+      "source_location": "L324",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendquotaupgradenudge",
@@ -34301,7 +34313,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L173",
+      "source_location": "L172",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendrenewalreminder",
@@ -34313,7 +34325,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "lib/email.ts",
-      "source_location": "L232",
+      "source_location": "L231",
       "weight": 1.0,
       "_origin": "ast",
       "source": "lib_email_sendticketreply",
@@ -55550,5 +55562,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2a57f5205ec519c0827bdf52fe65ef4011e44d3e"
+  "built_at_commit": "df5f33845ec9f250bc414ddc44f810e287414a7a"
 }
