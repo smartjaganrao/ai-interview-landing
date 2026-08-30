@@ -3,19 +3,19 @@ import Link from 'next/link';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: { absolute: 'JavihAI vs LockedIn AI — 9× Cheaper, Built for India' },
-  description: 'JavihAI vs LockedIn AI: LockedIn AI\'s Unlimited Pro plan runs about $49.99/month (~₹4,749). JavihAI gives unlimited real-time AI interview help from ₹499/month, with Indian languages and pricing.',
+  title: { absolute: 'JavihAI vs LockedIn AI — ~2.4× Cheaper, Built for India' },
+  description: 'JavihAI vs LockedIn AI: LockedIn AI\'s Unlimited Pro plan runs about $49.99/month (~₹4,749). JavihAI gives unlimited real-time AI interview help from ₹2,000/month, with Indian languages and pricing.',
   keywords: ['lockedin ai alternative india', 'lockedin ai vs javihai', 'lockedin ai pricing india', 'cheaper than lockedin ai', 'ai interview assistant india'],
   alternates: { canonical: 'https://www.javihai.in/compare/lockedin-ai' },
   openGraph: {
-    title: 'JavihAI vs LockedIn AI — 9× Cheaper, Built for India',
-    description: 'JavihAI ₹499/month vs LockedIn AI\'s Unlimited Pro at ~$49.99/month (~₹4,749). Same real-time interview help, built for India.',
+    title: 'JavihAI vs LockedIn AI — ~2.4× Cheaper, Built for India',
+    description: 'JavihAI ₹2,000/month vs LockedIn AI\'s Unlimited Pro at ~$49.99/month (~₹4,749). Same real-time interview help, built for India.',
   },
 };
 
 const ROWS = [
   { feature: 'Free plan',                   javihai: '✅ 10 answers/day forever',        lockedin: '⚠️ Free trial — 10 credits' },
-  { feature: 'Unlimited Pro (monthly)',     javihai: '✅ ₹499–₹999/month',                lockedin: '❌ ~$49.99/month (~₹4,749)' },
+  { feature: 'Unlimited Pro (monthly)',     javihai: '✅ ₹2,000/month',                   lockedin: '❌ ~$49.99/month (~₹4,749)' },
   { feature: 'Pricing model',                javihai: '✅ Simple flat plans',              lockedin: '⚠️ Credits or unlimited — can get confusing' },
   { feature: 'Built for Indian interviews',  javihai: '✅ Yes — ₹ CTC, Indian companies',   lockedin: '❌ No India-specific focus' },
   { feature: 'Regional languages',          javihai: '✅ 10 (Hindi, Tamil, Telugu…)',      lockedin: '❌ English-focused' },
@@ -47,8 +47,8 @@ export default function LockedInAIComparePage() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <div className="card border-indigo-500/50 bg-indigo-500/5 text-center">
             <div className="badge mb-3">🏆 JavihAI</div>
-            <div className="text-5xl font-black text-white mb-1">₹499<span className="text-xl font-normal text-slate-400">/mo</span></div>
-            <div className="text-slate-400 mb-2">Unlimited AI answers</div>
+            <div className="text-5xl font-black text-white mb-1">₹2,000<span className="text-xl font-normal text-slate-400">/mo</span></div>
+            <div className="text-slate-400 mb-2">Power plan — unlimited AI answers</div>
             <div className="text-green-400 text-sm font-semibold">✓ Free plan available forever</div>
           </div>
           <div className="card text-center opacity-75">
@@ -84,7 +84,7 @@ export default function LockedInAIComparePage() {
         {/* Why JavihAI wins */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
-            { icon: '💰', title: '9× Cheaper', body: 'JavihAI Unlimited at ₹499–₹999/mo vs LockedIn AI\'s Unlimited Pro at ~$49.99/mo (~₹4,749).' },
+            { icon: '💰', title: '~2.4× Cheaper', body: 'JavihAI Power at ₹2,000/mo vs LockedIn AI\'s Unlimited Pro at ~$49.99/mo (~₹4,749).' },
             { icon: '🇮🇳', title: 'Built for India', body: 'Answers in ₹ LPA, understands Indian company culture, and supports Hindi, Tamil, Telugu and more.' },
             { icon: '🧾', title: 'No Credit Confusion', body: 'Flat monthly plans instead of a credit system where usage costs can be hard to predict.' },
           ].map((c, i) => (

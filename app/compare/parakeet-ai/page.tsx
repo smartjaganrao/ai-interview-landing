@@ -3,20 +3,20 @@ import Link from 'next/link';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: { absolute: 'JavihAI vs Parakeet AI — 28× Cheaper, Unlimited Answers' },
-  description: 'JavihAI vs Parakeet AI: Parakeet AI\'s unlimited plan costs about $149.90/month (~₹14,240), and its base tier runs on credits that expire per session. JavihAI is unlimited from ₹499/month, no credits.',
+  title: { absolute: 'JavihAI vs Parakeet AI — ~7× Cheaper, Unlimited Answers' },
+  description: 'JavihAI vs Parakeet AI: Parakeet AI\'s unlimited plan costs about $149.90/month (~₹14,240), and its base tier runs on credits that expire per session. JavihAI is unlimited from ₹2,000/month, no credits.',
   keywords: ['parakeet ai alternative india', 'parakeet ai vs javihai', 'parakeet ai pricing india', 'cheaper than parakeet ai', 'ai interview copilot without credits'],
   alternates: { canonical: 'https://www.javihai.in/compare/parakeet-ai' },
   openGraph: {
-    title: 'JavihAI vs Parakeet AI — 28× Cheaper, Unlimited Answers',
-    description: 'JavihAI ₹499/month vs Parakeet AI\'s unlimited plan at ~$149.90/month (~₹14,240). No credits, no session limits.',
+    title: 'JavihAI vs Parakeet AI — ~7× Cheaper, Unlimited Answers',
+    description: 'JavihAI ₹2,000/month vs Parakeet AI\'s unlimited plan at ~$149.90/month (~₹14,240). No credits, no session limits.',
   },
 };
 
 const ROWS = [
   { feature: 'Free plan',                    javihai: '✅ 10 answers/day forever',        parakeet: '⚠️ Free trial only, no card' },
   { feature: 'Pricing model',                javihai: '✅ Simple flat plans',              parakeet: '❌ Credit-based (0.5 credit/30 min)' },
-  { feature: 'Unlimited plan (monthly)',     javihai: '✅ ₹499–₹999/month',                parakeet: '❌ ~$149.90/month (~₹14,240)' },
+  { feature: 'Unlimited plan (monthly)',     javihai: '✅ ₹2,000/month',                   parakeet: '❌ ~$149.90/month (~₹14,240)' },
   { feature: 'Session limits',                javihai: '✅ None while subscribed',          parakeet: '⚠️ Credits deducted per 30-min block' },
   { feature: 'Built for Indian interviews',   javihai: '✅ Yes — ₹ CTC, Indian companies',   parakeet: '❌ No India-specific focus' },
   { feature: 'Regional languages',            javihai: '✅ 10 (Hindi, Tamil, Telugu…)',      parakeet: '❌ English-focused' },
@@ -47,8 +47,8 @@ export default function ParakeetAIComparePage() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <div className="card border-indigo-500/50 bg-indigo-500/5 text-center">
             <div className="badge mb-3">🏆 JavihAI</div>
-            <div className="text-5xl font-black text-white mb-1">₹499<span className="text-xl font-normal text-slate-400">/mo</span></div>
-            <div className="text-slate-400 mb-2">Unlimited AI answers, no credits</div>
+            <div className="text-5xl font-black text-white mb-1">₹2,000<span className="text-xl font-normal text-slate-400">/mo</span></div>
+            <div className="text-slate-400 mb-2">Power plan — unlimited answers, no credits</div>
             <div className="text-green-400 text-sm font-semibold">✓ Free plan available forever</div>
           </div>
           <div className="card text-center opacity-75">
@@ -84,7 +84,7 @@ export default function ParakeetAIComparePage() {
         {/* Why JavihAI wins */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
-            { icon: '💰', title: '28× Cheaper', body: 'JavihAI Unlimited at ₹499–₹999/mo vs Parakeet AI\'s unlimited plan at ~$149.90/mo (~₹14,240).' },
+            { icon: '💰', title: '~7× Cheaper', body: 'JavihAI Power at ₹2,000/mo vs Parakeet AI\'s unlimited plan at ~$149.90/mo (~₹14,240).' },
             { icon: '🧾', title: 'No Credit Math', body: 'No 30-minute session blocks eating into a balance — just answer as many questions as you need.' },
             { icon: '🇮🇳', title: 'Built for India', body: 'Answers in ₹ LPA, understands Indian company culture, and supports Hindi, Tamil, Telugu and more.' },
           ].map((c, i) => (
