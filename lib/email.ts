@@ -342,3 +342,30 @@ export async function sendQuotaUpgradeNudge(params: { email: string; name: strin
   if (error) { console.error('[email/quota-upgrade-nudge] Resend error:', JSON.stringify(error)); return { ok: false, error: error.message }; }
   return { ok: true };
 }
+
+/** Sent (at most once per order) when a checkout was started but never completed. */
+export async function sendCheckoutAbandonedReminder(params: { email: string; name: string; plan: PlanId; amount: number }): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const firstName = params.name?.split(' ')[0] || 'there';
+  const planName = PLAN_NAMES[params.plan] ?? params.plan;
+
+  const html = shell(`
+  <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">You left ${planName} in your cart 🛒</h1>
+  <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
+    Hi ${firstName}, looks like your JavihAI <strong style="color:#e2e8f0;">${planName}</strong> checkout didn't go through.
+    No charge was made — your spot at ₹${params.amount} is still here whenever you're ready.
+  </p>
+  <div style="text-align:center;margin:28px 0;">
+    <a href="https://www.javihai.in/checkout?plan=${params.plan}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Finish checkout →</a>
+  </div>
+  <p style="color:#64748b;font-size:13px;">Ran into an issue paying? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: params.email,
+    subject: `You left ${planName} in your cart`,
+    html,
+  });
+  if (error) { console.error('[email/checkout-abandoned] Resend error:', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
