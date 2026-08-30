@@ -117,6 +117,13 @@ export function dayKey(): string {
 const planCache = new Map<string, { plan: PlanId; expiresAt: number }>();
 const PLAN_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 
+type QuotaResult = { allowed: boolean; plan: string; used: number; limit: number; banned?: boolean };
+const quotaCache = new Map<string, { result: QuotaResult; expiresAt: number }>();
+// Short enough that ban/quota enforcement doesn't meaningfully lag; long enough
+// to collapse a rapid-fire burst of AI answers (same user, same few seconds)
+// into a single users/{uid} + usage_tracking read instead of one pair per answer.
+const QUOTA_CACHE_TTL = 4 * 1000; // 4 seconds
+
 export async function getUserPlan(
   uid: string,
   prefetchedUserSnap?: FirebaseFirestore.DocumentSnapshot,
@@ -173,15 +180,21 @@ export function invalidatePlanCache(uid?: string): void {
  * in and use AI features with full quota. Checked here since every AI
  * surface (live answers, mock interview) already calls this.
  */
-export async function checkAiQuota(uid: string): Promise<{
-  allowed: boolean; plan: string; used: number; limit: number; banned?: boolean;
-}> {
+export async function checkAiQuota(uid: string): Promise<QuotaResult> {
+  const now = Date.now();
+  const cached = quotaCache.get(uid);
+  if (cached && cached.expiresAt > now) {
+    return cached.result;
+  }
+
   let userSnap: FirebaseFirestore.DocumentSnapshot | undefined;
   if (db) {
     try {
       userSnap = await db.collection('users').doc(uid).get();
       if (userSnap.data()?.status === 'banned') {
-        return { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
+        const result: QuotaResult = { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
+        quotaCache.set(uid, { result, expiresAt: now + QUOTA_CACHE_TTL });
+        return result;
       }
     } catch { /* fail open on read error, same policy as the rest of this function */ }
   }
@@ -201,7 +214,17 @@ export async function checkAiQuota(uid: string): Promise<{
     } catch { /* read failure → fail open (don't block paying-adjacent users) */ }
   }
   const used = Math.ceil(tokensUsed / TOKENS_PER_ANSWER);
-  return { allowed: used < limit, plan, used, limit };
+  const result: QuotaResult = { allowed: used < limit, plan, used, limit };
+  quotaCache.set(uid, { result, expiresAt: now + QUOTA_CACHE_TTL });
+  return result;
+}
+
+export function invalidateQuotaCache(uid?: string): void {
+  if (uid) {
+    quotaCache.delete(uid);
+  } else {
+    quotaCache.clear();
+  }
 }
 
 /** Write (or update) a subscription document server-side. */
