@@ -3,20 +3,20 @@ import Link from 'next/link';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: { absolute: 'JavihAI vs Cluely — 14× Cheaper for Invisible AI Interview Help' },
-  description: 'JavihAI vs Cluely: Cluely charges $75/month (~₹7,125) for its undetectable overlay tier. JavihAI gives you the same invisible, real-time AI help from ₹499/month — built for Indian interviews.',
+  title: { absolute: 'JavihAI vs Cluely — ~3.6× Cheaper for Invisible AI Interview Help' },
+  description: 'JavihAI vs Cluely: Cluely charges $75/month (~₹7,125) for its undetectable overlay tier. JavihAI gives you the same invisible, real-time AI help from ₹250, unlimited from ₹2,000/month — built for Indian interviews.',
   keywords: ['cluely alternative india', 'cluely vs javihai', 'cluely pricing india', 'undetectable ai interview tool india', 'cheaper than cluely'],
   alternates: { canonical: 'https://www.javihai.in/compare/cluely' },
   openGraph: {
-    title: 'JavihAI vs Cluely — 14× Cheaper, Same Invisible Overlay',
-    description: 'JavihAI ₹499/month vs Cluely $75/month (~₹7,125) for undetectability. Same invisible real-time AI help — built for India.',
+    title: 'JavihAI vs Cluely — ~3.6× Cheaper, Same Invisible Overlay',
+    description: 'JavihAI ₹2,000/month vs Cluely $75/month (~₹7,125) for undetectability. Same invisible real-time AI help — built for India.',
   },
 };
 
 const ROWS = [
   { feature: 'Free plan',                    javihai: '✅ 10 answers/day forever',        cluely: '⚠️ 5 responses/day, 100-char limit' },
-  { feature: 'Entry paid price',             javihai: '✅ ₹499/month',                    cluely: '⚠️ $20/month (no undetectability)' },
-  { feature: 'Invisible / undetectable tier',javihai: '✅ ₹499/month (included)',          cluely: '❌ $75/month add-on' },
+  { feature: 'Entry paid price',             javihai: '✅ ₹250 (1-hour pass)',             cluely: '⚠️ $20/month (no undetectability)' },
+  { feature: 'Invisible / undetectable tier',javihai: '✅ Included at every paid tier',    cluely: '❌ $75/month add-on' },
   { feature: 'Built for Indian interviews',   javihai: '✅ Yes — ₹ CTC, Indian companies',  cluely: '❌ No India-specific focus' },
   { feature: 'Regional languages',           javihai: '✅ 10 (Hindi, Tamil, Telugu…)',     cluely: '❌ English-only' },
   { feature: 'Coding / technical rounds',     javihai: '✅ HackerRank, LeetCode, screenshots', cluely: '✅ Meetings, sales calls, interviews' },
@@ -46,8 +46,8 @@ export default function CluelyComparePage() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <div className="card border-indigo-500/50 bg-indigo-500/5 text-center">
             <div className="badge mb-3">🏆 JavihAI</div>
-            <div className="text-5xl font-black text-white mb-1">₹499<span className="text-xl font-normal text-slate-400">/mo</span></div>
-            <div className="text-slate-400 mb-2">Unlimited AI answers, invisible overlay included</div>
+            <div className="text-5xl font-black text-white mb-1">₹2,000<span className="text-xl font-normal text-slate-400">/mo</span></div>
+            <div className="text-slate-400 mb-2">Power plan — unlimited answers, invisible overlay included</div>
             <div className="text-green-400 text-sm font-semibold">✓ Free plan available forever</div>
           </div>
           <div className="card text-center opacity-75">
@@ -83,7 +83,7 @@ export default function CluelyComparePage() {
         {/* Why JavihAI wins */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
-            { icon: '💰', title: '14× Cheaper', body: 'JavihAI at ₹499/mo vs Cluely\'s $75/mo (~₹7,125) undetectability tier — the invisible overlay comes standard, not as an add-on.' },
+            { icon: '💰', title: '~3.6× Cheaper', body: 'JavihAI Power at ₹2,000/mo vs Cluely\'s $75/mo (~₹7,125) undetectability tier — the invisible overlay comes standard, not as an add-on.' },
             { icon: '🇮🇳', title: 'Built for India', body: 'Answers in ₹ LPA, understands Indian company culture, and supports Hindi, Tamil, Telugu and more. Cluely is English-only.' },
             { icon: '🎯', title: 'Interview-Specific', body: 'Cluely is a general meeting copilot. JavihAI is purpose-built for coding rounds, system design, and behavioral interviews.' },
           ].map((c, i) => (

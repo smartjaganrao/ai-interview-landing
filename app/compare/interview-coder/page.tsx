@@ -3,20 +3,20 @@ import Link from 'next/link';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: { absolute: 'JavihAI vs Interview Coder — 57× Cheaper, Built for India' },
-  description: 'JavihAI vs Interview Coder: Interview Coder costs $299/month (~₹28,400) for coding-only interview help. JavihAI is ₹499/month for unlimited AI answers across coding, system design, and behavioral rounds.',
+  title: { absolute: 'JavihAI vs Interview Coder — ~14× Cheaper, Built for India' },
+  description: 'JavihAI vs Interview Coder: Interview Coder costs $299/month (~₹28,400) for coding-only interview help. JavihAI is ₹2,000/month for unlimited AI answers across coding, system design, and behavioral rounds.',
   keywords: ['interview coder alternative', 'interview coder vs javihai', 'interview coder india price', 'cheaper than interview coder', 'AI coding interview assistant india'],
   alternates: { canonical: 'https://www.javihai.in/compare/interview-coder' },
   openGraph: {
-    title: 'JavihAI vs Interview Coder — 57× Cheaper, Built for India',
-    description: 'JavihAI ₹499/month vs Interview Coder ~₹28,400/month. Unlimited answers across coding, system design, and behavioral — not just coding.',
+    title: 'JavihAI vs Interview Coder — ~14× Cheaper, Built for India',
+    description: 'JavihAI ₹2,000/month vs Interview Coder ~₹28,400/month. Unlimited answers across coding, system design, and behavioral — not just coding.',
   },
 };
 
 const ROWS = [
   { feature: 'Free plan',                  javihai: '✅ 10 answers/day forever',     ic: '❌ No meaningful free trial' },
-  { feature: 'Entry price',                javihai: '✅ ₹499/month',                  ic: '❌ $299/month (~₹28,400)' },
-  { feature: 'Lifetime option',            javihai: '✅ ₹999/month covers everything', ic: '⚠️ $799 one-time (~₹76,000)' },
+  { feature: 'Entry price',                javihai: '✅ ₹250 (1-hour pass)',          ic: '❌ $299/month (~₹28,400)' },
+  { feature: 'Multi-day unlimited pass',   javihai: '✅ ₹1,000 (Pro — 7 days unlimited)', ic: '⚠️ $799 one-time (~₹76,000, lifetime)' },
   { feature: 'Coding round help',          javihai: '✅ Screenshot analysis',         ic: '✅ Yes — its core focus' },
   { feature: 'System design rounds',       javihai: '✅ Yes',                         ic: '❌ Coding-only tool' },
   { feature: 'Behavioral / HR rounds',     javihai: '✅ STAR method coaching',        ic: '❌ Not supported' },
@@ -50,8 +50,8 @@ export default function InterviewCoderComparePage() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <div className="card border-indigo-500/50 bg-indigo-500/5 text-center">
             <div className="badge mb-3">🏆 JavihAI</div>
-            <div className="text-5xl font-black text-white mb-1">₹499<span className="text-xl font-normal text-slate-400">/mo</span></div>
-            <div className="text-slate-400 mb-2">Unlimited AI answers, all round types</div>
+            <div className="text-5xl font-black text-white mb-1">₹2,000<span className="text-xl font-normal text-slate-400">/mo</span></div>
+            <div className="text-slate-400 mb-2">Power plan — unlimited answers, all round types</div>
             <div className="text-green-400 text-sm font-semibold">✓ Free plan available forever</div>
           </div>
           <div className="card text-center opacity-75">
@@ -64,8 +64,8 @@ export default function InterviewCoderComparePage() {
 
         {/* Savings callout */}
         <div className="card bg-green-500/5 border-green-500/30 text-center mb-12">
-          <p className="text-2xl font-black text-green-400">You save ~₹3,34,000/year switching to JavihAI</p>
-          <p className="text-slate-400 mt-2 text-sm">$299 × 12 ≈ ₹3,40,800/year (Interview Coder) vs ₹499 × 12 = ₹5,988/year (JavihAI), at ₹95/$1</p>
+          <p className="text-2xl font-black text-green-400">You save ~₹3,16,800/year switching to JavihAI</p>
+          <p className="text-slate-400 mt-2 text-sm">$299 × 12 ≈ ₹3,40,800/year (Interview Coder) vs ₹2,000 × 12 = ₹24,000/year (JavihAI Power), at ₹95/$1</p>
         </div>
 
         {/* Feature table */}
@@ -94,7 +94,7 @@ export default function InterviewCoderComparePage() {
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
             { icon: '🎯', title: 'Every Round, Not Just Coding', body: 'Interview Coder only handles coding screens. JavihAI also covers system design and behavioral rounds with the same real-time overlay.' },
-            { icon: '💰', title: '57× Cheaper', body: "Interview Coder is $299/month (~₹28,400). JavihAI Pro is ₹499/month — unlimited, all round types included." },
+            { icon: '💰', title: '~14× Cheaper', body: "Interview Coder is $299/month (~₹28,400). JavihAI Power is ₹2,000/month — unlimited, all round types included." },
             { icon: '🇮🇳', title: 'Built for India', body: 'UPI payments, Desi Mode, Hindi/Tamil/Telugu answers. Interview Coder is USD-only with no India-specific features.' },
           ].map((c, i) => (
             <div key={i} className="card text-center">
@@ -108,7 +108,7 @@ export default function InterviewCoderComparePage() {
         {/* CTA */}
         <div className="text-center card bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-indigo-500/30">
           <h2 className="text-3xl font-black mb-4">Try JavihAI free — no credit card needed</h2>
-          <p className="text-slate-400 mb-6">10 AI answers every day, forever. Upgrade to Pro anytime for ₹499/month.</p>
+          <p className="text-slate-400 mb-6">10 AI answers every day, forever. Upgrade to Power anytime for ₹2,000/month.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/signup" className="btn btn-primary btn-lg">Get Started Free →</Link>
             <Link href="/pricing" className="btn btn-secondary btn-lg">See Pricing</Link>
