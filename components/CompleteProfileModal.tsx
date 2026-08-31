@@ -139,6 +139,17 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       } else {
         await setDoc(userRef, patch, { merge: true });
       }
+      // Fire-and-forget welcome notification — never blocks profile completion.
+      user.getIdToken()
+        .then((idToken) =>
+          fetch('/api/notifications/whatsapp-welcome', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken }),
+          })
+        )
+        .catch(() => {});
+
       onDone({
         phone: whatsAppNumber,
         fullName: fullName.trim(),
