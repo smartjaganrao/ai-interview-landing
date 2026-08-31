@@ -49,8 +49,15 @@ Requirements for "html":
 
   const response = await client.chat.completions.create({
     model: 'openai/gpt-oss-20b',
-    max_tokens: 1200,
+    // Bumped from 1200 — reasoning tokens count against this budget even
+    // with reasoning_format: 'hidden', and 1200 was consistently too tight
+    // for gpt-oss-20b, producing empty/invalid JSON (confirmed in prod).
+    max_tokens: 2200,
     response_format: { type: 'json_object' },
+    // gpt-oss-20b is a reasoning model — without this, its hidden <think>
+    // trace can consume the visible response and break JSON parsing (see
+    // groq/stream/route.ts for the confirmed root cause).
+    reasoning_format: 'hidden',
     messages: [
       {
         role: 'system',

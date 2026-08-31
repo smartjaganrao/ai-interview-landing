@@ -60,6 +60,10 @@ Requirements for "tags": 3-6 short lowercase tags relevant to the post (e.g. "in
     model: 'openai/gpt-oss-20b',
     max_tokens: 4000,
     response_format: { type: 'json_object' },
+    // gpt-oss-20b is a reasoning model — without this, its hidden <think>
+    // trace can consume the visible response and break JSON parsing (see
+    // groq/stream/route.ts for the confirmed root cause).
+    reasoning_format: 'hidden',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: `Write a blog post about: ${idea}` },
