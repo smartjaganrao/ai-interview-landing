@@ -15,9 +15,9 @@
     "semantic_hash": ""
   },
   "app/api/blog/generate/route.ts": {
-    "mtime": 1782959247.6513486,
-    "ast_hash": "b085ec0fa44e4d2baae890a55266b2dc",
-    "semantic_hash": "b085ec0fa44e4d2baae890a55266b2dc"
+    "mtime": 1788146368.566922,
+    "ast_hash": "0fa2b233d0089f09e04eb832f26b8519",
+    "semantic_hash": ""
   },
   "app/api/creator/apply/route.ts": {
     "mtime": 1787461167.4850261,
@@ -45,12 +45,12 @@
     "semantic_hash": ""
   },
   "app/api/email/generate-template/route.ts": {
-    "mtime": 1782918255.799707,
-    "ast_hash": "382888816a736bbfe40b5aa49616e559",
-    "semantic_hash": "382888816a736bbfe40b5aa49616e559"
+    "mtime": 1788146373.2691748,
+    "ast_hash": "08cfb05fdcd5e97fa6af061df272aa9f",
+    "semantic_hash": ""
   },
   "app/api/email/schedule/route.ts": {
-    "mtime": 1788144536.7470167,
+    "mtime": 1788144655.5742848,
     "ast_hash": "051f27f0c5d03bd84cbb58cd1a2988f8",
     "semantic_hash": ""
   },
@@ -80,8 +80,8 @@
     "semantic_hash": "d5e4bc0d88f4d0ea11f02d46b500ce7d"
   },
   "app/api/mock-interview/route.ts": {
-    "mtime": 1786993564.0365934,
-    "ast_hash": "17d51e0240be6aafd0cf551f072fa7ad",
+    "mtime": 1788146364.2006657,
+    "ast_hash": "a5e3ef4a0a391af3b0ddbf3c5c0cbe5c",
     "semantic_hash": ""
   },
   "app/api/pricing/route.ts": {
@@ -355,7 +355,7 @@
     "semantic_hash": "1e6ff11edce0c8c4f06ae6ea1a9bd51f"
   },
   "lib/email.ts": {
-    "mtime": 1788144309.3251588,
+    "mtime": 1788144655.584452,
     "ast_hash": "148fb19ec579a2512c0d96c5df09af9c",
     "semantic_hash": ""
   },
@@ -425,9 +425,9 @@
     "semantic_hash": ""
   },
   "vercel.json": {
-    "mtime": 1781384050.7180707,
-    "ast_hash": "8928692ed4d71ffd9faa1a16ec8411c2",
-    "semantic_hash": "8928692ed4d71ffd9faa1a16ec8411c2"
+    "mtime": 1788145925.2572496,
+    "ast_hash": "ff98aef7d07f69e31aaf44c79ff8ffab",
+    "semantic_hash": ""
   },
   ".kilo/skills/ai-seo/evals/evals.json": {
     "mtime": 1786738969.0123725,
@@ -1422,6 +1422,11 @@
   "docs/VERCEL_MIGRATION.md": {
     "mtime": 1787831666.8438938,
     "ast_hash": "d4621c7733ea90078c39deb90ba38ddf",
+    "semantic_hash": ""
+  },
+  "app/api/blog/auto-draft/route.ts": {
+    "mtime": 1788145917.9493656,
+    "ast_hash": "8d134a058f75806d58fa5b5313bceecc",
     "semantic_hash": ""
   }
 }

@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Groq } from 'groq-sdk';
 
 export const dynamic = 'force-dynamic';
+// Matches /api/groq/stream (the one Groq-dependent route already confirmed
+// working in production) — without this, GROQ_API_KEY was unavailable here.
+export const runtime = 'nodejs';
 
 interface GeneratedPost {
   title: string;

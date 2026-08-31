@@ -3,6 +3,11 @@ import Groq from 'groq-sdk';
 import type { ChatCompletionCreateParamsNonStreaming } from 'groq-sdk/resources/chat/completions';
 import { verifyIdToken, getUserPlan, dayKey, db } from '@/lib/firebase-admin';
 
+// Matches /api/groq/stream (the one Groq-dependent route already confirmed
+// working in production) — without this, env vars including GROQ_API_KEY
+// were unavailable at runtime here.
+export const runtime = 'nodejs';
+
 const FREE_MOCK_SESSIONS_PER_DAY = 1;
 // Open-ended session — the candidate ends it themselves (no fixed question
 // count). This cap is just a cost/abuse safety net, not a target length.
