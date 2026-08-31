@@ -55,7 +55,7 @@ const faqSchema = {
       name: 'How much does JavihAI cost? Is there a free plan?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'JavihAI has a permanent free plan — no time limit, no credit card. Paid plans unlock unlimited AI answers, Desi Mode, and priority support. All paid plans include a 7-day money-back guarantee. JavihAI is 15× cheaper than Final Round AI.',
+        text: 'JavihAI has a permanent free plan — no time limit, no credit card. Paid plans unlock unlimited AI answers, Desi Mode, and priority support. All paid plans include a 7-day money-back guarantee. JavihAI Power is ~4× cheaper than Final Round AI.',
       },
     },
     {
@@ -296,7 +296,7 @@ export default function LandingClient(props: LandingClientProps) {
           </p>
 
           <p className="text-base sm:text-lg text-slate-400 mb-8 md:mb-10 text-center max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Free forever for freshers. 15× cheaper than Final Round AI. Works on Windows 10/11 and Mac.
+            Free forever for freshers. ~4× cheaper than Final Round AI. Works on Windows 10/11 and Mac.
           </p>
 
           {/* Primary CTAs */}
@@ -459,7 +459,7 @@ export default function LandingClient(props: LandingClientProps) {
               {[
                 { num: '2,400+', label: 'Candidates Helped' },
                 { num: '<2s', label: 'AI Answer Speed' },
-                { num: '15×', label: 'Cheaper than FR AI' },
+                { num: '~4×', label: 'Cheaper than FR AI' },
                 { num: '100%', label: 'Invisible on Screen' },
                 { num: '10+', label: 'Indian Languages' },
                 { num: '4.9★', label: 'Early Rating' },
@@ -855,7 +855,7 @@ export default function LandingClient(props: LandingClientProps) {
             <h2 className="section-heading mb-4">
               JavihAI vs <span className="text-gradient">Every Other Tool</span>
             </h2>
-            <p className="text-slate-400">Same real-time AI help. 15× cheaper. Built for India.</p>
+            <p className="text-slate-400">Same real-time AI help. ~4× cheaper. Built for India.</p>
           </div>
 
           <div className="glass-card overflow-hidden border-blue-500/10">
@@ -874,7 +874,7 @@ export default function LandingClient(props: LandingClientProps) {
                     </th>
                     <th className="px-4 py-4 text-center">
                       <div className="text-slate-400 font-semibold">Cluely</div>
-                      <div className="text-slate-600 text-xs mt-0.5">~₹2,400/mo</div>
+                      <div className="text-slate-600 text-xs mt-0.5">~₹7,125/mo</div>
                     </th>
                     <th className="px-4 py-4 text-center">
                       <div className="text-slate-400 font-semibold">OphyAI</div>
