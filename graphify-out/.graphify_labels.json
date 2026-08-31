@@ -285,6 +285,8 @@
   "283": "Important (Should Have)",
   "284": "eslint.config.mjs",
   "285": "next",
+  "286": "Nice to Have (Optimization)",
+  "287": "route.ts",
   "288": "react-dom",
   "292": "Robots.txt Configuration"
 }

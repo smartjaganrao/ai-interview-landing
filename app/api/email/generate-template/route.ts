@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Groq } from 'groq-sdk';
 
 export const dynamic = 'force-dynamic';
+// Matches /api/groq/stream (the one Groq-dependent route already confirmed
+// working in production) — without this, GROQ_API_KEY was unavailable here.
+export const runtime = 'nodejs';
 
 const TEMPLATE_PROMPTS = {
   reengagement_inactive: 'Create a professional, friendly re-engagement email for users who havent used our AI interview preparation app in 30+ days. Include: warm greeting, highlight key features they missed, call-to-action to get back, offer to help. Make it around 200 words.',
