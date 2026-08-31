@@ -40,8 +40,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_about_page",
-      "community": 156,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -51,8 +51,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "app_about_page_orgschema",
-      "community": 156,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "orgschema"
     },
     {
@@ -62,8 +62,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "app_about_page_metadata",
-      "community": 156,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "metadata"
     },
     {
@@ -73,8 +73,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "app_about_page_aboutpage",
-      "community": 156,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "aboutpage()"
     },
     {
@@ -282,8 +282,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_coupons_validate_route",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -293,8 +293,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_api_coupons_validate_route_post",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "post()"
     },
     {
@@ -370,8 +370,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_payout_method_route",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -381,8 +381,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "app_api_creator_payout_method_route_post",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "post()"
     },
     {
@@ -894,6 +894,28 @@
     {
       "label": "route.ts",
       "file_type": "code",
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_api_notifications_whatsapp_welcome_route",
+      "community": 156,
+      "community_name": "page.tsx",
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "app_api_notifications_whatsapp_welcome_route_post",
+      "community": 156,
+      "community_name": "page.tsx",
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
       "source_file": "app/api/pricing/invalidate/route.ts",
       "source_location": "L1",
       "_origin": "ast",
@@ -920,8 +942,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_pricing_route",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "route.ts"
     },
     {
@@ -931,8 +953,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_api_pricing_route_get",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "get()"
     },
     {
@@ -964,8 +986,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_razorpay_status_route",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "route.ts"
     },
     {
@@ -975,8 +997,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "app_api_razorpay_status_route_get",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "get()"
     },
     {
@@ -1085,8 +1107,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_referral_me_route",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 288,
+      "community_name": "getReferralSummary",
       "norm_label": "route.ts"
     },
     {
@@ -1096,8 +1118,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_referral_me_route_post",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 288,
+      "community_name": "getReferralSummary",
       "norm_label": "post()"
     },
     {
@@ -1918,12 +1940,67 @@
       "label": "DashboardPage()",
       "file_type": "code",
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L779",
+      "source_location": "L829",
       "_origin": "ast",
       "id": "app_dashboard_page_dashboardpage",
       "community": 31,
       "community_name": "next-env.d.ts",
       "norm_label": "dashboardpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_indian_languages_page",
+      "community": 202,
+      "community_name": "react-dom",
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "LANGUAGES",
+      "file_type": "code",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "app_indian_languages_page_languages",
+      "community": 202,
+      "community_name": "react-dom",
+      "norm_label": "languages"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "app_indian_languages_page_metadata",
+      "community": 202,
+      "community_name": "react-dom",
+      "norm_label": "metadata"
+    },
+    {
+      "label": "faqSchema",
+      "file_type": "code",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "app_indian_languages_page_faqschema",
+      "community": 202,
+      "community_name": "react-dom",
+      "norm_label": "faqschema"
+    },
+    {
+      "label": "IndianLanguagesPage()",
+      "file_type": "code",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "app_indian_languages_page_indianlanguagespage",
+      "community": 202,
+      "community_name": "react-dom",
+      "norm_label": "indianlanguagespage()"
     },
     {
       "label": "page.tsx",
@@ -2284,8 +2361,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_page",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "page.tsx"
     },
     {
@@ -2295,8 +2372,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "app_page_page",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "page()"
     },
     {
@@ -2416,8 +2493,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_privacy_page",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 280,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "page.tsx"
     },
     {
@@ -2427,8 +2504,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "app_privacy_page_metadata",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 280,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "metadata"
     },
     {
@@ -2438,8 +2515,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "app_privacy_page_privacypage",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 280,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "privacypage()"
     },
     {
@@ -2757,8 +2834,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_completeprofilemodal",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "completeprofilemodal.tsx"
     },
     {
@@ -2768,8 +2845,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_completeprofilemodal_experience_levels",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "experience_levels"
     },
     {
@@ -2779,8 +2856,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_completeprofilemodal_acquisition_sources",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "acquisition_sources"
     },
     {
@@ -2790,8 +2867,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "components_completeprofilemodal_profiledetails",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "profiledetails"
     },
     {
@@ -2801,8 +2878,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "components_completeprofilemodal_props",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "props"
     },
     {
@@ -2812,8 +2889,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "components_completeprofilemodal_stripcountrycode",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "stripcountrycode()"
     },
     {
@@ -2823,30 +2900,30 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "components_completeprofilemodal_completeprofilemodal",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "completeprofilemodal()"
     },
     {
       "label": "shouldShowProfilePrompt()",
       "file_type": "code",
       "source_file": "components/CompleteProfileModal.tsx",
-      "source_location": "L301",
+      "source_location": "L312",
       "_origin": "ast",
       "id": "components_completeprofilemodal_shouldshowprofileprompt",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "shouldshowprofileprompt()"
     },
     {
       "label": "isProfileComplete()",
       "file_type": "code",
       "source_file": "components/CompleteProfileModal.tsx",
-      "source_location": "L305",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "components_completeprofilemodal_isprofilecomplete",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 31,
+      "community_name": "next-env.d.ts",
       "norm_label": "isprofilecomplete()"
     },
     {
@@ -4198,8 +4275,8 @@
       "source_location": "L365",
       "_origin": "ast",
       "id": "lib_firebase_admin_consumehours",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "consumehours()"
     },
     {
@@ -4209,8 +4286,8 @@
       "source_location": "L394",
       "_origin": "ast",
       "id": "lib_firebase_admin_getremaininghours",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getremaininghours()"
     },
     {
@@ -4220,8 +4297,8 @@
       "source_location": "L420",
       "_origin": "ast",
       "id": "lib_firebase_admin_randomcode",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 288,
+      "community_name": "getReferralSummary",
       "norm_label": "randomcode()"
     },
     {
@@ -4231,8 +4308,8 @@
       "source_location": "L427",
       "_origin": "ast",
       "id": "lib_firebase_admin_getorcreatereferralcode",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 288,
+      "community_name": "getReferralSummary",
       "norm_label": "getorcreatereferralcode()"
     },
     {
@@ -4253,8 +4330,8 @@
       "source_location": "L449",
       "_origin": "ast",
       "id": "lib_firebase_admin_getreferralsummary",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 288,
+      "community_name": "getReferralSummary",
       "norm_label": "getreferralsummary()"
     },
     {
@@ -4363,8 +4440,8 @@
       "source_location": "L684",
       "_origin": "ast",
       "id": "lib_firebase_admin_invalidatecreatorcache",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "invalidatecreatorcache()"
     },
     {
@@ -4374,8 +4451,8 @@
       "source_location": "L692",
       "_origin": "ast",
       "id": "lib_firebase_admin_setcreatorpayoutupi",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "setcreatorpayoutupi()"
     },
     {
@@ -4440,8 +4517,8 @@
       "source_location": "L814",
       "_origin": "ast",
       "id": "lib_firebase_admin_pricingfallback",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "pricingfallback()"
     },
     {
@@ -4451,8 +4528,8 @@
       "source_location": "L828",
       "_origin": "ast",
       "id": "lib_firebase_admin_getdynamicpricing",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 279,
+      "community_name": "How AI Search Works",
       "norm_label": "getdynamicpricing()"
     },
     {
@@ -4561,8 +4638,8 @@
       "source_location": "L973",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponisvalid",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "couponisvalid()"
     },
     {
@@ -4572,8 +4649,8 @@
       "source_location": "L980",
       "_origin": "ast",
       "id": "lib_firebase_admin_getcoupon",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getcoupon()"
     },
     {
@@ -4627,8 +4704,8 @@
       "source_location": "L1045",
       "_origin": "ast",
       "id": "lib_firebase_admin_migrateuserplan",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "migrateuserplan()"
     },
     {
@@ -5056,8 +5133,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_pricing_config_billingtype",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "billingtype"
     },
     {
@@ -5100,7 +5177,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "lib_pricing_config_plans",
-      "community": 72,
+      "community": 27,
       "community_name": "route.ts",
       "norm_label": "plans"
     },
@@ -5111,8 +5188,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "lib_pricing_config_plan_rank",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "plan_rank"
     },
     {
@@ -5166,8 +5243,8 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "lib_pricing_config_ispricinghealthy",
-      "community": 0,
-      "community_name": "Navbar.tsx",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "ispricinghealthy()"
     },
     {
@@ -5408,8 +5485,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_razorpay_server",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "razorpay-server.ts"
     },
     {
@@ -5419,8 +5496,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "lib_razorpay_server_razorpaykeys",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "razorpaykeys"
     },
     {
@@ -5430,8 +5507,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "lib_razorpay_server_getrazorpaykeys",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "getrazorpaykeys()"
     },
     {
@@ -5441,8 +5518,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "lib_razorpay_server_getrazorpayclient",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "getrazorpayclient()"
     },
     {
@@ -5452,8 +5529,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "lib_razorpay_server_israzorpayconfigured",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "israzorpayconfigured()"
     },
     {
@@ -5496,8 +5573,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplanamount",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplanamount()"
     },
     {
@@ -5507,8 +5584,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplantype",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplantype()"
     },
     {
@@ -5831,6 +5908,50 @@
       "norm_label": "userslice"
     },
     {
+      "label": "whatsapp.ts",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_whatsapp",
+      "community": 156,
+      "community_name": "page.tsx",
+      "norm_label": "whatsapp.ts"
+    },
+    {
+      "label": "getClient()",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "lib_whatsapp_getclient",
+      "community": 156,
+      "community_name": "page.tsx",
+      "norm_label": "getclient()"
+    },
+    {
+      "label": "toWhatsAppAddress()",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "lib_whatsapp_towhatsappaddress",
+      "community": 156,
+      "community_name": "page.tsx",
+      "norm_label": "towhatsappaddress()"
+    },
+    {
+      "label": "sendWhatsAppTemplate()",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "lib_whatsapp_sendwhatsapptemplate",
+      "community": 156,
+      "community_name": "page.tsx",
+      "norm_label": "sendwhatsapptemplate()"
+    },
+    {
       "label": "next.config.js",
       "file_type": "code",
       "source_file": "next.config.js",
@@ -6090,8 +6211,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "package_dependencies_firebase",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 290,
+      "community_name": "firebase",
       "norm_label": "firebase"
     },
     {
@@ -6101,8 +6222,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "firebase",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 290,
+      "community_name": "firebase",
       "norm_label": "firebase"
     },
     {
@@ -6156,8 +6277,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "package_dependencies_next",
-      "community": 285,
-      "community_name": "next",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "next"
     },
     {
@@ -6167,8 +6288,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "next",
-      "community": 285,
-      "community_name": "next",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "next"
     },
     {
@@ -6178,8 +6299,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "package_dependencies_razorpay",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 291,
+      "community_name": "razorpay",
       "norm_label": "razorpay"
     },
     {
@@ -6189,8 +6310,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "razorpay",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 291,
+      "community_name": "razorpay",
       "norm_label": "razorpay"
     },
     {
@@ -6222,8 +6343,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react-dom"
     },
     {
@@ -6233,8 +6354,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "react_dom",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react-dom"
     },
     {
@@ -6244,8 +6365,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "package_dependencies_react_redux",
-      "community": 279,
-      "community_name": "How AI Search Works",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react-redux"
     },
     {
@@ -6255,8 +6376,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "react_redux",
-      "community": 279,
-      "community_name": "How AI Search Works",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react-redux"
     },
     {
@@ -6288,8 +6409,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "package_dependencies_redux_persist",
-      "community": 288,
-      "community_name": "react-dom",
+      "community": 281,
+      "community_name": "Important (Should Have)",
       "norm_label": "redux-persist"
     },
     {
@@ -6299,8 +6420,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "redux_persist",
-      "community": 288,
-      "community_name": "react-dom",
+      "community": 281,
+      "community_name": "Important (Should Have)",
       "norm_label": "redux-persist"
     },
     {
@@ -6310,8 +6431,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "package_dependencies_resend",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 293,
+      "community_name": "resend",
       "norm_label": "resend"
     },
     {
@@ -6321,15 +6442,37 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "resend",
+      "community": 293,
+      "community_name": "resend",
+      "norm_label": "resend"
+    },
+    {
+      "label": "twilio",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "package_dependencies_twilio",
       "community": 6,
       "community_name": "dependencies",
-      "norm_label": "resend"
+      "norm_label": "twilio"
+    },
+    {
+      "label": "twilio",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "twilio",
+      "community": 6,
+      "community_name": "dependencies",
+      "norm_label": "twilio"
     },
     {
       "label": "zustand",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_dependencies_zustand",
       "community": 6,
@@ -6340,7 +6483,7 @@
       "label": "zustand",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "zustand",
       "community": 6,
@@ -6351,7 +6494,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 4,
@@ -6362,7 +6505,7 @@
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
       "community": 4,
@@ -6373,7 +6516,7 @@
       "label": "@types/node",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "types_node",
       "community": 4,
@@ -6384,7 +6527,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 4,
@@ -6395,7 +6538,7 @@
       "label": "@types/react",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "types_react",
       "community": 4,
@@ -6406,7 +6549,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 4,
@@ -6417,7 +6560,7 @@
       "label": "@types/react-dom",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "types_react_dom",
       "community": 4,
@@ -6428,7 +6571,7 @@
       "label": "autoprefixer",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_devdependencies_autoprefixer",
       "community": 4,
@@ -6439,7 +6582,7 @@
       "label": "autoprefixer",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "autoprefixer",
       "community": 4,
@@ -6450,7 +6593,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 4,
@@ -6461,7 +6604,7 @@
       "label": "eslint",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "eslint",
       "community": 4,
@@ -6472,7 +6615,7 @@
       "label": "eslint-config-next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_config_next",
       "community": 4,
@@ -6483,7 +6626,7 @@
       "label": "eslint-config-next",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "eslint_config_next",
       "community": 4,
@@ -6494,7 +6637,7 @@
       "label": "postcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_devdependencies_postcss",
       "community": 4,
@@ -6505,7 +6648,7 @@
       "label": "postcss",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "postcss",
       "community": 4,
@@ -6516,7 +6659,7 @@
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
       "community": 4,
@@ -6527,7 +6670,7 @@
       "label": "tailwindcss",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "tailwindcss",
       "community": 4,
@@ -6538,7 +6681,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 4,
@@ -6549,7 +6692,7 @@
       "label": "typescript",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "typescript",
       "community": 4,
@@ -18005,8 +18148,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_essential_files",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 285,
+      "community_name": "next",
       "norm_label": "essential files"
     },
     {
@@ -18016,8 +18159,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_layout_tsx_root_metadata",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 285,
+      "community_name": "next",
       "norm_label": "app/layout.tsx - root metadata"
     },
     {
@@ -18027,8 +18170,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_sitemap_ts_dynamic_sitemap",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 285,
+      "community_name": "next",
       "norm_label": "app/sitemap.ts - dynamic sitemap"
     },
     {
@@ -18038,8 +18181,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_robots_ts_robots_configuration",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 285,
+      "community_name": "next",
       "norm_label": "app/robots.ts - robots configuration"
     },
     {
@@ -18049,8 +18192,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_app_manifest_ts_web_app_manifest",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 285,
+      "community_name": "next",
       "norm_label": "app/manifest.ts - web app manifest"
     },
     {
@@ -18060,8 +18203,8 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_og_twitter_images",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 285,
+      "community_name": "next",
       "norm_label": "og / twitter images"
     },
     {
@@ -18456,8 +18599,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_nice_to_have_optimization",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "nice to have (optimization)"
     },
     {
@@ -18467,8 +18610,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_pwa",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "pwa"
     },
     {
@@ -18478,8 +18621,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_performance",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "performance"
     },
     {
@@ -18489,8 +18632,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_international_if_applicable",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "international (if applicable)"
     },
     {
@@ -18500,8 +18643,8 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_advanced",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "advanced"
     },
     {
@@ -18984,8 +19127,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_sitemap_configuration",
-      "community": 202,
-      "community_name": "react-dom",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "sitemap configuration"
     },
     {
@@ -18995,8 +19138,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_basic_static_sitemap",
-      "community": 202,
-      "community_name": "react-dom",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "basic static sitemap"
     },
     {
@@ -19006,8 +19149,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_dynamic_sitemap_with_database",
-      "community": 202,
-      "community_name": "react-dom",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "dynamic sitemap with database"
     },
     {
@@ -19017,8 +19160,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_image_sitemap",
-      "community": 202,
-      "community_name": "react-dom",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "image sitemap"
     },
     {
@@ -19028,8 +19171,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_video_sitemap",
-      "community": 202,
-      "community_name": "react-dom",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "video sitemap"
     },
     {
@@ -19039,8 +19182,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_multiple_sitemaps_large_sites",
-      "community": 202,
-      "community_name": "react-dom",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "multiple sitemaps (large sites)"
     },
     {
@@ -19050,8 +19193,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_localized_sitemap",
-      "community": 202,
-      "community_name": "react-dom",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "localized sitemap"
     },
     {
@@ -19237,8 +19380,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_google_search_console_usage",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Search Console Usage",
       "norm_label": "google search console usage"
     },
     {
@@ -19248,8 +19391,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_url_inspection_tool",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Search Console Usage",
       "norm_label": "url inspection tool"
     },
     {
@@ -19259,8 +19402,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_request_indexing",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Search Console Usage",
       "norm_label": "request indexing"
     },
     {
@@ -19270,8 +19413,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_pages_report",
-      "community": 83,
-      "community_name": "SEO Troubleshooting Guide",
+      "community": 289,
+      "community_name": "Google Search Console Usage",
       "norm_label": "pages report"
     },
     {
@@ -27789,6 +27932,89 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_notifications_whatsapp_welcome_route",
+      "target": "app_api_notifications_whatsapp_welcome_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_notifications_whatsapp_welcome_route",
+      "target": "lib_firebase_admin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_notifications_whatsapp_welcome_route",
+      "target": "lib_firebase_admin_verifyidtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_notifications_whatsapp_welcome_route",
+      "target": "lib_whatsapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_notifications_whatsapp_welcome_route",
+      "target": "lib_whatsapp_sendwhatsapptemplate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_notifications_whatsapp_welcome_route_post",
+      "target": "lib_firebase_admin_verifyidtoken"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/notifications/whatsapp-welcome/route.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_api_notifications_whatsapp_welcome_route_post",
+      "target": "lib_whatsapp_sendwhatsapptemplate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "app/api/pricing/invalidate/route.ts",
       "source_location": "L16",
       "weight": 1.0,
@@ -31004,7 +31230,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L779",
+      "source_location": "L829",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_dashboard_page",
@@ -31357,6 +31583,62 @@
       "_origin": "ast",
       "source": "app_dashboard_page_dashboardcontent",
       "target": "lib_pricing_config_migrateplanid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_indian_languages_page",
+      "target": "app_indian_languages_page_faqschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_indian_languages_page",
+      "target": "app_indian_languages_page_indianlanguagespage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_indian_languages_page",
+      "target": "app_indian_languages_page_languages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_indian_languages_page",
+      "target": "app_indian_languages_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/indian-languages/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_indian_languages_page",
+      "target": "components_footer",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -32851,7 +33133,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/CompleteProfileModal.tsx",
-      "source_location": "L305",
+      "source_location": "L316",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_completeprofilemodal",
@@ -32884,7 +33166,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/CompleteProfileModal.tsx",
-      "source_location": "L301",
+      "source_location": "L312",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_completeprofilemodal",
@@ -32955,7 +33237,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/CompleteProfileModal.tsx",
-      "source_location": "L302",
+      "source_location": "L313",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_completeprofilemodal_shouldshowprofileprompt",
@@ -33361,7 +33643,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L924",
+      "source_location": "L928",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -37612,6 +37894,63 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_whatsapp",
+      "target": "lib_whatsapp_getclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_whatsapp",
+      "target": "lib_whatsapp_sendwhatsapptemplate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_whatsapp",
+      "target": "lib_whatsapp_towhatsappaddress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_whatsapp_sendwhatsapptemplate",
+      "target": "lib_whatsapp_getclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_whatsapp_sendwhatsapptemplate",
+      "target": "lib_whatsapp_towhatsappaddress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "next.config.js",
       "source_location": "L2",
       "weight": 1.0,
@@ -37646,7 +37985,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -37958,6 +38297,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
+      "target": "package_dependencies_twilio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_dependencies",
       "target": "package_dependencies_zustand",
       "confidence_score": 1.0
     },
@@ -38125,19 +38475,20 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "package_dependencies_zustand",
-      "target": "zustand",
+      "source": "package_dependencies_twilio",
+      "target": "twilio",
       "confidence_score": 1.0
     },
     {
-      "relation": "contains",
+      "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L33",
       "weight": 1.0,
+      "context": "import",
       "_origin": "ast",
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_autoprefixer",
+      "source": "package_dependencies_zustand",
+      "target": "zustand",
       "confidence_score": 1.0
     },
     {
@@ -38148,7 +38499,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_eslint",
+      "target": "package_devdependencies_autoprefixer",
       "confidence_score": 1.0
     },
     {
@@ -38159,7 +38510,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_eslint_config_next",
+      "target": "package_devdependencies_eslint",
       "confidence_score": 1.0
     },
     {
@@ -38170,7 +38521,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_postcss",
+      "target": "package_devdependencies_eslint_config_next",
       "confidence_score": 1.0
     },
     {
@@ -38181,40 +38532,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_tailwindcss",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_node",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L36",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_react",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L37",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_react_dom",
+      "target": "package_devdependencies_postcss",
       "confidence_score": 1.0
     },
     {
@@ -38225,6 +38543,50 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
+      "target": "package_devdependencies_tailwindcss",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_devdependencies",
       "target": "package_devdependencies_typescript",
       "confidence_score": 1.0
     },
@@ -38232,7 +38594,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38244,7 +38606,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38256,7 +38618,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38268,7 +38630,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38280,7 +38642,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38292,7 +38654,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38304,7 +38666,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38316,7 +38678,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -38328,7 +38690,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -56102,5 +56464,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "06b11a56e8e4ba7d2d9114328bafaf4b345dcde9"
+  "built_at_commit": "db9823bcb2a8b1998dd7ffa13843fe156e295d27"
 }
