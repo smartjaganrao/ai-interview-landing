@@ -1,96 +1,88 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
 import FreeTrialModal from '@/components/FreeTrialModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
 import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
 
+// Single source of truth for the FAQ section — rendered as the visible
+// accordion below AND compiled into faqSchema's JSON-LD. Keeping these in
+// one array prevents the schema from drifting out of sync with what's
+// actually on the page (Google requires structured data to match visible
+// content for FAQPage rich results).
+const FAQ_ITEMS: { q: string; a: string }[] = [
+  {
+    q: 'How does JavihAI — the AI interview assistant — work during a live interview?',
+    a: 'Run JavihAI alongside your video call (Zoom, Google Meet, Teams). Choose System Audio to hear the interviewer, or Microphone mode. JavihAI auto-detects when a question is asked and streams a structured AI answer in under 2 seconds — while staying completely invisible to screen sharing.',
+  },
+  {
+    q: 'Is JavihAI visible to the interviewer during screen share?',
+    a: 'No. The JavihAI window uses OS-level exclusion from screen capture on both Windows and Mac. The interviewer sees only your screen — not the overlay. It has been tested on Zoom, Google Meet, Microsoft Teams, and Webex.',
+  },
+  {
+    q: 'Are there other precautions I should take before starting an interview?',
+    a: 'A couple of quick ones: JavihAI itself is never visible in a screen share, but other apps can still show icons in your menu bar (Mac) or taskbar (Windows) — password managers, chat apps, other overlays. Glance at it before you start and hide anything you don\'t want visible — on Mac, System Settings → Control Center → Menu Bar lets you toggle individual app icons off. Also close notification popups (Slack, email, WhatsApp) so nothing pops up mid-interview.',
+  },
+  {
+    q: 'Is my interview audio stored or recorded anywhere?',
+    a: 'Never. Audio is transcribed in real-time on your device and immediately discarded. AI answers are generated on-demand and not saved. JavihAI never stores your interview content.',
+  },
+  {
+    q: 'What is System Audio mode? How is it different from Microphone mode?',
+    a: 'System Audio mode captures what\'s playing through your speakers — so JavihAI hears the interviewer\'s voice directly, without a microphone. This means it works even if your mic is off or you\'re using headphones. Microphone mode captures your own voice for practice or when you want to dictate a question.',
+  },
+  {
+    q: 'What platforms and operating systems does JavihAI support?',
+    a: 'JavihAI supports Windows 10, Windows 11, and macOS — both Apple Silicon (M1/M2/M3) and Intel. The desktop app is required for real-time interview mode and works alongside Zoom, Google Meet, Microsoft Teams, and Webex.',
+  },
+  {
+    q: 'What is Desi Mode?',
+    a: 'Desi Mode is a Power-plan feature that adapts every AI answer to Indian interview culture: CTC in ₹ LPA (not USD), notice period and bond clause context, ESOP vs variable pay, and company-specific framing for FAANG India, product startups, MNCs, and IT services. It also enables answers in Hindi, Tamil, Telugu, Kannada, and other Indian languages.',
+  },
+  {
+    q: 'How do I install JavihAI? My computer shows a security warning.',
+    a: 'On Windows: run the .exe — if you see "Windows protected your PC", click More info → Run anyway. On Mac: drag to Applications, then right-click → Open → Open (or System Settings → Privacy & Security → Open Anyway). This is normal for new publishers and the app is completely safe.',
+  },
+  {
+    q: 'Is JavihAI a good AI interview assistant for freshers and campus placements?',
+    a: 'Yes — JavihAI has a free-forever plan built for freshers: 10 AI answers per day, no credit card, no expiry. It works for campus placements, off-campus drives, and first-job interviews across technical, HR, and system-design rounds, with answers tuned to Indian company norms via Desi Mode.',
+  },
+  {
+    q: 'How much does JavihAI cost? Is there a free plan?',
+    a: 'JavihAI has a permanent free plan with 10 AI answers per day — no credit card, no time limit. Paid plans unlock unlimited answers, Desi Mode, and more. Both paid plans include a 7-day money-back guarantee.',
+  },
+  {
+    q: 'How is JavihAI different from Cluely, Final Round AI, or Interview Coder?',
+    a: 'JavihAI matches what those tools do — real-time AI answers, a stealth overlay, and screen-capture solving — and adds system audio capture, 10+ Indian languages, ₹ LPA-based Desi Mode, and INR pricing via Razorpay. It\'s built specifically for the Indian job market and typically costs 2×–14× less than the alternatives.',
+  },
+  {
+    q: 'Can I cancel my subscription anytime?',
+    a: 'Yes. Cancel anytime from your dashboard — no long-term contracts, no cancellation fees, no questions asked. You keep access until the end of your billing period.',
+  },
+  {
+    q: 'Does JavihAI work for coding rounds on HackerRank, LeetCode, and CodeSignal?',
+    a: 'Yes. Use Screenshot Solve — press the hotkey while the coding problem is on screen. JavihAI reads the problem, understands constraints and examples, and returns a clean solution with step-by-step approach and time/space complexity in under 2 seconds. Works on HackerRank, LeetCode, CodeSignal, HackerEarth, CoderPad, Coderbyte, AmcatCode, and any other browser-based coding platform.',
+  },
+  {
+    q: 'Which programming languages does JavihAI support for coding rounds?',
+    a: 'JavihAI generates solutions in Python, Java, C++, JavaScript, TypeScript, C#, Go, Kotlin, SQL, and Bash. Just mention your preferred language in your profile or in the problem context.',
+  },
+  {
+    q: 'What DSA topics can JavihAI solve?',
+    a: 'JavihAI covers all major DSA topics: Arrays, Strings, Linked Lists, Trees, Graphs, Dynamic Programming, Recursion, Backtracking, Sorting, Binary Search, Hashing, Stacks, Queues, Heaps, Tries, Bit Manipulation, Greedy, Sliding Window, Two Pointers, SQL, OOP Design, and System Design coding questions.',
+  },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'How does JavihAI — the AI interview assistant — work?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'JavihAI is a lightweight desktop overlay for Windows and Mac. You run it alongside your video call (Zoom, Google Meet, Teams). It listens via your microphone or captures system audio, auto-detects interview questions using AI, and streams a structured answer in under 2 seconds. It works for technical rounds, system design, HR interviews, and coding questions.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is JavihAI visible during screen share or video call?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'No. The JavihAI window is excluded from all screen captures using OS-level APIs — it is completely invisible on Zoom, Google Meet, Microsoft Teams, and any other screen-sharing tool. The interviewer sees only your screen, not the overlay.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Are there other precautions to take before starting an interview with JavihAI?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes — a couple of simple ones. JavihAI itself is invisible during screen shares, but other running apps (password managers, chat clients, other overlays) can still show icons in your menu bar or taskbar. Check it before you start and hide anything unnecessary — on Mac, System Settings → Control Center → Menu Bar lets you toggle individual app icons off. Also close apps that might trigger notification popups during the call.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is my interview data private and secure?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. Audio is processed in real-time and immediately discarded — we never store your interview audio. AI answers are generated on-demand and not saved to any server. Your interview content stays private.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What platforms does JavihAI support?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'JavihAI supports Windows 10, Windows 11, and macOS (both Apple Silicon M1/M2/M3 and Intel). The desktop app is required for real-time interview mode.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How much does JavihAI cost? Is there a free plan?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'JavihAI has a permanent free plan — no time limit, no credit card. Paid plans unlock unlimited AI answers, Desi Mode, and priority support. All paid plans include a 7-day money-back guarantee. JavihAI Power is ~4× cheaper than Final Round AI.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is Desi Mode in JavihAI?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Desi Mode tailors every AI answer to the Indian job market — CTC in LPA, notice period norms, bond clauses, ESOP expectations, and Indian company context (FAANG India, startups, MNCs, IT services). Supports Hindi, Tamil, Telugu, Kannada, and more.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can I cancel my JavihAI subscription anytime?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. Cancel anytime with one click from your JavihAI dashboard. No long-term contracts, no cancellation fees, no questions asked.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does JavihAI work for coding rounds on HackerRank and LeetCode?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes. JavihAI\'s Screenshot Solve feature reads the coding problem directly from your screen — whether it\'s on HackerRank, LeetCode, CodeSignal, HackerEarth, CoderPad, or any other platform. Press the hotkey, and JavihAI returns a step-by-step solution with time/space complexity in under 2 seconds. Supports Python, Java, C++, JavaScript, SQL, and more.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Which coding topics does JavihAI cover?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'JavihAI covers all major DSA and coding interview topics: Arrays, Strings, Linked Lists, Trees, Graphs, Dynamic Programming, Recursion, Backtracking, Sorting, Binary Search, Hashing, Stacks, Queues, Heaps, Tries, Bit Manipulation, Greedy Algorithms, Sliding Window, Two Pointers, SQL queries, OOP design, and System Design coding. It also handles time and space complexity analysis.',
-      },
-    },
-  ],
+  mainEntity: FAQ_ITEMS.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
 };
 
 const howToSchema = {
@@ -243,6 +235,23 @@ export default function LandingClient(props: LandingClientProps) {
   };
   const [detectedOS, setDetectedOS] = useState<'mac' | 'windows' | null>(null);
 
+  // 3D tilt for the hero demo mockup — tracks cursor position within the
+  // card to drive rotateX/rotateY plus a translateZ-layered parallax and a
+  // specular sheen; resets to flat on mouse leave. No-op on touch (no
+  // mousemove events fire) and disabled entirely under reduced-motion via CSS.
+  const tiltCardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, sx: 50, sy: 50, active: false });
+
+  const handleTiltMove = (e: ReactMouseEvent<HTMLDivElement>) => {
+    const rect = tiltCardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    setTilt({ rx: (0.5 - py) * 14, ry: (px - 0.5) * 14, sx: px * 100, sy: py * 100, active: true });
+  };
+
+  const handleTiltLeave = () => setTilt((t) => ({ ...t, rx: 0, ry: 0, active: false }));
+
   useEffect(() => {
     setDetectedOS(detectDesktopOS());
 
@@ -385,32 +394,24 @@ export default function LandingClient(props: LandingClientProps) {
                   </div>
                 ))}
               </div>
-
-              {/* Account CTA — secondary to Download, for visitors who'd rather
-                  start with an account (or already have one) than download first. */}
-              <div className="flex animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-                <div className="inline-flex items-center gap-1 p-1 rounded-full glass border border-white/10">
-                  <Link
-                    href="/auth/signup"
-                    className="flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
-                  >
-                    ✨ Create free account
-                  </Link>
-                  <Link
-                    href="/auth/login"
-                    className="px-5 py-2 rounded-full text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all"
-                  >
-                    Sign in
-                  </Link>
-                </div>
-              </div>
             </div>
 
             {/* Right: live demo mockup */}
-            <div className="relative animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <div className="relative">
-                <div className="absolute inset-0 gradient-primary opacity-10 blur-3xl rounded-3xl" />
+            <div className="relative animate-fade-in-up tilt-perspective" style={{ animationDelay: '0.4s' }}>
+              <div
+                ref={tiltCardRef}
+                onMouseMove={handleTiltMove}
+                onMouseLeave={handleTiltLeave}
+                className={`relative tilt-card ${tilt.active ? 'tilt-active' : ''}`}
+                style={{
+                  transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+                  '--sheen-x': `${tilt.sx}%`,
+                  '--sheen-y': `${tilt.sy}%`,
+                } as CSSProperties}
+              >
+                <div className="absolute inset-0 gradient-primary opacity-10 blur-3xl rounded-3xl" style={{ transform: 'translateZ(-60px)' }} />
                 <div className="relative glass-heavy rounded-2xl sm:rounded-3xl p-1.5 sm:p-2 border border-blue-500/15">
+                  <div className="tilt-sheen" />
                   {/* Window chrome */}
                   <div className="bg-slate-950 rounded-xl sm:rounded-2xl overflow-hidden">
                     <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 border-b border-white/5 bg-slate-950/80">
@@ -471,10 +472,10 @@ export default function LandingClient(props: LandingClientProps) {
                 </div>
 
                 {/* Floating badges */}
-                <div className="absolute -top-3 sm:-top-4 -right-3 sm:-right-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-blue-400 font-semibold border border-blue-500/20">
+                <div className="absolute -top-3 sm:-top-4 -right-3 sm:-right-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-blue-400 font-semibold border border-blue-500/20" style={{ transform: 'translateZ(70px)' }}>
                   🥷 Invisible to Zoom
                 </div>
-                <div className="absolute -bottom-3 sm:-bottom-4 -left-3 sm:-left-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-purple-400 font-semibold border border-purple-500/20">
+                <div className="absolute -bottom-3 sm:-bottom-4 -left-3 sm:-left-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-purple-400 font-semibold border border-purple-500/20" style={{ transform: 'translateZ(70px)' }}>
                   ⚡ Answer in 1.4s
                 </div>
               </div>
@@ -969,6 +970,10 @@ export default function LandingClient(props: LandingClientProps) {
           <div className="flex gap-3 justify-center mt-8 flex-wrap text-sm">
             <Link href="/compare/final-round-ai" className="text-blue-400 hover:text-blue-300 underline">JavihAI vs Final Round AI →</Link>
             <Link href="/compare/chiku-ai" className="text-blue-400 hover:text-blue-300 underline">JavihAI vs Chiku AI →</Link>
+            <Link href="/compare/cluely" className="text-blue-400 hover:text-blue-300 underline">JavihAI vs Cluely →</Link>
+            <Link href="/compare/lockedin-ai" className="text-blue-400 hover:text-blue-300 underline">JavihAI vs LockedIn AI →</Link>
+            <Link href="/compare/interview-coder" className="text-blue-400 hover:text-blue-300 underline">JavihAI vs Interview Coder →</Link>
+            <Link href="/compare/parakeet-ai" className="text-blue-400 hover:text-blue-300 underline">JavihAI vs Parakeet AI →</Link>
           </div>
         </div>
       </section>
@@ -1087,56 +1092,7 @@ export default function LandingClient(props: LandingClientProps) {
           </div>
 
           <div className="space-y-3">
-            {[
-              {
-                q: 'How does JavihAI work during a live interview?',
-                a: 'Run JavihAI alongside your video call (Zoom, Google Meet, Teams). Choose System Audio to hear the interviewer, or Microphone mode. JavihAI auto-detects when a question is asked and streams a structured AI answer in under 2 seconds — while staying completely invisible to screen sharing.',
-              },
-              {
-                q: 'Is JavihAI visible to the interviewer during screen share?',
-                a: 'No. The JavihAI window uses OS-level exclusion from screen capture on both Windows and Mac. The interviewer sees only your screen — not the overlay. It has been tested on Zoom, Google Meet, Microsoft Teams, and Webex.',
-              },
-              {
-                q: 'Are there other precautions I should take before starting an interview?',
-                a: 'A couple of quick ones: JavihAI itself is never visible in a screen share, but other apps can still show icons in your menu bar (Mac) or taskbar (Windows) — password managers, chat apps, other overlays. Glance at it before you start and hide anything you don\'t want visible — on Mac, System Settings → Control Center → Menu Bar lets you toggle individual app icons off. Also close notification popups (Slack, email, WhatsApp) so nothing pops up mid-interview.',
-              },
-              {
-                q: 'Is my interview audio stored or recorded anywhere?',
-                a: 'Never. Audio is transcribed in real-time on your device and immediately discarded. AI answers are generated on-demand and not saved. JavihAI never stores your interview content.',
-              },
-              {
-                q: 'What is System Audio mode? How is it different from Microphone mode?',
-                a: 'System Audio mode captures what\'s playing through your speakers — so JavihAI hears the interviewer\'s voice directly, without a microphone. This means it works even if your mic is off or you\'re using headphones. Microphone mode captures your own voice for practice or when you want to dictate a question.',
-              },
-              {
-                q: 'What is Desi Mode?',
-                a: 'Desi Mode is a Power-plan feature that adapts every AI answer to Indian interview culture: CTC in ₹ LPA (not USD), notice period and bond clause context, ESOP vs variable pay, and company-specific framing for FAANG India, product startups, MNCs, and IT services. It also enables answers in Hindi, Tamil, Telugu, Kannada, and other Indian languages.',
-              },
-              {
-                q: 'How do I install JavihAI? My computer shows a security warning.',
-                a: 'On Windows: run the .exe — if you see "Windows protected your PC", click More info → Run anyway. On Mac: drag to Applications, then right-click → Open → Open (or System Settings → Privacy & Security → Open Anyway). This is normal for new publishers and the app is completely safe.',
-              },
-              {
-                q: 'How much does JavihAI cost? Is there a free plan?',
-                a: 'JavihAI has a permanent free plan with 10 AI answers per day — no credit card, no time limit. Paid plans unlock unlimited answers, Desi Mode, and more. Both paid plans include a 7-day money-back guarantee.',
-              },
-              {
-                q: 'Can I cancel my subscription anytime?',
-                a: 'Yes. Cancel anytime from your dashboard — no long-term contracts, no cancellation fees, no questions asked. You keep access until the end of your billing period.',
-              },
-              {
-                q: 'Does JavihAI work for coding rounds on HackerRank, LeetCode, and CodeSignal?',
-                a: 'Yes. Use Screenshot Solve — press the hotkey while the coding problem is on screen. JavihAI reads the problem, understands constraints and examples, and returns a clean solution with step-by-step approach and time/space complexity in under 2 seconds. Works on HackerRank, LeetCode, CodeSignal, HackerEarth, CoderPad, Coderbyte, AmcatCode, and any other browser-based coding platform.',
-              },
-              {
-                q: 'Which programming languages does JavihAI support for coding rounds?',
-                a: 'JavihAI generates solutions in Python, Java, C++, JavaScript, TypeScript, C#, Go, Kotlin, SQL, and Bash. Just mention your preferred language in your profile or in the problem context.',
-              },
-              {
-                q: 'What DSA topics can JavihAI solve?',
-                a: 'JavihAI covers all major DSA topics: Arrays, Strings, Linked Lists, Trees, Graphs, Dynamic Programming, Recursion, Backtracking, Sorting, Binary Search, Hashing, Stacks, Queues, Heaps, Tries, Bit Manipulation, Greedy, Sliding Window, Two Pointers, SQL, OOP Design, and System Design coding questions.',
-              },
-            ].map((item, i) => (
+            {FAQ_ITEMS.map((item, i) => (
               <div
                 key={i}
                 className="glass-card cursor-pointer select-none hover:border-blue-500/20"

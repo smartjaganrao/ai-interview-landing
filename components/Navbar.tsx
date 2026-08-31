@@ -270,7 +270,7 @@ export default function Navbar() {
                   </button>
                 </>
               ) : (
-                <Link href="/auth/login" className="btn btn-ghost">
+                <Link href="/auth/login" className="btn btn-signin">
                   Sign In
                 </Link>
               )}
@@ -358,7 +358,7 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/auth/login" onClick={() => setMobileOpen(false)} className="btn btn-ghost">
+                <Link href="/auth/login" onClick={() => setMobileOpen(false)} className="btn btn-signin">
                   Sign In
                 </Link>
                 <Link href="/auth/signup" onClick={() => setMobileOpen(false)} className="btn btn-primary">

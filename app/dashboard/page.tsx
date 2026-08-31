@@ -645,6 +645,56 @@ function DashboardContent() {
             </div>
           </div>
 
+          {/* ==================== DESKTOP APP TUTORIAL ==================== */}
+          <div className="card mb-6">
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <div>
+                <h2 className="text-lg font-bold">📖 How to Use the Desktop App</h2>
+                <p className="text-xs text-slate-400 mt-0.5">A 60-second walkthrough once JavihAI is installed</p>
+              </div>
+              <Link href="/install" className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex-shrink-0">
+                Full setup guide →
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-4 gap-3 mb-6">
+              {[
+                { n: '1', icon: '🔑', title: 'Sign in', desc: 'Open JavihAI and sign in with this account.' },
+                { n: '2', icon: '🎧', title: 'Pick your audio', desc: 'Choose System Audio to hear the interviewer, or Mic to speak questions yourself.' },
+                { n: '3', icon: '🎥', title: 'Join your call', desc: 'Start Zoom, Meet, or Teams as usual — JavihAI stays invisible on screen share.' },
+                { n: '4', icon: '⚡', title: 'Get answers', desc: 'Questions are auto-detected and answered in under 2 seconds. No typing needed.' },
+              ].map((step) => (
+                <div key={step.n} className="p-3 rounded-xl bg-white/5 border border-white/10">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold flex items-center justify-center flex-shrink-0">{step.n}</span>
+                    <span className="text-lg">{step.icon}</span>
+                  </div>
+                  <div className="font-semibold text-sm text-white mb-0.5">{step.title}</div>
+                  <div className="text-xs text-slate-400 leading-relaxed">{step.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-4 border-t border-white/10">
+              <div className="text-xs text-slate-400 mb-3 font-medium">⌨️ Key shortcuts — Windows: Alt · Mac: ⌥ Option</div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                {[
+                  { label: 'Start / stop listening', keys: 'Alt/⌥ + L' },
+                  { label: 'Switch mic ↔ system audio', keys: 'Alt/⌥ + M' },
+                  { label: 'Analyze screen (Screenshot Solve)', keys: 'Alt/⌥ + A' },
+                  { label: 'Show / hide overlay — works anywhere', keys: 'Alt/⌥ + H' },
+                  { label: 'Restore after screen share', keys: 'Alt/⌥ + Shift + S' },
+                  { label: 'All shortcuts (inside the app)', keys: 'Alt/⌥ + /' },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-center justify-between gap-3 p-2.5 rounded-lg bg-white/[0.03]">
+                    <span className="text-xs text-slate-300">{row.label}</span>
+                    <span className="flex-shrink-0 px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px] font-mono whitespace-nowrap">{row.keys}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* ==================== SUPPORT TICKETS ==================== */}
           {showSupport && (
             <div className="card mb-6">

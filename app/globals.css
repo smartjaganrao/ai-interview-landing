@@ -392,6 +392,39 @@ body {
   animation: pulse-glow 2.5s ease-in-out infinite;
 }
 
+/* ── Sign-in button (navbar) ───────────────────────────────────── */
+.btn-signin {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-signin::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #1E90FF, #8B2BE2, #00BFFF);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.btn-signin:hover {
+  color: white;
+  background: rgba(30, 144, 255, 0.1);
+  box-shadow: 0 8px 20px -8px rgba(139, 43, 226, 0.4);
+}
+
+.btn-signin:hover::before {
+  opacity: 1;
+}
+
 /* ── Section helpers ──────────────────────────────────────────── */
 .section-label {
   display: inline-flex;
@@ -532,6 +565,46 @@ input[type=number]::-webkit-outer-spin-button {
 
 .glow-orb-cyan {
   background: radial-gradient(circle, rgba(139, 43, 226, 0.2) 0%, transparent 70%);
+}
+
+/* ── 3D tilt (hero live-demo mockup) ──────────────────────────── */
+.tilt-perspective {
+  perspective: 1600px;
+}
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.tilt-card.tilt-active {
+  transition: transform 0.1s ease-out;
+}
+
+.tilt-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--sheen-x, 50%) var(--sheen-y, 50%), rgba(255, 255, 255, 0.16), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.tilt-active .tilt-sheen {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    transform: none !important;
+    transition: none !important;
+  }
+  .tilt-sheen {
+    display: none;
+  }
 }
 
 /* ── Bento grid ────────────────────────────────────────────────── */
