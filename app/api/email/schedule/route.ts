@@ -4,10 +4,17 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { sendRenewalReminder, sendCheckoutAbandonedReminder } from '@/lib/email';
-import { getReferralSummary, getUserInfo } from '@/lib/firebase-admin';
+import { sendRenewalReminder, sendCheckoutAbandonedReminder, sendPlanExpiredNotice } from '@/lib/email';
+import { getReferralSummary, getUserInfo, invalidatePlanCache, invalidateQuotaCache } from '@/lib/firebase-admin';
 import { getRazorpayClient } from '@/lib/razorpay-server';
 import type { PlanId } from '@/lib/pricing-config';
+
+// Anything already past its expiry at the moment this shipped is grandfathered —
+// never auto-downgraded by the sweep below. Only subscriptions that were still
+// within their paid period as of this timestamp become subject to enforcement
+// once they naturally lapse (including ones that haven't lapsed yet today).
+// 2026-08-31, the day this enforcement shipped.
+const EXPIRY_ENFORCEMENT_SHIPPED_AT = 1788144285759;
 
 function getAdmin() {
   if (!getApps().length) {
@@ -29,34 +36,41 @@ export async function GET(req: NextRequest) {
   const now = Date.now();
   const sent: string[] = [];
 
-  const snap = await db
-    .collection('email_queue')
-    .where('sentAt', '==', null)
-    .where('sendAfter', '<=', Timestamp.fromMillis(now))
-    .limit(50)
-    .get();
+  // Wrapped like every other block below — a failure here (e.g. a missing
+  // Firestore index) must not take down renewal reminders, checkout-abandon
+  // recovery, or expiry enforcement in the same run.
+  try {
+    const snap = await db
+      .collection('email_queue')
+      .where('sentAt', '==', null)
+      .where('sendAfter', '<=', Timestamp.fromMillis(now))
+      .limit(50)
+      .get();
 
-  for (const doc of snap.docs) {
-    const { email, name, type, uid } = doc.data() as { email: string; name: string; type: string; uid?: string };
-    try {
-      let referralLink: string | undefined;
-      if (type === 'referral' && uid) {
-        const { code } = await getReferralSummary(uid);
-        referralLink = code ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/signup?ref=${code}` : undefined;
-        if (!referralLink) continue; // no code yet — leave sentAt unset, retry next day
+    for (const doc of snap.docs) {
+      const { email, name, type, uid } = doc.data() as { email: string; name: string; type: string; uid?: string };
+      try {
+        let referralLink: string | undefined;
+        if (type === 'referral' && uid) {
+          const { code } = await getReferralSummary(uid);
+          referralLink = code ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/signup?ref=${code}` : undefined;
+          if (!referralLink) continue; // no code yet — leave sentAt unset, retry next day
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email/welcome`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name, type, referralLink }),
+        });
+        if (res.ok) {
+          await doc.ref.update({ sentAt: Timestamp.fromMillis(now) });
+          sent.push(`${type}:${email}`);
+        }
+      } catch (err) {
+        console.error('[email/schedule] failed for', email, err);
       }
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email/welcome`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, type, referralLink }),
-      });
-      if (res.ok) {
-        await doc.ref.update({ sentAt: Timestamp.fromMillis(now) });
-        sent.push(`${type}:${email}`);
-      }
-    } catch (err) {
-      console.error('[email/schedule] failed for', email, err);
     }
+  } catch (err) {
+    console.error('[email/schedule] email_queue sweep failed:', err);
   }
 
   // ── Renewal reminders ───────────────────────────────────────────────────────
@@ -148,9 +162,57 @@ export async function GET(req: NextRequest) {
     console.error('[email/schedule] checkout-abandon recovery failed:', err);
   }
 
+  // ── Enforce subscription expiry ─────────────────────────────────────────────
+  // Nothing previously reverted users/{uid}.plan or subscriptions/{uid}.status
+  // when a paid period ended — access never actually lapsed. Power (monthly)
+  // expires via renewalDate; Quick Pass/Pro (one-time passes) expire via
+  // expiresAt (renewalDate is explicitly null for those). Forward-only: see
+  // EXPIRY_ENFORCEMENT_SHIPPED_AT above. Dedup is natural — once status flips
+  // off 'active', these queries never see the doc again.
+  const expired: string[] = [];
+  try {
+    const [byRenewal, byExpiresAt] = await Promise.all([
+      db.collection('subscriptions').where('renewalDate', '<=', now).limit(200).get(),
+      db.collection('subscriptions').where('expiresAt', '<=', now).limit(200).get(),
+    ]);
+
+    const candidates = new Map([...byRenewal.docs, ...byExpiresAt.docs].map((d) => [d.id, d]));
+    for (const subDoc of candidates.values()) {
+      const s = subDoc.data() as {
+        plan?: PlanId; status?: string; renewalDate?: number | null; expiresAt?: number | null;
+      };
+      const expiry = s.renewalDate ?? s.expiresAt ?? null;
+      if (
+        s.status !== 'active' ||
+        !s.plan || s.plan === 'free' ||
+        expiry === null || expiry > now ||
+        expiry <= EXPIRY_ENFORCEMENT_SHIPPED_AT // grandfathered — already lapsed before this shipped
+      ) continue;
+
+      const userRef = db.collection('users').doc(subDoc.id);
+      const userSnap = await userRef.get();
+      const u = userSnap.exists ? userSnap.data() : null;
+      if (!u?.email) continue;
+
+      const batch = db.batch();
+      batch.update(userRef, { plan: 'free', updatedAt: now });
+      batch.update(subDoc.ref, { status: 'expired', expiredAt: now, updatedAt: now });
+      await batch.commit();
+
+      invalidatePlanCache(subDoc.id);
+      invalidateQuotaCache(subDoc.id);
+
+      const res = await sendPlanExpiredNotice({ email: u.email, name: u.name || '', plan: s.plan });
+      if (res.ok) expired.push(`${s.plan}:${u.email}`);
+    }
+  } catch (err) {
+    console.error('[email/schedule] expiry enforcement failed:', err);
+  }
+
   return NextResponse.json({
     sent, count: sent.length,
     reminders, reminderCount: reminders.length,
     abandoned, abandonedCount: abandoned.length,
+    expired, expiredCount: expired.length,
   });
 }
