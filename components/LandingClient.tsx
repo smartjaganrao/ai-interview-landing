@@ -174,6 +174,45 @@ const GRADIENT_CLASSES: Record<string, string> = {
   'from-green-950 to-slate-900': 'bg-gradient-to-b from-green-950 to-slate-900',
 };
 
+// Renders a comparison-table cell as a small colored icon badge instead of a
+// raw emoji, which varies in weight/color across OSes and reads as an
+// afterthought next to the rest of the page's custom iconography.
+function StatusBadge({ value }: { value: string }) {
+  const label = value.replace(/^[✅❌⚠️]+\s*/, '').trim();
+
+  if (value.startsWith('✅')) {
+    return (
+      <span className="inline-flex w-6 h-6 rounded-full bg-emerald-500/15 border border-emerald-500/30 items-center justify-center">
+        <svg className="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M16.704 5.29a1 1 0 010 1.415l-7.5 7.5a1 1 0 01-1.415 0l-3.5-3.5a1 1 0 111.415-1.414l2.793 2.792 6.792-6.793a1 1 0 011.415 0z" clipRule="evenodd" />
+        </svg>
+      </span>
+    );
+  }
+  if (value.startsWith('❌')) {
+    return (
+      <span className="inline-flex w-6 h-6 rounded-full bg-rose-500/10 border border-rose-500/20 items-center justify-center">
+        <svg className="w-3 h-3 text-rose-400/70" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+        </svg>
+      </span>
+    );
+  }
+  if (value.startsWith('⚠️')) {
+    return (
+      <span className="inline-flex items-center gap-1.5 justify-center">
+        <span className="inline-flex w-6 h-6 rounded-full bg-amber-500/15 border border-amber-500/30 items-center justify-center flex-shrink-0">
+          <svg className="w-3 h-3 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l6.28 11.166c.75 1.333-.213 2.985-1.742 2.985H3.72c-1.53 0-2.493-1.652-1.743-2.985L8.257 3.1zM10 8a1 1 0 011 1v3a1 1 0 11-2 0V9a1 1 0 011-1zm0 7a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+          </svg>
+        </span>
+        {label && <span className="text-xs text-amber-300/80 font-medium">{label}</span>}
+      </span>
+    );
+  }
+  return <span className="text-slate-500">{value}</span>;
+}
+
 // Highlights the visitor's own OS as the primary download button instead of
 // making them pick between two equal-weight buttons. Arch (arm64 vs x64)
 // can't be reliably detected from the UA string on modern browsers, so Mac
@@ -916,8 +955,8 @@ export default function LandingClient(props: LandingClientProps) {
                     <tr key={i} className={`border-b border-white/5 ${i % 2 === 0 ? 'bg-slate-900/20' : ''} hover:bg-slate-800/20 transition-smooth`}>
                       <td className="px-5 py-3.5 text-slate-300 font-medium">{feature}</td>
                       {vals.map((v, j) => (
-                        <td key={j} className={`px-4 py-3.5 text-center text-base ${j === 0 ? 'bg-blue-500/5' : ''}`}>
-                          {v}
+                        <td key={j} className={`px-4 py-3.5 text-center ${j === 0 ? 'bg-blue-500/5' : ''}`}>
+                          <StatusBadge value={v} />
                         </td>
                       ))}
                     </tr>
@@ -1106,7 +1145,9 @@ export default function LandingClient(props: LandingClientProps) {
                 <div className="flex items-center justify-between gap-4">
                   <h3 className="text-base font-semibold text-white">{item.q}</h3>
                   <div className={`w-8 h-8 rounded-full glass flex items-center justify-center transition-bounce flex-shrink-0 ${openFaq === i ? 'rotate-180 gradient-primary' : ''}`}>
-                    <span className="text-white text-xs">▼</span>
+                    <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 7.5l5 5 5-5" />
+                    </svg>
                   </div>
                 </div>
                 {openFaq === i && (
