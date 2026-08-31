@@ -28,6 +28,17 @@ const LENGTH_GUIDE = {
 
 async function generatePost(idea: string, tone: string, length: keyof typeof LENGTH_GUIDE): Promise<GeneratedPost> {
   const apiKey = process.env.GROQ_API_KEY;
+  // TEMPORARY diagnostic — booleans/lengths only, never the actual secret values.
+  console.log('[blog-generate][diag]', JSON.stringify({
+    hasGroqKey: !!apiKey,
+    groqKeyLen: apiKey?.length ?? 0,
+    vercelEnv: process.env.VERCEL_ENV,
+    nodeEnv: process.env.NODE_ENV,
+    hasAppUrl: !!process.env.NEXT_PUBLIC_APP_URL,
+    hasFirebaseAdmin: !!process.env.FIREBASE_ADMIN_SDK_JSON,
+    hasCronSecret: !!process.env.CRON_SECRET,
+    envKeyCount: Object.keys(process.env).length,
+  }));
   if (!apiKey) {
     throw new Error('GROQ_API_KEY not configured');
   }
