@@ -57,7 +57,7 @@ Requirements for "seoDescription": under 155 characters, includes a reason to cl
 Requirements for "tags": 3-6 short lowercase tags relevant to the post (e.g. "interview prep", "system design", "resume tips").`;
 
   const response = await client.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+    model: 'openai/gpt-oss-20b',
     max_tokens: 4000,
     response_format: { type: 'json_object' },
     messages: [

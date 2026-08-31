@@ -48,7 +48,7 @@ Requirements for "html":
   const userPrompt = customPrompt || TEMPLATE_PROMPTS[type];
 
   const response = await client.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+    model: 'openai/gpt-oss-20b',
     max_tokens: 1200,
     response_format: { type: 'json_object' },
     messages: [
