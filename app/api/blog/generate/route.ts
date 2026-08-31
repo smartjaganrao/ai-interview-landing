@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Groq } from 'groq-sdk';
+import type { ChatCompletionCreateParamsNonStreaming } from 'groq-sdk/resources/chat/completions';
 
 export const dynamic = 'force-dynamic';
 // Matches /api/groq/stream (the one Groq-dependent route already confirmed
@@ -18,6 +19,34 @@ interface GeneratedPost {
 
 function slugify(s: string): string {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+// Groq's response_format:'json_object' constrained decoding occasionally
+// fails to produce valid JSON for long/complex output (confirmed in
+// production — intermittent even on gpt-oss-120b) — this is a known
+// probabilistic failure mode Groq itself recommends retrying on, not a
+// deterministic bug in the prompt.
+function isJsonGenerationError(err: unknown): boolean {
+  const e = err as { status?: number; error?: { error?: { code?: string } } };
+  return e?.status === 400 && (e?.error?.error?.code === 'json_validate_failed' || e?.error?.error?.code === 'json_generate_failed');
+}
+
+async function createJsonCompletionWithRetry(
+  client: Groq,
+  params: ChatCompletionCreateParamsNonStreaming,
+  attempts = 3,
+) {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await client.chat.completions.create(params);
+    } catch (err) {
+      lastErr = err;
+      if (!isJsonGenerationError(err)) throw err;
+      console.warn(`[blog-generate] JSON generation failed, retry ${i + 1}/${attempts}...`);
+    }
+  }
+  throw lastErr;
 }
 
 const LENGTH_GUIDE = {
@@ -56,7 +85,7 @@ Requirements for "seoTitle": under 60 characters, includes the primary keyword n
 Requirements for "seoDescription": under 155 characters, includes a reason to click.
 Requirements for "tags": 3-6 short lowercase tags relevant to the post (e.g. "interview prep", "system design", "resume tips").`;
 
-  const response = await client.chat.completions.create({
+  const response = await createJsonCompletionWithRetry(client, {
     // gpt-oss-20b measured unreliable at this JSON task in production
     // (repeated json_validate_failed) — 120b confirmed 5/5 clean JSON
     // completions in a direct side-by-side test against Groq.
