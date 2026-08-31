@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "app/api/blog/generate/route.ts": {
-    "mtime": 1788146368.566922,
-    "ast_hash": "0fa2b233d0089f09e04eb832f26b8519",
+    "mtime": 1788170513.3796318,
+    "ast_hash": "ea9cc357b1538039bd8e83006976c825",
     "semantic_hash": ""
   },
   "app/api/creator/apply/route.ts": {
@@ -45,8 +45,8 @@
     "semantic_hash": ""
   },
   "app/api/email/generate-template/route.ts": {
-    "mtime": 1788146373.2691748,
-    "ast_hash": "08cfb05fdcd5e97fa6af061df272aa9f",
+    "mtime": 1788170514.418465,
+    "ast_hash": "1c5f70aadcd09ebe09b5fab22229e2a0",
     "semantic_hash": ""
   },
   "app/api/email/schedule/route.ts": {
@@ -80,7 +80,7 @@
     "semantic_hash": "d5e4bc0d88f4d0ea11f02d46b500ce7d"
   },
   "app/api/mock-interview/route.ts": {
-    "mtime": 1788146364.2006657,
+    "mtime": 1788146454.8337789,
     "ast_hash": "a5e3ef4a0a391af3b0ddbf3c5c0cbe5c",
     "semantic_hash": ""
   },
@@ -289,11 +289,6 @@
     "ast_hash": "4f29c817718d6ab95ac21517c8c547b1",
     "semantic_hash": ""
   },
-  "app/robots.ts": {
-    "mtime": 1787461178.4215903,
-    "ast_hash": "eee2e5ddf2429fcf3a78e905472087aa",
-    "semantic_hash": ""
-  },
   "app/sitemap.ts": {
     "mtime": 1787461965.5725093,
     "ast_hash": "a4202a940e22b3e5cd9821554acb9bc6",
@@ -425,7 +420,7 @@
     "semantic_hash": ""
   },
   "vercel.json": {
-    "mtime": 1788145925.2572496,
+    "mtime": 1788146454.8440373,
     "ast_hash": "ff98aef7d07f69e31aaf44c79ff8ffab",
     "semantic_hash": ""
   },
@@ -1425,8 +1420,18 @@
     "semantic_hash": ""
   },
   "app/api/blog/auto-draft/route.ts": {
-    "mtime": 1788145917.9493656,
+    "mtime": 1788146454.832909,
     "ast_hash": "8d134a058f75806d58fa5b5313bceecc",
+    "semantic_hash": ""
+  },
+  "app/robots.txt/route.ts": {
+    "mtime": 1788176905.277593,
+    "ast_hash": "fa7593f9c9be930f8e9e8578157b7e48",
+    "semantic_hash": ""
+  },
+  "public/blog-content/best-ai-interview-copilots-india-2026.md": {
+    "mtime": 1788177320.5114965,
+    "ast_hash": "cc94364f2d35a7537e5ac2c29972d0ce",
     "semantic_hash": ""
   }
 }
