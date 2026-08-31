@@ -330,7 +330,7 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1788120651.2513666,
+    "mtime": 1788121064.4927907,
     "ast_hash": "af4bd999715dbefe511ee9fe54e7c298",
     "semantic_hash": ""
   },
@@ -460,8 +460,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1787922983.8031464,
-    "ast_hash": "6a34e0d018fa4360783241f2ac79a395",
+    "mtime": 1788143894.6343343,
+    "ast_hash": "327da62bcbaf6c185f8cb9823d9d25a9",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {
