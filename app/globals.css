@@ -560,14 +560,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* ── Section spacing ──────────────────────────────────────────── */
 .section-py {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 @media (min-width: 768px) {
   .section-py {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
+    padding-top: 5.5rem;
+    padding-bottom: 5.5rem;
   }
 }
 

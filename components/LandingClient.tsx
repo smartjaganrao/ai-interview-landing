@@ -302,7 +302,7 @@ export default function LandingClient(props: LandingClientProps) {
       {/* ═══════════════════════════════════════════════════════════════
           HERO
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="relative pt-28 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         {/* Ambient orbs */}
         <div className="glow-orb animate-orb-drift w-[500px] h-[500px] -top-40 -left-40" />
         <div className="glow-orb animate-orb-drift w-[400px] h-[400px] top-20 -right-20" style={{ animationDelay: '4s' }} />
