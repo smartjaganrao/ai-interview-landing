@@ -33,7 +33,7 @@ function isJsonGenerationError(err: unknown): boolean {
 async function createJsonCompletionWithRetry(
   client: Groq,
   params: ChatCompletionCreateParamsNonStreaming,
-  attempts = 3,
+  attempts = 5,
 ) {
   let lastErr: unknown;
   for (let i = 0; i < attempts; i++) {
