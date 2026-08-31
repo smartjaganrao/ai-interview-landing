@@ -48,15 +48,15 @@ Requirements for "html":
   const userPrompt = customPrompt || TEMPLATE_PROMPTS[type];
 
   const response = await client.chat.completions.create({
-    model: 'openai/gpt-oss-20b',
-    // Bumped from 1200 — reasoning tokens count against this budget even
-    // with reasoning_format: 'hidden', and 1200 was consistently too tight
-    // for gpt-oss-20b, producing empty/invalid JSON (confirmed in prod).
+    // gpt-oss-20b measured unreliable at this JSON task in production
+    // (repeated json_validate_failed) — 120b confirmed 5/5 clean JSON
+    // completions in a direct side-by-side test against Groq.
+    model: 'openai/gpt-oss-120b',
     max_tokens: 2200,
     response_format: { type: 'json_object' },
-    // gpt-oss-20b is a reasoning model — without this, its hidden <think>
-    // trace can consume the visible response and break JSON parsing (see
-    // groq/stream/route.ts for the confirmed root cause).
+    // Reasoning model — without this, its hidden <think> trace can consume
+    // the visible response and break JSON parsing (see groq/stream/route.ts
+    // for the confirmed root cause).
     reasoning_format: 'hidden',
     messages: [
       {
