@@ -328,7 +328,7 @@ export default function LandingClient(props: LandingClientProps) {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                   </span>
-                  <span>India&apos;s First Unlimited AI Interview Copilot</span>
+                  <span>🇮🇳 Built in India, Built for India</span>
                 </div>
               </div>
 
@@ -343,7 +343,7 @@ export default function LandingClient(props: LandingClientProps) {
               </p>
 
               <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                Free forever for freshers. ~4× cheaper than Final Round AI. Works on Windows 10/11 and Mac.
+                India&apos;s first unlimited AI interview copilot — CTC in ₹, 9 regional languages, free forever for freshers. ~4× cheaper than Final Round AI.
               </p>
 
               {/* Primary CTAs */}
