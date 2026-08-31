@@ -857,6 +857,10 @@ export default function LandingClient(props: LandingClientProps) {
                   </div>
                 ))}
               </div>
+
+              <Link href="/indian-languages" className="inline-flex items-center gap-1.5 text-sm text-orange-400 hover:text-orange-300 font-semibold mt-6">
+                See all 9 languages →
+              </Link>
             </div>
 
             {/* Right: Desi Mode card */}
