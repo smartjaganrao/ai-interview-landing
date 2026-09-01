@@ -10,7 +10,12 @@ import { setSubscription as setSubAction } from '@/lib/slices/subscriptionSlice'
 import { setUser } from '@/lib/slices/userSlice';
 import CompleteProfileModal, { isProfileComplete } from '@/components/CompleteProfileModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
+import DownloadPromptModal from '@/components/DownloadPromptModal';
+import { trackEvent } from '@/components/GoogleAnalytics';
 import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
+
+const DOWNLOAD_PROMPT_SHOWN_KEY = 'javihai_download_prompt_shown';
+const DOWNLOAD_PROMPT_DELAY_MS = 1500;
 
 const WINDOWS_DOWNLOAD_URL = '/api/download/win';
 const MAC_DOWNLOAD_URL = '/api/download/mac';
@@ -59,6 +64,7 @@ function DashboardContent() {
   const [showInstallHelp, setShowInstallHelp] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [modalOS, setModalOS] = useState<'windows' | 'mac'>('windows');
+  const [showDownloadPrompt, setShowDownloadPrompt] = useState(false);
 
   const withAttribution = (url: string) => {
     if (!user) return url;
@@ -104,6 +110,23 @@ function DashboardContent() {
       }
     }
   }, [user, userData, authLoading, dataReady.user]);
+
+  // Nudge freshly-logged-in users to actually download the desktop app —
+  // the hero card further down the page is passive and easy to miss.
+  // Waits for showProfilePrompt to resolve first so the two full-screen
+  // modals never stack; sessionStorage gate means it reappears each new
+  // login session (until they've downloaded) but not on every navigation
+  // within one session.
+  useEffect(() => {
+    if (authLoading || !user || hasDownloaded || showProfilePrompt) return;
+    if (sessionStorage.getItem(DOWNLOAD_PROMPT_SHOWN_KEY)) return;
+    const timer = setTimeout(() => {
+      sessionStorage.setItem(DOWNLOAD_PROMPT_SHOWN_KEY, '1');
+      setShowDownloadPrompt(true);
+      trackEvent('download_prompt_shown', 'conversion', detectedOS ?? 'unknown');
+    }, DOWNLOAD_PROMPT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [authLoading, user, hasDownloaded, showProfilePrompt, detectedOS]);
 
   useEffect(() => {
     if (!user) return;
@@ -195,6 +218,7 @@ function DashboardContent() {
   const handleDownload = (platform: 'windows' | 'mac', arch?: 'x64') => {
     localStorage.setItem('javihai_downloaded', 'true');
     setHasDownloaded(true);
+    setShowDownloadPrompt(false);
     const base = platform === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL;
     const url = arch ? `${base}?arch=${arch}` : base;
     window.open(withAttribution(url), '_blank');
@@ -256,6 +280,14 @@ function DashboardContent() {
         os={modalOS}
         onSwitchOS={setModalOS}
         downloadUrl={withAttribution(modalOS === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL)}
+      />
+
+      <DownloadPromptModal
+        open={showDownloadPrompt}
+        onClose={() => { setShowDownloadPrompt(false); trackEvent('download_prompt_dismissed', 'conversion'); }}
+        os={detectedOS}
+        appVersion={appVersion}
+        onDownload={(platform) => { trackEvent('download_prompt_clicked', 'conversion', platform); handleDownload(platform); }}
       />
 
       {showSuccessBanner && (

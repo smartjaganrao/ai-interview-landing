@@ -1,16 +1,16 @@
 # Graph Report - ai-interview-landing  (2026-09-01)
 
 ## Corpus Check
-- 279 files · ~204,210 words
+- 280 files · ~204,855 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2361 nodes · 2711 edges · 294 communities (190 shown, 104 thin omitted)
+- 2369 nodes · 2720 edges · 292 communities (188 shown, 104 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `db9823bc`
+- Built from commit: `cfa71b77`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -298,8 +298,6 @@
 - route.ts
 - route.ts
 - getReferralSummary
-- Google Search Console Usage
-- firebase
 - razorpay
 - Robots.txt Configuration
 - resend
@@ -325,21 +323,21 @@
   app/api/announcements/route.ts → lib/server-cache.ts
 - `POST()` --calls--> `getCoupon()`  [EXTRACTED]
   app/api/coupons/validate/route.ts → lib/firebase-admin.ts
-- `POST()` --calls--> `getUserInfo()`  [EXTRACTED]
-  app/api/creator/apply/route.ts → lib/firebase-admin.ts
+- `POST()` --calls--> `verifyIdToken()`  [EXTRACTED]
+  app/api/creator/payout-method/route.ts → lib/firebase-admin.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (294 total, 104 thin omitted)
+## Communities (292 total, 104 thin omitted)
 
 ### Community 0 - "Navbar.tsx"
-Cohesion: 0.22
-Nodes (14): CheckoutContent(), loadRazorpayScript(), offerActiveFor(), Pricing, RazorpayOptions, Window, AnyPlanId, canDowngradeTo() (+6 more)
+Cohesion: 0.26
+Nodes (12): CheckoutContent(), loadRazorpayScript(), offerActiveFor(), Pricing, RazorpayOptions, Window, AnyPlanId, canDowngradeTo() (+4 more)
 
 ### Community 1 - "firebase-admin.ts"
-Cohesion: 0.09
-Nodes (27): GET(), POST(), POST(), POST(), POST(), couponIsValid(), couponsCache, CouponsDoc (+19 more)
+Cohesion: 0.08
+Nodes (30): GET(), POST(), POST(), POST(), POST(), consumeHours(), couponsCache, CouponsDoc (+22 more)
 
 ### Community 2 - "Footer.tsx"
 Cohesion: 0.14
@@ -354,12 +352,12 @@ Cohesion: 0.11
 Nodes (19): autoprefixer, eslint, eslint-config-next, devDependencies, autoprefixer, eslint, eslint-config-next, postcss (+11 more)
 
 ### Community 5 - "razorpay-server.ts"
-Cohesion: 0.29
-Nodes (14): POST(), POST(), RazorpayEvent, RazorpayPaymentEntity, RazorpaySubscriptionEntity, sendPaymentConfirmation(), accrueCreatorCommission(), getUserInfo() (+6 more)
+Cohesion: 0.19
+Nodes (19): GET(), POST(), POST(), RazorpayEvent, RazorpayPaymentEntity, RazorpaySubscriptionEntity, sendPaymentConfirmation(), accrueCreatorCommission() (+11 more)
 
 ### Community 6 - "dependencies"
 Cohesion: 0.10
-Nodes (21): clsx, firebase-admin, next, dependencies, clsx, firebase-admin, next, react (+13 more)
+Nodes (21): clsx, firebase, firebase-admin, next, dependencies, clsx, firebase, firebase-admin (+13 more)
 
 ### Community 7 - "layout.tsx"
 Cohesion: 0.09
@@ -374,16 +372,16 @@ Cohesion: 0.30
 Nodes (9): BlogPostPage(), formatDate(), generateMetadata(), generateStaticParams(), sitemap(), BlogPost, getAllPublishedSlugs(), getPostBySlug() (+1 more)
 
 ### Community 10 - "email.ts"
-Cohesion: 0.17
-Nodes (18): GET(), getAdmin(), POST(), formatDate(), PLAN_EMOJI, PLAN_FEATURES, PLAN_NAMES, sendCheckoutAbandonedReminder() (+10 more)
+Cohesion: 0.16
+Nodes (19): GET(), getAdmin(), POST(), formatDate(), PLAN_EMOJI, PLAN_FEATURES, PLAN_NAMES, sendCheckoutAbandonedReminder() (+11 more)
 
 ### Community 11 - "page.tsx"
 Cohesion: 0.25
 Nodes (7): Best AI Interview Copilots in India (2026): JavihAI vs InterviewAssist vs Global Tools, FAQs, How the global tools compare, InterviewAssist, JavihAI, Quick Comparison, Which should you choose?
 
 ### Community 12 - "page.tsx"
-Cohesion: 0.17
-Nodes (13): POST(), POST(), POST(), POST(), POST(), POST(), attributeCreator(), claimReferral() (+5 more)
+Cohesion: 0.15
+Nodes (15): POST(), POST(), POST(), POST(), POST(), POST(), attributeCreator(), claimReferral() (+7 more)
 
 ### Community 13 - "deploy-firestore-rules.mjs"
 Cohesion: 0.20
@@ -422,16 +420,16 @@ Cohesion: 0.83
 Nodes (3): GET(), isAtLeast(), parseVersion()
 
 ### Community 27 - "route.ts"
-Cohesion: 0.17
-Nodes (17): CouponPreview, Offer, faqSchema, FeaturedCoupon, Offer, offerActiveFor(), Pricing, PricingPage() (+9 more)
+Cohesion: 0.12
+Nodes (14): AppDispatch, persistConfig, persistedReducer, rootReducer, RootState, { store, persistor }, initialState, SubscriptionData (+6 more)
 
 ### Community 29 - "robots.ts"
 Cohesion: 0.18
 Nodes (14): formatCountdown(), NewCustomerOfferPopup(), PopupCoupon, cachedGetDoc(), cachedQuery(), CacheEntry, docCache, invalidateDocCache() (+6 more)
 
 ### Community 31 - "next-env.d.ts"
-Cohesion: 0.06
-Nodes (44): DashboardContent(), detectDesktopOS(), ACQUISITION_SOURCES, CompleteProfileModal(), EXPERIENCE_LEVELS, isProfileComplete(), ProfileDetails, Props (+36 more)
+Cohesion: 0.14
+Nodes (22): DashboardContent(), detectDesktopOS(), ActivityData, CachedDashboardData, clearAllData(), clearDashboardCache(), getDayKey(), readDashboardCache() (+14 more)
 
 ### Community 34 - "Jest React Testing"
 Cohesion: 0.05
@@ -486,8 +484,8 @@ Cohesion: 0.09
 Nodes (21): Build Failure Triage, Common Rationalizations, Debugging and Error Recovery, Error-Specific Patterns, Instrumentation Guidelines, Overview, Red Flags, Runtime Error Triage (+13 more)
 
 ### Community 47 - "pricing-config.ts"
-Cohesion: 0.13
-Nodes (22): consumeHours(), getRemainingHours(), DurationType, getPlanBillingLabel(), getPlanById(), getPlanCta(), getPlanDisplayOrder(), getPlanEmoji() (+14 more)
+Cohesion: 0.10
+Nodes (37): CouponPreview, Offer, faqSchema, FeaturedCoupon, Offer, offerActiveFor(), Pricing, PricingPage() (+29 more)
 
 ### Community 48 - "JavihAI vs Final Round AI: Which AI Interview Copilot is Better?"
 Cohesion: 0.09
@@ -582,8 +580,8 @@ Cohesion: 0.29
 Nodes (7): Basic Static Sitemap, Dynamic Sitemap with Database, Image Sitemap, Localized Sitemap, Multiple Sitemaps (Large Sites), Sitemap Configuration, Video Sitemap
 
 ### Community 72 - "route.ts"
-Cohesion: 0.27
-Nodes (12): POST(), GET(), applyCouponDiscount(), effectiveAmount(), getReferralCredits(), offerApplies(), BillingType, getRazorpayClient() (+4 more)
+Cohesion: 0.20
+Nodes (13): POST(), GET(), POST(), Page(), applyCouponDiscount(), couponIsValid(), effectiveAmount(), getCoupon() (+5 more)
 
 ### Community 73 - "Open Knowledge Format (OKF)"
 Cohesion: 0.14
@@ -602,8 +600,8 @@ Cohesion: 0.14
 Nodes (14): Auto-merge Dependabot PRs, Common Issues, Common Patterns, Complete GitHub Actions Guide, Composite Actions, Conditional Execution, if Conditions, Job Conditions (+6 more)
 
 ### Community 77 - "route.ts"
-Cohesion: 0.18
-Nodes (18): FALLBACK_MODELS, fetchGroqWithFallback(), GroqAttemptResult, POST(), createChatCompletionWithFallback(), Difficulty, DIFFICULTY_GUIDE, FALLBACK_MODELS (+10 more)
+Cohesion: 0.11
+Nodes (23): GET(), FALLBACK_MODELS, fetchGroqWithFallback(), GroqAttemptResult, POST(), createChatCompletionWithFallback(), Difficulty, DIFFICULTY_GUIDE (+15 more)
 
 ### Community 78 - "Patterns"
 Cohesion: 0.15
@@ -614,8 +612,8 @@ Cohesion: 0.33
 Nodes (4): Job, jobBoardSchema, LOCATIONS, ROLES
 
 ### Community 80 - "Next.js SEO Optimization"
-Cohesion: 0.15
-Nodes (13): Add noindex to a page, Cache Components & SEO, Canonical for dynamic routes, Common Mistakes to Avoid, Core Web Vitals Targets, Dynamic metadata per page, Key Principles, Next.js SEO Optimization (+5 more)
+Cohesion: 0.11
+Nodes (19): Add noindex to a page, app/layout.tsx - Root Metadata, app/manifest.ts - Web App Manifest, app/robots.ts - Robots Configuration, app/sitemap.ts - Dynamic Sitemap, Cache Components & SEO, Canonical for dynamic routes, Common Mistakes to Avoid (+11 more)
 
 ### Community 81 - "Triggers (on)"
 Cohesion: 0.17
@@ -626,8 +624,8 @@ Cohesion: 0.17
 Nodes (11): 1. User Value, 2. Feasibility, 3. Differentiation, Assumption Audit, Core Evaluation Dimensions, Decision Framework, Might Be True (Nice to Have), Must Be True (Dealbreakers) (+3 more)
 
 ### Community 83 - "SEO Troubleshooting Guide"
-Cohesion: 0.15
-Nodes (13): Backlink Sources, "Blocked by robots.txt", Building Authority, Contents, "Crawled - currently not indexed", Debug Checklist, "Discovered - currently not indexed", For New Sites (+5 more)
+Cohesion: 0.17
+Nodes (12): Backlink Sources, Building Authority, Contents, Debug Checklist, For New Sites, Google Search Console Usage, Pages Report, Request Indexing (+4 more)
 
 ### Community 84 - "6. Rendering Performance"
 Cohesion: 0.17
@@ -666,8 +664,8 @@ Cohesion: 0.18
 Nodes (10): 3.10 Use after() for Non-Blocking Operations, 3.1 Authenticate Server Actions Like API Routes, 3.2 Avoid Duplicate Serialization in RSC Props, 3.3 Avoid Shared Module State for Request Data, 3.4 Cross-Request LRU Caching, 3.5 Hoist Static I/O to Module Level, 3.6 Minimize Serialization at RSC Boundaries, 3.7 Parallel Data Fetching with Component Composition (+2 more)
 
 ### Community 93 - "server-cache.ts"
-Cohesion: 0.29
-Nodes (5): GET(), POST(), cache, CacheEntry, getServerCached()
+Cohesion: 0.28
+Nodes (8): ACQUISITION_SOURCES, CompleteProfileModal(), EXPERIENCE_LEVELS, isProfileComplete(), ProfileDetails, Props, shouldShowProfilePrompt(), stripCountryCode()
 
 ### Community 94 - "SKILL.md"
 Cohesion: 0.20
@@ -906,8 +904,8 @@ Cohesion: 0.40
 Nodes (4): description, name, private, version
 
 ### Community 156 - "page.tsx"
-Cohesion: 0.60
-Nodes (4): POST(), getClient(), sendWhatsAppTemplate(), toWhatsAppAddress()
+Cohesion: 0.57
+Nodes (5): POST(), getClient(), sendWhatsAppFreeform(), sendWhatsAppTemplate(), toWhatsAppAddress()
 
 ### Community 164 - "Building ai-interview-helper locally"
 Cohesion: 0.50
@@ -1042,12 +1040,12 @@ Cohesion: 0.40
 Nodes (3): faqSchema, LANGUAGES, metadata
 
 ### Community 279 - "How AI Search Works"
-Cohesion: 0.47
-Nodes (4): GET(), Page(), getDynamicPricing(), pricingFallback()
+Cohesion: 0.29
+Nodes (6): AUTH_KEYS, __dir, envPath, OPTIONAL_KEYS, REQUIRED_KEYS, root
 
 ### Community 285 - "next"
-Cohesion: 0.33
-Nodes (6): app/layout.tsx - Root Metadata, app/manifest.ts - Web App Manifest, app/robots.ts - Robots Configuration, app/sitemap.ts - Dynamic Sitemap, Essential Files, OG / Twitter Images
+Cohesion: 0.40
+Nodes (5): "Blocked by robots.txt", "Crawled - currently not indexed", "Discovered - currently not indexed", Google Indexing Issues, "URL is not on Google"
 
 ### Community 286 - "route.ts"
 Cohesion: 0.33
@@ -1057,36 +1055,28 @@ Nodes (6): Accidentally blocked from AI search, Common Technical Issues, Duplica
 Cohesion: 0.67
 Nodes (3): GET(), getAdmin(), TOPIC_ANGLES
 
-### Community 288 - "getReferralSummary"
-Cohesion: 0.50
-Nodes (4): POST(), getOrCreateReferralCode(), getReferralSummary(), randomCode()
-
-### Community 289 - "Google Search Console Usage"
-Cohesion: 0.50
-Nodes (4): Google Search Console Usage, Pages Report, Request Indexing, URL Inspection Tool
-
 ### Community 292 - "Robots.txt Configuration"
 Cohesion: 0.20
 Nodes (10): Basic Robots.txt, Contents, Environment-Based Robots, `MetadataRoute.Robots` fields, Multiple User Agents, Robots.txt Best Practices, Robots.txt Configuration, Sitemap Best Practices (+2 more)
 
 ## Knowledge Gaps
-- **1478 isolated node(s):** `idea-refine.sh script`, `orgSchema`, `metadata`, `TOPIC_ANGLES`, `GeneratedPost` (+1473 more)
+- **1484 isolated node(s):** `idea-refine.sh script`, `orgSchema`, `metadata`, `TOPIC_ANGLES`, `GeneratedPost` (+1479 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **104 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `migratePlanId()` connect `Navbar.tsx` to `firebase-admin.ts`, `route.ts`, `pricing-config.ts`, `route.ts`, `firestore-cache.ts`, `next-env.d.ts`?**
+- **Why does `migratePlanId()` connect `Navbar.tsx` to `firebase-admin.ts`, `route.ts`, `pricing-config.ts`, `firestore-cache.ts`, `next-env.d.ts`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
-- **Why does `PlanId` connect `route.ts` to `Navbar.tsx`, `firebase-admin.ts`, `route.ts`, `email.ts`, `pricing-config.ts`, `firestore-cache.ts`, `robots.ts`, `next-env.d.ts`?**
+- **Why does `PlanId` connect `pricing-config.ts` to `Navbar.tsx`, `firebase-admin.ts`, `razorpay-server.ts`, `route.ts`, `email.ts`, `firestore-cache.ts`, `robots.ts`, `next-env.d.ts`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
-- **Why does `useAuth()` connect `useAuth` to `Navbar.tsx`, `page.tsx`, `route.ts`, `firestore-cache.ts`, `robots.ts`, `next-env.d.ts`?**
+- **Why does `useAuth()` connect `useAuth` to `Navbar.tsx`, `page.tsx`, `pricing-config.ts`, `firestore-cache.ts`, `robots.ts`, `next-env.d.ts`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `idea-refine.sh script`, `orgSchema`, `metadata` to the rest of the system?**
-  _1478 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1484 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `firebase-admin.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.08912655971479501 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07957957957957958 - nodes in this community are weakly interconnected._
 - **Should `Footer.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
