@@ -53,11 +53,25 @@ async function getResendConfig(): Promise<ResendConfig | null> {
   return null;
 }
 
-interface EmailPayload {
-  to: string[] | string;
-  subject: string;
+interface PersonalizedRecipient {
+  email: string;
   html: string;
+}
+
+interface EmailPayload {
+  // Either a plain address list (every recipient gets the same `html`), or
+  // a per-recipient array carrying already-personalized html (used by
+  // promotions/send after substituting merge fields like {{first_name}}
+  // per user — this route has no recipient identity of its own to do that
+  // substitution itself).
+  to: string[] | string | PersonalizedRecipient[];
+  subject: string;
+  html?: string;
   fromName?: string;
+}
+
+function isPersonalizedRecipients(to: EmailPayload['to']): to is PersonalizedRecipient[] {
+  return Array.isArray(to) && to.length > 0 && typeof to[0] === 'object';
 }
 
 export async function POST(request: NextRequest) {
@@ -65,7 +79,7 @@ export async function POST(request: NextRequest) {
     const payload: EmailPayload = await request.json();
     const { to, subject, html, fromName } = payload;
 
-    if (!to || !subject || !html) {
+    if (!to || !subject || (!html && !isPersonalizedRecipients(to))) {
       return NextResponse.json(
         { error: 'Missing required fields: to, subject, html' },
         { status: 400 }
@@ -81,7 +95,9 @@ export async function POST(request: NextRequest) {
     }
 
     const resend = new Resend(resendConfig.apiKey);
-    const recipients = Array.isArray(to) ? to : [to];
+    const recipients: PersonalizedRecipient[] = isPersonalizedRecipients(to)
+      ? to
+      : (Array.isArray(to) ? (to as string[]) : [to as string]).map((email) => ({ email, html: html! }));
 
     // Send in batches of 100 (Resend limit)
     const BATCH_SIZE = 100;
@@ -92,11 +108,11 @@ export async function POST(request: NextRequest) {
       const batch = recipients.slice(i, i + BATCH_SIZE);
       try {
         const { error } = await resend.batch.send(
-          batch.map((email) => ({
+          batch.map((recipient) => ({
             from: fromName ? `${fromName} <${resendConfig.fromEmail}>` : resendConfig.fromEmail,
-            to: email,
+            to: recipient.email,
             subject,
-            html,
+            html: recipient.html,
           }))
         );
 

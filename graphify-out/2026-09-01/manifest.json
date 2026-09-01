@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "app/dashboard/page.tsx": {
-    "mtime": 1788196493.8128111,
-    "ast_hash": "98c668f2b38f522c267e49bb475dbe7b",
+    "mtime": 1788251788.6719651,
+    "ast_hash": "8023baa0e3d20c4ff587e52049abbb47",
     "semantic_hash": ""
   },
   "app/install/page.tsx": {
@@ -305,7 +305,7 @@
     "semantic_hash": ""
   },
   "components/CompleteProfileModal.tsx": {
-    "mtime": 1788208031.0528789,
+    "mtime": 1788210910.6675584,
     "ast_hash": "bc8e34b37d3c97a72d246dfb2c84829e",
     "semantic_hash": ""
   },
@@ -385,7 +385,7 @@
     "semantic_hash": "62ef0f4fd77746bc94b2caae8d972a34"
   },
   "package.json": {
-    "mtime": 1788208045.9237342,
+    "mtime": 1788210910.6835368,
     "ast_hash": "4a910e65c664513d13e8755282237937",
     "semantic_hash": ""
   },
@@ -1440,18 +1440,23 @@
     "semantic_hash": ""
   },
   "app/api/notifications/whatsapp-welcome/route.ts": {
-    "mtime": 1788208023.7688527,
+    "mtime": 1788210910.6672938,
     "ast_hash": "4aa848c8e91277067e031d0086785059",
     "semantic_hash": ""
   },
   "lib/whatsapp.ts": {
-    "mtime": 1788209159.0429926,
+    "mtime": 1788210910.6815312,
     "ast_hash": "d9e469b85e12d63851d14ae06d797c11",
     "semantic_hash": ""
   },
   "scripts/test-whatsapp.mjs": {
-    "mtime": 1788209174.8015053,
+    "mtime": 1788210910.6837661,
     "ast_hash": "997bafe5df229c78f0303e3ea87eaeeb",
+    "semantic_hash": ""
+  },
+  "components/DownloadPromptModal.tsx": {
+    "mtime": 1788251742.364612,
+    "ast_hash": "56cf91dc3340a325c349879b40724deb",
     "semantic_hash": ""
   }
 }
