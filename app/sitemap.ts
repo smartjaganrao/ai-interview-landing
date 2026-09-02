@@ -40,7 +40,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/privacy` },
     { url: `${base}/terms` },
     { url: `${base}/refund` },
-    { url: `${base}/creator` },
+    // /creator deliberately not listed — it's a client-side auth-gated
+    // account page (redirects anonymous visitors to /auth/login and
+    // renders only a loading state until authenticated), same category
+    // as /dashboard. Nothing here for a crawler to actually index.
     ...blogEntries,
   ];
 }
