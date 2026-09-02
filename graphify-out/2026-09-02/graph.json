@@ -5804,8 +5804,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice",
-      "community": 27,
-      "community_name": "route.ts",
+      "community": 297,
+      "community_name": "subscriptionSlice.ts",
       "norm_label": "subscriptionslice.ts"
     },
     {
@@ -5815,8 +5815,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptiondata",
-      "community": 27,
-      "community_name": "route.ts",
+      "community": 297,
+      "community_name": "subscriptionSlice.ts",
       "norm_label": "subscriptiondata"
     },
     {
@@ -5826,8 +5826,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptionstate",
-      "community": 27,
-      "community_name": "route.ts",
+      "community": 297,
+      "community_name": "subscriptionSlice.ts",
       "norm_label": "subscriptionstate"
     },
     {
@@ -5837,8 +5837,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_initialstate",
-      "community": 27,
-      "community_name": "route.ts",
+      "community": 297,
+      "community_name": "subscriptionSlice.ts",
       "norm_label": "initialstate"
     },
     {
@@ -5848,8 +5848,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "lib_slices_subscriptionslice_subscriptionslice",
-      "community": 27,
-      "community_name": "route.ts",
+      "community": 297,
+      "community_name": "subscriptionSlice.ts",
       "norm_label": "subscriptionslice"
     },
     {
@@ -6277,8 +6277,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "package_dependencies_firebase",
-      "community": 288,
-      "community_name": "getReferralSummary",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "firebase"
     },
     {
@@ -6288,8 +6288,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "firebase",
-      "community": 288,
-      "community_name": "getReferralSummary",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "firebase"
     },
     {
@@ -6431,8 +6431,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "package_dependencies_react_redux",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 288,
+      "community_name": "getReferralSummary",
       "norm_label": "react-redux"
     },
     {
@@ -6442,8 +6442,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "react_redux",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 288,
+      "community_name": "getReferralSummary",
       "norm_label": "react-redux"
     },
     {
@@ -33890,7 +33890,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L932",
+      "source_location": "L928",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -56812,5 +56812,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "bb55768e3794e3a9d174f39297b439b978bbbdba"
+  "built_at_commit": "77e79d7e4c3fe2b4e26cf69743a4df376a0f880e"
 }
