@@ -1,16 +1,16 @@
-# Graph Report - ai-interview-landing  (2026-09-01)
+# Graph Report - ai-interview-landing  (2026-09-02)
 
 ## Corpus Check
-- 281 files · ~205,434 words
+- 281 files · ~205,602 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2374 nodes · 2729 edges · 304 communities (199 shown, 105 thin omitted)
+- 2374 nodes · 2729 edges · 303 communities (198 shown, 105 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `77e79d7e`
+- Built from commit: `bb55768e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -306,7 +306,6 @@
 - Essential Files
 - Nice to Have (Optimization)
 - Important (Should Have)
-- subscriptionSlice.ts
 - usageSlice.ts
 - userSlice.ts
 - How AI Search Works
@@ -341,7 +340,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (304 total, 105 thin omitted)
+## Communities (303 total, 105 thin omitted)
 
 ### Community 0 - "Navbar.tsx"
 Cohesion: 0.19
@@ -369,7 +368,7 @@ Nodes (20): GET(), POST(), POST(), RazorpayEvent, RazorpayPaymentEntity, Razorpa
 
 ### Community 6 - "dependencies"
 Cohesion: 0.10
-Nodes (21): clsx, firebase, firebase-admin, next, dependencies, clsx, firebase, firebase-admin (+13 more)
+Nodes (21): clsx, firebase-admin, next, dependencies, clsx, firebase-admin, next, react (+13 more)
 
 ### Community 7 - "layout.tsx"
 Cohesion: 0.15
@@ -432,8 +431,8 @@ Cohesion: 0.83
 Nodes (3): GET(), isAtLeast(), parseVersion()
 
 ### Community 27 - "route.ts"
-Cohesion: 0.28
-Nodes (6): AppDispatch, persistConfig, persistedReducer, rootReducer, RootState, { store, persistor }
+Cohesion: 0.16
+Nodes (10): AppDispatch, persistConfig, persistedReducer, rootReducer, RootState, { store, persistor }, initialState, SubscriptionData (+2 more)
 
 ### Community 29 - "robots.ts"
 Cohesion: 0.07
@@ -1090,10 +1089,6 @@ Nodes (5): AI Visibility Audit, Step 1: Check AI Answers for Your Key Queries, S
 ### Community 296 - "Important (Should Have)"
 Cohesion: 0.40
 Nodes (5): AI Visibility Monitoring Tools, DIY Monitoring (No Tools), Monitoring AI Visibility, Search Console expectations, What to Track
-
-### Community 297 - "subscriptionSlice.ts"
-Cohesion: 0.40
-Nodes (4): initialState, SubscriptionData, subscriptionSlice, SubscriptionState
 
 ### Community 298 - "usageSlice.ts"
 Cohesion: 0.40
