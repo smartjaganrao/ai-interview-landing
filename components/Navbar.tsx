@@ -92,8 +92,6 @@ interface FeaturedCoupon {
   appliesTo: string;
 }
 
-const BANNER_DISMISS_KEY_PREFIX = 'offerBannerDismissed:';
-
 /**
  * Slim announcement-bar strip above the nav row, inside the same fixed
  * container as the rest of Navbar so the two share one box instead of
@@ -101,9 +99,9 @@ const BANNER_DISMISS_KEY_PREFIX = 'offerBannerDismissed:';
  * model this reads from. Same /api/coupons/featured `coupon` field the
  * /pricing page's inline card already shows (NewCustomerOfferPopup is a
  * separate flow, for the `popup` field). Shown to all visitors, no
- * auth/plan targeting. Dismissal is keyed by coupon code in localStorage,
- * so closing it stays closed for that code but a newly-featured coupon
- * shows again.
+ * auth/plan targeting. The close button only hides it for the current
+ * page view (component state) — dismissal is intentionally not persisted,
+ * so the banner reappears on the next page load/visit.
  */
 function OfferBanner() {
   const [coupon, setCoupon] = useState<FeaturedCoupon | null>(null);
@@ -116,9 +114,6 @@ function OfferBanner() {
       .then((d) => {
         const c: FeaturedCoupon | null = d?.coupon ?? null;
         if (!c) return;
-        try {
-          if (localStorage.getItem(`${BANNER_DISMISS_KEY_PREFIX}${c.code}`)) return;
-        } catch { /* ignore */ }
         setCoupon(c);
       })
       .catch(() => {});
@@ -151,10 +146,7 @@ function OfferBanner() {
           {copied && <span className="ml-2 text-white/90">Copied!</span>}
         </span>
         <button
-          onClick={() => {
-            try { localStorage.setItem(`${BANNER_DISMISS_KEY_PREFIX}${coupon.code}`, '1'); } catch { /* ignore */ }
-            setDismissed(true);
-          }}
+          onClick={() => setDismissed(true)}
           aria-label="Dismiss offer"
           className="absolute right-6 p-1 rounded hover:bg-white/20 transition-smooth"
         >

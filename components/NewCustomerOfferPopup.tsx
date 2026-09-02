@@ -17,7 +17,6 @@ interface PopupCoupon {
   expiresAt: number;
 }
 
-const DISMISS_KEY_PREFIX = 'offerPopupDismissed:';
 const SHOW_DELAY_MS = 1500;
 
 function formatCountdown(msRemaining: number): string {
@@ -33,7 +32,9 @@ function formatCountdown(msRemaining: number): string {
  * per-visitor timer: everyone who sees it counts down to the SAME
  * coupon.expiresAt the admin set. Only shown to anonymous visitors and
  * signed-in users with no active paid plan (see [[dynamic-pricing]]
- * skill for the coupon model this reads from).
+ * skill for the coupon model this reads from). Closing it only hides it for
+ * the current page view — dismissal isn't persisted, so it reappears on the
+ * next homepage visit.
  */
 export default function NewCustomerOfferPopup() {
   const { user, loading } = useAuth();
@@ -53,8 +54,6 @@ export default function NewCustomerOfferPopup() {
         const data = await res.json();
         const p: PopupCoupon | null = data?.popup ?? null;
         if (!p || cancelled) return;
-
-        if (sessionStorage.getItem(`${DISMISS_KEY_PREFIX}${p.code}`)) return;
 
         // "New customer" = anonymous, or signed in with no active paid plan.
         if (user) {
@@ -95,9 +94,6 @@ export default function NewCustomerOfferPopup() {
   }, [popup]);
 
   const handleClose = () => {
-    if (popup) {
-      try { sessionStorage.setItem(`${DISMISS_KEY_PREFIX}${popup.code}`, '1'); } catch { /* ignore */ }
-    }
     setVisible(false);
   };
 
