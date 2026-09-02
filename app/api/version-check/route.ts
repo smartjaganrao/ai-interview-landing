@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 // Bump this to force older clients to update before they can use the app.
 // Format: semver string e.g. "1.3.4"
 const MIN_VERSION = '1.3.4';
-const DOWNLOAD_URL = 'https://www.javihai.in/#download';
+const DOWNLOAD_URL = 'https://javihai.in/#download';
 
 function parseVersion(v: string): number[] {
   return v.replace(/[^0-9.]/g, '').split('.').map(Number);

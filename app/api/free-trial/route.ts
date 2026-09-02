@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
     await sendWhatsAppMessage();
 
     // Return WhatsApp link for fallback
-    const messageText = `Hi ${name}! 🎉 Your JavihAI 1-week free trial voucher code is: ${voucherCode}. Use this code at https://www.javihai.in/pricing to unlock unlimited AI answers and more for 7 days. Happy prepping! 🚀`;
+    const messageText = `Hi ${name}! 🎉 Your JavihAI 1-week free trial voucher code is: ${voucherCode}. Use this code at https://javihai.in/pricing to unlock unlimited AI answers and more for 7 days. Happy prepping! 🚀`;
     const whatsappLink = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(messageText)}`;
 
     return NextResponse.json({
