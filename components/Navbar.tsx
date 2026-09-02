@@ -131,7 +131,7 @@ function OfferBanner() {
 
   return (
     <div className="bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-center gap-3 text-sm text-white relative">
+      <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-6 py-2 flex items-center justify-center gap-3 text-sm text-white relative">
         <span className="font-semibold text-center">
           🎟️ Use code{' '}
           <button
@@ -192,7 +192,7 @@ export default function Navbar() {
       scrolled ? 'glass-heavy py-3' : 'py-5'
     }`}>
       <OfferBanner />
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="relative h-10 w-10 group-hover:scale-110 transition-bounce">
