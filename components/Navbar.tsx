@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
@@ -196,7 +197,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="relative h-10 w-10 group-hover:scale-110 transition-bounce">
-            <img src="/logo.svg" alt="JavihAI" className="h-10 w-10 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+            <Image src="/logo.svg" alt="JavihAI" width={40} height={40} unoptimized className="h-10 w-10 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
             <div className="absolute inset-0 h-10 w-10 rounded-xl gradient-primary flex items-center justify-center text-white font-bold text-lg" style={{display:'none'}} id="logo-fallback">J</div>
           </div>
           <div>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
 import FreeTrialModal from '@/components/FreeTrialModal';
@@ -1250,7 +1251,7 @@ export default function LandingClient(props: LandingClientProps) {
 
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <img src="/logo.svg" alt="JavihAI" className="h-8 w-8 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+              <Image src="/logo.svg" alt="JavihAI" width={32} height={32} unoptimized className="h-8 w-8 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
               <span className="font-bold text-white">JavihAI</span>
             </div>
             <p className="text-slate-600 text-sm">

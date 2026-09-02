@@ -60,12 +60,12 @@
     "semantic_hash": ""
   },
   "app/api/email/welcome/route.ts": {
-    "mtime": 1788318618.706425,
+    "mtime": 1788318783.4157107,
     "ast_hash": "face43208b6b94e60d29eac61233e0c4",
     "semantic_hash": ""
   },
   "app/api/free-trial/route.ts": {
-    "mtime": 1788318618.706667,
+    "mtime": 1788318783.4158502,
     "ast_hash": "c115cd2f5955edf3e604b0151520a9b2",
     "semantic_hash": ""
   },
@@ -145,7 +145,7 @@
     "semantic_hash": ""
   },
   "app/api/version-check/route.ts": {
-    "mtime": 1788318618.7068794,
+    "mtime": 1788318783.415966,
     "ast_hash": "42ac035ffe329083e789946a7c6b012e",
     "semantic_hash": ""
   },
@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "components/Footer.tsx": {
-    "mtime": 1788316130.8091722,
-    "ast_hash": "e9773f4e3701069f235c846d3b92cc54",
+    "mtime": 1788319514.4040396,
+    "ast_hash": "0c0ada23e45733966ebeb4ba1b7ab504",
     "semantic_hash": ""
   },
   "components/FreeTrialModal.tsx": {
@@ -325,8 +325,8 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1788316130.8102956,
-    "ast_hash": "3b7c4ab6702e3426f6dfc9a71ca77b38",
+    "mtime": 1788319526.4298525,
+    "ast_hash": "ca93adc1909f721ab61fd1b9ab81cbaf",
     "semantic_hash": ""
   },
   "components/WhatsAppButton.tsx": {
@@ -350,7 +350,7 @@
     "semantic_hash": "1e6ff11edce0c8c4f06ae6ea1a9bd51f"
   },
   "lib/email.ts": {
-    "mtime": 1788318618.7070105,
+    "mtime": 1788318783.4161203,
     "ast_hash": "698a5ca3d8777060cb78c07ee256639a",
     "semantic_hash": ""
   },
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1788318530.1307266,
-    "ast_hash": "192e45ed7fd57519c5237b870574afc9",
+    "mtime": 1788319537.1130726,
+    "ast_hash": "6b91712afb5df73b111a415ca875d1fa",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {

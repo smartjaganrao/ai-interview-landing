@@ -1,7 +1,7 @@
 # Graph Report - ai-interview-landing  (2026-09-02)
 
 ## Corpus Check
-- 281 files · ~205,602 words
+- 281 files · ~205,687 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bb55768e`
+- Built from commit: `ed9003ba`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -368,7 +368,7 @@ Nodes (20): GET(), POST(), POST(), RazorpayEvent, RazorpayPaymentEntity, Razorpa
 
 ### Community 6 - "dependencies"
 Cohesion: 0.10
-Nodes (21): clsx, firebase-admin, next, dependencies, clsx, firebase-admin, next, react (+13 more)
+Nodes (21): clsx, firebase, firebase-admin, next, dependencies, clsx, firebase, firebase-admin (+13 more)
 
 ### Community 7 - "layout.tsx"
 Cohesion: 0.15
