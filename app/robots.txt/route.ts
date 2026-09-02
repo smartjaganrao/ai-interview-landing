@@ -5,9 +5,9 @@ export function GET() {
 Content-Signal: search=yes, ai-train=no, use=reference
 Allow: /
 Disallow: /api/
-Disallow: /dashboard/
-Disallow: /auth/
-Disallow: /checkout/
+Disallow: /dashboard
+Disallow: /auth
+Disallow: /checkout
 Disallow: /creator
 
 Sitemap: https://javihai.in/sitemap.xml
