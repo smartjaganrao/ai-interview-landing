@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "app/sitemap.ts": {
-    "mtime": 1788318530.130492,
-    "ast_hash": "b9d86375e16f789805bf15761ab88e3b",
+    "mtime": 1788320358.3125608,
+    "ast_hash": "72debfd393a66d375930800ad9e84277",
     "semantic_hash": ""
   },
   "app/terms/page.tsx": {
@@ -310,7 +310,7 @@
     "semantic_hash": ""
   },
   "components/Footer.tsx": {
-    "mtime": 1788319514.4040396,
+    "mtime": 1788320202.410344,
     "ast_hash": "0c0ada23e45733966ebeb4ba1b7ab504",
     "semantic_hash": ""
   },
@@ -325,7 +325,7 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1788319526.4298525,
+    "mtime": 1788320202.411286,
     "ast_hash": "ca93adc1909f721ab61fd1b9ab81cbaf",
     "semantic_hash": ""
   },
@@ -455,7 +455,7 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1788319537.1130726,
+    "mtime": 1788320202.4109116,
     "ast_hash": "6b91712afb5df73b111a415ca875d1fa",
     "semantic_hash": ""
   },
@@ -1425,8 +1425,8 @@
     "semantic_hash": ""
   },
   "app/robots.txt/route.ts": {
-    "mtime": 1788318530.13037,
-    "ast_hash": "014e06c7383db1b5f2445ad45949892d",
+    "mtime": 1788320363.1191547,
+    "ast_hash": "a470fb4fff65830afd25e475c932157f",
     "semantic_hash": ""
   },
   "public/blog-content/best-ai-interview-copilots-india-2026.md": {
