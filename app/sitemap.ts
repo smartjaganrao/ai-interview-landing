@@ -2,7 +2,10 @@ import { MetadataRoute } from 'next';
 import { getAllPublishedSlugs } from '@/lib/blog';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = 'https://www.javihai.in';
+  // www.javihai.in 307-redirects to javihai.in (Vercel domain config) — the
+  // sitemap must list the URL that actually serves 200, not the one that
+  // redirects away from itself. See app/layout.tsx BASE_URL for the same fix.
+  const base = 'https://javihai.in';
   const now = new Date();
 
   const blogSlugs = await getAllPublishedSlugs();

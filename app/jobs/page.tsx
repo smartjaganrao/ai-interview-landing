@@ -25,7 +25,7 @@ const jobBoardSchema = {
   '@type': 'ItemList',
   name: 'JavihAI Job Recommendations',
   description: 'Top tech jobs in India curated for JavihAI users. Practice for any of these with your AI coach.',
-  url: 'https://www.javihai.in/jobs',
+  url: 'https://javihai.in/jobs',
 };
 
 export default function JobsPage() {

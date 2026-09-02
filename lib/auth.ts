@@ -147,7 +147,7 @@ export async function ensureUserDocs(
 
           tx.set(doc(db, 'subscriptions', uid), { plan, status: 'active', createdAt: now });
 
-          const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.javihai.in';
+          const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
           const q = collection(db, 'email_queue');
           tx.set(doc(q), { email, name, type: 'welcome', sendAfter: Timestamp.fromMillis(now), sentAt: null, uid });
           tx.set(doc(q), { email, name, type: 'day2',  sendAfter: Timestamp.fromMillis(now + 2 * 24 * 60 * 60 * 1000), sentAt: null, uid });

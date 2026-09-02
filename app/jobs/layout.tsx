@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: 'Tech Jobs in India — JavihAI',
     description: 'Curated software engineering and product roles across India. Updated weekly.',
   },
-  alternates: { canonical: 'https://www.javihai.in/jobs' },
+  alternates: { canonical: 'https://javihai.in/jobs' },
 };
 
 export default function JobsLayout({ children }: { children: React.ReactNode }) {

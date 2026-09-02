@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     'desi mode indian languages',
     'hindi tamil telugu interview ai',
   ],
-  alternates: { canonical: 'https://www.javihai.in/indian-languages' },
+  alternates: { canonical: 'https://javihai.in/indian-languages' },
   openGraph: {
     title: "India's First AI Interview Copilot in 9 Indian Languages",
     description:

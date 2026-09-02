@@ -6,7 +6,7 @@ import { getPublishedPosts } from '@/lib/blog';
 export const metadata = {
   title: 'Blog — Interview Prep Tips & Guides',
   description: 'Practical interview-prep guides, coding round strategies, and career advice for Indian freshers and working professionals — from the team behind JavihAI.',
-  alternates: { canonical: 'https://www.javihai.in/blog' },
+  alternates: { canonical: 'https://javihai.in/blog' },
   openGraph: {
     title: 'JavihAI Blog — Interview Prep Tips & Guides',
     description: 'Practical interview-prep guides and career advice for Indian job seekers.',

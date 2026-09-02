@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Free AI Resume Builder — JavihAI',
     description: 'ATS-friendly templates, instant PDF export, free account — no payment required.',
   },
-  alternates: { canonical: 'https://www.javihai.in/resume' },
+  alternates: { canonical: 'https://javihai.in/resume' },
 };
 
 export default function ResumeLayout({ children }: { children: React.ReactNode }) {

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: 'JavihAI Pricing — Free, Pro & Power',
     description: 'Free plan available. Pro and Power plans with 7-day refund.',
   },
-  alternates: { canonical: 'https://www.javihai.in/pricing' },
+  alternates: { canonical: 'https://javihai.in/pricing' },
 };
 
 export default function PricingLayout({ children }: { children: React.ReactNode }) {

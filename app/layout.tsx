@@ -9,7 +9,11 @@ import { ReduxProvider } from '@/components/ReduxProvider';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
-const BASE_URL = 'https://www.javihai.in';
+// The apex domain is what actually serves the site — www.javihai.in
+// 307-redirects to javihai.in at the Vercel domain level. Every canonical
+// tag, OG url, and JSON-LD url needs to point at the URL that serves 200,
+// not the one that immediately redirects away from itself.
+const BASE_URL = 'https://javihai.in';
 
 export const viewport: Viewport = {
   width: 'device-width',
