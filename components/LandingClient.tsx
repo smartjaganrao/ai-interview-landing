@@ -317,7 +317,7 @@ export default function LandingClient(props: LandingClientProps) {
         <div className="glow-orb animate-orb-drift w-[400px] h-[400px] top-20 -right-20" style={{ animationDelay: '4s' }} />
         <div className="glow-orb animate-orb-drift w-[300px] h-[300px] bottom-0 left-1/3" style={{ animationDelay: '8s' }} />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: copy + CTAs */}
             <div>
@@ -534,7 +534,7 @@ export default function LandingClient(props: LandingClientProps) {
       ═══════════════════════════════════════════════════════════════ */}
       <section className="section-py relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left: Text */}
             <div>
@@ -604,7 +604,7 @@ export default function LandingClient(props: LandingClientProps) {
           HOW IT WORKS
       ═══════════════════════════════════════════════════════════════ */}
       <section id="how-it-works" className="section-py bg-slate-950/40 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <div className="section-label">🚀 3-Minute Setup</div>
             <h2 className="section-heading mb-4">
@@ -663,7 +663,7 @@ export default function LandingClient(props: LandingClientProps) {
           FEATURES — BENTO GRID
       ═══════════════════════════════════════════════════════════════ */}
       <section id="features" className="section-py">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
             <div className="section-label">✨ Features</div>
             <h2 className="section-heading mb-4">
@@ -773,7 +773,7 @@ export default function LandingClient(props: LandingClientProps) {
           FREE TOOLS — no download required
       ═══════════════════════════════════════════════════════════════ */}
       <section className="section-py bg-slate-950/40">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl desktop:max-w-[1320px] desktop-lg:max-w-[1480px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <div className="section-label">🧰 Also free</div>
             <h2 className="section-heading mb-4">
@@ -827,7 +827,7 @@ export default function LandingClient(props: LandingClientProps) {
       ═══════════════════════════════════════════════════════════════ */}
       <section id="why" className="section-py bg-slate-950/60 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left: text */}
             <div>
@@ -908,7 +908,7 @@ export default function LandingClient(props: LandingClientProps) {
           COMPARISON TABLE
       ═══════════════════════════════════════════════════════════════ */}
       <section className="section-py">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl desktop:max-w-[1320px] desktop-lg:max-w-[1480px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <div className="section-label">⚖️ Compare</div>
             <h2 className="section-heading mb-4">
@@ -918,6 +918,10 @@ export default function LandingClient(props: LandingClientProps) {
           </div>
 
           <div className="glass-card overflow-hidden border-blue-500/10">
+            {/* Scroll hint — the table needs horizontal scroll below the
+                tablet tier (640px); it already fits without scrolling at
+                tablet and up, so this fades out there too. */}
+            <div className="tablet:hidden absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-slate-950/90 to-transparent pointer-events-none z-10" />
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[640px]">
                 <thead>
@@ -986,7 +990,7 @@ export default function LandingClient(props: LandingClientProps) {
           TESTIMONIALS
       ═══════════════════════════════════════════════════════════════ */}
       <section id="reviews" className="section-py bg-slate-950/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <div className="section-label">💬 Real Candidates</div>
             <h2 className="section-heading mb-4">
@@ -1206,7 +1210,7 @@ export default function LandingClient(props: LandingClientProps) {
           FOOTER
       ═══════════════════════════════════════════════════════════════ */}
       <footer className="border-t border-white/5 py-12 bg-slate-950/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
             <div>
               <div className="font-bold text-white mb-4">Product</div>
