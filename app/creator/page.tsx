@@ -177,6 +177,9 @@ export default function CreatorPage() {
                   </a>
                 </div>
                 <div className="mt-3 text-sm text-slate-500">Code: <span className="font-mono text-slate-300">{data.code}</span></div>
+                <div className="mt-3 text-sm text-slate-500">
+                  📖 Need ideas? <Link href="/blog/earn-money-with-javihai-affiliate-referral-program" className="text-indigo-400 hover:text-indigo-300">Read our guide to maximizing your commission</Link>
+                </div>
               </div>
 
               {/* Payout method */}
