@@ -6,7 +6,7 @@ const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <javihaiofficial@gmail.co
 // PNG (not the site's logo.svg) — Outlook desktop doesn't render SVG in emails at all.
 export const LOGO_HEADER = `
   <div style="text-align:center;margin-bottom:28px;">
-    <img src="https://www.javihai.in/icon-192.png" width="40" height="40" alt="JavihAI" style="border-radius:10px;vertical-align:middle;" />
+    <img src="https://javihai.in/icon-192.png" width="40" height="40" alt="JavihAI" style="border-radius:10px;vertical-align:middle;" />
     <span style="vertical-align:middle;color:#fff;font-size:22px;font-weight:800;margin-left:10px;">JavihAI</span>
   </div>`;
 
@@ -93,7 +93,7 @@ export async function sendPaymentConfirmation(params: {
   </div>
 
   <div style="text-align:center;margin:32px 0;">
-    <a href="https://www.javihai.in/dashboard?upgraded=true" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
+    <a href="https://javihai.in/dashboard?upgraded=true" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">
       Open Dashboard →
     </a>
   </div>
@@ -104,8 +104,8 @@ export async function sendPaymentConfirmation(params: {
   </div>
 
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
-    JavihAI · <a href="https://www.javihai.in" style="color:#6366f1;">javihai.in</a> ·
-    <a href="https://www.javihai.in/privacy" style="color:#475569;">Privacy</a>
+    JavihAI · <a href="https://javihai.in" style="color:#6366f1;">javihai.in</a> ·
+    <a href="https://javihai.in/privacy" style="color:#475569;">Privacy</a>
   </p>
 </div>
 </body></html>`;
@@ -132,8 +132,8 @@ function shell(bodyHtml: string): string {
   ${LOGO_HEADER}
   ${bodyHtml}
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
-    JavihAI · <a href="https://www.javihai.in" style="color:#6366f1;">javihai.in</a> ·
-    <a href="https://www.javihai.in/refund" style="color:#475569;">Refund policy</a>
+    JavihAI · <a href="https://javihai.in" style="color:#6366f1;">javihai.in</a> ·
+    <a href="https://javihai.in/refund" style="color:#475569;">Refund policy</a>
   </p>
 </div></body></html>`;
 }
@@ -152,7 +152,7 @@ export async function sendPaymentFailed(params: { email: string; name: string; p
     No charge was made. This usually happens with an expired card, insufficient balance, or a bank decline.
   </p>
   <div style="text-align:center;margin:28px 0;">
-    <a href="https://www.javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Try again →</a>
+    <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Try again →</a>
   </div>
   <p style="color:#64748b;font-size:13px;">Need help? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
 
@@ -181,7 +181,7 @@ export async function sendRenewalReminder(params: { email: string; name: string;
     <span style="color:#fff;font-weight:800;font-size:22px;">₹${params.amount}</span>
   </div>
   <div style="text-align:center;margin:24px 0;">
-    <a href="https://www.javihai.in/checkout?plan=${params.plan}&billing=${params.billing}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Renew now →</a>
+    <a href="https://javihai.in/checkout?plan=${params.plan}&billing=${params.billing}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Renew now →</a>
   </div>
   <p style="color:#64748b;font-size:13px;">Don't want to renew? No action needed — your plan simply moves to Free.</p>`);
 
@@ -237,7 +237,7 @@ export async function sendTicketReply(params: {
   </div>
   <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;">You can view the full conversation and reply from your dashboard.</p>
   <div style="text-align:center;">
-    <a href="https://www.javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:12px 28px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;">View in Dashboard →</a>
+    <a href="https://javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:12px 28px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;">View in Dashboard →</a>
   </div>`);
 
   const { error } = await resend.emails.send({
@@ -283,7 +283,7 @@ export async function sendFreeTrialVoucher(params: {
   </div>
 
   <div style="text-align:center;margin:32px 0;">
-    <a href="https://www.javihai.in/auth/signup" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:16px 40px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Start Your Free Trial →</a>
+    <a href="https://javihai.in/auth/signup" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:16px 40px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Start Your Free Trial →</a>
   </div>
 
   <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
@@ -329,7 +329,7 @@ export async function sendQuotaUpgradeNudge(params: { email: string; name: strin
     and full coding + HR interview support, so you're never cut off mid-interview.
   </p>
   <div style="text-align:center;margin:28px 0;">
-    <a href="https://www.javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Upgrade to Pro →</a>
+    <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Upgrade to Pro →</a>
   </div>
   <p style="color:#64748b;font-size:13px;">Your free quota resets tomorrow. Questions? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
 
@@ -356,7 +356,7 @@ export async function sendCheckoutAbandonedReminder(params: { email: string; nam
     No charge was made — your spot at ₹${params.amount} is still here whenever you're ready.
   </p>
   <div style="text-align:center;margin:28px 0;">
-    <a href="https://www.javihai.in/checkout?plan=${params.plan}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Finish checkout →</a>
+    <a href="https://javihai.in/checkout?plan=${params.plan}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Finish checkout →</a>
   </div>
   <p style="color:#64748b;font-size:13px;">Ran into an issue paying? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
 
@@ -383,7 +383,7 @@ export async function sendPlanExpiredNotice(params: { email: string; name: strin
     you're back to 10 AI answers/day, forever, no expiry. Nothing else changes on your account.
   </p>
   <div style="text-align:center;margin:28px 0;">
-    <a href="https://www.javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Renew or upgrade →</a>
+    <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Renew or upgrade →</a>
   </div>
   <p style="color:#64748b;font-size:13px;">Didn't expect this? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
 
