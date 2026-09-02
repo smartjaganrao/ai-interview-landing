@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "app/api/creator/apply/route.ts": {
-    "mtime": 1787461167.4850261,
-    "ast_hash": "d3d9c771165da98f29f9ce97554b567d",
+    "mtime": 1788316817.7096798,
+    "ast_hash": "f0501001c434f4bea115a108181ab21a",
     "semantic_hash": ""
   },
   "app/api/creator/attribute/route.ts": {
@@ -30,8 +30,8 @@
     "semantic_hash": "1bfe9d8b54855a2013284d422486cff4"
   },
   "app/api/creator/me/route.ts": {
-    "mtime": 1787461167.4897137,
-    "ast_hash": "d542b7c7275ecf239ebe0edf4675954c",
+    "mtime": 1788316817.710043,
+    "ast_hash": "46c53512ffdb311d6f4173d74a8e8224",
     "semantic_hash": ""
   },
   "app/api/creator/payout-method/route.ts": {
@@ -115,8 +115,8 @@
     "semantic_hash": "937a3497d724c992d8c6d95742e70513"
   },
   "app/api/referral/me/route.ts": {
-    "mtime": 1787461167.494119,
-    "ast_hash": "7afe11e3a4f2c667a84676ffc19dd12a",
+    "mtime": 1788316817.7103658,
+    "ast_hash": "6bb0c349a8c08b946318575aa0bf64f9",
     "semantic_hash": ""
   },
   "app/api/release/route.ts": {
@@ -160,13 +160,13 @@
     "semantic_hash": ""
   },
   "app/blog/[slug]/page.tsx": {
-    "mtime": 1787461167.4796045,
-    "ast_hash": "8981a70998cb6832ab2f1ff09671bfab",
+    "mtime": 1788316817.710683,
+    "ast_hash": "7a61fe3155c352591c07ecbfbf6e7469",
     "semantic_hash": ""
   },
   "app/blog/page.tsx": {
-    "mtime": 1787461178.4322872,
-    "ast_hash": "f9cf2cb986a347eed9ac4cffa7899bd2",
+    "mtime": 1788316817.710957,
+    "ast_hash": "7bd8e9ff8ad5169ce1b360ff0eb12666",
     "semantic_hash": ""
   },
   "app/checkout/page.tsx": {
@@ -175,38 +175,38 @@
     "semantic_hash": ""
   },
   "app/compare/chiku-ai/page.tsx": {
-    "mtime": 1788120041.8610222,
-    "ast_hash": "b06d737e6b4f2174195379e7b547c092",
+    "mtime": 1788316817.7112358,
+    "ast_hash": "20ba245da7d049b4c370912a75360c0b",
     "semantic_hash": ""
   },
   "app/compare/cluely/page.tsx": {
-    "mtime": 1788120041.861302,
-    "ast_hash": "e934583f53dab822a4b87294192846d4",
+    "mtime": 1788316817.7114923,
+    "ast_hash": "ff6c6a1b4c5c9ad58b645070a79c81ee",
     "semantic_hash": ""
   },
   "app/compare/final-round-ai/page.tsx": {
-    "mtime": 1788120041.861543,
-    "ast_hash": "4b9a218c9bb22aef5832f7aacd5abd22",
+    "mtime": 1788316817.7117317,
+    "ast_hash": "028bb307ba840308060abe54c802f8d7",
     "semantic_hash": ""
   },
   "app/compare/interview-coder/page.tsx": {
-    "mtime": 1788120041.8618171,
-    "ast_hash": "4c75ece1d8baf2b45c467b859088bbc9",
+    "mtime": 1788316817.7119825,
+    "ast_hash": "978d1e16e0f168569c7f248746b6743a",
     "semantic_hash": ""
   },
   "app/compare/lockedin-ai/page.tsx": {
-    "mtime": 1788120041.8620586,
-    "ast_hash": "a57879df579854ac793bbbebcca390a1",
+    "mtime": 1788316817.71223,
+    "ast_hash": "fdd3357b8e460107ec9e9e5158b3ec54",
     "semantic_hash": ""
   },
   "app/compare/page.tsx": {
-    "mtime": 1788120041.8622851,
-    "ast_hash": "0def9ec72087793f56c27f8314b7da95",
+    "mtime": 1788316817.7124393,
+    "ast_hash": "541218c2d93f275a5841734562fc1561",
     "semantic_hash": ""
   },
   "app/compare/parakeet-ai/page.tsx": {
-    "mtime": 1788120041.8625252,
-    "ast_hash": "2fd8c19fc4575363a528a2b1d5d72137",
+    "mtime": 1788316817.7127025,
+    "ast_hash": "d0436368b1c3d9a7e2216c08f73ee8e8",
     "semantic_hash": ""
   },
   "app/creator/page.tsx": {
@@ -225,23 +225,23 @@
     "semantic_hash": ""
   },
   "app/jobs/layout.tsx": {
-    "mtime": 1787461178.463719,
-    "ast_hash": "6599a457a44d1801a02c77b425f88f26",
+    "mtime": 1788316817.7134752,
+    "ast_hash": "5fe855fecb356d01463dc9486fbeb568",
     "semantic_hash": ""
   },
   "app/jobs/page.tsx": {
-    "mtime": 1787461178.4698234,
-    "ast_hash": "b6c70dad097359176ed0ef60f13fc7ae",
+    "mtime": 1788316817.7138052,
+    "ast_hash": "50083429f0276795a88ee11288fe02a9",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
-    "mtime": 1787461167.4577491,
-    "ast_hash": "842c2d2a32d50b02a2f4ee6ce93c05f0",
+    "mtime": 1788316817.714048,
+    "ast_hash": "9edfc11ffaa3c3722a6d36ef58969bbb",
     "semantic_hash": ""
   },
   "app/mock-interview/layout.tsx": {
-    "mtime": 1787461178.472911,
-    "ast_hash": "4cb0bdb5766cb7c1d7ffae6b2764fdc8",
+    "mtime": 1788316817.7144456,
+    "ast_hash": "1a6e68a08502b0c2aff2e4f4e3f4f03b",
     "semantic_hash": ""
   },
   "app/mock-interview/page.tsx": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "app/pricing/layout.tsx": {
-    "mtime": 1787833097.0207932,
-    "ast_hash": "5f07099e6b745a3130c8f43625f71b79",
+    "mtime": 1788316817.71468,
+    "ast_hash": "a6730b8055b584b99a623a406fee9dd7",
     "semantic_hash": ""
   },
   "app/pricing/page.tsx": {
@@ -280,8 +280,8 @@
     "semantic_hash": ""
   },
   "app/resume/layout.tsx": {
-    "mtime": 1787461178.428408,
-    "ast_hash": "561c21bdd0318c4cef18d8c438afb45b",
+    "mtime": 1788316817.7149904,
+    "ast_hash": "41d194ca8208578fac96c5ff43f88e2a",
     "semantic_hash": ""
   },
   "app/resume/page.tsx": {
@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "app/sitemap.ts": {
-    "mtime": 1788204616.8971038,
-    "ast_hash": "266d92fbc1e88a1c5b97dc6e433cf2cd",
+    "mtime": 1788316817.7153988,
+    "ast_hash": "b9d86375e16f789805bf15761ab88e3b",
     "semantic_hash": ""
   },
   "app/terms/page.tsx": {
@@ -310,7 +310,7 @@
     "semantic_hash": ""
   },
   "components/Footer.tsx": {
-    "mtime": 1788288236.5654464,
+    "mtime": 1788316130.8091722,
     "ast_hash": "e9773f4e3701069f235c846d3b92cc54",
     "semantic_hash": ""
   },
@@ -325,7 +325,7 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1788288236.5661077,
+    "mtime": 1788316130.8102956,
     "ast_hash": "3b7c4ab6702e3426f6dfc9a71ca77b38",
     "semantic_hash": ""
   },
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "lib/auth.ts": {
-    "mtime": 1788116553.645797,
-    "ast_hash": "16c4e0edb0ccbac583e40891c56c2bf7",
+    "mtime": 1788316817.7163389,
+    "ast_hash": "bc5439858a3a84ffff04ab75c75352dc",
     "semantic_hash": ""
   },
   "lib/blog.ts": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "app/about/page.tsx": {
-    "mtime": 1787461167.4737613,
-    "ast_hash": "383a6fd9a207b7bcdd9a58b8fce00401",
+    "mtime": 1788316817.7092988,
+    "ast_hash": "892b206719fcaa078919a09dcabd8e77",
     "semantic_hash": ""
   },
   "components/InstallationGuideModal.tsx": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1788288293.527834,
-    "ast_hash": "e033d4273ec34d4b2519ff85ed6d7358",
+    "mtime": 1788316817.715801,
+    "ast_hash": "192e45ed7fd57519c5237b870574afc9",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {
@@ -1425,8 +1425,8 @@
     "semantic_hash": ""
   },
   "app/robots.txt/route.ts": {
-    "mtime": 1788176905.277593,
-    "ast_hash": "fa7593f9c9be930f8e9e8578157b7e48",
+    "mtime": 1788316817.715203,
+    "ast_hash": "014e06c7383db1b5f2445ad45949892d",
     "semantic_hash": ""
   },
   "public/blog-content/best-ai-interview-copilots-india-2026.md": {
@@ -1435,8 +1435,8 @@
     "semantic_hash": ""
   },
   "app/indian-languages/page.tsx": {
-    "mtime": 1788204616.8968067,
-    "ast_hash": "1e8cbeee7873ab43a5c1caa5a5f2ecc6",
+    "mtime": 1788316817.7131348,
+    "ast_hash": "bc57ddba43c25ae03659e3a15ffc4778",
     "semantic_hash": ""
   },
   "app/api/notifications/whatsapp-welcome/route.ts": {

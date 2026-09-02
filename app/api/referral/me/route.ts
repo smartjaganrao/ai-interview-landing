@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
     const { code, credits, count } = await getReferralSummary(user.uid);
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.javihai.in';
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://javihai.in';
     const link = code ? `${appUrl}/auth/signup?ref=${code}` : null;
 
     return NextResponse.json({ code, link, credits, count, reward: REFERRAL_REWARD });

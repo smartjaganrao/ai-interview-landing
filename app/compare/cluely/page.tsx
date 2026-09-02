@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Cluely — ~3.6× Cheaper for Invisible AI Interview Help' },
   description: 'JavihAI vs Cluely: Cluely charges $75/month (~₹7,125) for its undetectable overlay tier. JavihAI gives you the same invisible, real-time AI help from ₹250, unlimited from ₹2,000/month — built for Indian interviews.',
   keywords: ['cluely alternative india', 'cluely vs javihai', 'cluely pricing india', 'undetectable ai interview tool india', 'cheaper than cluely'],
-  alternates: { canonical: 'https://www.javihai.in/compare/cluely' },
+  alternates: { canonical: 'https://javihai.in/compare/cluely' },
   openGraph: {
     title: 'JavihAI vs Cluely — ~3.6× Cheaper, Same Invisible Overlay',
     description: 'JavihAI ₹2,000/month vs Cluely $75/month (~₹7,125) for undetectability. Same invisible real-time AI help — built for India.',

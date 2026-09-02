@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "components/Footer.tsx": {
-    "mtime": 1788204616.8974195,
-    "ast_hash": "9d07b8de60b6175794abd2468c073090",
+    "mtime": 1788288236.5654464,
+    "ast_hash": "e9773f4e3701069f235c846d3b92cc54",
     "semantic_hash": ""
   },
   "components/FreeTrialModal.tsx": {
@@ -325,8 +325,8 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1788190155.7471175,
-    "ast_hash": "e8fd0d110274db32c6d103c29d330482",
+    "mtime": 1788288236.5661077,
+    "ast_hash": "3b7c4ab6702e3426f6dfc9a71ca77b38",
     "semantic_hash": ""
   },
   "components/WhatsAppButton.tsx": {
@@ -410,7 +410,7 @@
     "semantic_hash": "555f8d27d4ea7255e1ebec4b435e526e"
   },
   "tailwind.config.js": {
-    "mtime": 1788284775.5819888,
+    "mtime": 1788285352.1821775,
     "ast_hash": "d5b017cc756e6ad2297ebe81573a20c8",
     "semantic_hash": ""
   },
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1788205933.034948,
-    "ast_hash": "152120cd279ce87fc9c387a368a45276",
+    "mtime": 1788288293.527834,
+    "ast_hash": "e033d4273ec34d4b2519ff85ed6d7358",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Free AI Mock Interview — JavihAI',
     description: 'Practice real interview rounds with an AI interviewer. Instant feedback and scoring.',
   },
-  alternates: { canonical: 'https://www.javihai.in/mock-interview' },
+  alternates: { canonical: 'https://javihai.in/mock-interview' },
 };
 
 export default function MockInterviewLayout({ children }: { children: React.ReactNode }) {

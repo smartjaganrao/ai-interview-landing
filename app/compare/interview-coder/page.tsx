@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Interview Coder — ~14× Cheaper, Built for India' },
   description: 'JavihAI vs Interview Coder: Interview Coder costs $299/month (~₹28,400) for coding-only interview help. JavihAI is ₹2,000/month for unlimited AI answers across coding, system design, and behavioral rounds.',
   keywords: ['interview coder alternative', 'interview coder vs javihai', 'interview coder india price', 'cheaper than interview coder', 'AI coding interview assistant india'],
-  alternates: { canonical: 'https://www.javihai.in/compare/interview-coder' },
+  alternates: { canonical: 'https://javihai.in/compare/interview-coder' },
   openGraph: {
     title: 'JavihAI vs Interview Coder — ~14× Cheaper, Built for India',
     description: 'JavihAI ₹2,000/month vs Interview Coder ~₹28,400/month. Unlimited answers across coding, system design, and behavioral — not just coding.',

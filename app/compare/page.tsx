@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Competitors — Pricing & Feature Comparison 2026' },
   description: 'How JavihAI compares to Final Round AI, Chiku AI, and Interview Coder on price and features. JavihAI is India\'s first unlimited AI interview copilot — unlimited from ₹2,000/month.',
   keywords: ['JavihAI vs competitors', 'Final Round AI alternative', 'Chiku AI alternative', 'Interview Coder alternative', 'Cluely alternative India', 'LockedIn AI alternative India', 'Parakeet AI alternative', 'best AI interview tool India', 'cheapest AI interview assistant'],
-  alternates: { canonical: 'https://www.javihai.in/compare' },
+  alternates: { canonical: 'https://javihai.in/compare' },
 };
 
 const COMPETITORS = [

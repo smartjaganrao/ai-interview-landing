@@ -9,7 +9,7 @@ Disallow: /dashboard/
 Disallow: /auth/
 Disallow: /checkout/
 
-Sitemap: https://www.javihai.in/sitemap.xml
+Sitemap: https://javihai.in/sitemap.xml
 `;
 
   return new Response(body, {
