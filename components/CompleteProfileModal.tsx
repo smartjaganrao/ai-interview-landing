@@ -56,6 +56,10 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
   // Mandatory dialog — no backdrop-click or Escape dismissal, and focus the
   // first field so keyboard/screen-reader users land here immediately
   useEffect(() => {
+    // Standard "mounted" gate for the createPortal render below (needs
+    // document.body, which only exists client-side) — deferring past
+    // hydration is the point.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const focusTimer = setTimeout(() => whatsappInputRef.current?.focus(), 50);
     const blockEscape = (e: KeyboardEvent) => { if (e.key === 'Escape') e.preventDefault(); };
