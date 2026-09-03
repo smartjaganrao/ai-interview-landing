@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { couponIsValid, applyCouponDiscount, type CouponRecord } from './firebase-admin';
+import { couponIsValid, applyCouponDiscount, nextIstMidnight, type CouponRecord } from './firebase-admin';
 
 function makeCoupon(overrides: Partial<CouponRecord> = {}): CouponRecord {
   return {
@@ -64,5 +64,34 @@ describe('applyCouponDiscount', () => {
   it('never drops the price below ₹1, even with a discount larger than the base price', () => {
     expect(applyCouponDiscount(50, makeCoupon({ discountType: 'flat', discountValue: 500 }))).toBe(1);
     expect(applyCouponDiscount(50, makeCoupon({ discountType: 'percent', discountValue: 100 }))).toBe(1);
+  });
+});
+
+describe('nextIstMidnight', () => {
+  it('returns tonight\'s midnight IST when currently within the last hour before it', () => {
+    // 2026-09-03T18:00:00Z = 2026-09-03 23:30 IST (11:30pm)
+    const now = Date.parse('2026-09-03T18:00:00Z');
+    const result = nextIstMidnight(now);
+    expect(new Date(result).toISOString()).toBe('2026-09-03T18:30:00.000Z'); // midnight IST = 18:30 UTC
+  });
+
+  it('returns the *next* day\'s midnight IST just after midnight has passed', () => {
+    // 2026-09-03T19:00:00Z = 2026-09-04 00:30 IST — just past midnight
+    const now = Date.parse('2026-09-03T19:00:00Z');
+    const result = nextIstMidnight(now);
+    expect(new Date(result).toISOString()).toBe('2026-09-04T18:30:00.000Z');
+  });
+
+  it('is always in the future relative to now', () => {
+    // Arbitrary mid-afternoon IST timestamp, far from any boundary.
+    const now = Date.parse('2026-09-03T09:00:00Z'); // 2:30pm IST
+    expect(nextIstMidnight(now)).toBeGreaterThan(now);
+  });
+
+  it('rolls over a month boundary correctly', () => {
+    // 2026-08-31T20:00:00Z = 2026-09-01 01:30 IST
+    const now = Date.parse('2026-08-31T20:00:00Z');
+    const result = nextIstMidnight(now);
+    expect(new Date(result).toISOString()).toBe('2026-09-01T18:30:00.000Z');
   });
 });
