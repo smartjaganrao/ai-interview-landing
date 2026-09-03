@@ -254,6 +254,10 @@ export default function LandingClient(props: LandingClientProps) {
   const handleTiltLeave = () => setTilt((t) => ({ ...t, rx: 0, ry: 0, active: false }));
 
   useEffect(() => {
+    // OS detection needs navigator.userAgent (client-only) — deferring past
+    // hydration on purpose so the initial client render matches the
+    // server's null-OS HTML.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDetectedOS(detectDesktopOS());
 
     fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
