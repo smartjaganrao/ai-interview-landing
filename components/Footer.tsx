@@ -70,6 +70,7 @@ export default function Footer() {
               <li><Link href="/compare/lockedin-ai" className="text-slate-400 hover:text-white transition">vs LockedIn AI</Link></li>
               <li><Link href="/compare/interview-coder" className="text-slate-400 hover:text-white transition">vs Interview Coder</Link></li>
               <li><Link href="/compare/parakeet-ai" className="text-slate-400 hover:text-white transition">vs Parakeet AI</Link></li>
+              <li><Link href="/changelog" className="text-slate-400 hover:text-white transition">Changelog</Link></li>
               <li><Link href="/privacy" className="text-slate-400 hover:text-white transition">Privacy</Link></li>
               <li><Link href="/terms" className="text-slate-400 hover:text-white transition">Terms</Link></li>
               <li><Link href="/refund" className="text-slate-400 hover:text-white transition">Refund Policy</Link></li>
