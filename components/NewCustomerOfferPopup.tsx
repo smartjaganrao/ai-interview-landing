@@ -28,13 +28,16 @@ function formatCountdown(msRemaining: number): string {
 }
 
 /**
- * New-customer welcome offer — a shared-deadline flash sale, not a
- * per-visitor timer: everyone who sees it counts down to the SAME
- * coupon.expiresAt the admin set. Only shown to anonymous visitors and
- * signed-in users with no active paid plan (see [[dynamic-pricing]]
- * skill for the coupon model this reads from). Closing it only hides it for
- * the current page view — dismissal isn't persisted, so it reappears on the
- * next homepage visit.
+ * New-customer welcome offer — a daily deal, live only during the last hour
+ * of each IST calendar day. expiresAt comes from getPopupCoupon() already
+ * overridden to tonight's real midnight IST — a genuine, shared deadline
+ * (same instant for every visitor), not a per-tab timer, so closing and
+ * reopening this tab doesn't reset anything; the countdown always reflects
+ * the real time left until this IST day actually ends. Only shown to
+ * anonymous visitors and signed-in users with no active paid plan (see
+ * [[dynamic-pricing]] skill for the coupon model this reads from). Closing
+ * it only hides it for the current page view — dismissal isn't persisted,
+ * so it reappears next time the daily window is open.
  */
 export default function NewCustomerOfferPopup() {
   const { user, loading } = useAuth();
@@ -53,7 +56,10 @@ export default function NewCustomerOfferPopup() {
         const res = await fetch('/api/coupons/featured');
         const data = await res.json();
         const p: PopupCoupon | null = data?.popup ?? null;
-        if (!p || cancelled) return;
+        // Belt-and-suspenders: the API already filters on expiresAt, but a
+        // page that's been open a while before this fetch resolves could
+        // still have a since-expired coupon in hand.
+        if (!p || p.expiresAt <= Date.now() || cancelled) return;
 
         // "New customer" = anonymous, or signed in with no active paid plan.
         if (user) {
@@ -80,7 +86,8 @@ export default function NewCustomerOfferPopup() {
     return () => { cancelled = true; };
   }, [loading, user]);
 
-  // Live countdown; auto-close once the shared deadline actually passes.
+  // Live countdown to the real, shared midnight-IST deadline; auto-close
+  // once it actually passes (rather than lingering with a 00:00:00 display).
   useEffect(() => {
     if (!popup) return;
     const tick = () => {
@@ -132,7 +139,7 @@ export default function NewCustomerOfferPopup() {
           </p>
 
           <div className="mb-6">
-            <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">Offer ends in</div>
+            <div className="text-xs text-slate-500 uppercase tracking-wide mb-1">Today&apos;s offer ends in</div>
             <div className="text-3xl font-black text-white font-mono tabular-nums">
               {formatCountdown(msRemaining)}
             </div>

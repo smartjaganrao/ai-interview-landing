@@ -997,21 +997,52 @@ export async function getFeaturedCoupon(): Promise<CouponRecord | null> {
   return candidates[0];
 }
 
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+const DAILY_POPUP_WINDOW_MS = 60 * 60 * 1000; // last 1hr of every IST calendar day
+
 /**
- * The single coupon to show as the new-customer welcome popup, if any.
- * Requires a real expiresAt in the future — a "limited time" popup with no
- * actual deadline isn't meaningful, so a popup-flagged coupon without one
- * is treated as not-ready rather than shown without a countdown.
+ * The real, upcoming IST-midnight boundary, as an actual UTC ms timestamp —
+ * i.e. "when does the current IST calendar day end." Not the machine's local
+ * timezone; IST specifically, since that's the customer base.
+ */
+export function nextIstMidnight(now: number): number {
+  const istShifted = new Date(now + IST_OFFSET_MS);
+  const y = istShifted.getUTCFullYear();
+  const m = istShifted.getUTCMonth();
+  const d = istShifted.getUTCDate();
+  return Date.UTC(y, m, d + 1) - IST_OFFSET_MS;
+}
+
+/**
+ * The single coupon to show as the new-customer welcome popup, if any —
+ * only during the last hour of each IST calendar day (11pm–midnight IST).
+ * A "daily offer" that recurs automatically every day with zero admin
+ * upkeep, and — deliberately — a REAL shared deadline (this IST day's
+ * actual midnight, same instant for every visitor) rather than a per-tab
+ * timer that resets when someone reopens the page. A timer that resets on
+ * reopen is a "False Urgency" dark pattern under India's Consumer
+ * Protection (E-Commerce) Rules, 2020 — the offer must actually end when
+ * it says it will, for everyone, regardless of when they last looked.
+ *
+ * coupon.expiresAt on the stored record is a separate, longer-term
+ * kill-switch for the whole campaign (e.g. 90 days out) — this function
+ * still requires it to be in the future, but the expiresAt returned to
+ * the caller is always overridden to tonight's real midnight, not the
+ * stored value, so the countdown the customer sees is always accurate.
  */
 export async function getPopupCoupon(): Promise<CouponRecord | null> {
   const { coupons } = await getCoupons();
   const now = Date.now();
+  const windowEnd = nextIstMidnight(now);
+  const windowStart = windowEnd - DAILY_POPUP_WINDOW_MS;
+  if (now < windowStart || now >= windowEnd) return null;
+
   const candidates = Object.values(coupons).filter(
     (c) => c.popup && c.active && c.expiresAt && c.expiresAt > now
   );
   if (candidates.length === 0) return null;
   candidates.sort((a, b) => b.updatedAt - a.updatedAt);
-  return candidates[0];
+  return { ...candidates[0], expiresAt: windowEnd };
 }
 
 /** Apply a coupon's discount to a base amount; never drops below ₹1. */
