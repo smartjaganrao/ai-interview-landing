@@ -970,7 +970,7 @@ export function invalidateCouponsCache(): void {
   couponsCache.delete('coupons');
 }
 
-function couponIsValid(c: CouponRecord | undefined, plan: PlanId): c is CouponRecord {
+export function couponIsValid(c: CouponRecord | undefined, plan: PlanId): c is CouponRecord {
   if (!c || !c.active) return false;
   if (c.expiresAt && Date.now() > c.expiresAt) return false;
   return c.appliesTo === 'all' || c.appliesTo === plan;

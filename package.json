@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
+    "test": "vitest run",
     "setup-db": "node scripts/setup-firestore.mjs",
     "deploy-rules": "node scripts/deploy-firestore-rules.mjs",
     "creator-payouts": "node scripts/creator-payouts.mjs",
@@ -41,6 +42,7 @@
     "eslint-config-next": "^16.2.6",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.14",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.9"
   }
 }
