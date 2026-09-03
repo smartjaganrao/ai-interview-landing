@@ -369,6 +369,38 @@ export async function sendCheckoutAbandonedReminder(params: { email: string; nam
   return { ok: true };
 }
 
+/** Sent (once) 2 days after signup to users who never opened the desktop app. */
+export async function sendReengagementNudge(params: { email: string; name: string; couponCode: string; discountLabel: string }): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const firstName = params.name?.split(' ')[0] || 'there';
+
+  const html = shell(`
+  <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">Still there, ${firstName}? 👋</h1>
+  <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
+    You signed up for JavihAI but haven't tried it yet. It takes a minute to install —
+    live AI answers during your next interview, right on screen, invisible on Zoom,
+    Google Meet or Microsoft Teams.
+  </p>
+  <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:24px;text-align:center;">
+    <span style="color:#94a3b8;font-size:14px;">Use code</span><br/>
+    <span style="color:#fff;font-weight:800;font-size:22px;font-family:monospace;letter-spacing:1px;">${params.couponCode}</span><br/>
+    <span style="color:#4ade80;font-size:14px;font-weight:600;">${params.discountLabel}</span>
+  </div>
+  <div style="text-align:center;margin:28px 0;">
+    <a href="https://javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Get started →</a>
+  </div>
+  <p style="color:#64748b;font-size:13px;">Need help installing? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: params.email,
+    subject: `${firstName}, your JavihAI ${params.discountLabel} offer is waiting`,
+    html,
+  });
+  if (error) { console.error('[email/reengagement] Resend error:', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
+
 /** Sent (once) when a paid plan's access actually lapses to Free. */
 export async function sendPlanExpiredNotice(params: { email: string; name: string; plan: PlanId }): Promise<{ ok: boolean; error?: string }> {
   if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };

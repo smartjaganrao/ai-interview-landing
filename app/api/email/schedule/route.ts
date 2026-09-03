@@ -4,10 +4,17 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { sendRenewalReminder, sendCheckoutAbandonedReminder, sendPlanExpiredNotice } from '@/lib/email';
-import { getReferralSummary, getUserInfo, invalidatePlanCache, invalidateQuotaCache } from '@/lib/firebase-admin';
+import { sendRenewalReminder, sendCheckoutAbandonedReminder, sendPlanExpiredNotice, sendReengagementNudge } from '@/lib/email';
+import { getReferralSummary, getUserInfo, invalidatePlanCache, invalidateQuotaCache, getPopupCoupon } from '@/lib/firebase-admin';
 import { getRazorpayClient } from '@/lib/razorpay-server';
 import type { PlanId } from '@/lib/pricing-config';
+
+// How long after signup, with zero desktop-app activity, the re-engagement
+// nudge fires — and the trailing edge of the sweep window so this doesn't
+// rescan the entire all-time user base every day (idempotency via
+// notifications.reengagementEmailSentAt would make that safe but wasteful).
+const REENGAGEMENT_DELAY_MS = 2 * 24 * 60 * 60 * 1000; // 2 days
+const REENGAGEMENT_WINDOW_MS = 5 * 24 * 60 * 60 * 1000; // sweep signups from the 5 days before that
 
 // Anything already past its expiry at the moment this shipped is grandfathered —
 // never auto-downgraded by the sweep below. Only subscriptions that were still
@@ -209,10 +216,70 @@ export async function GET(req: NextRequest) {
     console.error('[email/schedule] expiry enforcement failed:', err);
   }
 
+  // ── Email re-engagement nudge ───────────────────────────────────────────────
+  // Users who signed up but never opened the desktop app (no users/{uid}.lastSeen
+  // heartbeat yet — see recordHeartbeat in ai-interview-helper) get one email
+  // nudge, 2 days after signup, with whatever coupon is currently the popup
+  // offer. Free (Resend), no external approval needed — unlike the WhatsApp
+  // version of this (kept on branch feat/whatsapp-reengagement-nudge for later,
+  // blocked on a Twilio trial-account upgrade + Meta template review). Idempotent
+  // via notifications.reengagementEmailSentAt, so a user is only ever nudged once
+  // regardless of how many days their signup stays inside the sweep window.
+  const reengaged: string[] = [];
+  try {
+    const coupon = await getPopupCoupon();
+
+    if (coupon) {
+      const discountLabel =
+        coupon.discountType === 'flat' ? `₹${coupon.discountValue} off` : `${coupon.discountValue}% off`;
+
+      const windowEnd = now - REENGAGEMENT_DELAY_MS;
+      const windowStart = windowEnd - REENGAGEMENT_WINDOW_MS;
+      const candidates = await db
+        .collection('users')
+        .where('createdAt', '<=', windowEnd)
+        .where('createdAt', '>=', windowStart)
+        .limit(200)
+        .get();
+
+      for (const userDoc of candidates.docs) {
+        try {
+          const u = userDoc.data() as {
+            lastSeen?: number;
+            email?: string;
+            profile?: { fullName?: string };
+            fullName?: string; name?: string;
+            notifications?: { reengagementEmailSentAt?: number };
+          };
+          if (u.lastSeen) continue; // opened the app since signing up — not inactive
+          if (u.notifications?.reengagementEmailSentAt) continue; // already nudged once
+          if (!u.email) continue;
+
+          const name = (u.profile?.fullName || u.fullName || u.name || '') as string;
+          const res = await sendReengagementNudge({
+            email: u.email,
+            name,
+            couponCode: coupon.code,
+            discountLabel,
+          });
+          if (res.ok) {
+            await userDoc.ref.set({ notifications: { reengagementEmailSentAt: now } }, { merge: true });
+            reengaged.push(u.email);
+          }
+        } catch (err) {
+          console.error('[email/schedule] reengagement nudge failed for', userDoc.id, err);
+        }
+      }
+    }
+  } catch (err) {
+    console.error('[email/schedule] reengagement sweep failed:', err);
+  }
+
   return NextResponse.json({
     sent, count: sent.length,
     reminders, reminderCount: reminders.length,
     abandoned, abandonedCount: abandoned.length,
     expired, expiredCount: expired.length,
+    reengaged, reengagedCount: reengaged.length,
   });
 }
