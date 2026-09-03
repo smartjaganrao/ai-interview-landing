@@ -177,7 +177,7 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       aria-modal="true"
       aria-labelledby="complete-profile-title"
     >
-      <div className="card-glow card w-full max-w-md max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="card-glow card w-full max-w-xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="text-center mb-6">
           <div className="text-3xl mb-2">📱</div>
           <h2 id="complete-profile-title" className="text-2xl font-black mb-1">Complete your profile</h2>
@@ -190,7 +190,7 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
           <div>
             <label htmlFor="cp-name" className="block text-sm text-slate-400 mb-1.5">
               Full Name <span className="text-red-400">*</span>
@@ -208,6 +208,23 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
           </div>
 
           <div>
+            <label htmlFor="cp-exp" className="block text-sm text-slate-400 mb-1.5">
+              Experience Level <span className="text-red-400">*</span>
+            </label>
+            <select
+              id="cp-exp"
+              value={experienceLevel}
+              onChange={(e) => setExperienceLevel(e.target.value)}
+              required
+              aria-required="true"
+              className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-white text-sm focus:outline-none focus:border-indigo-500"
+            >
+              <option value="">Select…</option>
+              {EXPERIENCE_LEVELS.map((l) => <option key={l} value={l}>{l}</option>)}
+            </select>
+          </div>
+
+          <div className="sm:col-span-2">
             <label htmlFor="cp-whatsapp" className="block text-sm text-slate-400 mb-1.5">
               WhatsApp Number <span className="text-red-400">*</span>
             </label>
@@ -228,23 +245,6 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
                 className="flex-1 px-4 py-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
               />
             </div>
-          </div>
-
-          <div>
-            <label htmlFor="cp-exp" className="block text-sm text-slate-400 mb-1.5">
-              Experience Level <span className="text-red-400">*</span>
-            </label>
-            <select
-              id="cp-exp"
-              value={experienceLevel}
-              onChange={(e) => setExperienceLevel(e.target.value)}
-              required
-              aria-required="true"
-              className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-white text-sm focus:outline-none focus:border-indigo-500"
-            >
-              <option value="">Select…</option>
-              {EXPERIENCE_LEVELS.map((l) => <option key={l} value={l}>{l}</option>)}
-            </select>
           </div>
 
           <div>
@@ -281,7 +281,7 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
             />
           </div>
 
-          <div>
+          <div className="sm:col-span-2">
             <label htmlFor="cp-source" className="block text-sm text-slate-400 mb-1.5">
               How did you hear about JavihAI? <span className="text-red-400">*</span>
             </label>
