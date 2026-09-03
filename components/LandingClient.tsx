@@ -1229,6 +1229,7 @@ export default function LandingClient(props: LandingClientProps) {
                 <Link href="/#faq" className="footer-link block">FAQ</Link>
                 <Link href="/compare" className="footer-link block">Compare</Link>
                 <Link href="/#reviews" className="footer-link block">Reviews</Link>
+                <Link href="/changelog" className="footer-link block">Changelog</Link>
               </div>
             </div>
             <div>

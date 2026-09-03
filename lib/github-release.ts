@@ -90,6 +90,49 @@ export async function getLatestReleaseRaw(): Promise<GithubRelease | null> {
   }
 }
 
+export interface ChangelogEntry {
+  version: string;
+  releaseUrl: string;
+  publishedAt: string | null;
+  notes: string; // raw markdown body from `gh release create --notes`
+}
+
+/** Every desktop release, newest first — for the public /changelog page. */
+export async function getAllReleases(): Promise<ChangelogEntry[]> {
+  const token = process.env.GITHUB_TOKEN;
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=30`, {
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        Accept: 'application/vnd.github+json',
+      },
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      console.error(`[github-release] releases list non-ok status=${res.status} body=${text.slice(0, 200)}`);
+      return [];
+    }
+    const json = (await res.json()) as Array<GithubRelease & { body?: string; draft?: boolean; prerelease?: boolean }>;
+    const seen = new Set<string>();
+    return json
+      .filter((r) => !r.draft && !r.prerelease && r.tag_name)
+      // Some older tags were re-cut and appear twice in the API response
+      // (same tag_name, different release id) — keep only the first (the
+      // list is already newest-first, so this keeps the current one).
+      .filter((r) => (seen.has(r.tag_name) ? false : (seen.add(r.tag_name), true)))
+      .map((r) => ({
+        version: r.tag_name,
+        releaseUrl: r.html_url,
+        publishedAt: r.published_at,
+        notes: r.body || '',
+      }));
+  } catch (err) {
+    console.error('[github-release] releases list fetch failed:', err);
+    return [];
+  }
+}
+
 export async function getLatestRelease(): Promise<LatestRelease> {
   const release = await getLatestReleaseRaw();
   if (!release) return FALLBACK;
