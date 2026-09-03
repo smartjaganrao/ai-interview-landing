@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
 import FreeTrialModal from '@/components/FreeTrialModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
 import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
+import Footer from '@/components/Footer';
 
 // Single source of truth for the FAQ section — rendered as the visible
 // accordion below AND compiled into faqSchema's JSON-LD. Keeping these in
@@ -1207,60 +1207,7 @@ export default function LandingClient(props: LandingClientProps) {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          FOOTER
-      ═══════════════════════════════════════════════════════════════ */}
-      <footer className="border-t border-white/5 py-12 bg-slate-950/60">
-        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
-            <div>
-              <div className="font-bold text-white mb-4">Product</div>
-              <div className="space-y-2.5">
-                <Link href="/#features" className="footer-link block">Features</Link>
-                <Link href="/pricing" className="footer-link block">Pricing</Link>
-                <Link href="/#how-it-works" className="footer-link block">How It Works</Link>
-                <Link href="/" className="footer-link block">Download</Link>
-              </div>
-            </div>
-            <div>
-              <div className="font-bold text-white mb-4">Resources</div>
-              <div className="space-y-2.5">
-                <Link href="/blog" className="footer-link block">Blog</Link>
-                <Link href="/#faq" className="footer-link block">FAQ</Link>
-                <Link href="/compare" className="footer-link block">Compare</Link>
-                <Link href="/#reviews" className="footer-link block">Reviews</Link>
-                <Link href="/changelog" className="footer-link block">Changelog</Link>
-              </div>
-            </div>
-            <div>
-              <div className="font-bold text-white mb-4">Legal</div>
-              <div className="space-y-2.5">
-                <Link href="/privacy" className="footer-link block">Privacy Policy</Link>
-                <Link href="/terms" className="footer-link block">Terms of Service</Link>
-                <Link href="/refund" className="footer-link block">Refund Policy</Link>
-              </div>
-            </div>
-            <div>
-              <div className="font-bold text-white mb-4">Support</div>
-              <div className="space-y-2.5">
-                <Link href="/auth/login" className="footer-link block">Sign In</Link>
-                <Link href="/auth/signup" className="footer-link block">Sign Up</Link>
-                <a href="mailto:support@javihai.in" className="footer-link block">support@javihai.in</a>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Image src="/logo.svg" alt="JavihAI" width={32} height={32} unoptimized className="h-8 w-8 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
-              <span className="font-bold text-white">JavihAI</span>
-            </div>
-            <p className="text-slate-600 text-sm">
-              © {new Date().getFullYear()} JavihAI. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       <NewCustomerOfferPopup />
       <FreeTrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />

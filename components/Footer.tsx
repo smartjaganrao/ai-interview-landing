@@ -47,6 +47,8 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li><Link href="/#features" className="text-slate-400 hover:text-white transition">Features</Link></li>
               <li><Link href="/pricing" className="text-slate-400 hover:text-white transition">Pricing</Link></li>
+              <li><Link href="/#how-it-works" className="text-slate-400 hover:text-white transition">How It Works</Link></li>
+              <li><Link href="/#reviews" className="text-slate-400 hover:text-white transition">Reviews</Link></li>
               <li><Link href="/mock-interview" className="text-slate-400 hover:text-white transition">Mock Interview</Link></li>
               <li><Link href="/resume" className="text-slate-400 hover:text-white transition">Resume Builder</Link></li>
               <li><Link href="/jobs" className="text-slate-400 hover:text-white transition">Job Recommendations</Link></li>
