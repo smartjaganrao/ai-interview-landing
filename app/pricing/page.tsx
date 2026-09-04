@@ -268,7 +268,13 @@ export default function PricingPage() {
               // A paid plan pricing at exactly ₹0 is always a broken read
               // (settings/pricing unreachable), never a real price — treat it
               // the same as "not loaded yet" so it shows "—" instead of ₹0.
-              const hasPricing = !!planPricing && cyclePrice > 0 && !pricing?.degraded;
+              // A `degraded` response is NOT the same thing: pricingFallback()
+              // (lib/firebase-admin.ts) serves the pricing-fallback-sync
+              // snapshot in that case — a real, recently-synced price, safe
+              // to show because checkout charges this exact same number via
+              // getDynamicPricing(). Hiding it just makes a working checkout
+              // look broken.
+              const hasPricing = !!planPricing && cyclePrice > 0;
               const offerOn = offerActiveFor(pricing?.offer, plan.id);
               const effCycle = offerOn && hasPricing
                 ? Math.max(1, Math.round(cyclePrice * (1 - pricing!.offer.percentOff / 100)))
@@ -375,7 +381,7 @@ export default function PricingPage() {
                       { name: 'Price', getValue: (p: typeof PLANS[0]) => {
                         if (p.id === 'free') return 'Free';
                         const planPricing = pricing?.plans?.[p.id];
-                        if (!planPricing || pricing?.degraded) return '—';
+                        if (!planPricing) return '—';
                         const pricingData = planPricing as { oneTime?: number; monthly?: number };
                         if (p.billingType === 'subscription') {
                           const monthly = pricingData.monthly ?? 0;
