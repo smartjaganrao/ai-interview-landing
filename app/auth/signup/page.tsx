@@ -7,6 +7,7 @@ import { getRedirectResult, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { googleSignIn, ensureUserDocs, friendlyAuthError, persistAttribution, isProfileComplete } from '@/lib/auth';
+import { savePendingUserSync } from '@/lib/pending-user-sync';
 import { PLANS, PlanId, AnyPlanId, migratePlanId, isPaidPlan } from '@/lib/pricing-config';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -51,6 +52,32 @@ async function attributeCreatorIfPending(user: User) {
   }
 }
 
+/**
+ * Writes/refreshes the user's Firestore docs and returns their profile data —
+ * or `undefined` if Firestore itself is unreachable (e.g. a quota
+ * exhaustion). In that case the write is queued via `savePendingUserSync`
+ * (with the plan they were signing up for) for `useAuth` to retry on a later
+ * page load, and the caller should let the user through anyway rather than
+ * blocking signup on it — Firebase Auth already succeeded and is a separate
+ * system from Firestore. Referral/creator attribution stays best-effort as
+ * before (each already never throws), so it isn't part of the deferred path.
+ */
+async function syncAfterAuth(user: User, plan: PlanId): Promise<Record<string, unknown> | null | undefined> {
+  try {
+    await ensureUserDocs(user, plan);
+    await persistAttribution(user.uid);
+    await claimReferralIfPending(user);
+    await attributeCreatorIfPending(user);
+    const userRef = doc(db, 'users', user.uid);
+    const snap = await getDoc(userRef);
+    return snap.exists() ? (snap.data() as Record<string, unknown>) : null;
+  } catch (err) {
+    console.error('[signup] Firestore sync failed, deferring to background retry:', err);
+    savePendingUserSync(user, plan);
+    return undefined;
+  }
+}
+
 function SignupContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -82,16 +109,9 @@ function SignupContent() {
       .then(async (cred) => {
         if (cred) {
           setPendingAuth(true);
-          await ensureUserDocs(cred);
-          await persistAttribution(cred.user.uid);
-          await claimReferralIfPending(cred.user);
-          await attributeCreatorIfPending(cred.user);
+          const userData = await syncAfterAuth(cred.user, plan);
 
-          const userRef = doc(db, 'users', cred.user.uid);
-          const snap = await getDoc(userRef);
-          const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
-
-          if (!isProfileComplete(userData)) {
+          if (userData !== undefined && !isProfileComplete(userData)) {
             setFetchedUserData(userData);
             setShowProfileModal(true);
             setPendingDestination(isPaidPlan(plan) ? `/checkout?plan=${plan}` : '/dashboard');
@@ -130,16 +150,9 @@ function SignupContent() {
         setPendingAuth(false);
         return; // redirect in progress; result handled on return
       }
-      await ensureUserDocs(cred);
-      await persistAttribution(cred.user.uid);
-      await claimReferralIfPending(cred.user);
-      await attributeCreatorIfPending(cred.user);
+      const userData = await syncAfterAuth(cred.user, plan);
 
-      const userRef = doc(db, 'users', cred.user.uid);
-      const snap = await getDoc(userRef);
-      const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
-
-      if (!isProfileComplete(userData)) {
+      if (userData !== undefined && !isProfileComplete(userData)) {
         setFetchedUserData(userData);
         setShowProfileModal(true);
         setPendingDestination(isPaidPlan(plan) ? `/checkout?plan=${plan}` : '/dashboard');

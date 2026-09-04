@@ -11,14 +11,21 @@ export async function GET() {
   }
 
   const firestore = db;
-  const data = await getServerCached('announcements:public', 5 * 60 * 1000, async () => {
-    const snap = await firestore.collection('announcements').orderBy('createdAt', 'desc').limit(20).get();
-    const announcements = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .filter((a) => (a as { active?: boolean }).active !== false)
-      .slice(0, 5);
-    return { announcements };
-  });
-
-  return NextResponse.json(data);
+  try {
+    const data = await getServerCached('announcements:public', 5 * 60 * 1000, async () => {
+      const snap = await firestore.collection('announcements').orderBy('createdAt', 'desc').limit(20).get();
+      const announcements = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter((a) => (a as { active?: boolean }).active !== false)
+        .slice(0, 5);
+      return { announcements };
+    });
+    return NextResponse.json(data);
+  } catch (err) {
+    // The "What's New" bell is not essential chrome — a Firestore hiccup
+    // (e.g. quota exhaustion) here should degrade to "no announcements",
+    // never a 500 that breaks whatever page embeds it.
+    console.error('[announcements] failed to load:', err);
+    return NextResponse.json({ announcements: [] });
+  }
 }

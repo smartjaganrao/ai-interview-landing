@@ -3,6 +3,7 @@ import {
   signInWithRedirect,
   GoogleAuthProvider,
   UserCredential,
+  User,
   AuthError,
   fetchSignInMethodsForEmail,
 } from 'firebase/auth';
@@ -93,15 +94,20 @@ export async function googleSignIn(): Promise<UserCredential | null> {
  * This protects against the same email being registered under multiple UIDs
  * (e.g. when Firebase Auth's "one account per email" setting is off, or
  * when a user switches sign-in methods).
+ *
+ * Takes the Firebase Auth `User` (not the full `UserCredential`) so it can
+ * be called equally from a fresh sign-in (`cred.user`) or later, from
+ * `retryPendingUserSync` via `useAuth`'s `onAuthStateChanged` (`currentUser`)
+ * — both are the same shape, only the original sign-in has a `UserCredential`.
  */
 export async function ensureUserDocs(
-  cred: UserCredential,
+  user: User,
   plan: PlanId = 'free'
 ): Promise<void> {
-  const uid = cred.user.uid;
+  const uid = user.uid;
   const userRef = doc(db, 'users', uid);
-  const email = cred.user.email ?? '';
-  const name  = cred.user.displayName || 'there';
+  const email = user.email ?? '';
+  const name  = user.displayName || 'there';
   const now   = Date.now();
 
   // ── Duplicate email protection (outside transaction) ─────────────────────

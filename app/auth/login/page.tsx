@@ -7,9 +7,33 @@ import { getRedirectResult } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { googleSignIn, ensureUserDocs, friendlyAuthError, persistAttribution, isProfileComplete } from '@/lib/auth';
+import { savePendingUserSync } from '@/lib/pending-user-sync';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import CompleteProfileModal from '@/components/CompleteProfileModal';
+import type { User } from 'firebase/auth';
+
+/**
+ * Writes/refreshes the user's Firestore docs and returns their profile data —
+ * or `undefined` if Firestore itself is unreachable (e.g. a quota
+ * exhaustion). In that case the write is queued via `savePendingUserSync`
+ * for `useAuth` to retry on a later page load, and the caller should let the
+ * user through anyway rather than blocking login on it — Firebase Auth
+ * already succeeded and is a separate system from Firestore.
+ */
+async function syncAfterAuth(user: User): Promise<Record<string, unknown> | null | undefined> {
+  try {
+    await ensureUserDocs(user);
+    await persistAttribution(user.uid);
+    const userRef = doc(db, 'users', user.uid);
+    const snap = await getDoc(userRef);
+    return snap.exists() ? (snap.data() as Record<string, unknown>) : null;
+  } catch (err) {
+    console.error('[login] Firestore sync failed, deferring to background retry:', err);
+    savePendingUserSync(user, 'free');
+    return undefined;
+  }
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,14 +51,8 @@ export default function LoginPage() {
       .then(async (cred) => {
         if (cred) {
           setPendingAuth(true);
-          await ensureUserDocs(cred);
-          await persistAttribution(cred.user.uid);
-
-          const userRef = doc(db, 'users', cred.user.uid);
-          const snap = await getDoc(userRef);
-          const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
-
-          if (!isProfileComplete(userData)) {
+          const userData = await syncAfterAuth(cred.user);
+          if (userData !== undefined && !isProfileComplete(userData)) {
             setFetchedUserData(userData);
             setShowProfileModal(true);
             setPendingAuth(false);
@@ -68,14 +86,9 @@ export default function LoginPage() {
         setPendingAuth(false);
         return; // redirect in progress; result handled on return
       }
-      await ensureUserDocs(cred);
-      await persistAttribution(cred.user.uid);
+      const userData = await syncAfterAuth(cred.user);
 
-      const userRef = doc(db, 'users', cred.user.uid);
-      const snap = await getDoc(userRef);
-      const userData = snap.exists() ? snap.data() as Record<string, unknown> : null;
-
-      if (!isProfileComplete(userData)) {
+      if (userData !== undefined && !isProfileComplete(userData)) {
         setFetchedUserData(userData);
         setShowProfileModal(true);
         setPendingAuth(false);
