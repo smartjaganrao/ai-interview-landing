@@ -118,12 +118,21 @@ export function dayKey(): string {
 const planCache = new Map<string, { plan: PlanId; expiresAt: number }>();
 const PLAN_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 
+// Kept separate from quotaCache below with its own short TTL: this is the
+// actual enforcement point for admin bans (see checkAiQuota docs), so it can't
+// ride the 2-minute quota window without meaningfully delaying a ban taking
+// effect. There's no cross-process way to invalidate this on ban (the "Ban
+// User" button lives in ai-interview-admin, a separate deployment with no
+// shared memory with this one) — bounding the TTL is the mechanism instead.
+const banCache = new Map<string, { banned: boolean; expiresAt: number }>();
+const BAN_CACHE_TTL = 10 * 1000; // 10 seconds
+
 type QuotaResult = { allowed: boolean; plan: string; used: number; limit: number; banned?: boolean };
 const quotaCache = new Map<string, { result: QuotaResult; expiresAt: number }>();
-// Short enough that ban/quota enforcement doesn't meaningfully lag; long enough
-// to collapse a rapid-fire burst of AI answers (same user, same few seconds)
-// into a single users/{uid} + usage_tracking read instead of one pair per answer.
-const QUOTA_CACHE_TTL = 4 * 1000; // 4 seconds
+// Only caches the usage-count decision, not ban status (see banCache above) —
+// this part is a soft ceiling, not a security boundary, so it's safe to leave
+// stale longer. Matches PLAN_CACHE_TTL above so both share the same budget.
+const QUOTA_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 
 export async function getUserPlan(
   uid: string,
@@ -183,25 +192,31 @@ export function invalidatePlanCache(uid?: string): void {
  */
 export async function checkAiQuota(uid: string): Promise<QuotaResult> {
   const now = Date.now();
+
+  let userSnap: FirebaseFirestore.DocumentSnapshot | undefined;
+  const cachedBan = banCache.get(uid);
+  if (cachedBan && cachedBan.expiresAt > now) {
+    if (cachedBan.banned) {
+      return { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
+    }
+  } else if (db) {
+    try {
+      userSnap = await db.collection('users').doc(uid).get();
+      const banned = userSnap.data()?.status === 'banned';
+      banCache.set(uid, { banned, expiresAt: now + BAN_CACHE_TTL });
+      if (banned) {
+        return { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
+      }
+    } catch { /* fail open on read error, same policy as the rest of this function */ }
+  }
+
   const cached = quotaCache.get(uid);
   if (cached && cached.expiresAt > now) {
     return cached.result;
   }
 
-  let userSnap: FirebaseFirestore.DocumentSnapshot | undefined;
-  if (db) {
-    try {
-      userSnap = await db.collection('users').doc(uid).get();
-      if (userSnap.data()?.status === 'banned') {
-        const result: QuotaResult = { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
-        quotaCache.set(uid, { result, expiresAt: now + QUOTA_CACHE_TTL });
-        return result;
-      }
-    } catch { /* fail open on read error, same policy as the rest of this function */ }
-  }
-
-  // Pass the snapshot along so a getUserPlan cache miss doesn't re-read the
-  // same users/{uid} doc a second time in this same request.
+  // Pass the snapshot along (if the ban check above just fetched it) so a
+  // getUserPlan cache miss doesn't re-read the same users/{uid} doc again.
   const plan = await getUserPlan(uid, userSnap);
   const limit = plan === 'free' ? FREE_AI_ANSWERS : (PAID_DAILY_LIMITS[plan] ?? Infinity);
 
