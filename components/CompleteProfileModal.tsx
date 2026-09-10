@@ -35,13 +35,22 @@ interface Props {
   user: User;
   onDone: (saved: ProfileDetails) => void;
   initial?: ProfileDetails;
+  /**
+   * Lets an EXISTING user (login/dashboard) dismiss without completing the
+   * form — they're let back in and asked again next visit, rather than
+   * blocked outright. Omit (or pass nothing) for the signup flow, where a
+   * brand-new account still must complete this before entering, unchanged.
+   * Defaults to non-dismissible so existing call sites keep their current
+   * behavior unless they opt in.
+   */
+  onSkip?: () => void;
 }
 
 function stripCountryCode(phone?: string): string {
   return phone?.replace(/^\+91/, '') || '';
 }
 
-export default function CompleteProfileModal({ user, onDone, initial }: Props) {
+export default function CompleteProfileModal({ user, onDone, initial, onSkip }: Props) {
   const [fullName, setFullName] = useState(initial?.fullName || user.displayName || '');
   const [whatsapp, setWhatsApp] = useState(stripCountryCode(initial?.whatsapp || initial?.phone) || '');
   const [experienceLevel, setExperienceLevel] = useState(initial?.experienceLevel || '');
@@ -53,8 +62,9 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
   const [mounted, setMounted] = useState(false);
   const whatsappInputRef = useRef<HTMLInputElement>(null);
 
-  // Mandatory dialog — no backdrop-click or Escape dismissal, and focus the
-  // first field so keyboard/screen-reader users land here immediately
+  // Mandatory (no backdrop-click or Escape dismissal) UNLESS onSkip is
+  // provided — see the onSkip prop doc above. Focuses the first field either
+  // way so keyboard/screen-reader users land here immediately.
   useEffect(() => {
     // Standard "mounted" gate for the createPortal render below (needs
     // document.body, which only exists client-side) — deferring past
@@ -62,15 +72,19 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const focusTimer = setTimeout(() => whatsappInputRef.current?.focus(), 50);
-    const blockEscape = (e: KeyboardEvent) => { if (e.key === 'Escape') e.preventDefault(); };
-    document.addEventListener('keydown', blockEscape);
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (onSkip) onSkip();
+      else e.preventDefault();
+    };
+    document.addEventListener('keydown', handleEscape);
     document.body.style.overflow = 'hidden';
     return () => {
       clearTimeout(focusTimer);
-      document.removeEventListener('keydown', blockEscape);
+      document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
-  }, []);
+  }, [onSkip]);
 
   const isValidWhatsApp = /^[6-9]\d{9}$/.test(whatsapp.trim());
   const isValidForm = fullName.trim() && isValidWhatsApp && experienceLevel && jobRole.trim() && city.trim() && acquisitionSource;
@@ -180,8 +194,19 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="complete-profile-title"
+      onClick={onSkip}
     >
-      <div className="card-glow card w-full max-w-xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+      <div className="card-glow card w-full max-w-xl max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
+        {onSkip && (
+          <button
+            type="button"
+            onClick={onSkip}
+            aria-label="Skip for now"
+            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 text-xl leading-none"
+          >
+            ×
+          </button>
+        )}
         <div className="text-center mb-6">
           <div className="text-3xl mb-2">📱</div>
           <h2 id="complete-profile-title" className="text-2xl font-black mb-1">Complete your profile</h2>
@@ -306,6 +331,17 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
         <button onClick={save} disabled={saving || !isValidForm} className="btn btn-primary w-full mt-7">
           {saving ? 'Saving…' : 'Continue to JavihAI'}
         </button>
+
+        {onSkip && (
+          <button
+            type="button"
+            onClick={onSkip}
+            disabled={saving}
+            className="w-full mt-3 text-center text-sm text-slate-500 hover:text-slate-300"
+          >
+            Skip for now
+          </button>
+        )}
       </div>
     </div>
   );
