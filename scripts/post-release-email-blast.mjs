@@ -117,6 +117,17 @@ function shell(bodyHtml) {
 </div></body></html>`;
 }
 
+// Bullet list is intentionally static per run, not derived from freeform
+// --notes (HTML-unsafe to interpolate directly without escaping) — pass
+// --notes for the subject-line summary, edit WHATS_NEW below to match
+// what actually shipped before running.
+const WHATS_NEW = [
+  'Free plan now gives you up to 25 AI answers a day — 5 screenshot solves, 10 system-audio answers, and 10 mic answers (previously 10 total, combined)',
+  'Fixed several toolbar buttons that could drag the whole window instead of registering your click',
+  'Screenshot now tells you exactly what to fix if Screen Recording permission isn\'t granted, instead of a generic error',
+  'Added a persistent shortcuts reminder in the toolbar so Show/Hide, Restore, and Compact Mode are always visible',
+];
+
 async function sendReleaseEmail(email, name) {
   const { Resend } = await import('resend');
   const resend = new Resend(RESEND_KEY);
@@ -125,15 +136,12 @@ async function sendReleaseEmail(email, name) {
   const html = shell(`
     <h1 style="font-size:24px;font-weight:800;margin-bottom:8px;">🚀 JavihAI ${version} is out</h1>
     <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:24px;">
-      Hi ${firstName}, we shipped a new stable release focused on audio quality and cross-platform reliability.
+      Hi ${firstName}, ${notes}
     </p>
     <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;">
       <h2 style="font-size:16px;color:#fff;margin:0 0 12px;">What's new in ${version}</h2>
       <ul style="padding-left:0;list-style:none;margin:0;">
-        <li style="padding:8px 0;color:#cbd5e1;font-size:14px;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-weight:700;">✓</span> System audio capture fixed — clearer interviewer audio, no more choppiness</li>
-        <li style="padding:8px 0;color:#cbd5e1;font-size:14px;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-weight:700;">✓</span> Windows support — microphone permission now works correctly on Windows 10/11</li>
-        <li style="padding:8px 0;color:#cbd5e1;font-size:14px;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-weight:700;">✓</span> Smarter transcription — fewer hallucinations and more reliable question detection</li>
-        <li style="padding:8px 0;color:#cbd5e1;font-size:14px;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-weight:700;">✓</span> Silent audio detection — warns you if system audio capture isn't picking up sound</li>
+        ${WHATS_NEW.map(item => `<li style="padding:8px 0;color:#cbd5e1;font-size:14px;display:flex;align-items:center;gap:10px;"><span style="color:#4ade80;font-weight:700;">✓</span> ${item}</li>`).join('\n        ')}
       </ul>
     </div>
     <div style="text-align:center;margin:32px 0;">
@@ -142,12 +150,15 @@ async function sendReleaseEmail(email, name) {
     <p style="color:#64748b;font-size:13px;text-align:center;margin:0;">
       Questions? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>
     </p>
+    <p style="color:#475569;font-size:11px;text-align:center;margin-top:16px;">
+      Don't want release emails? Reply and let us know — we'll turn them off for your account.
+    </p>
   `);
 
   const { data, error } = await resend.emails.send({
     from: FROM,
     to: email,
-    subject: `JavihAI ${version} is out — better audio, Windows support, smarter transcription`,
+    subject: `JavihAI ${version} is out — ${notes}`,
     html,
   });
 
