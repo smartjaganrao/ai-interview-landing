@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyIdToken, checkAiQuota, notifyQuotaExceededOnce } from '@/lib/firebase-admin';
+import type { QuotaFeature } from '@/lib/firebase-admin';
+
+const VALID_FEATURES: QuotaFeature[] = ['screenshot', 'system_audio', 'mic'];
 
 export const runtime = 'nodejs';
 
@@ -61,10 +64,13 @@ async function fetchGroqWithFallback(
 export async function POST(req: NextRequest) {
   try {
     const idToken = req.headers.get('X-Firebase-Token') || '';
-    const { messages, model, temperature, max_tokens } = await req.json();
+    const { messages, model, temperature, max_tokens, feature } = await req.json();
 
     if (!messages?.length) {
       return NextResponse.json({ error: 'messages required' }, { status: 400 });
+    }
+    if (!VALID_FEATURES.includes(feature)) {
+      return NextResponse.json({ error: 'feature must be one of screenshot, system_audio, mic' }, { status: 400 });
     }
 
     // Require authentication — unauthenticated callers would bypass quota entirely
@@ -78,7 +84,7 @@ export async function POST(req: NextRequest) {
     let quotaLimit: number = Infinity;
     const user = await verifyIdToken(idToken);
     if (user) {
-      const quota = await checkAiQuota(user.uid);
+      const quota = await checkAiQuota(user.uid, feature as QuotaFeature);
       plan = quota.plan;
       quotaUsed = quota.used;
       quotaLimit = quota.limit;
@@ -153,6 +159,7 @@ export async function POST(req: NextRequest) {
         'X-Quota-Plan': plan,
         'X-Quota-Used': String(quotaUsed),
         'X-Quota-Limit': quotaLimit === Infinity ? 'unlimited' : String(quotaLimit),
+        'X-Quota-Feature': feature,
       },
     });
   } catch (e) {

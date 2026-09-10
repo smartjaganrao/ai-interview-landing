@@ -25,7 +25,9 @@ vi.mock('./email', () => ({ sendQuotaUpgradeNudge: vi.fn() }));
 
 const activeUser = (plan = 'free') => ({ exists: true, data: () => ({ status: 'active', plan }) });
 const bannedUser = () => ({ exists: true, data: () => ({ status: 'banned', plan: 'free' }) });
-const usage = (tokensUsed = 0) => ({ exists: true, data: () => ({ tokensUsed }) });
+// 'mic' is the feature exercised throughout this file (limit 10, same number
+// the old single-bucket model used, to keep the test diff minimal).
+const usage = (micUsed = 0) => ({ exists: true, data: () => ({ micUsed }) });
 const noSubscription = { exists: false, data: () => undefined };
 
 describe('checkAiQuota caching (banCache 10s / quotaCache 2min split)', () => {
@@ -48,12 +50,12 @@ describe('checkAiQuota caching (banCache 10s / quotaCache 2min split)', () => {
     usersGet.mockResolvedValue(activeUser());
     usageGet.mockResolvedValue(usage(0));
 
-    const first = await checkAiQuota('uid-fresh');
-    expect(first).toEqual({ allowed: true, plan: 'free', used: 0, limit: 10 });
+    const first = await checkAiQuota('uid-fresh', 'mic');
+    expect(first).toEqual({ allowed: true, plan: 'free', used: 0, limit: 10, feature: 'mic' });
     expect(usersGet).toHaveBeenCalledTimes(1);
     expect(usageGet).toHaveBeenCalledTimes(1);
 
-    const second = await checkAiQuota('uid-fresh');
+    const second = await checkAiQuota('uid-fresh', 'mic');
     expect(second).toEqual(first);
     expect(usersGet).toHaveBeenCalledTimes(1); // still cached
     expect(usageGet).toHaveBeenCalledTimes(1); // still cached
@@ -62,14 +64,14 @@ describe('checkAiQuota caching (banCache 10s / quotaCache 2min split)', () => {
   it('re-checks ban after 10s but keeps serving usage from the 2-minute quota cache', async () => {
     const { checkAiQuota } = await import('./firebase-admin');
     usersGet.mockResolvedValue(activeUser());
-    usageGet.mockResolvedValue(usage(500)); // 1 answer used
+    usageGet.mockResolvedValue(usage(1)); // 1 answer used
 
-    await checkAiQuota('uid-split-ttl');
+    await checkAiQuota('uid-split-ttl', 'mic');
     expect(usersGet).toHaveBeenCalledTimes(1);
     expect(usageGet).toHaveBeenCalledTimes(1);
 
     now += 15 * 1000; // past BAN_CACHE_TTL (10s), well before QUOTA_CACHE_TTL (2min)
-    const result = await checkAiQuota('uid-split-ttl');
+    const result = await checkAiQuota('uid-split-ttl', 'mic');
 
     expect(usersGet).toHaveBeenCalledTimes(2); // ban re-checked
     expect(usageGet).toHaveBeenCalledTimes(1); // usage/quota still cached
@@ -80,17 +82,17 @@ describe('checkAiQuota caching (banCache 10s / quotaCache 2min split)', () => {
     const { checkAiQuota } = await import('./firebase-admin');
     usersGet.mockResolvedValue(bannedUser());
 
-    const first = await checkAiQuota('uid-banned');
-    expect(first).toEqual({ allowed: false, plan: 'free', used: 0, limit: 0, banned: true });
+    const first = await checkAiQuota('uid-banned', 'mic');
+    expect(first).toEqual({ allowed: false, plan: 'free', used: 0, limit: 0, feature: 'mic', banned: true });
     expect(usersGet).toHaveBeenCalledTimes(1);
     expect(usageGet).not.toHaveBeenCalled(); // never reached — banned short-circuits before it
 
     now += 5 * 1000; // still within the 10s ban cache
-    await checkAiQuota('uid-banned');
+    await checkAiQuota('uid-banned', 'mic');
     expect(usersGet).toHaveBeenCalledTimes(1); // still cached
 
     now += 10 * 1000; // now past the 10s ban cache (15s total)
-    await checkAiQuota('uid-banned');
+    await checkAiQuota('uid-banned', 'mic');
     expect(usersGet).toHaveBeenCalledTimes(2); // re-verified, not stuck for the full 2-minute window
   });
 });

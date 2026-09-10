@@ -101,8 +101,23 @@ export async function verifyIdToken(token: string): Promise<{ uid: string; email
 }
 
 // ── AI quota (mirrors the desktop's useQuota model) ───────────────────────────
-const FREE_AI_ANSWERS = 10;       // free plan: 10 AI answers / day (trial)
-const TOKENS_PER_ANSWER = 500;    // 1 "answer" ≈ 500 tokens (matches useQuota.ts)
+// Three independent daily buckets instead of one combined counter — a
+// screenshot solve, a system-audio (Listen) answer, and a mic/typed answer
+// each draw from their own pool. Free users get up to 25/day total, not 10.
+export type QuotaFeature = 'screenshot' | 'system_audio' | 'mic';
+const FREE_FEATURE_LIMITS: Record<QuotaFeature, number> = {
+  screenshot: 5,
+  system_audio: 10,
+  mic: 10,
+};
+// Which usage_tracking/{uid}/days/{day} field each feature's count lives in.
+// `screenshotsUsed`/`systemAudioUsed`/`micUsed` are plain per-answer counts —
+// unlike the old token-based model, no TOKENS_PER_ANSWER conversion needed.
+const FEATURE_USAGE_FIELD: Record<QuotaFeature, string> = {
+  screenshot: 'screenshotsUsed',
+  system_audio: 'systemAudioUsed',
+  mic: 'micUsed',
+};
 
 // Paid plans are marketed as "unlimited" and stay that way for the user —
 // these are soft ceilings, not visible limits. Real usage sits nowhere near
@@ -127,7 +142,9 @@ const PLAN_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 const banCache = new Map<string, { banned: boolean; expiresAt: number }>();
 const BAN_CACHE_TTL = 10 * 1000; // 10 seconds
 
-type QuotaResult = { allowed: boolean; plan: string; used: number; limit: number; banned?: boolean };
+type QuotaResult = { allowed: boolean; plan: string; used: number; limit: number; feature?: QuotaFeature; banned?: boolean };
+// Keyed by `${uid}:${feature}` — each bucket's used/limit is independent, so
+// a cached "screenshot" result can't answer a "mic" check.
 const quotaCache = new Map<string, { result: QuotaResult; expiresAt: number }>();
 // Only caches the usage-count decision, not ban status (see banCache above) —
 // this part is a soft ceiling, not a security boundary, so it's safe to leave
@@ -180,37 +197,53 @@ export function invalidatePlanCache(uid?: string): void {
 }
 
 /**
- * Server-side AI quota check. Reads the user's plan + this month's token usage
- * and decides whether another AI answer is allowed. Read-only — the desktop
- * client still increments usage (writing here too would double-count).
+ * Admin-ban check, shared by checkAiQuota and any endpoint that needs to
+ * gate on ban status without a feature-specific quota check (e.g.
+ * get-groq-key, which hands back a reusable key rather than an answer).
+ * The admin panel's "Ban User" button only ever set users/{uid}.status —
+ * nothing previously read that field outside the admin UI's own badge, so a
+ * banned user could still sign in and use AI features with full quota.
  *
- * Also the enforcement point for admin bans: the admin panel's "Ban User"
- * button only ever set users/{uid}.status — nothing previously read that
- * field outside the admin UI's own badge, so a banned user could still sign
- * in and use AI features with full quota. Checked here since every AI
- * surface (live answers, mock interview) already calls this.
+ * Returns the fetched users/{uid} snapshot too (when this call actually hit
+ * Firestore, i.e. not served from banCache) so callers like checkAiQuota can
+ * reuse it for getUserPlan instead of reading the same doc twice.
  */
-export async function checkAiQuota(uid: string): Promise<QuotaResult> {
+export async function isUserBanned(
+  uid: string,
+): Promise<{ banned: boolean; userSnap?: FirebaseFirestore.DocumentSnapshot }> {
   const now = Date.now();
-
-  let userSnap: FirebaseFirestore.DocumentSnapshot | undefined;
   const cachedBan = banCache.get(uid);
   if (cachedBan && cachedBan.expiresAt > now) {
-    if (cachedBan.banned) {
-      return { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
-    }
-  } else if (db) {
-    try {
-      userSnap = await db.collection('users').doc(uid).get();
-      const banned = userSnap.data()?.status === 'banned';
-      banCache.set(uid, { banned, expiresAt: now + BAN_CACHE_TTL });
-      if (banned) {
-        return { allowed: false, plan: 'free', used: 0, limit: 0, banned: true };
-      }
-    } catch { /* fail open on read error, same policy as the rest of this function */ }
+    return { banned: cachedBan.banned };
+  }
+  if (!db) return { banned: false };
+  try {
+    const userSnap = await db.collection('users').doc(uid).get();
+    const banned = userSnap.data()?.status === 'banned';
+    banCache.set(uid, { banned, expiresAt: now + BAN_CACHE_TTL });
+    return { banned, userSnap };
+  } catch {
+    return { banned: false }; // fail open on read error, same policy as the rest of this file
+  }
+}
+
+/**
+ * Server-side AI quota check, per feature bucket (screenshot / system_audio /
+ * mic — see QuotaFeature). Reads the user's plan + today's usage for that one
+ * bucket and decides whether another answer of that type is allowed.
+ * Read-only — the desktop client still increments usage (writing here too
+ * would double-count). Also enforces admin bans — see isUserBanned above.
+ */
+export async function checkAiQuota(uid: string, feature: QuotaFeature): Promise<QuotaResult> {
+  const now = Date.now();
+
+  const { banned, userSnap } = await isUserBanned(uid);
+  if (banned) {
+    return { allowed: false, plan: 'free', used: 0, limit: 0, feature, banned: true };
   }
 
-  const cached = quotaCache.get(uid);
+  const cacheKey = `${uid}:${feature}`;
+  const cached = quotaCache.get(cacheKey);
   if (cached && cached.expiresAt > now) {
     return cached.result;
   }
@@ -218,20 +251,19 @@ export async function checkAiQuota(uid: string): Promise<QuotaResult> {
   // Pass the snapshot along (if the ban check above just fetched it) so a
   // getUserPlan cache miss doesn't re-read the same users/{uid} doc again.
   const plan = await getUserPlan(uid, userSnap);
-  const limit = plan === 'free' ? FREE_AI_ANSWERS : (PAID_DAILY_LIMITS[plan] ?? Infinity);
+  const limit = plan === 'free' ? FREE_FEATURE_LIMITS[feature] : (PAID_DAILY_LIMITS[plan] ?? Infinity);
 
-  let tokensUsed = 0;
+  let used = 0;
   if (db) {
     try {
       const snap = await db
         .collection('usage_tracking').doc(uid)
         .collection('days').doc(dayKey()).get();
-      tokensUsed = snap.exists ? (snap.data()?.tokensUsed || 0) : 0;
+      used = snap.exists ? (snap.data()?.[FEATURE_USAGE_FIELD[feature]] || 0) : 0;
     } catch { /* read failure → fail open (don't block paying-adjacent users) */ }
   }
-  const used = Math.ceil(tokensUsed / TOKENS_PER_ANSWER);
-  const result: QuotaResult = { allowed: used < limit, plan, used, limit };
-  quotaCache.set(uid, { result, expiresAt: now + QUOTA_CACHE_TTL });
+  const result: QuotaResult = { allowed: used < limit, plan, used, limit, feature };
+  quotaCache.set(cacheKey, { result, expiresAt: now + QUOTA_CACHE_TTL });
   return result;
 }
 
