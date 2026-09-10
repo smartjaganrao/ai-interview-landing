@@ -135,13 +135,15 @@ const orgSchema = {
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'support@javihai.in',
+    email: 'javihaiofficial@gmail.com',
     contactType: 'customer support',
     availableLanguage: ['English', 'Hindi', 'Tamil', 'Telugu'],
   },
   sameAs: [
     'https://twitter.com/javihai',
     'https://www.linkedin.com/company/javihai',
+    'https://www.instagram.com/javih.ai/',
+    'https://www.youtube.com/@javih_ai',
     'https://github.com/smartjaganrao/ai-interview-helper',
   ],
 };

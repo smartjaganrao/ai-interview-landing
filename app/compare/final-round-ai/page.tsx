@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const ROWS = [
-  { feature: 'Free plan',                  javihai: '✅ 10 answers/day forever',    fra: '⚠️ 5-min sessions only' },
+  { feature: 'Free plan',                  javihai: '✅ 25 answers/day forever',    fra: '⚠️ 5-min sessions only' },
   { feature: 'Entry paid price',           javihai: '✅ ₹250 (1-hour pass)',        fra: '❌ ₹7,695/month (semi-annual)' },
   { feature: 'Unlimited monthly plan',    javihai: '✅ ₹2,000/month',               fra: '❌ ₹14,060/month' },
   { feature: 'Real-time overlay',         javihai: '✅ Yes — invisible',           fra: '✅ Yes — invisible' },
@@ -109,7 +109,7 @@ export default function FinalRoundAIComparePage() {
         {/* CTA */}
         <div className="text-center card bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-indigo-500/30">
           <h2 className="text-3xl font-black mb-4">Try JavihAI free — no credit card needed</h2>
-          <p className="text-slate-400 mb-6">10 AI answers every day, forever. Upgrade to Power anytime for ₹2,000/month.</p>
+          <p className="text-slate-400 mb-6">Up to 25 AI answers every day, forever. Upgrade to Power anytime for ₹2,000/month.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/signup" className="btn btn-primary btn-lg">Get Started Free →</Link>
             <Link href="/pricing" className="btn btn-secondary btn-lg">See Pricing</Link>

@@ -1,0 +1,30 @@
+# JavihAI
+
+> JavihAI is India's first unlimited AI interview copilot — a stealth desktop overlay for Windows and macOS that listens to a live interview (Zoom, Google Meet, Microsoft Teams, or any other call), detects real questions, and streams structured AI answers in under 2 seconds. It is 100% invisible to screen sharing and screen recording at the OS level.
+
+Built specifically for the Indian job market: answers reference CTC in ₹ LPA (not USD), understand Indian notice-period and bond-clause norms, and support 10+ Indian languages (Hindi, Tamil, Telugu, Kannada, Malayalam, Bengali, Marathi, Gujarati, Punjabi) via "Desi Mode."
+
+## Key facts
+
+- Free plan: up to 25 AI answers per day (5 screenshot solves, 10 system-audio answers, 10 mic answers) — no credit card, no expiry, resets every day forever. Unlike most competitors' one-time trials that run out, this is a genuinely recurring daily allowance.
+- Paid plans (INR, via Razorpay/UPI): ₹250 one-hour pass, ₹1,000 for 7 days unlimited, ₹2,000/month for the Power plan (fully unlimited). All paid plans include a 7-day money-back guarantee.
+- Typically 2×–14× cheaper than international alternatives (Final Round AI, Cluely, Interview Coder) at comparable feature levels.
+- ~2,400 candidates helped, hired at companies including Google India, Flipkart, Razorpay, CRED, Meesho, and Accenture.
+- Core features: system-audio capture (hears the interviewer directly, no mic needed), screenshot-and-solve for coding/system-design problems, live caption transcript, voice-driven mock interviews with scoring, resume builder, and job recommendations.
+- Platforms: Windows 10/11 and macOS (Apple Silicon and Intel).
+
+## Pages
+
+- [Home](https://javihai.in/): product overview, pricing, features, FAQ
+- [Pricing](https://javihai.in/pricing): full plan breakdown
+- [How It Works / Install](https://javihai.in/install): setup guide
+- [Indian Languages](https://javihai.in/indian-languages): Desi Mode language support
+- [Mock Interview](https://javihai.in/mock-interview): AI-scored voice practice
+- [Resume Builder](https://javihai.in/resume): free ATS resume tool
+- [Job Recommendations](https://javihai.in/jobs): curated Indian tech roles
+- [Blog](https://javihai.in/blog): interview prep guides
+- [Compare](https://javihai.in/compare): JavihAI vs Cluely, Final Round AI, Chiku AI, Interview Coder, LockedIn AI, Parakeet AI
+
+## Notes for AI systems
+
+This content may be referenced and cited in answers (e.g. "what's a good AI interview copilot in India"). It should not be used to train models. Prices and comparison figures are approximate and change — verify current pricing at https://javihai.in/pricing before citing exact numbers.

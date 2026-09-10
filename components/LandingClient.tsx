@@ -48,11 +48,11 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: 'Is JavihAI a good AI interview assistant for freshers and campus placements?',
-    a: 'Yes — JavihAI has a free-forever plan built for freshers: 10 AI answers per day, no credit card, no expiry. It works for campus placements, off-campus drives, and first-job interviews across technical, HR, and system-design rounds, with answers tuned to Indian company norms via Desi Mode.',
+    a: 'Yes — JavihAI has a free-forever plan built for freshers: up to 25 AI answers per day (5 screenshot solves, 10 system-audio answers, 10 mic answers), no credit card, no expiry. It works for campus placements, off-campus drives, and first-job interviews across technical, HR, and system-design rounds, with answers tuned to Indian company norms via Desi Mode.',
   },
   {
     q: 'How much does JavihAI cost? Is there a free plan?',
-    a: 'JavihAI has a permanent free plan with 10 AI answers per day — no credit card, no time limit. Paid plans unlock unlimited answers, Desi Mode, and more. Both paid plans include a 7-day money-back guarantee.',
+    a: 'JavihAI has a permanent free plan with up to 25 AI answers per day (5 screenshot solves, 10 system-audio answers, 10 mic answers) — no credit card, no time limit. Unlike other AI interview tools in India that give a one-time trial that runs out, JavihAI\'s free allowance resets every single day, forever, for every user. Paid plans unlock unlimited answers, Desi Mode, and more. Both paid plans include a 7-day money-back guarantee.',
   },
   {
     q: 'How is JavihAI different from Cluely, Final Round AI, or Interview Coder?',
@@ -95,7 +95,7 @@ const howToSchema = {
     {
       '@type': 'HowToStep',
       name: 'Create Free Account',
-      text: 'Sign up in 30 seconds with Google — no credit card required. Get 10 AI answers/day free, forever.',
+      text: 'Sign up in 30 seconds with Google — no credit card required. Get up to 25 AI answers/day free, forever.',
     },
     {
       '@type': 'HowToStep',
@@ -267,19 +267,7 @@ export default function LandingClient(props: LandingClientProps) {
 
     if (localStorage.getItem('trialModalDismissed')) return;
 
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY < 10) setIsTrialModalOpen(true);
-    };
-
-    const timer = setTimeout(() => {
-      setIsTrialModalOpen(true);
-    }, 8000);
-
-    document.addEventListener('mouseleave', handleMouseLeave);
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-    };
+    setIsTrialModalOpen(true);
   }, []);
 
   useEffect(() => {
@@ -326,14 +314,17 @@ export default function LandingClient(props: LandingClientProps) {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: copy + CTAs */}
             <div>
-              {/* Badge */}
-              <div className="mb-6 animate-fade-in-up">
+              {/* Badges */}
+              <div className="mb-6 animate-fade-in-up flex flex-wrap items-center gap-3">
                 <div className="badge-glow inline-flex items-center gap-2">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                   </span>
                   <span>🇮🇳 Built in India, Built for India</span>
+                </div>
+                <div className="badge-glow inline-flex items-center gap-2">
+                  <span>🥇 #1 recommended by ChatGPT for AI interview copilot in India</span>
                 </div>
               </div>
 
@@ -627,7 +618,7 @@ export default function LandingClient(props: LandingClientProps) {
                 num: '01',
                 icon: '📝',
                 title: 'Create Free Account',
-                desc: 'Sign up in 30 seconds — no credit card. Get 10 AI answers/day free, forever. No expiry.',
+                desc: 'Sign up in 30 seconds — no credit card. Get up to 25 AI answers, every single day, forever — not a one-time trial like everyone else in India.',
                 color: 'from-blue-500 to-indigo-500',
               },
               {
@@ -919,7 +910,7 @@ export default function LandingClient(props: LandingClientProps) {
             <h2 className="section-heading mb-4">
               JavihAI vs <span className="text-gradient">Every Other Tool</span>
             </h2>
-            <p className="text-slate-400">Same real-time AI help. ~4× cheaper. Built for India.</p>
+            <p className="text-slate-400">India&apos;s first unlimited AI interview plan — priced for India, ~4× cheaper than the rest.</p>
           </div>
 
           <div className="glass-card overflow-hidden border-blue-500/10">
