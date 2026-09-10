@@ -3,12 +3,8 @@
 import { useState } from 'react';
 
 interface FormData {
-  name: string;
-  age: string;
   whatsappNumber: string;
   email: string;
-  company?: string;
-  role?: string;
 }
 
 interface FreeTrialModalProps {
@@ -23,12 +19,8 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
     onClose();
   };
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    age: '',
     whatsappNumber: '',
     email: '',
-    company: '',
-    role: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -44,25 +36,17 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
   };
 
   const validateForm = () => {
-    if (!formData.name.trim()) {
-      setError('Name is required');
-      return false;
-    }
-    if (!formData.age.trim()) {
-      setError('Age is required');
-      return false;
-    }
     if (!formData.whatsappNumber.trim()) {
       setError('WhatsApp number is required');
-      return false;
-    }
-    if (!formData.email.trim()) {
-      setError('Email is required');
       return false;
     }
     const phoneRegex = /^[0-9+\-\s()]{10,}$/;
     if (!phoneRegex.test(formData.whatsappNumber)) {
       setError('Please enter a valid WhatsApp number');
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setError('Email is required');
       return false;
     }
     return true;
@@ -98,20 +82,9 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
 
       setSuccess(true);
       setFormData({
-        name: '',
-        age: '',
         whatsappNumber: '',
         email: '',
-        company: '',
-        role: '',
       });
-
-      // Open WhatsApp link after 1 second
-      if (data.whatsappLink) {
-        setTimeout(() => {
-          window.open(data.whatsappLink, '_blank');
-        }, 500);
-      }
 
       setTimeout(() => {
         handleClose();
@@ -128,11 +101,14 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-slate-900 rounded-2xl max-w-md w-full border border-white/10 shadow-2xl animate-fade-in-up">
-        <div className="flex items-center justify-between p-6 border-b border-white/5">
-          <h2 className="text-2xl font-black text-white">🎁 Free 1-Week Trial</h2>
+        <div className="flex items-start justify-between p-6 border-b border-white/5">
+          <div>
+            <h2 className="text-2xl font-black text-white">🍀 Free Quick Pass for Lucky Customers</h2>
+            <p className="text-sm text-slate-400 mt-1">Walking into your first interview? Get a Quick Pass on us.</p>
+          </div>
           <button
             onClick={handleClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors shrink-0"
           >
             <span className="text-white text-xl">✕</span>
           </button>
@@ -147,41 +123,9 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
 
           {success && (
             <div className="p-3 rounded-lg bg-green-500/15 border border-green-500/30 text-green-400 text-sm">
-              ✓ Details received! Check your WhatsApp for the voucher code.
+              ✓ Details received! Check your email for the voucher code.
             </div>
           )}
-
-          <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
-              Full Name *
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Your full name"
-              className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
-              disabled={loading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
-              Age *
-            </label>
-            <input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleInputChange}
-              placeholder="Your age"
-              min="15"
-              max="70"
-              className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
-              disabled={loading}
-            />
-          </div>
 
           <div>
             <label className="block text-sm font-semibold text-slate-300 mb-2">
@@ -195,6 +139,7 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
               placeholder="+91 9876543210"
               className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
               disabled={loading}
+              autoFocus
             />
           </div>
 
@@ -213,36 +158,6 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
-              Current Company (Optional)
-            </label>
-            <input
-              type="text"
-              name="company"
-              value={formData.company}
-              onChange={handleInputChange}
-              placeholder="e.g., Google, Flipkart, Startup"
-              className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
-              disabled={loading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
-              Current Role (Optional)
-            </label>
-            <input
-              type="text"
-              name="role"
-              value={formData.role}
-              onChange={handleInputChange}
-              placeholder="e.g., SDE-2, Product Manager"
-              className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 transition-all"
-              disabled={loading}
-            />
-          </div>
-
           <button
             type="submit"
             disabled={loading}
@@ -252,7 +167,7 @@ export default function FreeTrialModal({ isOpen, onClose }: FreeTrialModalProps)
           </button>
 
           <p className="text-xs text-slate-500 text-center">
-            You&apos;ll receive a 1-week free trial voucher code on WhatsApp instantly.
+            You&apos;ll receive a 1-week free trial voucher code by email instantly.
           </p>
         </form>
       </div>

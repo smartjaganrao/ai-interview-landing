@@ -100,7 +100,7 @@ export async function sendPaymentConfirmation(params: {
 
   <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
     <p style="color:#94a3b8;font-size:13px;margin:0 0 8px;">Need to cancel or have questions?</p>
-    <p style="color:#64748b;font-size:12px;margin:0;">Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>. We offer a 7-day money-back guarantee.</p>
+    <p style="color:#64748b;font-size:12px;margin:0;">Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>. We offer a 7-day money-back guarantee.</p>
   </div>
 
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
@@ -154,7 +154,7 @@ export async function sendPaymentFailed(params: { email: string; name: string; p
   <div style="text-align:center;margin:28px 0;">
     <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Try again →</a>
   </div>
-  <p style="color:#64748b;font-size:13px;">Need help? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+  <p style="color:#64748b;font-size:13px;">Need help? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.</p>`);
 
   const { error } = await resend.emails.send({ from: FROM, to: params.email, subject: 'Your JavihAI payment didn’t go through', html });
   if (error) { console.error('[email/payment-failed] Resend error:', JSON.stringify(error)); return { ok: false, error: error.message }; }
@@ -190,7 +190,7 @@ export async function sendRenewalReminder(params: { email: string; name: string;
   return { ok: true };
 }
 
-/** Notify admin (support@javihai.in) when a customer submits a new ticket. */
+/** Notify admin (javihaiofficial@gmail.com) when a customer submits a new ticket. */
 export async function sendNewTicketAlert(params: {
   ticketId: string; title: string; category: string;
   userEmail: string; message: string;
@@ -213,7 +213,7 @@ export async function sendNewTicketAlert(params: {
   </div>`);
 
   const { error } = await resend.emails.send({
-    from: FROM, to: 'support@javihai.in',
+    from: FROM, to: 'javihaiofficial@gmail.com',
     subject: `[Support] ${params.title} — from ${params.userEmail}`, html,
   });
   if (error) { console.error('[email/new-ticket-alert]', JSON.stringify(error)); return { ok: false, error: error.message }; }
@@ -248,9 +248,43 @@ export async function sendTicketReply(params: {
   return { ok: true };
 }
 
+/** Notify admin (javihaiofficial@gmail.com) when a visitor submits the landing-page
+ *  free-trial lead form — the only place this lead's details show up today
+ *  (no admin panel view exists for free_trial_signups). Mirrors
+ *  sendNewTicketAlert's pattern. */
+export async function sendNewLeadAlert(params: {
+  whatsappNumber: string;
+  email: string;
+  name?: string | null;
+  company?: string | null;
+  role?: string | null;
+  voucherCode: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const html = shell(`
+  <h1 style="font-size:22px;font-weight:800;margin-bottom:4px;">🎯 New Free-Trial Lead</h1>
+  <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;">Voucher ${params.voucherCode} issued from the landing page</p>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;">
+    ${params.name ? `<tr><td style="padding:8px 0;color:#64748b;width:120px;">Name</td><td style="color:#e2e8f0;font-weight:600;">${params.name}</td></tr>` : ''}
+    <tr><td style="padding:8px 0;color:#64748b;width:120px;">WhatsApp</td><td style="color:#e2e8f0;font-weight:600;"><a href="https://wa.me/${params.whatsappNumber.replace(/\D/g, '')}" style="color:#4ade80;">${params.whatsappNumber}</a></td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Email</td><td style="color:#e2e8f0;">${params.email}</td></tr>
+    ${params.company ? `<tr><td style="padding:8px 0;color:#64748b;">Company</td><td style="color:#e2e8f0;">${params.company}</td></tr>` : ''}
+    ${params.role ? `<tr><td style="padding:8px 0;color:#64748b;">Role</td><td style="color:#e2e8f0;">${params.role}</td></tr>` : ''}
+  </table>
+  <p style="color:#64748b;font-size:13px;margin:0;">The WhatsApp link above opens a chat with them directly.</p>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: 'javihaiofficial@gmail.com',
+    subject: `[Lead] ${params.name || params.email} wants the free trial — ${params.whatsappNumber}`, html,
+  });
+  if (error) { console.error('[email/new-lead-alert]', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
+
 export async function sendFreeTrialVoucher(params: {
   email: string;
-  name: string;
+  name?: string | null;
   voucherCode: string;
 }): Promise<{ ok: boolean; error?: string }> {
   if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
@@ -288,16 +322,15 @@ export async function sendFreeTrialVoucher(params: {
 
   <div style="background:#1e293b;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
     <h3 style="color:#fff;font-size:14px;margin:0 0 8px;">How to use your voucher:</h3>
-    <ol style="color:#94a3b8;font-size:13px;text-align:left;max-width:300px;margin:0 auto;padding-left:20px;">
+    <ol style="color:#94a3b8;font-size:13px;text-align:left;max-width:340px;margin:0 auto;padding-left:20px;">
       <li>Sign up free on JavihAI.in</li>
-      <li>Go to Settings → Redeem Voucher</li>
-      <li>Enter code: <strong style="color:#4ade80;font-family:monospace;">${params.voucherCode}</strong></li>
-      <li>Enjoy 7 days of unlimited access!</li>
+      <li>Reply to this email (or message <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>) with your code: <strong style="color:#4ade80;font-family:monospace;">${params.voucherCode}</strong></li>
+      <li>We'll activate your 7 days of unlimited access on your account</li>
     </ol>
   </div>
 
   <p style="color:#64748b;font-size:13px;text-align:center;margin:0;">
-    Questions? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>
+    Questions? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>
   </p>`);
 
   const { error } = await resend.emails.send({
@@ -331,7 +364,7 @@ export async function sendQuotaUpgradeNudge(params: { email: string; name: strin
   <div style="text-align:center;margin:28px 0;">
     <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Upgrade to Pro →</a>
   </div>
-  <p style="color:#64748b;font-size:13px;">Your free quota resets tomorrow. Questions? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+  <p style="color:#64748b;font-size:13px;">Your free quota resets tomorrow. Questions? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.</p>`);
 
   const { error } = await resend.emails.send({
     from: FROM, to: params.email,
@@ -358,7 +391,7 @@ export async function sendCheckoutAbandonedReminder(params: { email: string; nam
   <div style="text-align:center;margin:28px 0;">
     <a href="https://javihai.in/checkout?plan=${params.plan}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Finish checkout →</a>
   </div>
-  <p style="color:#64748b;font-size:13px;">Ran into an issue paying? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+  <p style="color:#64748b;font-size:13px;">Ran into an issue paying? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.</p>`);
 
   const { error } = await resend.emails.send({
     from: FROM, to: params.email,
@@ -390,7 +423,7 @@ export async function sendReengagementNudge(params: { email: string; name: strin
   <div style="text-align:center;margin:28px 0;">
     <a href="https://javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Get started →</a>
   </div>
-  <p style="color:#64748b;font-size:13px;">Need help installing? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+  <p style="color:#64748b;font-size:13px;">Need help installing? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.</p>`);
 
   const { error } = await resend.emails.send({
     from: FROM, to: params.email,
@@ -417,7 +450,7 @@ export async function sendPlanExpiredNotice(params: { email: string; name: strin
   <div style="text-align:center;margin:28px 0;">
     <a href="https://javihai.in/pricing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Renew or upgrade →</a>
   </div>
-  <p style="color:#64748b;font-size:13px;">Didn't expect this? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>`);
+  <p style="color:#64748b;font-size:13px;">Didn't expect this? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.</p>`);
 
   const { error } = await resend.emails.send({
     from: FROM, to: params.email,

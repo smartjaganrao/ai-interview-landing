@@ -1,33 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-let db: any = null;
-
-async function getFirestoreDb() {
-  if (db) return db;
-
-  try {
-    const { initializeApp, cert, getApps } = await import('firebase-admin/app');
-    const { getFirestore } = await import('firebase-admin/firestore');
-
-    const firebaseAdminConfig = {
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    };
-
-    // Validate config
-    if (!firebaseAdminConfig.projectId || !firebaseAdminConfig.clientEmail || !firebaseAdminConfig.privateKey) {
-      throw new Error('Missing Firebase credentials in environment variables');
-    }
-
-    const app = getApps().length === 0 ? initializeApp({ credential: cert(firebaseAdminConfig as any) }) : getApps()[0];
-    db = getFirestore(app);
-    return db;
-  } catch (error) {
-    console.error('Firebase initialization error:', error);
-    throw error;
-  }
-}
+import { sendFreeTrialVoucher, sendNewLeadAlert } from '@/lib/email';
+import { db } from '@/lib/firebase-admin';
 
 function generateVoucherCode(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -51,63 +24,58 @@ function formatPhoneNumber(phone: string): string {
   return cleaned;
 }
 
-async function sendWhatsAppMessage(): Promise<boolean> {
-  try {
-    // For now, we're saving to Firestore and returning a WhatsApp link
-    // In production, you'd integrate with Twilio or WhatsApp Cloud API
-    return true;
-  } catch (error) {
-    console.error('Error sending WhatsApp message:', error);
-    return false;
-  }
-}
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, age, whatsappNumber, email, company, role } = body;
+    const { whatsappNumber, email } = body;
 
-    // Validation
-    if (!name || !age || !whatsappNumber || !email) {
+    // Validation — just the 2 fields the simplified form collects.
+    if (!whatsappNumber || !email) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Get Firestore instance
-    const firestoreDb = await getFirestoreDb();
+    // Same Firebase Admin instance every other server-side route already
+    // uses (FIREBASE_ADMIN_SDK_JSON) — this route previously initialized its
+    // own, separate Admin SDK client off FIREBASE_PROJECT_ID/CLIENT_EMAIL/
+    // PRIVATE_KEY, which were never actually set in any environment
+    // (confirmed against .env.local and .env.vercel-production), so every
+    // submission here failed at the Firestore write, silently, since forever.
+    if (!db) {
+      return NextResponse.json({ error: 'Server not configured' }, { status: 503 });
+    }
 
     // Generate voucher code
     const voucherCode = generateVoucherCode();
     const formattedPhone = formatPhoneNumber(whatsappNumber);
 
     // Save to Firestore
-    const trialRef = firestoreDb.collection('free_trial_signups').doc();
+    const trialRef = db.collection('free_trial_signups').doc();
     await trialRef.set({
-      name,
-      age: parseInt(age),
       whatsappNumber: formattedPhone,
       email,
-      company: company || null,
-      role: role || null,
       voucherCode,
       createdAt: new Date(),
       status: 'active',
     });
 
-    // Send WhatsApp message
-    await sendWhatsAppMessage();
-
-    // Return WhatsApp link for fallback
-    const messageText = `Hi ${name}! 🎉 Your JavihAI 1-week free trial voucher code is: ${voucherCode}. Use this code at https://javihai.in/pricing to unlock unlimited AI answers and more for 7 days. Happy prepping! 🚀`;
-    const whatsappLink = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(messageText)}`;
+    // Email the voucher to the visitor, and alert support of the new lead.
+    // Neither blocks the response — the signup is already saved above, which
+    // is the part that actually matters if Resend has a bad day.
+    const [voucherEmail] = await Promise.all([
+      sendFreeTrialVoucher({ email, voucherCode }),
+      sendNewLeadAlert({ whatsappNumber: formattedPhone, email, voucherCode }),
+    ]);
+    if (!voucherEmail.ok) {
+      console.error('[free-trial] voucher email failed:', voucherEmail.error);
+    }
 
     return NextResponse.json({
       success: true,
       voucherCode,
-      whatsappLink,
-      message: 'Voucher code generated and WhatsApp message ready',
+      message: 'Voucher code generated — check your email.',
     });
   } catch (error) {
     console.error('Free trial signup error:', error);
