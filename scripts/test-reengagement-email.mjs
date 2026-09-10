@@ -70,7 +70,7 @@ const html = `
   <div style="text-align:center;margin:28px 0;">
     <a href="https://javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Get started →</a>
   </div>
-  <p style="color:#64748b;font-size:13px;">Need help installing? Reply to this email or contact <a href="mailto:support@javihai.in" style="color:#6366f1;">support@javihai.in</a>.</p>
+  <p style="color:#64748b;font-size:13px;">Need help installing? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.</p>
   <p style="color:#475569;font-size:12px;text-align:center;margin-top:32px;">
     JavihAI · <a href="https://javihai.in" style="color:#6366f1;">javihai.in</a> ·
     <a href="https://javihai.in/refund" style="color:#475569;">Refund policy</a>

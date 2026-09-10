@@ -26,7 +26,7 @@ export default function RefundPage() {
               <p>
                 If you&apos;re not satisfied, you can request a <strong className="text-white">full refund within 7 days
                 of your first payment</strong> — no questions asked. Email{' '}
-                <a href="mailto:support@javihai.in" className="text-indigo-400 hover:text-indigo-300">support@javihai.in</a>{' '}
+                <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400 hover:text-indigo-300">javihaiofficial@gmail.com</a>{' '}
                 from your account address and we&apos;ll process it.
               </p>
             </section>
@@ -76,7 +76,7 @@ export default function RefundPage() {
               <h2 className="text-2xl font-bold text-white mb-3">Contact</h2>
               <p>
                 Refund or billing questions? Email{' '}
-                <a href="mailto:support@javihai.in" className="text-indigo-400 hover:text-indigo-300">support@javihai.in</a>{' '}
+                <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400 hover:text-indigo-300">javihaiofficial@gmail.com</a>{' '}
                 and we&apos;ll get back to you within 1–2 business days.
               </p>
             </section>

@@ -262,7 +262,7 @@ export default async function InstallPage() {
             <section className="card text-center">
               <h2 className="text-lg font-bold text-white mb-2">Still stuck?</h2>
               <p className="text-sm">
-                Email <a href="mailto:support@javihai.in" className="text-indigo-300 hover:underline">support@javihai.in</a>{' '}
+                Email <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-300 hover:underline">javihaiofficial@gmail.com</a>{' '}
                 and we&apos;ll get you sorted — usually within a few hours.
               </p>
             </section>

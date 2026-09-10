@@ -40,7 +40,7 @@ export default function TermsPage() {
               <ul className="space-y-2 list-disc list-inside">
                 <li>Keep your credentials confidential. You&apos;re responsible for activity on your account.</li>
                 <li>Don&apos;t share accounts. Each person needs their own.</li>
-                <li>Notify us immediately at <a href="mailto:support@javihai.in" className="text-indigo-400 hover:text-indigo-300">support@javihai.in</a> if you suspect unauthorized access.</li>
+                <li>Notify us immediately at <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400 hover:text-indigo-300">javihaiofficial@gmail.com</a> if you suspect unauthorized access.</li>
               </ul>
             </section>
 
@@ -68,7 +68,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-2xl font-bold text-white mb-3">6. Refunds</h2>
               <p>
-                We offer a <strong className="text-white">7-day money-back guarantee</strong> on your first paid subscription. If you&apos;re not satisfied within 7 days of your first payment, email <a href="mailto:support@javihai.in" className="text-indigo-400 hover:text-indigo-300">support@javihai.in</a> for a full refund — no questions asked. After the 7 days, partial refunds may be granted at our discretion (e.g., extended service outages). See our full <a href="/refund" className="text-indigo-400 hover:text-indigo-300">Refund &amp; Cancellation Policy</a> for details.
+                We offer a <strong className="text-white">7-day money-back guarantee</strong> on your first paid subscription. If you&apos;re not satisfied within 7 days of your first payment, email <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400 hover:text-indigo-300">javihaiofficial@gmail.com</a> for a full refund — no questions asked. After the 7 days, partial refunds may be granted at our discretion (e.g., extended service outages). See our full <a href="/refund" className="text-indigo-400 hover:text-indigo-300">Refund &amp; Cancellation Policy</a> for details.
               </p>
             </section>
 
@@ -136,7 +136,7 @@ export default function TermsPage() {
               <h2 className="text-2xl font-bold text-white mb-3">14. Contact</h2>
               <p>
                 Questions about these terms? Email{' '}
-                <a href="mailto:support@javihai.in" className="text-indigo-400 hover:text-indigo-300">support@javihai.in</a>.
+                <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400 hover:text-indigo-300">javihaiofficial@gmail.com</a>.
               </p>
             </section>
 

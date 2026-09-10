@@ -36,7 +36,7 @@ const FAQS: FAQItem[] = [
   {
     id: 'faq-2',
     question: 'Is JavihAI free?',
-    answer: 'Yes! We offer a free tier with daily limits. You get:\n\n• 3 AI answers per day\n• 5 voice minutes per day\n• 2 screenshots per day\n\nFor unlimited access, check out our Power plan on the pricing page.',
+    answer: 'Yes! We offer a free tier with daily limits. You get:\n\n• 5 screenshot solves per day\n• 10 system-audio (Listen) answers per day\n• 10 mic answers per day\n\nThat\'s up to 25 free AI answers a day, forever. For unlimited access, check out our Power plan on the pricing page.',
     keywords: ['free', 'price', 'cost', 'pricing', 'subscription', 'plan', 'payment', 'money', 'paid', 'purchase'],
   },
   {
@@ -66,7 +66,7 @@ const FAQS: FAQItem[] = [
   {
     id: 'faq-7',
     question: 'How do I get a refund?',
-    answer: 'To request a refund:\n\n1. Email us at support@javihai.in\n2. Include your payment ID and reason\n3. We process refunds within 5-7 business days\n\nFor subscription cancellations, you can also cancel from your dashboard.',
+    answer: 'To request a refund:\n\n1. Email us at javihaiofficial@gmail.com\n2. Include your payment ID and reason\n3. We process refunds within 5-7 business days\n\nFor subscription cancellations, you can also cancel from your dashboard.',
     keywords: ['refund', 'cancel', 'money back', 'return', 'dispute', 'chargeback'],
   },
   {

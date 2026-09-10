@@ -230,7 +230,7 @@ These are independent of Vercel. No migration needed unless you're also moving G
 ## Support Contacts
 
 - Email: `javihaiofficial@gmail.com`
-- Support: `support@javihai.in`
+- Support: `javihaiofficial@gmail.com`
 - WhatsApp: `919884160332`
 
 ## Last Updated

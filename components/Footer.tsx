@@ -25,7 +25,7 @@ export default function Footer() {
                 { icon: '💼', href: 'https://www.linkedin.com/in/javih-ai/', label: 'LinkedIn' },
                 { icon: '📸', href: 'https://www.instagram.com/javih.ai/', label: 'Instagram' },
                 { icon: '▶️', href: 'https://www.youtube.com/@javih_ai', label: 'YouTube' },
-                { icon: '💬', href: 'mailto:support@javihai.in', label: 'Email' },
+                { icon: '💬', href: 'mailto:javihaiofficial@gmail.com', label: 'Email' },
               ].map((s, i) => (
                 <a
                   key={i}
@@ -76,7 +76,7 @@ export default function Footer() {
               <li><Link href="/privacy" className="text-slate-400 hover:text-white transition">Privacy</Link></li>
               <li><Link href="/terms" className="text-slate-400 hover:text-white transition">Terms</Link></li>
               <li><Link href="/refund" className="text-slate-400 hover:text-white transition">Refund Policy</Link></li>
-              <li><a href="mailto:support@javihai.in" className="text-slate-400 hover:text-white transition">Contact</a></li>
+              <li><a href="mailto:javihaiofficial@gmail.com" className="text-slate-400 hover:text-white transition">Contact</a></li>
             </ul>
           </div>
         </div>

@@ -18,7 +18,7 @@ const orgSchema = {
   ],
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'support@javihai.in',
+    email: 'javihaiofficial@gmail.com',
     contactType: 'customer support',
     availableLanguage: ['English', 'Hindi', 'Tamil', 'Telugu'],
   },

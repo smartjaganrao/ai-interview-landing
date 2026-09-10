@@ -76,7 +76,7 @@ export default function PrivacyPage() {
                 <li><strong className="text-white">Export</strong> — get your interview history as JSON.</li>
                 <li><strong className="text-white">Object/restrict</strong> — opt out of non-essential processing.</li>
               </ul>
-              <p className="mt-3">Email <a href="mailto:support@javihai.in" className="text-indigo-400 hover:text-indigo-300">support@javihai.in</a> from your account address and we&apos;ll process the request within 30 days.</p>
+              <p className="mt-3">Email <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400 hover:text-indigo-300">javihaiofficial@gmail.com</a> from your account address and we&apos;ll process the request within 30 days.</p>
             </section>
 
             <section>
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
               <h2 className="text-2xl font-bold text-white mb-3">Contact</h2>
               <p>
                 Questions? Reach us at{' '}
-                <a href="mailto:support@javihai.in" className="text-indigo-400 hover:text-indigo-300">support@javihai.in</a>.
+                <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400 hover:text-indigo-300">javihaiofficial@gmail.com</a>.
               </p>
             </section>
           </div>
