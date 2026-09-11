@@ -155,8 +155,8 @@ export default async function InstallPage() {
                   your <strong className="text-white">Applications</strong> folder.
                   <span className="block text-sm text-slate-500 mt-1">
                     The button above downloads the build that works best for your Mac — Apple Silicon
-                    (M1/M2/M3/M4) or Intel. If you&apos;re on an older Intel Mac and want to be sure,{' '}
-                    <a href="/api/download/mac?arch=x64" className="text-indigo-300 hover:underline">use the Intel-specific link</a>{' '}instead.
+                    (M1/M2/M3/M4) or Intel. If you&apos;re on an older Intel Mac and want to be sure,
+                    use the &quot;Intel-specific link&quot; next to the Mac button above instead.
                   </span>
                 </Step>
                 <Step n={2}>

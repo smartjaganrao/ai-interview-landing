@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import DownloadStepsModal from './DownloadStepsModal';
+import GoogleSignInModal from './GoogleSignInModal';
+import { useGatedDownload } from '@/hooks/useGatedDownload';
 
 function detectDesktopOS(): 'mac' | 'windows' | null {
   if (typeof navigator === 'undefined') return null;
@@ -16,54 +18,55 @@ export default function InstallDownloadButtons({ winReady, macReady }: { winRead
   const [showModal, setShowModal] = useState(false);
   const [modalOS, setModalOS] = useState<'windows' | 'mac'>('windows');
 
-  useEffect(() => {
-    setDetectedOS(detectDesktopOS());
-  }, []);
-
   const openModal = (os: 'windows' | 'mac') => {
     setModalOS(os);
     setShowModal(true);
   };
 
+  const { showSignIn, requestDownload, cancelSignIn, handleSignedIn, retryUrl } =
+    useGatedDownload((platform) => openModal(platform));
+
+  useEffect(() => {
+    setDetectedOS(detectDesktopOS());
+  }, []);
+
   return (
     <div className="mb-4">
       <div className="flex flex-col sm:flex-row gap-3">
         {winReady && (
-          <a
-            href="/api/download/win"
-            target="_blank"
-            rel="noopener"
-            onClick={() => openModal('windows')}
+          <button
+            type="button"
+            onClick={() => requestDownload('windows')}
             className={`btn btn-lg flex-1 text-center ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary'}`}
           >
             ⬇ Download for Windows
-          </a>
+          </button>
         )}
         {macReady && (
-          <a
-            href="/api/download/mac"
-            target="_blank"
-            rel="noopener"
-            onClick={() => openModal('mac')}
+          <button
+            type="button"
+            onClick={() => requestDownload('mac')}
             className={`btn btn-lg flex-1 text-center ${detectedOS === 'mac' ? 'btn-primary' : 'btn-secondary'}`}
           >
             ⬇ Download for Mac
-          </a>
+          </button>
         )}
       </div>
       {macReady && (
         <p className="text-xs text-slate-500 mt-2">
           Mac button works on Apple Silicon and Intel. On an older Intel Mac?{' '}
-          <a href="/api/download/mac?arch=x64" target="_blank" rel="noopener" onClick={() => openModal('mac')} className="text-indigo-300 hover:underline">Use the Intel-specific link</a>{' '}instead.
+          <button type="button" onClick={() => requestDownload('mac', 'x64')} className="text-indigo-300 hover:underline">Use the Intel-specific link</button>{' '}instead.
         </p>
       )}
+
+      <GoogleSignInModal open={showSignIn} onClose={cancelSignIn} onSignedIn={handleSignedIn} />
 
       <DownloadStepsModal
         open={showModal}
         onClose={() => setShowModal(false)}
         os={modalOS}
         onSwitchOS={setModalOS}
-        downloadUrl={modalOS === 'windows' ? '/api/download/win' : '/api/download/mac'}
+        downloadUrl={retryUrl(modalOS)}
       />
     </div>
   );

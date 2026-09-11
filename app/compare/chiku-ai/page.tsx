@@ -62,6 +62,9 @@ export default function ChikuAIComparePage() {
             <div className="text-red-400 text-sm">✗ Free trial = 10 minutes only</div>
           </div>
         </div>
+        <p className="text-slate-500 text-sm text-center -mt-8 mb-12">
+          Just one interview coming up? JavihAI also has a ₹250 one-time Quick Pass — no monthly plan required.
+        </p>
 
         {/* Feature table */}
         <div className="card overflow-hidden mb-12">

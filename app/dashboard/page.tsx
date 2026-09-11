@@ -65,10 +65,14 @@ function DashboardContent() {
   const [modalOS, setModalOS] = useState<'windows' | 'mac'>('windows');
   const [showDownloadPrompt, setShowDownloadPrompt] = useState(false);
 
-  const withAttribution = (url: string) => {
-    if (!user) return url;
+  // /api/download requires a signed-in Firebase ID token (see the public
+  // landing/install pages' gated download flow) — this page is already
+  // behind the auth redirect above, so we just need to attach a fresh token
+  // instead of the old uid/email query params, which the API no longer reads.
+  const [downloadToken, setDownloadToken] = useState<string | null>(null);
+  const withToken = (url: string, token: string) => {
     const sep = url.includes('?') ? '&' : '?';
-    return `${url}${sep}uid=${encodeURIComponent(user.uid)}&email=${encodeURIComponent(user.email || '')}`;
+    return `${url}${sep}token=${encodeURIComponent(token)}`;
   };
 
   useEffect(() => {
@@ -210,13 +214,20 @@ function DashboardContent() {
     }
   }, [searchParams]);
 
-  const handleDownload = (platform: 'windows' | 'mac', arch?: 'x64') => {
+  const handleDownload = async (platform: 'windows' | 'mac', arch?: 'x64') => {
+    if (!user) return;
     localStorage.setItem('javihai_downloaded', 'true');
     setHasDownloaded(true);
     setShowDownloadPrompt(false);
+    // Open the tab synchronously (before the async getIdToken() call) so
+    // Safari's popup blocker still sees this as a direct user gesture.
+    const newTab = window.open('', '_blank');
+    const token = await user.getIdToken();
+    setDownloadToken(token);
     const base = platform === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL;
-    const url = arch ? `${base}?arch=${arch}` : base;
-    window.open(withAttribution(url), '_blank');
+    const url = withToken(arch ? `${base}?arch=${arch}` : base, token);
+    if (newTab) newTab.location.href = url;
+    else window.open(url, '_blank', 'noopener');
     setModalOS(platform);
     setShowDownloadModal(true);
   };
@@ -268,7 +279,7 @@ function DashboardContent() {
         onClose={() => setShowDownloadModal(false)}
         os={modalOS}
         onSwitchOS={setModalOS}
-        downloadUrl={withAttribution(modalOS === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL)}
+        downloadUrl={downloadToken ? withToken(modalOS === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL, downloadToken) : (modalOS === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL)}
       />
 
       <DownloadPromptModal

@@ -161,12 +161,10 @@ const appSchema = {
     'A stealth desktop overlay that listens to your interview, detects questions, and generates structured AI answers in under 2 seconds.',
   inLanguage: ['en', 'hi', 'ta', 'te', 'kn', 'ml', 'bn', 'mr', 'gu', 'pa'],
   author: { '@type': 'Organization', name: 'JavihAI', url: BASE_URL },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.8',
-    ratingCount: '2400',
-    bestRating: '5',
-  },
+  // No aggregateRating here — there is no real review-collection system
+  // backing a count yet, and asserting one Google can't verify is a
+  // structured-data risk, not a trust signal. Add it back only once a real
+  // count exists (see the matching removal in components/LandingClient.tsx).
 };
 
 // JSON-LD: BreadcrumbList
@@ -178,71 +176,13 @@ const breadcrumbSchema = {
   ],
 };
 
-const reviewSchema = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Review',
-    itemReviewed: {
-      '@type': 'SoftwareApplication',
-      name: 'JavihAI',
-      applicationCategory: 'BusinessApplication',
-    },
-    author: {
-      '@type': 'Person',
-      name: 'Arjun S.',
-    },
-    datePublished: '2025-06-15',
-    reviewRating: {
-      '@type': 'Rating',
-      ratingValue: '5',
-      bestRating: '5',
-    },
-    reviewBody:
-      'I had a system design round at a product startup. Switched to System Audio mode — JavihAI caught the question and gave me a clean architecture answer before I could even panic. Got the offer.',
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Review',
-    itemReviewed: {
-      '@type': 'SoftwareApplication',
-      name: 'JavihAI',
-      applicationCategory: 'BusinessApplication',
-    },
-    author: {
-      '@type': 'Person',
-      name: 'Priya M.',
-    },
-    datePublished: '2025-06-10',
-    reviewRating: {
-      '@type': 'Rating',
-      ratingValue: '5',
-      bestRating: '5',
-    },
-    reviewBody:
-      'The Desi Mode is underrated. It knows Indian salary ranges, notice period norms, bond clauses — things that global tools just blank out on. Feels like prep made for us.',
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Review',
-    itemReviewed: {
-      '@type': 'SoftwareApplication',
-      name: 'JavihAI',
-      applicationCategory: 'BusinessApplication',
-    },
-    author: {
-      '@type': 'Person',
-      name: 'Karthik R.',
-    },
-    datePublished: '2025-05-28',
-    reviewRating: {
-      '@type': 'Rating',
-      ratingValue: '5',
-      bestRating: '5',
-    },
-    reviewBody:
-      'I was skeptical about using an AI tool during a real interview but the stealth overlay is genuinely invisible. Walked into my FAANG loop with way more confidence than before.',
-  },
-];
+// Individual Review JSON-LD was removed from here (2026-09-11): it only
+// covered 3 of the 6 testimonials shown on the homepage, using the exact
+// same marketing copy as the visible cards rather than data from any real
+// review-collection system — i.e. it wasn't machine-readable proof of
+// anything beyond what LandingClient.tsx already renders visibly. Don't
+// re-add Review/AggregateRating markup until there's an actual review
+// pipeline (dated, sourced submissions) to generate it from.
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -264,13 +204,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
-        {reviewSchema.map((review, i) => (
-          <script
-            key={i}
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(review) }}
-          />
-        ))}
       </head>
       <body className={inter.className}>
         <GoogleAnalytics />

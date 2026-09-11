@@ -182,7 +182,7 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${
-      scrolled ? 'glass-heavy py-3' : 'py-5'
+      scrolled ? 'nav-solid py-3' : 'py-5'
     }`}>
       <OfferBanner />
       <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-6 flex items-center justify-between">

@@ -58,6 +58,9 @@ export default function ParakeetAIComparePage() {
             <div className="text-red-400 text-sm">✗ Pay-as-you-go tier runs on expiring 30-min credits</div>
           </div>
         </div>
+        <p className="text-slate-500 text-sm text-center -mt-8 mb-12">
+          Just one interview coming up? JavihAI also has a ₹250 one-time Quick Pass — no monthly plan required.
+        </p>
 
         {/* Feature table */}
         <div className="card overflow-hidden mb-12">

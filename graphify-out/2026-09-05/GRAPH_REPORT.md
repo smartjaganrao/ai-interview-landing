@@ -1,7 +1,7 @@
 # Graph Report - ai-interview-landing  (2026-09-02)
 
 ## Corpus Check
-- 281 files · ~205,708 words
+- 281 files · ~205,749 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f6387ba7`
+- Built from commit: `6cf50adf`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -596,7 +596,7 @@ Cohesion: 0.50
 Nodes (7): POST(), applyCouponDiscount(), effectiveAmount(), getReferralCredits(), offerApplies(), PLANS, getRazorpayKeyId()
 
 ### Community 73 - "Open Knowledge Format (OKF)"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (13): 1. Suganthan's free web tool (recommended for most sites), 2. WordPress plugin (pending wp.org approval), 3. By hand, A minimal concept file, Honest framing, Hosting & discovery, How to ship one, Open Knowledge Format (OKF) (+5 more)
 
 ### Community 74 - "Desktop release gate"
@@ -700,7 +700,7 @@ Cohesion: 0.18
 Nodes (11): scripts, build, creator-payouts, deploy-rules, dev, lint, post-release-announcement, setup-db (+3 more)
 
 ### Community 99 - "How Each AI Platform Picks Sources"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (9): Allowing AI Bots in robots.txt, ChatGPT, Claude, Google AI Overviews, How Each AI Platform Picks Sources, Microsoft Copilot, Perplexity, The Fundamentals (+1 more)
 
 ### Community 100 - "SKILL.md"

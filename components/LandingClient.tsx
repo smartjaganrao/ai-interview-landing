@@ -5,8 +5,10 @@ import { useState, useEffect, useRef } from 'react';
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
 import FreeTrialModal from '@/components/FreeTrialModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
+import GoogleSignInModal from '@/components/GoogleSignInModal';
 import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
 import Footer from '@/components/Footer';
+import { useGatedDownload } from '@/hooks/useGatedDownload';
 
 // Single source of truth for the FAQ section — rendered as the visible
 // accordion below AND compiled into faqSchema's JSON-LD. Keeping these in
@@ -236,6 +238,9 @@ export default function LandingClient(props: LandingClientProps) {
   };
   const [detectedOS, setDetectedOS] = useState<'mac' | 'windows' | null>(null);
 
+  const { showSignIn, requestDownload, cancelSignIn, handleSignedIn, retryUrl } =
+    useGatedDownload((platform) => openDownloadModal(platform));
+
   // 3D tilt for the hero demo mockup — tracks cursor position within the
   // card to drive rotateX/rotateY plus a translateZ-layered parallax and a
   // specular sheen; resets to flat on mouse leave. No-op on touch (no
@@ -267,7 +272,27 @@ export default function LandingClient(props: LandingClientProps) {
 
     if (localStorage.getItem('trialModalDismissed')) return;
 
-    setIsTrialModalOpen(true);
+    // Used to cover the hero on every fresh load, before a visitor had read
+    // the headline. Now it only shows on exit-intent (cursor leaving toward
+    // the top of the viewport) or after 20s for touch devices, which have
+    // no mouseleave signal, so the hero gets a real chance to be read first.
+    let shown = false;
+    const showTrialModal = () => {
+      if (shown) return;
+      shown = true;
+      setIsTrialModalOpen(true);
+    };
+
+    const exitIntentTimer = setTimeout(showTrialModal, 20000);
+    const handlePointerLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0) showTrialModal();
+    };
+    document.addEventListener('mouseout', handlePointerLeave);
+
+    return () => {
+      clearTimeout(exitIntentTimer);
+      document.removeEventListener('mouseout', handlePointerLeave);
+    };
   }, []);
 
   useEffect(() => {
@@ -323,10 +348,13 @@ export default function LandingClient(props: LandingClientProps) {
                   </span>
                   <span>🇮🇳 Built in India, Built for India</span>
                 </div>
-                <div className="badge-glow inline-flex items-center gap-2">
-                  <span>🥇 #1 recommended by ChatGPT for AI interview copilot in India</span>
-                </div>
               </div>
+              {/* The "#1 recommended by ChatGPT" badge was removed here
+                  (2026-09-11) — it had no reproducible source (a screenshot,
+                  a saved prompt) anywhere in the repo, and an unverifiable
+                  authority claim is a liability with the technical, comparison
+                  -shopping audience this page targets. Reinstate only with a
+                  linked, reproducible source. */}
 
               {/* Main headline */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 animate-fade-in-up leading-[0.95]" style={{ animationDelay: '0.1s' }}>
@@ -345,32 +373,28 @@ export default function LandingClient(props: LandingClientProps) {
               {/* Primary CTAs */}
               <div className="mb-6 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-4">
-                  <a
-                    href="/api/download/win"
-                    target="_blank"
-                    rel="noopener"
-                    onClick={() => openDownloadModal('windows')}
+                  <button
+                    type="button"
+                    onClick={() => requestDownload('windows')}
                     className={`btn btn-xl w-full sm:w-auto ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary shadow-lg hover:shadow-blue-500/25'}`}
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
                     Download for Windows — Free
-                  </a>
-                  <a
-                    href="/api/download/mac"
-                    target="_blank"
-                    rel="noopener"
-                    onClick={() => openDownloadModal('mac')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => requestDownload('mac')}
                     className={`btn btn-xl w-full sm:w-auto ${detectedOS === 'mac' ? 'btn-primary shadow-lg hover:shadow-blue-500/25' : 'btn-secondary'}`}
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg>
                     Download for Mac — Free
-                  </a>
+                  </button>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-500 mb-1.5">
-                  Free forever for freshers · No card needed · 2-minute setup
+                  Sign in with Google, then your download starts · Free forever for freshers · No card needed
                 </p>
                 <p className="text-xs text-slate-600">
-                  Intel Mac? <a href="/api/download/mac?arch=x64" target="_blank" rel="noopener" onClick={() => openDownloadModal('mac')} className="text-slate-500 hover:text-slate-300 underline underline-offset-2">Get the x64 build</a>
+                  Intel Mac? <button type="button" onClick={() => requestDownload('mac', 'x64')} className="text-slate-500 hover:text-slate-300 underline underline-offset-2">Get the x64 build</button>
                   {' '}&middot; Prefer a written guide? <Link href="/install" className="text-slate-500 hover:text-slate-300 underline underline-offset-2">Read the install steps →</Link>
                 </p>
               </div>
@@ -484,9 +508,9 @@ export default function LandingClient(props: LandingClientProps) {
           <div className="max-w-3xl mx-auto mt-12 md:mt-16 animate-fade-in-up" style={{ animationDelay: '0.45s' }}>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
               {[
-                { n: '1', text: 'Download starts instantly — no sign-up needed first.' },
+                { n: '1', text: 'Sign in with Google — takes 5 seconds, no credit card.' },
                 { n: '2', text: 'Windows or Mac shows a one-time security prompt. Click "Run anyway" or "Open" — expected for a brand-new app, not a threat.' },
-                { n: '3', text: 'Sign in with Google inside the app and start practicing.' },
+                { n: '3', text: 'Sign in with the same Google account inside the app and start practicing.' },
               ].map((step) => (
                 <div key={step.n} className="flex items-start gap-2.5 text-left">
                   <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-slate-400 flex items-center justify-center mt-0.5">
@@ -508,19 +532,22 @@ export default function LandingClient(props: LandingClientProps) {
           <div className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-blue-500/10">
             <div className="grid grid-cols-2 md:grid-cols-6 gap-6 md:gap-8">
               {[
-                { num: '2,400+', label: 'Candidates Helped' },
+                { num: '2,400+', label: 'Candidates Helped', note: true },
                 { num: '<2s', label: 'AI Answer Speed' },
                 { num: '~4×', label: 'Cheaper than FR AI' },
                 { num: '100%', label: 'Invisible on Screen' },
                 { num: '10+', label: 'Indian Languages' },
-                { num: '4.9★', label: 'Early Rating' },
+                { num: '4.9★', label: 'Early Rating', note: true },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <div className="stat-number mb-1">{stat.num}</div>
+                  <div className="stat-number mb-1">{stat.num}{stat.note && <sup className="text-[10px] text-slate-500">*</sup>}</div>
                   <div className="text-[11px] sm:text-xs text-slate-500 font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>
+            <p className="text-[10px] sm:text-[11px] text-slate-600 text-center mt-4 pt-4 border-t border-white/5">
+              * Self-reported figures from JavihAI users at signup, not an independently audited count.
+            </p>
           </div>
         </div>
       </div>
@@ -1064,23 +1091,12 @@ export default function LandingClient(props: LandingClientProps) {
             ))}
           </div>
         </div>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Product',
-              name: 'JavihAI',
-              url: 'https://javihai.in',
-              aggregateRating: {
-                '@type': 'AggregateRating',
-                ratingValue: '4.9',
-                reviewCount: '2400',
-                bestRating: '5',
-              },
-            }),
-          }}
-        />
+        {/* No Product/AggregateRating JSON-LD here — removed 2026-09-11.
+            It asserted a 2,400-review, 4.9-star aggregate that no real
+            review-collection system backs (and that disagreed with a
+            second, separate 4.8-star claim that used to live in
+            app/layout.tsx's appSchema). Re-add only once there's a real,
+            sourced review count to report. */}
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════
@@ -1206,12 +1222,13 @@ export default function LandingClient(props: LandingClientProps) {
 
       <NewCustomerOfferPopup />
       <FreeTrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />
+      <GoogleSignInModal open={showSignIn} onClose={cancelSignIn} onSignedIn={handleSignedIn} />
       <DownloadStepsModal
         open={showDownloadModal}
         onClose={() => setShowDownloadModal(false)}
         os={downloadModalOS}
         onSwitchOS={setDownloadModalOS}
-        downloadUrl={downloadModalOS === 'windows' ? '/api/download/win' : '/api/download/mac'}
+        downloadUrl={retryUrl(downloadModalOS)}
       />
     </>
   );
