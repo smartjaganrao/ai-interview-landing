@@ -25,6 +25,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/about` },
     { url: `${base}/indian-languages` },
     { url: `${base}/programming-languages` },
+    { url: `${base}/dsa-topics` },
+    { url: `${base}/coding-platforms` },
     { url: `${base}/pricing` },
     { url: `${base}/mock-interview` },
     { url: `${base}/blog` },
