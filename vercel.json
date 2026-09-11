@@ -11,6 +11,10 @@
       "schedule": "0 6 * * *"
     },
     {
+      "path": "/api/email/welcome-sweep",
+      "schedule": "0 * * * *"
+    },
+    {
       "path": "/api/blog/auto-draft",
       "schedule": "0 5 * * *"
     }

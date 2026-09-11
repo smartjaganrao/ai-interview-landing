@@ -6,6 +6,15 @@
       "fields": [
         { "fieldPath": "email", "arrayConfig": "NOT_ARRAY", "order": "ASCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "email_queue",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "sentAt", "order": "ASCENDING" },
+        { "fieldPath": "sendAfter", "order": "ASCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []
