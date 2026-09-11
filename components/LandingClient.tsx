@@ -363,7 +363,7 @@ export default function LandingClient(props: LandingClientProps) {
 
               {/* Sub-headline */}
               <p className="text-lg sm:text-xl md:text-2xl text-white font-bold mb-3 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                Invisible AI overlay for Zoom, Meet &amp; Teams. Hears questions. Streams answers in &lt;2s.
+                Invisible AI interview assistant for Zoom, Meet &amp; Teams. Hears questions. Streams answers in &lt;2s.
               </p>
 
               <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
@@ -405,6 +405,7 @@ export default function LandingClient(props: LandingClientProps) {
                   '100% invisible on screen share',
                   'Answers in under 2 seconds',
                   'Works on Zoom, Meet & Teams',
+                  '7-day money-back guarantee',
                 ].map((text) => (
                   <div key={text} className="flex items-center gap-2 text-sm text-slate-300">
                     <svg className="w-4 h-4 text-blue-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">

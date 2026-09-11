@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "India's first unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Built for freshers & working professionals. Hears your interviewer & answers in <2s. Free forever. 15× cheaper than Final Round AI. 7-day money-back guarantee. Trusted by 2,400+ candidates at Google, Microsoft, Flipkart & more.",
+    "India's first unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Built for freshers & working professionals. Hears your interviewer & answers in <2s. Free forever. ~4× cheaper than Final Round AI. 7-day money-back guarantee. Works in 9 Indian regional languages.",
 
   authors: [{ name: 'JavihAI', url: BASE_URL }],
   creator: 'JavihAI',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     siteName: 'JavihAI',
     title: "JavihAI — India's First Unlimited AI Interview Copilot | 100% Invisible",
     description:
-      "India's first unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Free forever · 15× cheaper than Final Round AI · 7-day money-back · 2,400+ helped.",
+      "India's first unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Free forever · ~4× cheaper than Final Round AI · 7-day money-back guarantee.",
     images: [
       {
         url: '/og-home.png',
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     creator: '@javihai',
     title: "JavihAI — India's First Unlimited AI Interview Tool | 100% Invisible",
     description:
-      "India's first unlimited AI interview copilot. Free for freshers, 100% invisible overlay. 2,400+ candidates hired at Google, Flipkart, Amazon India.",
+      "India's first unlimited AI interview copilot. Free for freshers, 100% invisible overlay. Hears your interviewer and answers in under 2 seconds.",
     images: ['/og-home.png'],
   },
 
