@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/firebase-admin';
+import { db, verifyIdToken } from '@/lib/firebase-admin';
 import { getLatestReleaseRaw } from '@/lib/github-release';
 
 export const maxDuration = 300;
@@ -17,17 +17,16 @@ const WIN_PREFERRED_SUBSTRING = 'portable-win-x64.exe';
 /**
  * Records a download attempt to `download_events` so the admin App-Usage funnel
  * can compare downloads against activation. Fire-and-forget — never blocks or
- * fails the actual binary download. `uid`/`email` are best-effort attribution
- * from query params (the dashboard appends them when the user is signed in).
+ * fails the actual binary download. uid/email come from the verified ID token,
+ * not client-supplied query params, since a download now requires sign-in.
  */
-function logDownload(req: NextRequest, platform: string, version: string) {
+function logDownload(req: NextRequest, platform: string, version: string, uid: string, email?: string) {
   if (!db) return;
-  const { searchParams } = new URL(req.url);
   db.collection('download_events').add({
     platform,
     version,
-    uid: searchParams.get('uid') || null,
-    email: (searchParams.get('email') || '').toLowerCase() || null,
+    uid,
+    email: (email || '').toLowerCase() || null,
     userAgent: req.headers.get('user-agent') || null,
     ip: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || null,
     createdAt: Date.now(),
@@ -42,6 +41,14 @@ export async function GET(
   const ext = EXT[platform];
   if (!ext) {
     return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
+  }
+
+  // Downloads require sign-in — checked before hitting GitHub so an
+  // unauthenticated request doesn't cost a release lookup.
+  const idToken = new URL(req.url).searchParams.get('token');
+  const authedUser = idToken ? await verifyIdToken(idToken) : null;
+  if (!authedUser) {
+    return NextResponse.json({ error: 'Sign in required to download JavihAI.' }, { status: 401 });
   }
 
   const release = await getLatestReleaseRaw();
@@ -79,7 +86,7 @@ export async function GET(
     return NextResponse.json({ error: 'Download temporarily unavailable' }, { status: 503 });
   }
 
-  logDownload(req, platform, release.tag_name);
+  logDownload(req, platform, release.tag_name, authedUser.uid, authedUser.email);
   const assetRes = await fetch(
     `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
     { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }

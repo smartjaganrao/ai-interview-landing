@@ -7,7 +7,11 @@ import { usePathname } from 'next/navigation';
 // homepage hero holds the primary download CTA, and /install holds the
 // step-by-step guide; on mobile this widget covers nearly the full
 // viewport, burying both. It's still one tap away via the bubble.
-const AUTO_OPEN_EXCLUDED_PATHS = ['/', '/install'];
+// /pricing and /checkout excluded because the widget's expanded panel can
+// cover the entire viewport on mobile — auto-popping it over a page whose
+// whole job is a decision (compare plans, complete payment) actively hides
+// the content the visitor came for.
+const AUTO_OPEN_EXCLUDED_PATHS = ['/', '/install', '/pricing', '/checkout'];
 
 const RAW = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
 const NUMBER = RAW.replace(/[^\d]/g, '');

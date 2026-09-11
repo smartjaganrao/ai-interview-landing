@@ -61,6 +61,9 @@ export default function InterviewCoderComparePage() {
             <div className="text-red-400 text-sm">✗ No meaningful free trial</div>
           </div>
         </div>
+        <p className="text-slate-500 text-sm text-center -mt-8 mb-12">
+          Just one interview coming up? JavihAI also has a ₹250 one-time Quick Pass — no monthly plan required.
+        </p>
 
         {/* Savings callout */}
         <div className="card bg-green-500/5 border-green-500/30 text-center mb-12">
