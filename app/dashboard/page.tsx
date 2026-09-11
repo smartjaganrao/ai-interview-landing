@@ -64,6 +64,16 @@ function DashboardContent() {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [modalOS, setModalOS] = useState<'windows' | 'mac'>('windows');
   const [showDownloadPrompt, setShowDownloadPrompt] = useState(false);
+  // "Got the offer" referral prompt — explicitly opt-in (the user clicks to
+  // confirm a real outcome, nothing is inferred or automated) per the
+  // sensitivity of this product category. Dismissal persists the same way
+  // trialModalDismissed does elsewhere on the site: a localStorage flag, not
+  // a new Firestore field, since this is a one-time "don't ask again" state,
+  // not data anything else needs to read.
+  const [offerConfirmed, setOfferConfirmed] = useState(false);
+  const [referralInfo, setReferralInfo] = useState<{ code: string; link: string; reward: number } | null>(null);
+  const [referralLoading, setReferralLoading] = useState(false);
+  const [referralCopied, setReferralCopied] = useState(false);
 
   // /api/download requires a signed-in Firebase ID token (see the public
   // landing/install pages' gated download flow) — this page is already
@@ -83,6 +93,7 @@ function DashboardContent() {
 
   useEffect(() => {
     setDetectedOS(detectDesktopOS());
+    setOfferConfirmed(!!localStorage.getItem('javihai_offer_confirmed'));
   }, []);
 
   useEffect(() => {
@@ -151,6 +162,25 @@ function DashboardContent() {
 
     loadData();
   }, [user?.uid]);
+
+  const handleGotOffer = async () => {
+    if (!user || referralLoading) return;
+    setReferralLoading(true);
+    try {
+      const idToken = await user.getIdToken();
+      const res = await fetch('/api/referral/me', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.code && data.link) setReferralInfo({ code: data.code, link: data.link, reward: data.reward });
+      }
+    } catch { /* referral share is a bonus — never block the confirmation */ }
+    setReferralLoading(false);
+    localStorage.setItem('javihai_offer_confirmed', 'true');
+    setOfferConfirmed(true);
+  };
 
   const handleRefresh = async () => {
     if (!user || isSyncing) return;
@@ -524,6 +554,48 @@ function DashboardContent() {
                 </>
               )}
             </div>
+
+          {/* ==================== GOT THE OFFER? (referral) ==================== */}
+          {/* Only shown to users who've actually had a real session — asking
+              a brand-new signup "how did it go?" makes no sense. Purely
+              opt-in: nothing here is inferred from usage, the user has to
+              click to say it happened. */}
+          {hasFirstSession && !offerConfirmed && (
+            <div className="card mb-4 border-green-500/20 bg-green-500/5">
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div>
+                  <h4 className="font-bold text-white mb-0.5">How did your interview go?</h4>
+                  <p className="text-sm text-slate-400">Got the offer? Share JavihAI and you both get credit.</p>
+                </div>
+                <button onClick={handleGotOffer} disabled={referralLoading} className="btn btn-primary disabled:opacity-50">
+                  {referralLoading ? 'Loading…' : '🎉 I got the offer!'}
+                </button>
+              </div>
+            </div>
+          )}
+          {referralInfo && (
+            <div className="card mb-4 border-green-500/30 bg-green-500/5">
+              <h4 className="font-bold text-white mb-1">🎉 Congrats! Share your referral link</h4>
+              <p className="text-sm text-slate-400 mb-3">
+                When a friend upgrades to a paid plan using your link, you both get ₹{referralInfo.reward} account credit.
+              </p>
+              <div className="flex items-center gap-2 flex-wrap">
+                <code className="flex-1 min-w-[200px] text-xs text-indigo-300 bg-slate-950/50 border border-white/10 rounded-lg px-3 py-2 break-all">
+                  {referralInfo.link}
+                </code>
+                <button
+                  onClick={() => {
+                    navigator.clipboard?.writeText(referralInfo.link).catch(() => {});
+                    setReferralCopied(true);
+                    setTimeout(() => setReferralCopied(false), 2000);
+                  }}
+                  className="btn btn-secondary text-sm"
+                >
+                  {referralCopied ? '✓ Copied' : 'Copy link'}
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* ==================== EXPLORE ==================== */}
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Explore</h3>
