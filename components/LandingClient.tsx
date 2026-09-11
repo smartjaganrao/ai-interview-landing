@@ -846,6 +846,60 @@ export default function LandingClient(props: LandingClientProps) {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════
+          INVISIBILITY, EXPLAINED
+      ═══════════════════════════════════════════════════════════════ */}
+      <section id="invisible" className="section-py relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left: the mechanism, in plain language */}
+            <div>
+              <div className="section-label">🥷 How it actually works</div>
+              <h2 className="section-heading mb-6">
+                Not a trick. A setting <span className="text-gradient">every OS already has</span>
+              </h2>
+              <p className="text-slate-400 mb-6 leading-relaxed">
+                Windows and macOS both let an app mark its own window as excluded from screen capture — the exact same mechanism video apps like Netflix use so a screen recording shows black instead of your movie. JavihAI turns that flag on for its own window and nothing else. It&apos;s not a rendering hack or a positioning trick that could break — it&apos;s the same OS-level API real DRM software relies on, so it holds up the same way.
+              </p>
+              <p className="text-slate-400 mb-8 leading-relaxed">
+                That means the interviewer&apos;s screen share, their recording, and their own screenshot all show exactly what&apos;s behind your JavihAI window — never the window itself. Nothing renders it invisible to <i>you</i>; you see and use it completely normally on your own screen.
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {['Zoom', 'Google Meet', 'Microsoft Teams', 'Webex'].map((tool) => (
+                  <span key={tool} className="text-xs px-3 py-1.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/15 font-medium">
+                    ✓ Tested on {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: what-they-see vs what-you-see */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/8 to-blue-500/8 rounded-3xl blur-2xl" />
+              <div className="relative grid grid-cols-1 gap-4">
+                <div className="glass-card p-6 border border-white/10">
+                  <div className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-3">👀 What the interviewer sees</div>
+                  <div className="rounded-xl bg-slate-950/60 border border-white/5 aspect-video flex items-center justify-center">
+                    <span className="text-slate-600 text-sm">Just your shared screen — nothing else</span>
+                  </div>
+                </div>
+                <div className="glass-card p-6 border border-indigo-500/20">
+                  <div className="text-xs font-medium uppercase tracking-wide text-indigo-400 mb-3 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 inline-block animate-pulse" />
+                    💻 What you see
+                  </div>
+                  <div className="rounded-xl bg-slate-950/60 border border-indigo-500/15 aspect-video flex items-center justify-center px-4">
+                    <span className="text-slate-300 text-sm text-center">Same screen, <span className="text-indigo-300 font-semibold">plus</span> the JavihAI overlay with your answer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
           DESI MODE SPOTLIGHT
       ═══════════════════════════════════════════════════════════════ */}
       <section id="why" className="section-py bg-slate-950/60 relative overflow-hidden">
