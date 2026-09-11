@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "app/sitemap.ts": {
-    "mtime": 1789146505.0918038,
-    "ast_hash": "cb92d813a0c1cf828420ed29721f6525",
+    "mtime": 1789146884.912,
+    "ast_hash": "8e5f02a5ecbc671b2452f82c14ffff07",
     "semantic_hash": ""
   },
   "app/terms/page.tsx": {
@@ -1512,6 +1512,16 @@
   "app/programming-languages/page.tsx": {
     "mtime": 1789146501.2728648,
     "ast_hash": "9388c460ba9a44f0b60902eafbc03577",
+    "semantic_hash": ""
+  },
+  "app/coding-platforms/page.tsx": {
+    "mtime": 1789146880.846334,
+    "ast_hash": "9d69a4978fe79aaf6804466af60108ee",
+    "semantic_hash": ""
+  },
+  "app/dsa-topics/page.tsx": {
+    "mtime": 1789146859.6071672,
+    "ast_hash": "a061623cda7098b3619495bd9463b551",
     "semantic_hash": ""
   }
 }

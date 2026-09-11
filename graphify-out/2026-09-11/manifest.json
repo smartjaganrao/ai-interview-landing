@@ -40,7 +40,7 @@
     "semantic_hash": "2ed8cfa26120a162cc7c391e89bc22c3"
   },
   "app/api/download/[platform]/route.ts": {
-    "mtime": 1789139854.1719465,
+    "mtime": 1789143621.6948109,
     "ast_hash": "bd9337c872dee94936295301341e8115",
     "semantic_hash": ""
   },
@@ -175,38 +175,38 @@
     "semantic_hash": ""
   },
   "app/compare/chiku-ai/page.tsx": {
-    "mtime": 1789141848.154092,
-    "ast_hash": "5d9600fab5a944e83a3c2b61b21debf2",
+    "mtime": 1789146318.5229638,
+    "ast_hash": "17175bfa9b5260ca165cef57c99fa937",
     "semantic_hash": ""
   },
   "app/compare/cluely/page.tsx": {
-    "mtime": 1789141855.7843966,
-    "ast_hash": "2f7e492fb2195c01d2f161ea012217f6",
+    "mtime": 1789146292.3116279,
+    "ast_hash": "9711060d65b3d8e255c85b51e53cfba0",
     "semantic_hash": ""
   },
   "app/compare/final-round-ai/page.tsx": {
-    "mtime": 1789141860.2116044,
-    "ast_hash": "abe1cb56c64d1f8d56a830a55ad631a7",
+    "mtime": 1789146265.2811244,
+    "ast_hash": "683dbab5db8c69d1521ad6b944a33342",
     "semantic_hash": ""
   },
   "app/compare/interview-coder/page.tsx": {
-    "mtime": 1789141866.1003416,
-    "ast_hash": "505df7c091724b7bf9460b09ca9cb8ed",
+    "mtime": 1789146328.7710302,
+    "ast_hash": "ed982a0e16874128d7959eaf9a757242",
     "semantic_hash": ""
   },
   "app/compare/lockedin-ai/page.tsx": {
-    "mtime": 1789141872.5111692,
-    "ast_hash": "d5589fa31312bd9c521384fab382ab24",
+    "mtime": 1789146332.5777774,
+    "ast_hash": "fa1a38cccad651ee3342b77fe397d1d1",
     "semantic_hash": ""
   },
   "app/compare/page.tsx": {
-    "mtime": 1788318530.1291416,
-    "ast_hash": "541218c2d93f275a5841734562fc1561",
+    "mtime": 1789146301.719523,
+    "ast_hash": "82efdafa45e4072b8c643cf771363102",
     "semantic_hash": ""
   },
   "app/compare/parakeet-ai/page.tsx": {
-    "mtime": 1789141879.3797767,
-    "ast_hash": "4861adf5144017cfbec7c829b2c97583",
+    "mtime": 1789146336.9625983,
+    "ast_hash": "3c644efb694deccd2437dee81869f314",
     "semantic_hash": ""
   },
   "app/creator/page.tsx": {
@@ -215,12 +215,12 @@
     "semantic_hash": ""
   },
   "app/dashboard/page.tsx": {
-    "mtime": 1789139950.2942657,
-    "ast_hash": "ee3314669c719e84e2bc775f6ee96311",
+    "mtime": 1789146644.379625,
+    "ast_hash": "eaa1952aa4b8eacd6dbcc2ad7797db28",
     "semantic_hash": ""
   },
   "app/install/page.tsx": {
-    "mtime": 1789139926.4681296,
+    "mtime": 1789143621.6987412,
     "ast_hash": "7fddac9e187993ffbfb685a6964e3058",
     "semantic_hash": ""
   },
@@ -235,7 +235,7 @@
     "semantic_hash": ""
   },
   "app/layout.tsx": {
-    "mtime": 1789141667.4701948,
+    "mtime": 1789143621.69924,
     "ast_hash": "345e5eec310ab356994c7a38d8881bde",
     "semantic_hash": ""
   },
@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "app/sitemap.ts": {
-    "mtime": 1788320492.6456878,
-    "ast_hash": "72debfd393a66d375930800ad9e84277",
+    "mtime": 1789146505.0918038,
+    "ast_hash": "cb92d813a0c1cf828420ed29721f6525",
     "semantic_hash": ""
   },
   "app/terms/page.tsx": {
@@ -325,12 +325,12 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1789141591.4955602,
+    "mtime": 1789143621.7012434,
     "ast_hash": "12691e72d993ba021b743a1cd903361f",
     "semantic_hash": ""
   },
   "components/WhatsAppButton.tsx": {
-    "mtime": 1789141701.2045283,
+    "mtime": 1789143621.7016222,
     "ast_hash": "e24390b42ab5df0a541553e00f241509",
     "semantic_hash": ""
   },
@@ -365,8 +365,8 @@
     "semantic_hash": "1f0aa0fd99ab287dd76adfa4f6cd5641"
   },
   "lib/github-release.ts": {
-    "mtime": 1789122399.3254063,
-    "ast_hash": "56ae274cbb417b36f6a09b5ee8981e1e",
+    "mtime": 1789145204.879091,
+    "ast_hash": "435620e1e6e22c34bf53092c8f341329",
     "semantic_hash": ""
   },
   "lib/razorpay-server.ts": {
@@ -420,8 +420,8 @@
     "semantic_hash": ""
   },
   "vercel.json": {
-    "mtime": 1788146454.8440373,
-    "ast_hash": "ff98aef7d07f69e31aaf44c79ff8ffab",
+    "mtime": 1789145764.5766006,
+    "ast_hash": "20a51efa0ece83568783e9fb031539ca",
     "semantic_hash": ""
   },
   ".kilo/skills/ai-seo/evals/evals.json": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1789141747.865879,
-    "ast_hash": "5378273a2f9329c983b1647d20eedb66",
+    "mtime": 1789146398.187086,
+    "ast_hash": "a056a3d37a0d7189fe0df1d0f55fffbb",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {
@@ -465,8 +465,8 @@
     "semantic_hash": ""
   },
   "firestore.indexes.json": {
-    "mtime": 1785744936.9243217,
-    "ast_hash": "0331c26719cd31640f3ce221ece182ec",
+    "mtime": 1789145735.5494509,
+    "ast_hash": "4f254e73b1bcf26dd2434e5093101792",
     "semantic_hash": ""
   },
   "lib/data-sync.ts": {
@@ -490,7 +490,7 @@
     "semantic_hash": ""
   },
   "lib/pricing-config.ts": {
-    "mtime": 1789141778.0942905,
+    "mtime": 1789143621.7338245,
     "ast_hash": "7b289b68af0d9cfd0917198ea62ad34d",
     "semantic_hash": ""
   },
@@ -1335,7 +1335,7 @@
     "semantic_hash": ""
   },
   "components/InstallDownloadButtons.tsx": {
-    "mtime": 1789139909.0868173,
+    "mtime": 1789143621.700075,
     "ast_hash": "0cff60b87c4641e2ade81ee2dc582b9e",
     "semantic_hash": ""
   },
@@ -1490,18 +1490,28 @@
     "semantic_hash": ""
   },
   "components/GoogleSignInModal.tsx": {
-    "mtime": 1789139838.8788176,
+    "mtime": 1789143621.6996255,
     "ast_hash": "291665f14885bf083f99cd1549df5288",
     "semantic_hash": ""
   },
   "hooks/useGatedDownload.ts": {
-    "mtime": 1789139826.0378013,
+    "mtime": 1789143621.7329087,
     "ast_hash": "6bdfb74cda6198542844780e50e4db72",
     "semantic_hash": ""
   },
   "public/llms.txt": {
     "mtime": 1789043991.3291903,
     "ast_hash": "ed14055bc11acf3cad2e6423e727fd64",
+    "semantic_hash": ""
+  },
+  "app/api/email/welcome-sweep/route.ts": {
+    "mtime": 1789145707.395766,
+    "ast_hash": "c14a39d0c30558f3814604a3fb846f7a",
+    "semantic_hash": ""
+  },
+  "app/programming-languages/page.tsx": {
+    "mtime": 1789146501.2728648,
+    "ast_hash": "9388c460ba9a44f0b60902eafbc03577",
     "semantic_hash": ""
   }
 }
