@@ -64,14 +64,20 @@ async function fetchGroqWithFallback(
 export async function POST(req: NextRequest) {
   try {
     const idToken = req.headers.get('X-Firebase-Token') || '';
-    const { messages, model, temperature, max_tokens, feature } = await req.json();
+    const body: { messages?: unknown[]; model?: string; temperature?: number; max_tokens?: number; feature?: unknown } = await req.json();
+    const { messages, model, temperature, max_tokens, feature: rawFeature } = body;
 
     if (!messages?.length) {
       return NextResponse.json({ error: 'messages required' }, { status: 400 });
     }
-    if (!VALID_FEATURES.includes(feature)) {
-      return NextResponse.json({ error: 'feature must be one of screenshot, system_audio, mic' }, { status: 400 });
-    }
+    // Desktop clients older than v1.18.0 never send `feature` — the 3-bucket
+    // per-feature quota (screenshot/system_audio/mic) that needs it was
+    // introduced in that same release. Default to `mic` instead of rejecting,
+    // so already-installed pre-1.18.0 builds keep working until everyone has
+    // upgraded (mic and system_audio share the same daily limit today, so
+    // this default doesn't change what's allowed vs blocked for that traffic
+    // — only which bucket's counter it lands in).
+    const feature: QuotaFeature = VALID_FEATURES.includes(rawFeature as QuotaFeature) ? (rawFeature as QuotaFeature) : 'mic';
 
     // Require authentication — unauthenticated callers would bypass quota entirely
     if (!idToken) {
@@ -84,7 +90,7 @@ export async function POST(req: NextRequest) {
     let quotaLimit: number = Infinity;
     const user = await verifyIdToken(idToken);
     if (user) {
-      const quota = await checkAiQuota(user.uid, feature as QuotaFeature);
+      const quota = await checkAiQuota(user.uid, feature);
       plan = quota.plan;
       quotaUsed = quota.used;
       quotaLimit = quota.limit;
