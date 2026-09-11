@@ -119,7 +119,7 @@ export default function InterviewCoderComparePage() {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-8">
-          Pricing data on Interview Coder sourced from public reviews (linkjob.ai, getdx.com) as of June 2026, converted at ₹95/$1. Interview Coder does not publicly disclose a refund policy. All prices approximate.
+          Pricing data on Interview Coder sourced from interviewcoder.co directly, verified September 2026, converted at ₹95/$1. Interview Coder does not publicly disclose a refund policy. All prices approximate.
         </p>
       </div>
       <Footer />

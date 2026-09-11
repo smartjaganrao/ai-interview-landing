@@ -110,7 +110,7 @@ export default function ParakeetAIComparePage() {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-8">
-          Parakeet AI pricing sourced from parakeet-ai.com and third-party reviews as of June 2026. USD converted at ≈₹95/$1. All prices approximate and subject to change.
+          Parakeet AI pricing sourced from parakeet-ai.com (not parakeet.io, an unrelated company) and third-party reviews, verified September 2026. USD converted at ≈₹95/$1. All prices approximate and subject to change.
         </p>
       </div>
       <Footer />

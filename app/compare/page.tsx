@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 const COMPETITORS = [
   { name: 'Chiku AI',        price: '₹3,499/mo',          savings: '~1.8×', slug: 'chiku-ai',         tag: '🇮🇳 Indian competitor' },
-  { name: 'Final Round AI',  price: '₹7,695/mo',          savings: '~4×',   slug: 'final-round-ai',   tag: '🌐 Market leader' },
+  { name: 'Final Round AI',  price: '₹7,916/mo',          savings: '~4×',   slug: 'final-round-ai',   tag: '🌐 Market leader' },
   { name: 'Interview Coder', price: '$299/mo (~₹28,400)', savings: '~14×',  slug: 'interview-coder',  tag: '💻 Coding-only tool' },
-  { name: 'Cluely',          price: '$75/mo (~₹7,125)',   savings: '~3.6×', slug: 'cluely',           tag: '🕵️ Undetectable add-on' },
+  { name: 'Cluely',          price: '$149.99/mo (~₹14,250)', savings: '~7×', slug: 'cluely',         tag: '🕵️ Undetectable add-on' },
   { name: 'LockedIn AI',     price: '$49.99/mo (~₹4,749)',savings: '~2.4×', slug: 'lockedin-ai',      tag: '🔒 Meeting copilot' },
   { name: 'Parakeet AI',     price: '$149.90/mo (~₹14,240)', savings: '~7×', slug: 'parakeet-ai',    tag: '🦜 Credit-based tool' },
 ];

@@ -110,7 +110,7 @@ export default function LockedInAIComparePage() {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-8">
-          LockedIn AI pricing sourced from lockedinai.com/pricing and third-party reviews as of June 2026. USD converted at ≈₹95/$1. All prices approximate and subject to change.
+          LockedIn AI pricing sourced from lockedinai.com/pricing and third-party reviews, verified September 2026. USD converted at ≈₹95/$1. All prices approximate and subject to change.
         </p>
       </div>
       <Footer />

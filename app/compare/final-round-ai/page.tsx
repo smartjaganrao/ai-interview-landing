@@ -4,19 +4,19 @@ import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: { absolute: 'JavihAI vs Final Round AI — ~4× Cheaper, Same Real-Time Overlay' },
-  description: 'JavihAI vs Final Round AI: both offer a real-time invisible overlay for live interviews. JavihAI Power is ₹2,000/month vs Final Round AI ₹7,695/month — save ~74% with the same core feature.',
+  description: 'JavihAI vs Final Round AI: both offer a real-time invisible overlay for live interviews. JavihAI Power is ₹2,000/month vs Final Round AI ₹7,916/month (quarterly rate) — save ~75% with the same core feature.',
   keywords: ['final round ai alternative', 'final round ai vs javihai', 'cheaper ai interview assistant india', 'real-time interview ai india', 'final round ai india price'],
   alternates: { canonical: 'https://javihai.in/compare/final-round-ai' },
   openGraph: {
     title: 'JavihAI vs Final Round AI — ~4× Cheaper, Same Overlay',
-    description: 'JavihAI ₹2,000/month vs Final Round AI ₹7,695/month. Same real-time invisible overlay — save ~74%.',
+    description: 'JavihAI ₹2,000/month vs Final Round AI ₹7,916/month (quarterly rate). Same real-time invisible overlay — save ~75%.',
   },
 };
 
 const ROWS = [
   { feature: 'Free plan',                  javihai: '✅ 25 answers/day forever',    fra: '⚠️ 5-min sessions only' },
-  { feature: 'Entry paid price',           javihai: '✅ ₹250 (1-hour pass)',        fra: '❌ ₹7,695/month (semi-annual)' },
-  { feature: 'Unlimited monthly plan',    javihai: '✅ ₹2,000/month',               fra: '❌ ₹14,060/month' },
+  { feature: 'Entry paid price',           javihai: '✅ ₹250 (1-hour pass)',        fra: '❌ ₹7,916/month (quarterly)' },
+  { feature: 'Unlimited monthly plan',    javihai: '✅ ₹2,000/month',               fra: '❌ ₹14,250/month' },
   { feature: 'Real-time overlay',         javihai: '✅ Yes — invisible',           fra: '✅ Yes — invisible' },
   { feature: 'Voice transcription',       javihai: '✅ Whisper (Groq)',            fra: '✅ Yes' },
   { feature: 'Behavioral questions',      javihai: '✅ STAR method coaching',      fra: '✅ Yes' },
@@ -57,8 +57,8 @@ export default function FinalRoundAIComparePage() {
           </div>
           <div className="card text-center opacity-75">
             <div className="text-sm font-semibold text-slate-400 mb-3">Final Round AI</div>
-            <div className="text-5xl font-black text-slate-300 mb-1">₹7,695<span className="text-xl font-normal text-slate-500">/mo</span></div>
-            <div className="text-slate-500 mb-2">Minimum (semi-annual billing)</div>
+            <div className="text-5xl font-black text-slate-300 mb-1">₹7,916<span className="text-xl font-normal text-slate-500">/mo</span></div>
+            <div className="text-slate-500 mb-2">Minimum (quarterly billing)</div>
             <div className="text-red-400 text-sm">✗ No refunds · USD billing only</div>
           </div>
         </div>
@@ -68,8 +68,8 @@ export default function FinalRoundAIComparePage() {
 
         {/* Savings callout */}
         <div className="card bg-green-500/5 border-green-500/30 text-center mb-12">
-          <p className="text-2xl font-black text-green-400">You save ₹68,340/year switching to JavihAI</p>
-          <p className="text-slate-400 mt-2 text-sm">₹7,695 × 12 = ₹92,340 (Final Round AI, semi-annual rate) vs ₹2,000 × 12 = ₹24,000 (JavihAI Power)</p>
+          <p className="text-2xl font-black text-green-400">You save ₹70,992/year switching to JavihAI</p>
+          <p className="text-slate-400 mt-2 text-sm">₹7,916 × 12 = ₹94,992 (Final Round AI, quarterly rate) vs ₹2,000 × 12 = ₹24,000 (JavihAI Power)</p>
         </div>
 
         {/* Feature table */}
@@ -98,7 +98,7 @@ export default function FinalRoundAIComparePage() {
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
             { icon: '🇮🇳', title: 'Built for India', body: 'UPI payments, Desi Mode, Hindi/Tamil/Telugu answers, Indian company examples. Final Round AI charges in USD with no India-specific features.' },
-            { icon: '💰', title: '~4× Cheaper', body: 'Final Round AI costs ₹7,695–₹14,060/month. JavihAI Power is ₹2,000/month. Same real-time overlay, same AI coaching quality.' },
+            { icon: '💰', title: '~4× Cheaper', body: 'Final Round AI costs ₹7,916–₹14,250/month. JavihAI Power is ₹2,000/month. Same real-time overlay, same AI coaching quality.' },
             { icon: '🎁', title: 'More Features', body: 'JavihAI adds Resume Builder, Job Recommendations, and Mock Interview mode — features Final Round AI doesn\'t offer at any price.' },
           ].map((c, i) => (
             <div key={i} className="card text-center">
@@ -120,7 +120,7 @@ export default function FinalRoundAIComparePage() {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-8">
-          Pricing data sourced from finalroundai.com and saasworthy.com as of June 2026. USD converted at ₹95. All prices approximate.
+          Pricing data sourced directly from finalroundai.com as of September 2026 — Monthly $150, Quarterly $83.33/mo. USD converted at ₹95. All prices approximate and subject to change.
         </p>
       </div>
       <Footer />

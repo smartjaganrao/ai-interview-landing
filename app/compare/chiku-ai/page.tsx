@@ -114,7 +114,7 @@ export default function ChikuAIComparePage() {
         </div>
 
         <p className="text-center text-slate-600 text-xs mt-8">
-          Pricing data sourced from chiku-ai.in and saasworthy.com as of June 2026. All prices in INR.
+          Pricing data sourced from chiku-ai.in and saasworthy.com, verified September 2026. All prices in INR.
         </p>
       </div>
       <Footer />
