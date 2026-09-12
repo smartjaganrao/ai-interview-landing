@@ -308,6 +308,5 @@
   "306": "recharts",
   "307": "@reduxjs/toolkit",
   "308": "vitest.config.ts",
-  "309": "code-reviewer.md",
-  "310": "react"
+  "309": "code-reviewer.md"
 }

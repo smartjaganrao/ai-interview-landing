@@ -282,6 +282,50 @@ export async function sendNewLeadAlert(params: {
   return { ok: true };
 }
 
+/** Notify admin (javihaiofficial@gmail.com) once a user completes the
+ *  mandatory profile form (web CompleteProfileModal or the desktop app's
+ *  AcquisitionPrompt — both call the same /api/notifications/profile-completed
+ *  route, which is idempotent, so this fires exactly once per user regardless
+ *  of which app they completed it on. */
+export async function sendProfileCompletedAlert(params: {
+  email: string;
+  name: string;
+  whatsapp: string;
+  experienceLevel: string;
+  jobRole: string;
+  city: string;
+  acquisitionSource: string;
+  supportQuery?: string | null;
+  source: 'web' | 'desktop';
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const html = shell(`
+  <h1 style="font-size:22px;font-weight:800;margin-bottom:4px;">📋 Profile Completed</h1>
+  <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;">Submitted from the ${params.source === 'desktop' ? 'desktop app' : 'website'}</p>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;">
+    <tr><td style="padding:8px 0;color:#64748b;width:120px;">Name</td><td style="color:#e2e8f0;font-weight:600;">${params.name}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Email</td><td style="color:#e2e8f0;">${params.email}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">WhatsApp</td><td style="color:#e2e8f0;font-weight:600;"><a href="https://wa.me/${params.whatsapp.replace(/\D/g, '')}" style="color:#4ade80;">${params.whatsapp}</a></td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Experience</td><td style="color:#e2e8f0;">${params.experienceLevel}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Job Role</td><td style="color:#e2e8f0;">${params.jobRole}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">City</td><td style="color:#e2e8f0;">${params.city}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Heard via</td><td style="color:#e2e8f0;">${params.acquisitionSource}</td></tr>
+  </table>
+  ${params.supportQuery ? `
+  <div style="background:#1e293b;border-left:3px solid #6366f1;border-radius:0 10px 10px 0;padding:16px 20px;">
+    <p style="color:#a5b4fc;font-size:12px;font-weight:600;margin:0 0 8px;">Installation help / question</p>
+    <p style="color:#cbd5e1;font-size:14px;line-height:1.7;margin:0;">${params.supportQuery.replace(/\n/g, '<br>')}</p>
+  </div>` : ''}`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: 'javihaiofficial@gmail.com',
+    subject: `[Profile] ${params.name} completed their profile${params.supportQuery ? ' — has a question' : ''}`, html,
+  });
+  if (error) { console.error('[email/profile-completed-alert]', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
+
 export async function sendFreeTrialVoucher(params: {
   email: string;
   name?: string | null;

@@ -198,10 +198,6 @@ export default function LoginPage() {
             setShowProfileModal(false);
             router.push('/dashboard');
           }}
-          onSkip={() => {
-            setShowProfileModal(false);
-            router.push('/dashboard');
-          }}
           initial={{
             phone: (fetchedUserData?.phone as string) || undefined,
             fullName: (fetchedUserData?.fullName as string) || (fetchedUserData?.profile?.fullName as string) || user.displayName || '',

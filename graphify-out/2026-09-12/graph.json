@@ -282,8 +282,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_coupons_validate_route",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "route.ts"
     },
     {
@@ -293,8 +293,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "app_api_coupons_validate_route_post",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "post()"
     },
     {
@@ -304,8 +304,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_apply_route",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 280,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "route.ts"
     },
     {
@@ -315,8 +315,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_creator_apply_route_post",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 280,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "post()"
     },
     {
@@ -722,8 +722,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_groq_stream_route",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "route.ts"
     },
     {
@@ -733,8 +733,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "app_api_groq_stream_route_valid_features",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "valid_features"
     },
     {
@@ -744,8 +744,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_api_groq_stream_route_fallback_models",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "fallback_models"
     },
     {
@@ -755,8 +755,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_api_groq_stream_route_groqattemptresult",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "groqattemptresult"
     },
     {
@@ -766,8 +766,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_api_groq_stream_route_fetchgroqwithfallback",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "fetchgroqwithfallback()"
     },
     {
@@ -777,8 +777,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "app_api_groq_stream_route_post",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "post()"
     },
     {
@@ -947,43 +947,10 @@
       "norm_label": "route.ts"
     },
     {
-      "label": "CORS_HEADERS",
-      "file_type": "code",
-      "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L29",
-      "_origin": "ast",
-      "id": "app_api_notifications_profile_completed_route_cors_headers",
-      "community": 12,
-      "community_name": "page.tsx",
-      "norm_label": "cors_headers"
-    },
-    {
-      "label": "json()",
-      "file_type": "code",
-      "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L35",
-      "_origin": "ast",
-      "id": "app_api_notifications_profile_completed_route_json",
-      "community": 12,
-      "community_name": "page.tsx",
-      "norm_label": "json()"
-    },
-    {
-      "label": "OPTIONS()",
-      "file_type": "code",
-      "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L39",
-      "_origin": "ast",
-      "id": "app_api_notifications_profile_completed_route_options",
-      "community": 12,
-      "community_name": "page.tsx",
-      "norm_label": "options()"
-    },
-    {
       "label": "POST()",
       "file_type": "code",
       "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L43",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "app_api_notifications_profile_completed_route_post",
       "community": 12,
@@ -1250,8 +1217,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_settings_get_groq_key_route",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1261,8 +1228,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "app_api_settings_get_groq_key_route_post",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "post()"
     },
     {
@@ -1294,8 +1261,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_support_ticket_route",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -1305,8 +1272,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "app_api_support_ticket_route_post",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "post()"
     },
     {
@@ -1646,8 +1613,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_checkout_page",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "page.tsx"
     },
     {
@@ -1657,8 +1624,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_checkout_page_window",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "window"
     },
     {
@@ -1668,8 +1635,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "app_checkout_page_razorpayoptions",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "razorpayoptions"
     },
     {
@@ -1690,8 +1657,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "app_checkout_page_pricing",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "pricing"
     },
     {
@@ -1712,8 +1679,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "app_checkout_page_offeractivefor",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "offeractivefor()"
     },
     {
@@ -1723,8 +1690,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_checkout_page_loadrazorpayscript",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "loadrazorpayscript()"
     },
     {
@@ -1734,8 +1701,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "app_checkout_page_checkoutcontent",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "checkoutcontent()"
     },
     {
@@ -1745,8 +1712,8 @@
       "source_location": "L549",
       "_origin": "ast",
       "id": "app_checkout_page_checkoutpage",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "checkoutpage()"
     },
     {
@@ -2724,8 +2691,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_pricing_page_offer",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "offer"
     },
     {
@@ -2746,8 +2713,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_pricing_page_featuredcoupon",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "featuredcoupon"
     },
     {
@@ -2944,8 +2911,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_resume_page",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "page.tsx"
     },
     {
@@ -2955,8 +2922,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "app_resume_page_experience",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "experience"
     },
     {
@@ -2966,8 +2933,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_resume_page_education",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "education"
     },
     {
@@ -2977,8 +2944,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "app_resume_page_project",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "project"
     },
     {
@@ -2988,8 +2955,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "app_resume_page_resumedata",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "resumedata"
     },
     {
@@ -2999,8 +2966,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "app_resume_page_blank",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "blank"
     },
     {
@@ -3010,8 +2977,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "app_resume_page_templates",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "templates"
     },
     {
@@ -3021,8 +2988,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "app_resume_page_uid",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "uid()"
     },
     {
@@ -3032,8 +2999,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "app_resume_page_resumepreview",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "resumepreview()"
     },
     {
@@ -3043,8 +3010,8 @@
       "source_location": "L173",
       "_origin": "ast",
       "id": "app_resume_page_section",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "section()"
     },
     {
@@ -3054,8 +3021,8 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "app_resume_page_resumepage",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "resumepage()"
     },
     {
@@ -3747,8 +3714,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_navbar",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "navbar.tsx"
     },
     {
@@ -3758,8 +3725,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "components_navbar_announcement",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "announcement"
     },
     {
@@ -3769,8 +3736,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "components_navbar_whatsnewbell",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "whatsnewbell()"
     },
     {
@@ -3780,8 +3747,8 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "components_navbar_featuredcoupon",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "featuredcoupon"
     },
     {
@@ -3791,8 +3758,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "components_navbar_offerbanner",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "offerbanner()"
     },
     {
@@ -3802,8 +3769,8 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "components_navbar_app_paths",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "app_paths"
     },
     {
@@ -3813,8 +3780,8 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "components_navbar_navbar",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "navbar()"
     },
     {
@@ -3824,8 +3791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "newcustomerofferpopup.tsx"
     },
     {
@@ -3835,8 +3802,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_popupcoupon",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "popupcoupon"
     },
     {
@@ -3846,8 +3813,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_formatcountdown",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "formatcountdown()"
     },
     {
@@ -3857,8 +3824,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_newcustomerofferpopup",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "newcustomerofferpopup()"
     },
     {
@@ -4528,8 +4495,8 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "lib_email_sendnewticketalert",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "sendnewticketalert()"
     },
     {
@@ -4715,8 +4682,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_firebase_admin_test",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "firebase-admin.test.ts"
     },
     {
@@ -4726,8 +4693,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_firebase_admin_test_makecoupon",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "makecoupon()"
     },
     {
@@ -4770,8 +4737,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "lib_firebase_admin_getuserinfo",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "getuserinfo()"
     },
     {
@@ -4792,8 +4759,8 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "lib_firebase_admin_quotafeature",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "quotafeature"
     },
     {
@@ -4836,8 +4803,8 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "lib_firebase_admin_daykey",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "daykey()"
     },
     {
@@ -4913,8 +4880,8 @@
       "source_location": "L211",
       "_origin": "ast",
       "id": "lib_firebase_admin_isuserbanned",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "isuserbanned()"
     },
     {
@@ -4924,8 +4891,8 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "lib_firebase_admin_checkaiquota",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "checkaiquota()"
     },
     {
@@ -4935,8 +4902,8 @@
       "source_location": "L278",
       "_origin": "ast",
       "id": "lib_firebase_admin_notifyquotaexceededonce",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 29,
+      "community_name": "robots.ts",
       "norm_label": "notifyquotaexceededonce()"
     },
     {
@@ -4957,8 +4924,8 @@
       "source_location": "L303",
       "_origin": "ast",
       "id": "lib_firebase_admin_persistsubscription",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "persistsubscription()"
     },
     {
@@ -5089,8 +5056,8 @@
       "source_location": "L662",
       "_origin": "ast",
       "id": "lib_firebase_admin_creatorcodebase",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 280,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "creatorcodebase()"
     },
     {
@@ -5100,8 +5067,8 @@
       "source_location": "L668",
       "_origin": "ast",
       "id": "lib_firebase_admin_getorcreatecreator",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 280,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "getorcreatecreator()"
     },
     {
@@ -5287,8 +5254,8 @@
       "source_location": "L960",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponrecord",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "couponrecord"
     },
     {
@@ -5331,8 +5298,8 @@
       "source_location": "L1020",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponisvalid",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "couponisvalid()"
     },
     {
@@ -5342,8 +5309,8 @@
       "source_location": "L1027",
       "_origin": "ast",
       "id": "lib_firebase_admin_getcoupon",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "getcoupon()"
     },
     {
@@ -5364,8 +5331,8 @@
       "source_location": "L1055",
       "_origin": "ast",
       "id": "lib_firebase_admin_nextistmidnight",
-      "community": 281,
-      "community_name": "Important (Should Have)",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "nextistmidnight()"
     },
     {
@@ -5408,8 +5375,8 @@
       "source_location": "L1123",
       "_origin": "ast",
       "id": "lib_firebase_admin_migrateuserplan",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "migrateuserplan()"
     },
     {
@@ -5441,8 +5408,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_firestore_cache",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "firestore-cache.ts"
     },
     {
@@ -5452,8 +5419,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_firestore_cache_cacheentry",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "cacheentry"
     },
     {
@@ -5463,8 +5430,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "lib_firestore_cache_doccache",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "doccache"
     },
     {
@@ -5474,8 +5441,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_firestore_cache_querycache",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "querycache"
     },
     {
@@ -5485,8 +5452,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_firestore_cache_pending",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "pending"
     },
     {
@@ -5496,8 +5463,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "lib_firestore_cache_readlocalstorageentry",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "readlocalstorageentry()"
     },
     {
@@ -5507,8 +5474,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "lib_firestore_cache_writelocalstorageentry",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "writelocalstorageentry()"
     },
     {
@@ -5518,8 +5485,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "lib_firestore_cache_removelocalstorageentry",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "removelocalstorageentry()"
     },
     {
@@ -5529,8 +5496,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "lib_firestore_cache_cachedgetdoc",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "cachedgetdoc()"
     },
     {
@@ -5540,8 +5507,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "lib_firestore_cache_cachedquery",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "cachedquery()"
     },
     {
@@ -5551,8 +5518,8 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "lib_firestore_cache_invalidatedoccache",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "invalidatedoccache()"
     },
     {
@@ -5562,8 +5529,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "lib_firestore_cache_invalidatequerycache",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "invalidatequerycache()"
     },
     {
@@ -5573,8 +5540,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "lib_firestore_cache_cleardoccache",
-      "community": 29,
-      "community_name": "robots.ts",
+      "community": 123,
+      "community_name": "Generative Engine Optimization (GEO) Patterns",
       "norm_label": "cleardoccache()"
     },
     {
@@ -5969,8 +5936,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "lib_pricing_config_plans",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "plans"
     },
     {
@@ -5980,8 +5947,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "lib_pricing_config_plan_rank",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "plan_rank"
     },
     {
@@ -6002,8 +5969,8 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "lib_pricing_config_migrateplanid",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "migrateplanid()"
     },
     {
@@ -6024,8 +5991,8 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "lib_pricing_config_isonetimeplan",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "isonetimeplan()"
     },
     {
@@ -6189,8 +6156,8 @@
       "source_location": "L276",
       "_origin": "ast",
       "id": "lib_pricing_config_canupgradeto",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "canupgradeto()"
     },
     {
@@ -6200,8 +6167,8 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "lib_pricing_config_candowngradeto",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "candowngradeto()"
     },
     {
@@ -6211,8 +6178,8 @@
       "source_location": "L302",
       "_origin": "ast",
       "id": "lib_pricing_config_isdowngrade",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "isdowngrade()"
     },
     {
@@ -6222,8 +6189,8 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "lib_pricing_config_getupgradepath",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "getupgradepath()"
     },
     {
@@ -6233,8 +6200,8 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "lib_pricing_config_getdowngradepath",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "getdowngradepath()"
     },
     {
@@ -7025,8 +6992,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "package_dependencies_firebase",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 305,
+      "community_name": "react",
       "norm_label": "firebase"
     },
     {
@@ -7036,8 +7003,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "firebase",
-      "community": 6,
-      "community_name": "dependencies",
+      "community": 305,
+      "community_name": "react",
       "norm_label": "firebase"
     },
     {
@@ -7135,8 +7102,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "package_dependencies_react",
-      "community": 310,
-      "community_name": "react",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react"
     },
     {
@@ -7146,8 +7113,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "react",
-      "community": 310,
-      "community_name": "react",
+      "community": 6,
+      "community_name": "dependencies",
       "norm_label": "react"
     },
     {
@@ -19765,8 +19732,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_common_schemas",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "common schemas"
     },
     {
@@ -19776,8 +19743,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_website_schema",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "website schema"
     },
     {
@@ -19787,8 +19754,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_organization_schema",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "organization schema"
     },
     {
@@ -19798,8 +19765,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_webapplication_schema",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "webapplication schema"
     },
     {
@@ -19809,8 +19776,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_faqpage_schema",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "faqpage schema"
     },
     {
@@ -19820,8 +19787,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_schema",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "product schema"
     },
     {
@@ -19831,8 +19798,8 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_snippet_vs_merchant_listing_experience",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "product snippet vs merchant listing experience"
     },
     {
@@ -19842,8 +19809,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_article_schema",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "article schema"
     },
     {
@@ -19853,8 +19820,8 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_breadcrumblist_schema",
-      "community": 71,
-      "community_name": "razorpay-server.ts",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "breadcrumblist schema"
     },
     {
@@ -20161,8 +20128,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_sitemap_configuration",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "sitemap configuration"
     },
     {
@@ -20172,8 +20139,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_basic_static_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "basic static sitemap"
     },
     {
@@ -20183,8 +20150,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_dynamic_sitemap_with_database",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "dynamic sitemap with database"
     },
     {
@@ -20194,8 +20161,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_image_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "image sitemap"
     },
     {
@@ -20205,8 +20172,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_video_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "video sitemap"
     },
     {
@@ -20216,8 +20183,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_multiple_sitemaps_large_sites",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "multiple sitemaps (large sites)"
     },
     {
@@ -20227,8 +20194,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_localized_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 71,
+      "community_name": "razorpay-server.ts",
       "norm_label": "localized sitemap"
     },
     {
@@ -20359,8 +20326,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_google_indexing_issues",
-      "community": 305,
-      "community_name": "react",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "google indexing issues"
     },
     {
@@ -20370,8 +20337,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_discovered_currently_not_indexed",
-      "community": 305,
-      "community_name": "react",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"discovered - currently not indexed\""
     },
     {
@@ -20381,8 +20348,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_crawled_currently_not_indexed",
-      "community": 305,
-      "community_name": "react",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"crawled - currently not indexed\""
     },
     {
@@ -20392,8 +20359,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_url_is_not_on_google",
-      "community": 305,
-      "community_name": "react",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"url is not on google\""
     },
     {
@@ -20403,8 +20370,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_blocked_by_robots_txt",
-      "community": 305,
-      "community_name": "react",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"blocked by robots.txt\""
     },
     {
@@ -29168,40 +29135,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_api_notifications_profile_completed_route",
-      "target": "app_api_notifications_profile_completed_route_cors_headers",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_api_notifications_profile_completed_route",
-      "target": "app_api_notifications_profile_completed_route_json",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L39",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_api_notifications_profile_completed_route",
-      "target": "app_api_notifications_profile_completed_route_options",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L43",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_notifications_profile_completed_route",
@@ -29260,21 +29194,9 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L45",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_api_notifications_profile_completed_route_post",
-      "target": "app_api_notifications_profile_completed_route_json",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L73",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_notifications_profile_completed_route_post",
@@ -29286,7 +29208,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/api/notifications/profile-completed/route.ts",
-      "source_location": "L48",
+      "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_api_notifications_profile_completed_route_post",

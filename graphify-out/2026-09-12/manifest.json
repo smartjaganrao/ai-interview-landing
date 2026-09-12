@@ -1530,8 +1530,8 @@
     "semantic_hash": ""
   },
   "app/api/notifications/profile-completed/route.ts": {
-    "mtime": 1789192581.5866377,
-    "ast_hash": "f7a572ea8b1d069a1b44887f74cfc185",
+    "mtime": 1789192006.6383648,
+    "ast_hash": "40ffb1cf07405b9ff82ead0f987b3d19",
     "semantic_hash": ""
   }
 }

@@ -291,7 +291,6 @@ function DashboardContent() {
             setShowProfilePrompt(false);
             if (saved) dispatch(setUser({ ...(userData || {}), ...saved } as any));
           }}
-          onSkip={() => setShowProfilePrompt(false)}
           initial={{
             phone: userData?.phone,
             fullName: userData?.fullName || user.displayName || '',

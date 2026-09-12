@@ -20,6 +20,12 @@ const ACQUISITION_SOURCES = [
   'Other',
 ];
 
+// Same public support number as WhatsAppButton.tsx.
+const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '').replace(/[^\d]/g, '');
+const WHATSAPP_HELP_LINK = WHATSAPP_NUMBER
+  ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi JavihAI Support! I need help installing / using the app.')}`
+  : null;
+
 type ProfileDetails = {
   phone?: string;
   fullName?: string;
@@ -35,36 +41,27 @@ interface Props {
   user: User;
   onDone: (saved: ProfileDetails) => void;
   initial?: ProfileDetails;
-  /**
-   * Lets an EXISTING user (login/dashboard) dismiss without completing the
-   * form — they're let back in and asked again next visit, rather than
-   * blocked outright. Omit (or pass nothing) for the signup flow, where a
-   * brand-new account still must complete this before entering, unchanged.
-   * Defaults to non-dismissible so existing call sites keep their current
-   * behavior unless they opt in.
-   */
-  onSkip?: () => void;
 }
 
 function stripCountryCode(phone?: string): string {
   return phone?.replace(/^\+91/, '') || '';
 }
 
-export default function CompleteProfileModal({ user, onDone, initial, onSkip }: Props) {
+export default function CompleteProfileModal({ user, onDone, initial }: Props) {
   const [fullName, setFullName] = useState(initial?.fullName || user.displayName || '');
   const [whatsapp, setWhatsApp] = useState(stripCountryCode(initial?.whatsapp || initial?.phone) || '');
   const [experienceLevel, setExperienceLevel] = useState(initial?.experienceLevel || '');
   const [jobRole, setJobRole] = useState(initial?.jobRole || '');
   const [city, setCity] = useState(initial?.city || '');
   const [acquisitionSource, setAcquisitionSource] = useState(initial?.referralSource || '');
+  const [supportQuery, setSupportQuery] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [mounted, setMounted] = useState(false);
   const whatsappInputRef = useRef<HTMLInputElement>(null);
 
-  // Mandatory (no backdrop-click or Escape dismissal) UNLESS onSkip is
-  // provided — see the onSkip prop doc above. Focuses the first field either
-  // way so keyboard/screen-reader users land here immediately.
+  // Mandatory — no backdrop-click or Escape dismissal. Focuses the first
+  // field so keyboard/screen-reader users land here immediately.
   useEffect(() => {
     // Standard "mounted" gate for the createPortal render below (needs
     // document.body, which only exists client-side) — deferring past
@@ -73,9 +70,7 @@ export default function CompleteProfileModal({ user, onDone, initial, onSkip }: 
     setMounted(true);
     const focusTimer = setTimeout(() => whatsappInputRef.current?.focus(), 50);
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      if (onSkip) onSkip();
-      else e.preventDefault();
+      if (e.key === 'Escape') e.preventDefault();
     };
     document.addEventListener('keydown', handleEscape);
     document.body.style.overflow = 'hidden';
@@ -84,7 +79,7 @@ export default function CompleteProfileModal({ user, onDone, initial, onSkip }: 
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
-  }, [onSkip]);
+  }, []);
 
   const isValidWhatsApp = /^[6-9]\d{9}$/.test(whatsapp.trim());
   const isValidForm = fullName.trim() && isValidWhatsApp && experienceLevel && jobRole.trim() && city.trim() && acquisitionSource;
@@ -127,6 +122,7 @@ export default function CompleteProfileModal({ user, onDone, initial, onSkip }: 
           experienceLevel,
           jobRole: jobRole.trim(),
           city: city.trim(),
+          ...(supportQuery.trim() ? { supportQuery: supportQuery.trim() } : {}),
           profileCompleted: true,
           profileCompletedAt: Date.now(),
         },
@@ -157,15 +153,20 @@ export default function CompleteProfileModal({ user, onDone, initial, onSkip }: 
       } else {
         await setDoc(userRef, patch, { merge: true });
       }
-      // Fire-and-forget welcome notification — never blocks profile completion.
+      // Fire-and-forget notifications — never block profile completion.
       user.getIdToken()
-        .then((idToken) =>
+        .then((idToken) => {
           fetch('/api/notifications/whatsapp-welcome', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idToken }),
-          })
-        )
+          }).catch(() => {});
+          fetch('/api/notifications/profile-completed', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken, source: 'web' }),
+          }).catch(() => {});
+        })
         .catch(() => {});
 
       onDone({
@@ -194,19 +195,8 @@ export default function CompleteProfileModal({ user, onDone, initial, onSkip }: 
       role="dialog"
       aria-modal="true"
       aria-labelledby="complete-profile-title"
-      onClick={onSkip}
     >
       <div className="card-glow card w-full max-w-xl max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
-        {onSkip && (
-          <button
-            type="button"
-            onClick={onSkip}
-            aria-label="Skip for now"
-            className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 text-xl leading-none"
-          >
-            ×
-          </button>
-        )}
         <div className="text-center mb-6">
           <div className="text-3xl mb-2">📱</div>
           <h2 id="complete-profile-title" className="text-2xl font-black mb-1">Complete your profile</h2>
@@ -326,22 +316,35 @@ export default function CompleteProfileModal({ user, onDone, initial, onSkip }: 
               {ACQUISITION_SOURCES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
+
+          <div className="sm:col-span-2">
+            <label htmlFor="cp-query" className="block text-sm text-slate-400 mb-1.5">
+              Need help installing, or have a question? (optional)
+            </label>
+            <textarea
+              id="cp-query"
+              rows={3}
+              placeholder="e.g. I'm not sure how to install the desktop app on Windows"
+              value={supportQuery}
+              onChange={(e) => setSupportQuery(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm resize-none"
+            />
+            {WHATSAPP_HELP_LINK && (
+              <a
+                href={WHATSAPP_HELP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-1.5 text-sm text-green-400 hover:text-green-300"
+              >
+                💬 Or chat with us directly on WhatsApp →
+              </a>
+            )}
+          </div>
         </div>
 
         <button onClick={save} disabled={saving || !isValidForm} className="btn btn-primary w-full mt-7">
           {saving ? 'Saving…' : 'Continue to JavihAI'}
         </button>
-
-        {onSkip && (
-          <button
-            type="button"
-            onClick={onSkip}
-            disabled={saving}
-            className="w-full mt-3 text-center text-sm text-slate-500 hover:text-slate-300"
-          >
-            Skip for now
-          </button>
-        )}
       </div>
     </div>
   );

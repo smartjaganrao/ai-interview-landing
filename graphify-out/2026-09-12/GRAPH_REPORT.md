@@ -1,11 +1,11 @@
 # Graph Report - ai-interview-landing  (2026-09-12)
 
 ## Corpus Check
-- 295 files · ~217,051 words
+- 295 files · ~216,933 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2455 nodes · 2882 edges · 311 communities (206 shown, 105 thin omitted)
+- 2452 nodes · 2878 edges · 310 communities (205 shown, 105 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
@@ -318,7 +318,6 @@
 - recharts
 - @reduxjs/toolkit
 - code-reviewer.md
-- react
 
 ## God Nodes (most connected - your core abstractions)
 1. `verifyIdToken()` - 33 edges
@@ -333,21 +332,21 @@
 10. `Jest React Testing` - 17 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `CheckoutContent()` --indirect_call--> `isPricingHealthy()`  [INFERRED]
+  app/checkout/page.tsx → lib/pricing-config.ts
+- `Offer` --references--> `PlanId`  [EXTRACTED]
+  app/pricing/page.tsx → lib/pricing-config.ts
+- `FeaturedCoupon` --references--> `PlanId`  [EXTRACTED]
+  app/pricing/page.tsx → lib/pricing-config.ts
 - `PopupCoupon` --references--> `PlanId`  [EXTRACTED]
   components/NewCustomerOfferPopup.tsx → lib/pricing-config.ts
 - `GET()` --calls--> `getServerCached()`  [EXTRACTED]
   app/api/announcements/route.ts → lib/server-cache.ts
-- `POST()` --calls--> `getCoupon()`  [EXTRACTED]
-  app/api/coupons/validate/route.ts → lib/firebase-admin.ts
-- `POST()` --calls--> `getUserInfo()`  [EXTRACTED]
-  app/api/creator/apply/route.ts → lib/firebase-admin.ts
-- `POST()` --calls--> `verifyIdToken()`  [EXTRACTED]
-  app/api/creator/apply/route.ts → lib/firebase-admin.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (311 total, 105 thin omitted)
+## Communities (310 total, 105 thin omitted)
 
 ### Community 0 - "Navbar.tsx"
 Cohesion: 0.32
@@ -355,7 +354,7 @@ Nodes (4): GET(), cache, CacheEntry, getServerCached()
 
 ### Community 1 - "firebase-admin.ts"
 Cohesion: 0.08
-Nodes (28): POST(), POST(), POST(), POST(), banCache, consumeHours(), couponsCache, CouponsDoc (+20 more)
+Nodes (27): POST(), POST(), POST(), banCache, consumeHours(), couponIsValid(), CouponRecord, couponsCache (+19 more)
 
 ### Community 2 - "Footer.tsx"
 Cohesion: 0.11
@@ -370,12 +369,12 @@ Cohesion: 0.10
 Nodes (21): autoprefixer, eslint, eslint-config-next, devDependencies, autoprefixer, eslint, eslint-config-next, postcss (+13 more)
 
 ### Community 5 - "razorpay-server.ts"
-Cohesion: 0.17
-Nodes (23): GET(), POST(), POST(), RazorpayEvent, RazorpayPaymentEntity, RazorpaySubscriptionEntity, sendPaymentConfirmation(), accrueCreatorCommission() (+15 more)
+Cohesion: 0.18
+Nodes (20): GET(), POST(), POST(), RazorpayEvent, RazorpayPaymentEntity, RazorpaySubscriptionEntity, sendPaymentConfirmation(), accrueCreatorCommission() (+12 more)
 
 ### Community 6 - "dependencies"
 Cohesion: 0.10
-Nodes (21): clsx, firebase, firebase-admin, next, dependencies, clsx, firebase, firebase-admin (+13 more)
+Nodes (21): clsx, firebase-admin, next, dependencies, clsx, firebase-admin, next, razorpay (+13 more)
 
 ### Community 7 - "layout.tsx"
 Cohesion: 0.16
@@ -390,16 +389,16 @@ Cohesion: 0.30
 Nodes (9): BlogPostPage(), formatDate(), generateMetadata(), generateStaticParams(), sitemap(), BlogPost, getAllPublishedSlugs(), getPostBySlug() (+1 more)
 
 ### Community 10 - "email.ts"
-Cohesion: 0.14
-Nodes (23): GET(), getAdmin(), formatPhoneNumber(), generateVoucherCode(), POST(), POST(), formatDate(), PLAN_EMOJI (+15 more)
+Cohesion: 0.15
+Nodes (23): GET(), getAdmin(), formatPhoneNumber(), generateVoucherCode(), POST(), formatDate(), PLAN_EMOJI, PLAN_FEATURES (+15 more)
 
 ### Community 11 - "page.tsx"
 Cohesion: 0.25
 Nodes (7): Best AI Interview Copilots in India (2026): JavihAI vs InterviewAssist vs Global Tools, FAQs, How the global tools compare, InterviewAssist, JavihAI, Quick Comparison, Which should you choose?
 
 ### Community 12 - "page.tsx"
-Cohesion: 0.13
-Nodes (16): POST(), POST(), CORS_HEADERS, json(), POST(), POST(), POST(), POST() (+8 more)
+Cohesion: 0.16
+Nodes (14): POST(), POST(), POST(), POST(), POST(), POST(), POST(), sendNewTicketAlert() (+6 more)
 
 ### Community 13 - "deploy-firestore-rules.mjs"
 Cohesion: 0.20
@@ -418,8 +417,8 @@ Cohesion: 0.39
 Nodes (7): createJsonCompletionWithRetry(), GeneratedPost, generatePost(), isJsonGenerationError(), LENGTH_GUIDE, POST(), slugify()
 
 ### Community 17 - "route.ts"
-Cohesion: 0.29
-Nodes (7): CouponPreview, Offer, FeaturedCoupon, Offer, Offer, PendingUserSync, PlanId
+Cohesion: 0.16
+Nodes (19): CheckoutContent(), CouponPreview, loadRazorpayScript(), Offer, offerActiveFor(), Pricing, RazorpayOptions, Window (+11 more)
 
 ### Community 18 - "route.ts"
 Cohesion: 0.43
@@ -442,8 +441,8 @@ Cohesion: 0.28
 Nodes (6): AppDispatch, persistConfig, persistedReducer, rootReducer, RootState, { store, persistor }
 
 ### Community 29 - "robots.ts"
-Cohesion: 0.11
-Nodes (23): BLANK, Education, Experience, Project, ResumeData, ResumePage(), ResumePreview(), TEMPLATES (+15 more)
+Cohesion: 0.23
+Nodes (11): FALLBACK_MODELS, fetchGroqWithFallback(), GroqAttemptResult, POST(), VALID_FEATURES, POST(), checkAiQuota(), dayKey() (+3 more)
 
 ### Community 31 - "next-env.d.ts"
 Cohesion: 0.22
@@ -502,8 +501,8 @@ Cohesion: 0.09
 Nodes (21): Build Failure Triage, Common Rationalizations, Debugging and Error Recovery, Error-Specific Patterns, Instrumentation Guidelines, Overview, Red Flags, Runtime Error Triage (+13 more)
 
 ### Community 47 - "pricing-config.ts"
-Cohesion: 0.10
-Nodes (41): CheckoutContent(), loadRazorpayScript(), offerActiveFor(), Pricing, RazorpayOptions, Window, faqSchema, offerActiveFor() (+33 more)
+Cohesion: 0.12
+Nodes (30): faqSchema, FeaturedCoupon, Offer, offerActiveFor(), Pricing, PricingPage(), AnyPlanId, DurationType (+22 more)
 
 ### Community 48 - "JavihAI vs Final Round AI: Which AI Interview Copilot is Better?"
 Cohesion: 0.09
@@ -534,8 +533,8 @@ Cohesion: 0.13
 Nodes (14): Audit Tools, Contents, Core Web Vitals, Critical (Must Have), Images, Important (Should Have), Links & Navigation, Next.js SEO Audit Checklist (+6 more)
 
 ### Community 55 - "JSON-LD Structured Data in Next.js"
-Cohesion: 0.20
-Nodes (10): Best Practices, Contents, Deprecated / no longer rich-result-eligible, @graph multi-entity pattern, Implementation Pattern, JSON-LD Structured Data in Next.js, Structured data for AI search, Testing Tools (+2 more)
+Cohesion: 0.11
+Nodes (19): Article Schema, Best Practices, BreadcrumbList Schema, Common Schemas, Contents, Deprecated / no longer rich-result-eligible, FAQPage Schema, @graph multi-entity pattern (+11 more)
 
 ### Community 56 - "ReOrder: Keep Your Regulars Ordering Direct"
 Cohesion: 0.11
@@ -594,12 +593,12 @@ Cohesion: 0.13
 Nodes (14): 1. Eliminating Waterfalls (CRITICAL), 2. Bundle Size Optimization (CRITICAL), 3. Server-Side Performance (HIGH), 4. Client-Side Data Fetching (MEDIUM-HIGH), 5. Re-render Optimization (MEDIUM), 6. Rendering Performance (MEDIUM), 7. JavaScript Performance (LOW-MEDIUM), 8. Advanced Patterns (LOW) (+6 more)
 
 ### Community 71 - "razorpay-server.ts"
-Cohesion: 0.22
-Nodes (9): Article Schema, BreadcrumbList Schema, Common Schemas, FAQPage Schema, Organization Schema, Product Schema, Product snippet vs merchant listing experience, WebApplication Schema (+1 more)
+Cohesion: 0.29
+Nodes (7): Basic Static Sitemap, Dynamic Sitemap with Database, Image Sitemap, Localized Sitemap, Multiple Sitemaps (Large Sites), Sitemap Configuration, Video Sitemap
 
 ### Community 72 - "route.ts"
-Cohesion: 0.27
-Nodes (10): GET(), POST(), Page(), applyCouponDiscount(), effectiveAmount(), getDynamicPricing(), getReferralCredits(), offerApplies() (+2 more)
+Cohesion: 0.21
+Nodes (13): POST(), GET(), POST(), Page(), applyCouponDiscount(), effectiveAmount(), getCoupon(), getDynamicPricing() (+5 more)
 
 ### Community 73 - "Open Knowledge Format (OKF)"
 Cohesion: 0.14
@@ -618,8 +617,8 @@ Cohesion: 0.14
 Nodes (14): Auto-merge Dependabot PRs, Common Issues, Common Patterns, Complete GitHub Actions Guide, Composite Actions, Conditional Execution, if Conditions, Job Conditions (+6 more)
 
 ### Community 77 - "route.ts"
-Cohesion: 0.16
-Nodes (20): FALLBACK_MODELS, fetchGroqWithFallback(), GroqAttemptResult, POST(), VALID_FEATURES, createChatCompletionWithFallback(), Difficulty, DIFFICULTY_GUIDE (+12 more)
+Cohesion: 0.32
+Nodes (11): createChatCompletionWithFallback(), Difficulty, DIFFICULTY_GUIDE, FALLBACK_MODELS, generateQuestion(), getGroq(), isModelNotFoundError(), POST() (+3 more)
 
 ### Community 78 - "Patterns"
 Cohesion: 0.15
@@ -642,8 +641,8 @@ Cohesion: 0.17
 Nodes (11): 1. User Value, 2. Feasibility, 3. Differentiation, Assumption Audit, Core Evaluation Dimensions, Decision Framework, Might Be True (Nice to Have), Must Be True (Dealbreakers) (+3 more)
 
 ### Community 83 - "SEO Troubleshooting Guide"
-Cohesion: 0.17
-Nodes (12): Backlink Sources, Building Authority, Contents, Debug Checklist, For New Sites, Google Search Console Usage, Pages Report, Request Indexing (+4 more)
+Cohesion: 0.12
+Nodes (17): Backlink Sources, "Blocked by robots.txt", Building Authority, Contents, "Crawled - currently not indexed", Debug Checklist, "Discovered - currently not indexed", For New Sites (+9 more)
 
 ### Community 84 - "6. Rendering Performance"
 Cohesion: 0.17
@@ -802,8 +801,8 @@ Cohesion: 0.33
 Nodes (6): Applying This, Citations vs. Recommendations: The AI Visibility Ladder, The Self-Promotional Listicle Risk, The Visibility Ladder, What a Recommendation Is Worth, What Earns Recommendations
 
 ### Community 123 - "Generative Engine Optimization (GEO) Patterns"
-Cohesion: 0.18
-Nodes (23): LoginPage(), syncAfterAuth(), attributeCreatorIfPending(), claimReferralIfPending(), SignupContent(), syncAfterAuth(), CreatorData, CreatorPage() (+15 more)
+Cohesion: 0.07
+Nodes (50): LoginPage(), syncAfterAuth(), attributeCreatorIfPending(), claimReferralIfPending(), SignupContent(), syncAfterAuth(), CreatorData, CreatorPage() (+42 more)
 
 ### Community 124 - "firestore-cache.ts"
 Cohesion: 0.33
@@ -1070,12 +1069,12 @@ Cohesion: 0.29
 Nodes (6): AUTH_KEYS, __dir, envPath, OPTIONAL_KEYS, REQUIRED_KEYS, root
 
 ### Community 280 - "Nice to Have (Optimization)"
-Cohesion: 0.33
-Nodes (4): Announcement, APP_PATHS, FeaturedCoupon, Navbar()
+Cohesion: 0.67
+Nodes (3): POST(), creatorCodeBase(), getOrCreateCreator()
 
 ### Community 281 - "Important (Should Have)"
-Cohesion: 0.22
-Nodes (9): GET(), POST(), couponIsValid(), CouponRecord, getCoupon(), getCoupons(), getFeaturedCoupon(), getPopupCoupon() (+1 more)
+Cohesion: 0.70
+Nodes (4): GET(), getCoupons(), getFeaturedCoupon(), getPopupCoupon()
 
 ### Community 285 - "next"
 Cohesion: 0.40
@@ -1130,37 +1129,33 @@ Cohesion: 0.40
 Nodes (3): faqSchema, metadata, PLATFORMS
 
 ### Community 300 - "How AI Search Works"
-Cohesion: 0.12
-Nodes (17): Basic Robots.txt, Basic Static Sitemap, Contents, Dynamic Sitemap with Database, Environment-Based Robots, Image Sitemap, Localized Sitemap, `MetadataRoute.Robots` fields (+9 more)
+Cohesion: 0.20
+Nodes (10): Basic Robots.txt, Contents, Environment-Based Robots, `MetadataRoute.Robots` fields, Multiple User Agents, Robots.txt Best Practices, Robots.txt Configuration, Sitemap Best Practices (+2 more)
 
 ### Community 303 - "route.ts"
 Cohesion: 0.40
 Nodes (4): __dir, envPath, resend, root
-
-### Community 305 - "react"
-Cohesion: 0.40
-Nodes (5): "Blocked by robots.txt", "Crawled - currently not indexed", "Discovered - currently not indexed", Google Indexing Issues, "URL is not on Google"
 
 ### Community 309 - "code-reviewer.md"
 Cohesion: 0.50
 Nodes (3): Known high-risk areas in this repo, What NOT to do, What to actually do
 
 ## Knowledge Gaps
-- **1520 isolated node(s):** `idea-refine.sh script`, `orgSchema`, `metadata`, `TOPIC_ANGLES`, `GeneratedPost` (+1515 more)
+- **1519 isolated node(s):** `idea-refine.sh script`, `orgSchema`, `metadata`, `TOPIC_ANGLES`, `GeneratedPost` (+1514 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **105 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `PlanId` connect `route.ts` to `firebase-admin.ts`, `razorpay-server.ts`, `route.ts`, `email.ts`, `pricing-config.ts`, `Important (Should Have)`, `Generative Engine Optimization (GEO) Patterns`, `robots.ts`, `next-env.d.ts`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
-- **Why does `migratePlanId()` connect `pricing-config.ts` to `firebase-admin.ts`, `firebase-admin`, `route.ts`, `Generative Engine Optimization (GEO) Patterns`, `next-env.d.ts`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
-- **Why does `useAuth()` connect `Generative Engine Optimization (GEO) Patterns` to `pricing-config.ts`, `Nice to Have (Optimization)`, `robots.ts`, `route.ts`, `next-env.d.ts`?**
+- **Why does `PlanId` connect `route.ts` to `firebase-admin.ts`, `razorpay-server.ts`, `route.ts`, `email.ts`, `pricing-config.ts`, `Generative Engine Optimization (GEO) Patterns`, `next-env.d.ts`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+- **Why does `migratePlanId()` connect `route.ts` to `firebase-admin.ts`, `firebase-admin`, `route.ts`, `pricing-config.ts`, `Generative Engine Optimization (GEO) Patterns`, `next-env.d.ts`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+- **Why does `useAuth()` connect `Generative Engine Optimization (GEO) Patterns` to `route.ts`, `pricing-config.ts`, `route.ts`, `next-env.d.ts`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `idea-refine.sh script`, `orgSchema`, `metadata` to the rest of the system?**
-  _1520 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1519 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `firebase-admin.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.0766488413547237 - nodes in this community are weakly interconnected._
 - **Should `Footer.tsx` be split into smaller, more focused modules?**
