@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { sendRenewalReminder, sendCheckoutAbandonedReminder, sendPlanExpiredNotice, sendReengagementNudge } from '@/lib/email';
-import { getReferralSummary, getUserInfo, invalidatePlanCache, invalidateQuotaCache, getPopupCoupon } from '@/lib/firebase-admin';
+import { getReferralSummary, getUserInfo, invalidatePlanCache, invalidateQuotaCache, getReengagementCoupon } from '@/lib/firebase-admin';
 import { getRazorpayClient } from '@/lib/razorpay-server';
 import type { PlanId } from '@/lib/pricing-config';
 
@@ -219,15 +219,19 @@ export async function GET(req: NextRequest) {
   // ── Email re-engagement nudge ───────────────────────────────────────────────
   // Users who signed up but never opened the desktop app (no users/{uid}.lastSeen
   // heartbeat yet — see recordHeartbeat in ai-interview-helper) get one email
-  // nudge, 2 days after signup, with whatever coupon is currently the popup
-  // offer. Free (Resend), no external approval needed — unlike the WhatsApp
-  // version of this (kept on branch feat/whatsapp-reengagement-nudge for later,
-  // blocked on a Twilio trial-account upgrade + Meta template review). Idempotent
-  // via notifications.reengagementEmailSentAt, so a user is only ever nudged once
+  // nudge, 2 days after signup, with whatever coupon getReengagementCoupon()
+  // currently finds eligible. Deliberately not getPopupCoupon() — that one only
+  // returns non-null in the last hour before IST midnight (for the homepage
+  // popup's countdown UI), which never lines up with this cron's fixed run
+  // time, so using it here meant this email silently never sent at all. Free
+  // (Resend), no external approval needed — unlike the WhatsApp version of this
+  // (kept on branch feat/whatsapp-reengagement-nudge for later, blocked on a
+  // Twilio trial-account upgrade + Meta template review). Idempotent via
+  // notifications.reengagementEmailSentAt, so a user is only ever nudged once
   // regardless of how many days their signup stays inside the sweep window.
   const reengaged: string[] = [];
   try {
-    const coupon = await getPopupCoupon();
+    const coupon = await getReengagementCoupon();
 
     if (coupon) {
       const discountLabel =

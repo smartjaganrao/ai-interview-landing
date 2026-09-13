@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { PlanId } from './pricing-config';
+import { buildWhatsAppLink } from './whatsapp-link';
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? 'JavihAI <javihaiofficial@gmail.com>';
 
@@ -467,7 +468,16 @@ export async function sendReengagementNudge(params: { email: string; name: strin
   <div style="text-align:center;margin:28px 0;">
     <a href="https://javihai.in/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;padding:14px 32px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;">Get started →</a>
   </div>
-  <p style="color:#64748b;font-size:13px;">Need help installing? Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.</p>`);
+  <p style="color:#64748b;font-size:13px;">
+    Need help installing?
+    ${(() => {
+      const waLink = buildWhatsAppLink(`Hi! I signed up for JavihAI but haven't installed it yet — can you help me get started?`);
+      return waLink
+        ? `<a href="${waLink}" style="color:#4ade80;">Message us on WhatsApp</a> or`
+        : '';
+    })()}
+    Reply to this email or contact <a href="mailto:javihaiofficial@gmail.com" style="color:#6366f1;">javihaiofficial@gmail.com</a>.
+  </p>`);
 
   const { error } = await resend.emails.send({
     from: FROM, to: params.email,

@@ -1092,6 +1092,31 @@ export async function getPopupCoupon(): Promise<CouponRecord | null> {
   return { ...candidates[0], expiresAt: windowEnd };
 }
 
+/**
+ * The coupon to include in the ghost-signup reengagement email (see the
+ * sweep in app/api/email/schedule/route.ts) — deliberately NOT
+ * getPopupCoupon(), which only returns non-null during the last hour before
+ * IST midnight. That gate exists for the homepage popup's on-page urgency
+ * countdown; reusing it here meant this email's `if (coupon)` check could
+ * only ever pass during that one-hour window, and the daily cron that sends
+ * it runs at a fixed time (11:30am IST) that never lines up with it — so
+ * the reengagement email silently never sent, at all, since it shipped.
+ * Same eligibility criteria (an active, popup-flagged coupon with a future
+ * expiresAt) minus the time-of-day gate, and returns the coupon's own
+ * stored expiresAt rather than overriding it to a fake midnight deadline —
+ * there's no on-page countdown here for that override to serve.
+ */
+export async function getReengagementCoupon(): Promise<CouponRecord | null> {
+  const { coupons } = await getCoupons();
+  const now = Date.now();
+  const candidates = Object.values(coupons).filter(
+    (c) => c.popup && c.active && c.expiresAt && c.expiresAt > now
+  );
+  if (candidates.length === 0) return null;
+  candidates.sort((a, b) => b.updatedAt - a.updatedAt);
+  return candidates[0];
+}
+
 /** Apply a coupon's discount to a base amount; never drops below ₹1. */
 export function applyCouponDiscount(base: number, coupon: CouponRecord): number {
   if (coupon.discountType === 'flat') {
