@@ -113,6 +113,11 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       return;
     }
 
+    // Opened synchronously (before any await) so popup blockers still treat
+    // this as a direct result of the click, not an unsolicited popup — same
+    // reasoning as the download flow's pre-opened tab (useGatedDownload.ts).
+    const waTab = window.open('', '_blank');
+
     setSaving(true);
     try {
       const whatsAppNumber = `+91${whatsapp.trim()}`;
@@ -170,6 +175,22 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
         })
         .catch(() => {});
 
+      // Real-time sales visibility for the team — a pre-filled WhatsApp
+      // message the visitor still has to press Send on (no outbound
+      // automation exists; Twilio/Meta template approval is separately
+      // blocked — see [[whatsapp-welcome-notification]]). The owner also
+      // gets this same info by email regardless, via
+      // sendProfileCompletedAlert in /api/notifications/profile-completed.
+      const waLink = buildWhatsAppLink(
+        `Hi! I just signed up for JavihAI — ${fullName.trim()} (${user.email ?? ''}), ${jobRole.trim()} in ${city.trim()}.`
+      );
+      if (waLink) {
+        if (waTab) waTab.location.href = waLink;
+        else window.open(waLink, '_blank', 'noopener');
+      } else {
+        waTab?.close();
+      }
+
       onDone({
         phone: whatsAppNumber,
         fullName: fullName.trim(),
@@ -181,6 +202,7 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
         profileCompleted: true,
       });
     } catch {
+      waTab?.close();
       setError('Could not save. Check your connection and try again.');
     } finally {
       setSaving(false);

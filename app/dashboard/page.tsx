@@ -260,9 +260,10 @@ function DashboardContent() {
     localStorage.setItem('javihai_downloaded', 'true');
     setHasDownloaded(true);
     setShowDownloadPrompt(false);
-    // Open the tab synchronously (before the async getIdToken() call) so
-    // Safari's popup blocker still sees this as a direct user gesture.
+    // Both tabs opened synchronously (before any await) so popup blockers
+    // still see them as a direct result of the click, not unsolicited popups.
     const newTab = window.open('', '_blank');
+    const waTab = window.open('', '_blank');
     const token = await user.getIdToken();
     setDownloadToken(token);
     const base = platform === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL;
@@ -270,6 +271,18 @@ function DashboardContent() {
     const url = withToken(variant ? `${base}?${queryKey}=${variant}` : base, token);
     if (newTab) newTab.location.href = url;
     else window.open(url, '_blank', 'noopener');
+
+    // Real-time sales visibility for the team — a pre-filled WhatsApp message
+    // the visitor still has to press Send on (no outbound automation exists;
+    // Twilio/Meta template approval is a separate, still-blocked effort).
+    const waLink = buildWhatsAppLink(`Hi! I just downloaded JavihAI for ${platform}${variant ? ` (${variant})` : ''} — ${user.email ?? ''}`);
+    if (waLink) {
+      if (waTab) waTab.location.href = waLink;
+      else window.open(waLink, '_blank', 'noopener');
+    } else {
+      waTab?.close();
+    }
+
     setModalOS(platform);
     setShowDownloadModal(true);
   };

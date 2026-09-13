@@ -327,6 +327,40 @@ export async function sendProfileCompletedAlert(params: {
   return { ok: true };
 }
 
+/**
+ * Fires on every download attempt (not just first-time) so a real-time sales
+ * lead never depends only on the WhatsApp message the visitor may or may not
+ * send — see the WhatsApp auto-open in useGatedDownload.ts and
+ * dashboard/page.tsx's handleDownload, which is best-effort (a visitor can
+ * close that tab without sending). Not idempotent like
+ * sendProfileCompletedAlert — a repeat download from the same person is
+ * still a live signal worth surfacing (e.g. reinstalling, or finally
+ * committing after browsing for days).
+ */
+export async function sendDownloadAlert(params: {
+  email: string;
+  platform: string;
+  version: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const html = shell(`
+  <h1 style="font-size:22px;font-weight:800;margin-bottom:4px;">⬇️ New Download</h1>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;">
+    <tr><td style="padding:8px 0;color:#64748b;width:120px;">Email</td><td style="color:#e2e8f0;font-weight:600;">${params.email}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Platform</td><td style="color:#e2e8f0;">${params.platform}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Version</td><td style="color:#e2e8f0;">${params.version}</td></tr>
+  </table>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: 'javihaiofficial@gmail.com',
+    subject: `[Download] ${params.email} — ${params.platform}`,
+    html,
+  });
+  if (error) { console.error('[email/download-alert]', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
+
 export async function sendFreeTrialVoucher(params: {
   email: string;
   name?: string | null;

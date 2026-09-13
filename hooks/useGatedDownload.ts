@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { User } from 'firebase/auth';
 import { useAuth } from '@/hooks/useAuth';
+import { buildWhatsAppLink } from '@/lib/whatsapp-link';
 
 const PENDING_KEY = 'javihai_pending_download';
 
@@ -44,14 +45,30 @@ export function useGatedDownload(onDownloadStart?: (platform: DownloadPlatform) 
   const pendingRef = useRef<PendingDownload | null>(null);
 
   const startDownload = async (pending: PendingDownload, authedUser: User) => {
-    // Open the tab synchronously (before the async getIdToken() call) so
-    // Safari's popup blocker still sees this as a direct user gesture.
+    // Both tabs opened synchronously (before any await) so popup blockers
+    // still see them as a direct result of the click, not unsolicited
+    // popups — same reasoning as the download tab itself.
     const newTab = window.open('', '_blank');
+    const waTab = window.open('', '_blank');
     const freshToken = await authedUser.getIdToken();
     setToken(freshToken);
     const url = buildUrl(pending.platform, freshToken, pending.variant);
     if (newTab) newTab.location.href = url;
     else window.open(url, '_blank', 'noopener');
+
+    // Real-time sales visibility for the team — a pre-filled WhatsApp message
+    // the visitor still has to press Send on (no outbound automation exists;
+    // Twilio/Meta template approval is a separate, still-blocked effort).
+    const waLink = buildWhatsAppLink(
+      `Hi! I just downloaded JavihAI for ${pending.platform}${pending.variant ? ` (${pending.variant})` : ''} — ${authedUser.email ?? ''}`
+    );
+    if (waLink) {
+      if (waTab) waTab.location.href = waLink;
+      else window.open(waLink, '_blank', 'noopener');
+    } else {
+      waTab?.close();
+    }
+
     onDownloadStart?.(pending.platform);
   };
 

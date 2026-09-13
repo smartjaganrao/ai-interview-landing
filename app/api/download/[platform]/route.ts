@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db, verifyIdToken } from '@/lib/firebase-admin';
 import { getLatestReleaseRaw } from '@/lib/github-release';
+import { sendDownloadAlert } from '@/lib/email';
 
 export const maxDuration = 300;
 
@@ -42,6 +43,12 @@ function logDownload(req: NextRequest, platform: string, version: string, uid: s
     ip: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || null,
     createdAt: Date.now(),
   }).catch(() => { /* never block the download */ });
+
+  // Real-time sales visibility — every download attempt, not just first-time
+  // (see sendDownloadAlert's own comment for why this one isn't idempotent).
+  if (email) {
+    sendDownloadAlert({ email, platform, version }).catch(() => { /* never block the download */ });
+  }
 }
 
 export async function GET(
