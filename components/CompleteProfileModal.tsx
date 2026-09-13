@@ -6,6 +6,8 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { cachedGetDoc } from '@/lib/firestore-cache';
 import type { User } from 'firebase/auth';
+import { buildWhatsAppLink } from '@/lib/whatsapp-link';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 
 const EXPERIENCE_LEVELS = ['Fresher / Student', '0-1 years', '1-3 years', '3-6 years', '6+ years'];
 const ACQUISITION_SOURCES = [
@@ -20,11 +22,7 @@ const ACQUISITION_SOURCES = [
   'Other',
 ];
 
-// Same public support number as WhatsAppButton.tsx.
-const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '').replace(/[^\d]/g, '');
-const WHATSAPP_HELP_LINK = WHATSAPP_NUMBER
-  ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi JavihAI Support! I need help installing / using the app.')}`
-  : null;
+const WHATSAPP_HELP_LINK = buildWhatsAppLink('Hi JavihAI Support! I need help installing / using the app.');
 
 type ProfileDetails = {
   phone?: string;
@@ -336,7 +334,8 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
                 rel="noopener noreferrer"
                 className="mt-2 inline-flex items-center gap-1.5 text-sm text-green-400 hover:text-green-300"
               >
-                💬 Or chat with us directly on WhatsApp →
+                <WhatsAppIcon glyphOnly className="w-4 h-4 flex-shrink-0" />
+                Or chat with us directly on WhatsApp →
               </a>
             )}
           </div>

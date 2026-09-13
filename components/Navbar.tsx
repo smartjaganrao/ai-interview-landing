@@ -8,6 +8,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import { buildWhatsAppLink, getWhatsAppDisplayNumber } from '@/lib/whatsapp-link';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 
 interface Announcement { id: string; title: string; body: string; link: string | null; createdAt: number }
 
@@ -159,6 +161,35 @@ function OfferBanner() {
   );
 }
 
+/**
+ * Always-visible support number — a direct wa.me link, not the FAQ chat
+ * widget (that's WhatsAppButton.tsx, the floating icon). `compact` drops
+ * the pill background/border for the cramped mobile top row; both variants
+ * hide themselves entirely if NEXT_PUBLIC_WHATSAPP_NUMBER isn't set.
+ */
+function SupportNumberLink({ compact = false }: { compact?: boolean }) {
+  const waLink = buildWhatsAppLink("Hi! I'd like to talk to JavihAI support.");
+  const display = getWhatsAppDisplayNumber();
+  if (!waLink || !display) return null;
+
+  return (
+    <a
+      href={waLink}
+      target="_blank"
+      rel="noopener"
+      className={
+        compact
+          ? 'flex items-center gap-1 px-2 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-smooth text-[11px] font-medium whitespace-nowrap'
+          : 'flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-green-500/30 text-slate-300 hover:text-white transition-smooth text-xs font-medium whitespace-nowrap'
+      }
+      aria-label={`Message JavihAI support on WhatsApp at ${display}`}
+    >
+      <WhatsAppIcon glyphOnly className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />
+      <span>{display}</span>
+    </a>
+  );
+}
+
 const APP_PATHS = ['/dashboard', '/resume', '/jobs', '/mock-interview', '/creator'];
 
 export default function Navbar() {
@@ -250,6 +281,7 @@ export default function Navbar() {
 
         {/* Auth Actions */}
         <div className="hidden md:flex items-center gap-3">
+          <SupportNumberLink />
           <WhatsNewBell />
           {!loading && (
             <>
@@ -271,8 +303,9 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile: bell + menu button */}
-        <div className="md:hidden flex items-center gap-1">
+        {/* Mobile: support number + bell + menu button */}
+        <div className="md:hidden flex items-center gap-0.5">
+          <SupportNumberLink compact />
           <WhatsNewBell />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}

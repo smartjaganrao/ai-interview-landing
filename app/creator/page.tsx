@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 
 interface CreatorData {
   isCreator: boolean;
@@ -171,9 +172,10 @@ export default function CreatorPage() {
                     href={`https://wa.me/?text=${encodeURIComponent(`I'm sharing JavihAI — India's cheapest AI interview copilot. Sign up with my link: ${data.link ?? ''}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-secondary whitespace-nowrap"
+                    className="btn btn-secondary whitespace-nowrap inline-flex items-center gap-1.5"
                   >
-                    💬 Share on WhatsApp
+                    <WhatsAppIcon glyphOnly className="w-4 h-4 flex-shrink-0" />
+                    Share on WhatsApp
                   </a>
                 </div>
                 <div className="mt-3 text-sm text-slate-500">Code: <span className="font-mono text-slate-300">{data.code}</span></div>

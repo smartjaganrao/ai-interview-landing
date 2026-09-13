@@ -13,6 +13,8 @@ import DownloadStepsModal from '@/components/DownloadStepsModal';
 import DownloadPromptModal from '@/components/DownloadPromptModal';
 import { trackEvent } from '@/components/GoogleAnalytics';
 import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
+import { buildWhatsAppLink } from '@/lib/whatsapp-link';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 
 const DOWNLOAD_PROMPT_SHOWN_KEY = 'javihai_download_prompt_shown';
 const DOWNLOAD_PROMPT_DELAY_MS = 1500;
@@ -462,7 +464,12 @@ function DashboardContent() {
                           <div className="flex items-center gap-2 flex-shrink-0">
                             <Link href="/install" className="btn btn-secondary text-xs px-3 py-1.5">Install guide</Link>
                             <button
-                              onClick={() => { setShowInstallHelp(false); setShowSupport(true); window.dispatchEvent(new Event('open-whatsapp-form')); }}
+                              onClick={() => {
+                                setShowInstallHelp(false);
+                                setShowSupport(true);
+                                const waLink = buildWhatsAppLink('Hi! I need help installing JavihAI.');
+                                if (waLink) window.open(waLink, '_blank', 'noopener');
+                              }}
                               className="btn btn-primary text-xs px-3 py-1.5"
                             >
                               Get help
@@ -670,8 +677,15 @@ function DashboardContent() {
           <div className="card mb-6">
             <h3 className="text-sm font-bold mb-3">💬 Support</h3>
             <div className="grid grid-cols-3 gap-2.5">
-              <button onClick={() => { setShowSupport(true); window.dispatchEvent(new Event('open-whatsapp-form')); }} className="p-3 rounded-xl bg-white/5 border border-white/10 hover:border-green-500/30 transition-all text-center">
-                <div className="text-xl mb-1">💬</div>
+              <button
+                onClick={() => {
+                  setShowSupport(true);
+                  const waLink = buildWhatsAppLink('Hi! I need help with JavihAI.');
+                  if (waLink) window.open(waLink, '_blank', 'noopener');
+                }}
+                className="p-3 rounded-xl bg-white/5 border border-white/10 hover:border-green-500/30 transition-all text-center"
+              >
+                <WhatsAppIcon className="w-6 h-6 mb-1 mx-auto" />
                 <div className="text-xs font-semibold">WhatsApp</div>
               </button>
               <button onClick={() => { setShowSupport(true); setSupportTab('new'); setTicketCategory('technical'); }} className="p-3 rounded-xl bg-white/5 border border-white/10 hover:border-indigo-500/30 transition-all text-center">

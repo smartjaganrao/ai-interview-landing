@@ -11,3 +11,15 @@ export function buildWhatsAppLink(message: string): string | null {
   if (!NUMBER) return null;
   return `https://wa.me/${NUMBER}?text=${encodeURIComponent(message)}`;
 }
+
+/** Human-readable form of the support number for display (e.g. topbar) —
+ *  "+91 98841 60332" for the 12-digit 91-prefixed number this project
+ *  actually uses; falls back to a plain "+<digits>" for any other shape. */
+export function getWhatsAppDisplayNumber(): string | null {
+  if (!NUMBER) return null;
+  if (NUMBER.length === 12 && NUMBER.startsWith('91')) {
+    const local = NUMBER.slice(2);
+    return `+91 ${local.slice(0, 5)} ${local.slice(5)}`;
+  }
+  return `+${NUMBER}`;
+}

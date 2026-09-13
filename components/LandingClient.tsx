@@ -9,6 +9,8 @@ import GoogleSignInModal from '@/components/GoogleSignInModal';
 import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
 import Footer from '@/components/Footer';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
+import { buildWhatsAppLink } from '@/lib/whatsapp-link';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 
 // Single source of truth for the FAQ section — rendered as the visible
 // accordion below AND compiled into faqSchema's JSON-LD. Keeping these in
@@ -1207,7 +1209,7 @@ export default function LandingClient(props: LandingClientProps) {
 
           {/* WhatsApp CTA */}
           <div className="glass-card p-8 md:p-12 border border-blue-500/15 text-center mb-10">
-            <div className="text-5xl mb-4">💬</div>
+            <WhatsAppIcon className="w-14 h-14 mb-4 mx-auto" />
             <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
               Join Candidates on WhatsApp
             </h3>
@@ -1220,9 +1222,7 @@ export default function LandingClient(props: LandingClientProps) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 transition-all shadow-md"
             >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.781 1.13L.9 3.546l1.9 6.943a9.788 9.788 0 001.348 4.168 9.868 9.868 0 008.284 4.745h.005c5.048 0 9.28-4.073 9.797-9.126.629-6.289-4.844-11.745-11.255-11.745"/>
-              </svg>
+              <WhatsAppIcon glyphOnly className="w-6 h-6" />
               Join WhatsApp Group
             </a>
             <p className="text-sm text-slate-500 mt-4">💡 Free to join. No spam. Real community building.</p>
@@ -1238,17 +1238,19 @@ export default function LandingClient(props: LandingClientProps) {
               { platform: 'WhatsApp', handle: 'Channel', href: '#', icon: '💬', desc: 'Message us on WhatsApp', color: 'from-green-950 to-slate-900', border: 'border-green-800/30', cta: 'Open WhatsApp' },
             ].map((s) => (
               s.platform === 'WhatsApp' ? (
-                <button
+                <a
                   key={s.platform}
-                  onClick={() => window.dispatchEvent(new Event('open-whatsapp-form'))}
-                  className={`glass-card border ${s.border} text-center group hover:scale-105 transition-bounce ${GRADIENT_CLASSES[s.color] || 'bg-gradient-to-b from-slate-800 to-slate-900'}`}
+                  href={buildWhatsAppLink("Hi! I'd like to know more about JavihAI.") ?? '#'}
+                  target="_blank"
+                  rel="noopener"
+                  className={`glass-card border ${s.border} text-center group hover:scale-105 transition-bounce no-underline ${GRADIENT_CLASSES[s.color] || 'bg-gradient-to-b from-slate-800 to-slate-900'}`}
                 >
-                  <div className="text-3xl mb-2">{s.icon}</div>
+                  <WhatsAppIcon className="w-10 h-10 mb-2 mx-auto" />
                   <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
                   <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
                   <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
                   <div className="mt-3 text-xs text-blue-400 font-semibold">Message us →</div>
-                </button>
+                </a>
               ) : (
                 <a
                   key={s.platform}
