@@ -8,6 +8,9 @@ import { cachedGetDoc } from '@/lib/firestore-cache';
 import type { User } from 'firebase/auth';
 import { buildWhatsAppLink } from '@/lib/whatsapp-link';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
+import { isProfileComplete } from '@/lib/auth';
+
+export { isProfileComplete };
 
 const EXPERIENCE_LEVELS = ['Fresher / Student', '0-1 years', '1-3 years', '3-6 years', '6+ years'];
 const ACQUISITION_SOURCES = [
@@ -349,28 +352,4 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
   );
 
   return createPortal(modal, document.body);
-}
-
-export function shouldShowProfilePrompt(userData: Record<string, unknown> | null | undefined): boolean {
-  return !isProfileComplete(userData);
-}
-
-export function isProfileComplete(userData: Record<string, unknown> | null | undefined): boolean {
-  if (!userData) return false;
-
-  if (userData.profileCompleted === true) return true;
-
-  const profile = userData.profile as Record<string, unknown> | undefined;
-  if (profile) {
-    return !!(
-      (profile.fullName as string)?.trim() &&
-      (profile.whatsapp as string)?.trim() &&
-      (profile.experienceLevel as string)?.trim() &&
-      (profile.jobRole as string)?.trim() &&
-      (profile.city as string)?.trim() &&
-      (userData.acquisition as Record<string, unknown>)?.customerSelectedSource
-    );
-  }
-
-  return false;
 }
