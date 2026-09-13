@@ -12,7 +12,7 @@
     },
     {
       "path": "/api/email/welcome-sweep",
-      "schedule": "0 * * * *"
+      "schedule": "0 7 * * *"
     },
     {
       "path": "/api/blog/auto-draft",
