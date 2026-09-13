@@ -7,16 +7,21 @@ import { useAuth } from '@/hooks/useAuth';
 const PENDING_KEY = 'javihai_pending_download';
 
 export type DownloadPlatform = 'windows' | 'mac';
-type PendingDownload = { platform: DownloadPlatform; arch?: 'x64' };
+// Mac's variant is an architecture choice (arm64 default, x64 opt-in).
+// Windows' variant is between two permanent, independently-offered
+// binaries — the NSIS installer (default, auto-updates) and the portable
+// exe (opt-in, no install/auto-update) — not an arch choice.
+type DownloadVariant = 'x64' | 'portable';
+type PendingDownload = { platform: DownloadPlatform; variant?: DownloadVariant };
 
 const DOWNLOAD_PATH: Record<DownloadPlatform, string> = {
   windows: '/api/download/win',
   mac: '/api/download/mac',
 };
 
-function buildUrl(platform: DownloadPlatform, token: string, arch?: 'x64'): string {
+function buildUrl(platform: DownloadPlatform, token: string, variant?: DownloadVariant): string {
   const params = new URLSearchParams({ token });
-  if (arch) params.set('arch', arch);
+  if (variant) params.set(platform === 'mac' ? 'arch' : 'variant', variant);
   return `${DOWNLOAD_PATH[platform]}?${params.toString()}`;
 }
 
@@ -44,19 +49,19 @@ export function useGatedDownload(onDownloadStart?: (platform: DownloadPlatform) 
     const newTab = window.open('', '_blank');
     const freshToken = await authedUser.getIdToken();
     setToken(freshToken);
-    const url = buildUrl(pending.platform, freshToken, pending.arch);
+    const url = buildUrl(pending.platform, freshToken, pending.variant);
     if (newTab) newTab.location.href = url;
     else window.open(url, '_blank', 'noopener');
     onDownloadStart?.(pending.platform);
   };
 
-  const requestDownload = (platform: DownloadPlatform, arch?: 'x64') => {
+  const requestDownload = (platform: DownloadPlatform, variant?: DownloadVariant) => {
     if (user) {
-      startDownload({ platform, arch }, user);
+      startDownload({ platform, variant }, user);
       return;
     }
-    pendingRef.current = { platform, arch };
-    try { localStorage.setItem(PENDING_KEY, JSON.stringify({ platform, arch })); } catch {}
+    pendingRef.current = { platform, variant };
+    try { localStorage.setItem(PENDING_KEY, JSON.stringify({ platform, variant })); } catch {}
     setShowSignIn(true);
   };
 

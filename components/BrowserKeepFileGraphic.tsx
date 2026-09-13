@@ -24,7 +24,7 @@ export default function BrowserKeepFileGraphic() {
         <text x="46" y="42" textAnchor="middle" fontSize="11" fontWeight="700" fill="#fff" fontFamily="system-ui, sans-serif">!</text>
 
         {/* Filename + warning text */}
-        <text x="64" y="46" fontSize="13" fill="#202124" fontFamily="system-ui, sans-serif">JavihAI-v1.13.13-portable-win-x64.exe</text>
+        <text x="64" y="46" fontSize="13" fill="#202124" fontFamily="system-ui, sans-serif">JavihAI-v1.18.5-win-x64-setup.exe</text>
         <text x="64" y="62" fontSize="11" fill="#d93025" fontFamily="system-ui, sans-serif">This file isn&apos;t commonly downloaded and could be unsafe</text>
 
         {/* Chevron button */}

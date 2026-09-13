@@ -23,7 +23,7 @@ export default function SmartScreenGraphic() {
 
         {/* App info block (revealed after clicking More info) */}
         <rect x="30" y="136" width="400" height="52" rx="4" fill="#ffffff" stroke="#e1e1e1" />
-        <text x="42" y="156" fontSize="11" fill="#605e5c" fontFamily="system-ui, sans-serif">App: JavihAI-v1.13.13-portable-win-x64.exe</text>
+        <text x="42" y="156" fontSize="11" fill="#605e5c" fontFamily="system-ui, sans-serif">App: JavihAI-v1.18.5-win-x64-setup.exe</text>
         <text x="42" y="174" fontSize="11" fill="#605e5c" fontFamily="system-ui, sans-serif">Publisher: Unknown publisher</text>
 
         {/* Buttons */}

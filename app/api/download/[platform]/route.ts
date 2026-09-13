@@ -12,7 +12,18 @@ const MAC_X64_SUBSTRING = 'mac-x64.dmg';
 // arch-split build yet, so mac-arm64.dmg/mac-x64.dmg don't exist there. Once
 // a new release IS cut, this is never reached (the two lookups above win).
 const MAC_UNIVERSAL_SUBSTRING = 'mac-universal.dmg';
-const WIN_PREFERRED_SUBSTRING = 'portable-win-x64.exe';
+// Windows ships two permanent, independently-offered variants going
+// forward (not a preferred+fallback chain): the NSIS installer, which
+// auto-updates via electron-updater, and the portable exe, which doesn't
+// need install permissions but must be re-downloaded manually for future
+// versions. ?variant=portable explicitly selects the portable one.
+//
+// The default (no ?variant) request falls back to the portable asset only
+// when the installer isn't present on the current release — a transition
+// safety net, same reasoning as MAC_UNIVERSAL_SUBSTRING above, so the main
+// Windows button never 404s for a release cut before both targets existed.
+const WIN_INSTALLER_SUBSTRING = 'win-x64-setup.exe';
+const WIN_PORTABLE_SUBSTRING = 'portable-win-x64.exe';
 
 /**
  * Records a download attempt to `download_events` so the admin App-Usage funnel
@@ -63,11 +74,19 @@ export async function GET(
   const macSubstring = arch === 'x64' ? MAC_X64_SUBSTRING : MAC_ARM64_SUBSTRING;
   const macFallbackSubstring = arch === 'x64' ? MAC_ARM64_SUBSTRING : MAC_X64_SUBSTRING;
 
+  // ?variant=portable explicitly selects the portable Windows exe. The
+  // default (installer) falls back to portable only if the installer isn't
+  // on this release yet — see the comment on WIN_INSTALLER_SUBSTRING above.
+  const variant = new URL(req.url).searchParams.get('variant');
+
   const assetName = platform === 'mac'
     ? (release.assets.find((a) => a.name.includes(macSubstring) && !a.name.endsWith('.blockmap'))?.name
       ?? release.assets.find((a) => a.name.includes(macFallbackSubstring) && !a.name.endsWith('.blockmap'))?.name
       ?? release.assets.find((a) => a.name.includes(MAC_UNIVERSAL_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name)
-    : release.assets.find((a) => a.name.includes(WIN_PREFERRED_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name;
+    : variant === 'portable'
+      ? release.assets.find((a) => a.name.includes(WIN_PORTABLE_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name
+      : (release.assets.find((a) => a.name.includes(WIN_INSTALLER_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name
+        ?? release.assets.find((a) => a.name.includes(WIN_PORTABLE_SUBSTRING) && !a.name.endsWith('.blockmap'))?.name);
 
   if (!assetName) {
     console.error(`[download] no matching asset found for platform=${platform} arch=${arch ?? 'default'}`);
@@ -86,7 +105,8 @@ export async function GET(
     return NextResponse.json({ error: 'Download temporarily unavailable' }, { status: 503 });
   }
 
-  logDownload(req, platform, release.tag_name, authedUser.uid, authedUser.email);
+  const logPlatform = variant === 'portable' ? `${platform}-portable` : platform;
+  logDownload(req, logPlatform, release.tag_name, authedUser.uid, authedUser.email);
   const assetRes = await fetch(
     `https://api.github.com/repos/${REPO}/releases/assets/${assetMatch.id}`,
     { headers: { Authorization: `Bearer ${token}`, Accept: 'application/octet-stream' } }

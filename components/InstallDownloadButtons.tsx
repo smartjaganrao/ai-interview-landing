@@ -13,7 +13,7 @@ function detectDesktopOS(): 'mac' | 'windows' | null {
   return null;
 }
 
-export default function InstallDownloadButtons({ winReady, macReady }: { winReady: boolean; macReady: boolean }) {
+export default function InstallDownloadButtons({ winReady, macReady, winPortableReady }: { winReady: boolean; macReady: boolean; winPortableReady: boolean }) {
   const [detectedOS, setDetectedOS] = useState<'mac' | 'windows' | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [modalOS, setModalOS] = useState<'windows' | 'mac'>('windows');
@@ -52,10 +52,21 @@ export default function InstallDownloadButtons({ winReady, macReady }: { winRead
           </button>
         )}
       </div>
-      {macReady && (
-        <p className="text-xs text-slate-500 mt-2">
-          Mac button works on Apple Silicon and Intel. On an older Intel Mac?{' '}
-          <button type="button" onClick={() => requestDownload('mac', 'x64')} className="text-indigo-300 hover:underline">Use the Intel-specific link</button>{' '}instead.
+      {(winPortableReady || macReady) && (
+        <p className="text-xs text-slate-500 mt-2 space-x-1">
+          {winPortableReady && (
+            <span>
+              Prefer no install on Windows?{' '}
+              <button type="button" onClick={() => requestDownload('windows', 'portable')} className="text-indigo-300 hover:underline">Get the portable .exe</button>{' '}
+              (no auto-update — installer is recommended).
+            </span>
+          )}
+          {macReady && (
+            <span>
+              Mac button works on Apple Silicon and Intel. On an older Intel Mac?{' '}
+              <button type="button" onClick={() => requestDownload('mac', 'x64')} className="text-indigo-300 hover:underline">Use the Intel-specific link</button>{' '}instead.
+            </span>
+          )}
         </p>
       )}
 

@@ -14,17 +14,22 @@ export interface LatestRelease {
   version: string;       // e.g. "v1.8.1"
   releaseUrl: string;
   macUrl: string | null;
+  // Two permanent, independently-offered Windows options — not a
+  // preferred/fallback pair. winUrl is the NSIS installer (auto-updates);
+  // winPortableUrl is the no-install exe (no auto-update).
   winUrl: string | null;
+  winPortableUrl: string | null;
   publishedAt: string | null;
 }
 
 // Used only if GitHub is unreachable or misconfigured — keeps pages rendering
 // instead of throwing, at the cost of showing a stale version.
 const FALLBACK: LatestRelease = {
-  version: 'v1.18.3',
+  version: 'v1.18.4',
   releaseUrl: `https://github.com/${REPO}/releases/latest`,
   macUrl: null,
   winUrl: null,
+  winPortableUrl: null,
   publishedAt: null,
 };
 
@@ -148,13 +153,33 @@ export async function getLatestRelease(): Promise<LatestRelease> {
     release.assets.find((a) => a.name.includes('mac-arm64.dmg') && !a.name.endsWith('.blockmap')) ??
     release.assets.find((a) => a.name.includes('mac-x64.dmg') && !a.name.endsWith('.blockmap')) ??
     release.assets.find((a) => a.name.includes('mac-universal.dmg') && !a.name.endsWith('.blockmap'));
-  const winAsset = release.assets.find((a) => a.name.includes('portable-win-x64.exe') && !a.name.endsWith('.sha256'));
+  // Two permanent Windows assets, offered side by side going forward (not
+  // a preferred/fallback pair) — win-x64-setup.exe is the NSIS installer,
+  // the only target that gets electron-updater auto-update (it's the one
+  // electron-builder writes latest.yml for); portable-win-x64.exe needs no
+  // install/admin rights but never auto-updates.
+  //
+  // winUrl falls back to the portable asset ONLY when the installer isn't
+  // present on the current release — a transition safety net (same pattern
+  // as MAC_UNIVERSAL_SUBSTRING above) so the main Windows button never goes
+  // dead for a release cut before both targets existed. winPortableUrl
+  // stays strictly the portable asset (or null), so callers can tell the
+  // two apart and only offer a separate "portable" link when it's actually
+  // a distinct file from what the main button already serves.
+  const winInstallerAsset = release.assets.find(
+    (a) => a.name.includes('win-x64-setup.exe') && !a.name.endsWith('.sha256'),
+  );
+  const winPortableAsset = release.assets.find(
+    (a) => a.name.includes('portable-win-x64.exe') && !a.name.endsWith('.sha256'),
+  );
+  const winPrimaryAsset = winInstallerAsset ?? winPortableAsset;
 
   return {
     version: release.tag_name,
     releaseUrl: release.html_url,
     macUrl: toDirectUrl(macAsset?.name ?? ''),
-    winUrl: toDirectUrl(winAsset?.name ?? ''),
+    winUrl: winPrimaryAsset ? toDirectUrl(winPrimaryAsset.name) : null,
+    winPortableUrl: winPortableAsset && winPortableAsset !== winPrimaryAsset ? toDirectUrl(winPortableAsset.name) : null,
     publishedAt: release.published_at,
   };
 }

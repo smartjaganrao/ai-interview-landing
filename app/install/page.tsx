@@ -42,7 +42,7 @@ function Disclosure({ title, children }: { title: string; children: React.ReactN
 const kbd = 'px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs font-mono';
 
 export default async function InstallPage() {
-  const { version: VERSION, publishedAt, macUrl, winUrl } = await getLatestRelease();
+  const { version: VERSION, publishedAt, macUrl, winUrl, winPortableUrl } = await getLatestRelease();
   const isNewRelease = !!publishedAt && Date.now() - new Date(publishedAt).getTime() < 14 * 86400000;
   const downloadsReady = Boolean(macUrl || winUrl);
   return (
@@ -65,7 +65,7 @@ export default async function InstallPage() {
 
           {/* Download buttons */}
           {downloadsReady ? (
-            <InstallDownloadButtons winReady={!!winUrl} macReady={!!macUrl} />
+            <InstallDownloadButtons winReady={!!winUrl} macReady={!!macUrl} winPortableReady={!!winPortableUrl} />
           ) : (
             <div className="mb-4 p-4 rounded-lg bg-slate-800/50 border border-slate-700 text-center">
               <p className="text-slate-300">Downloads are being prepared for the latest release — check back shortly.</p>
@@ -124,7 +124,9 @@ export default async function InstallPage() {
                   </div>
                 </Step>
                 <Step n={2}>
-                  Run the downloaded <code className="text-indigo-300">JavihAI{VERSION ? `-${VERSION}` : ''}-portable-win-x64.exe</code>.
+                  Run the downloaded <code className="text-indigo-300">JavihAI{VERSION ? `-${VERSION}` : ''}-win-x64-setup.exe</code>{' '}
+                  and follow the setup wizard — pick an install location if you want, then click{' '}
+                  <strong className="text-white">Install</strong>. JavihAI launches automatically once setup finishes.
                 </Step>
                 <Step n={3}>
                   If Windows shows a blue <span className="text-slate-200">&quot;Windows protected your PC&quot;</span>{' '}
@@ -143,7 +145,11 @@ export default async function InstallPage() {
                 </Step>
               </ol>
               <p className="text-sm text-slate-400 mt-4">
-                The app checks for updates automatically and shows a badge in the toolbar when a new version is out — click it to grab the latest build. (Silent background install-on-quit is currently a macOS-only capability; see &quot;Auto-updates&quot; below.)
+                If you installed with the setup wizard above, the app checks for updates automatically and installs
+                them in the background the next time you quit — see &quot;Auto-updates&quot; below.
+                Prefer a no-install file instead? A portable <code className="text-indigo-300">.exe</code>{' '}
+                is also available — see the link under the download buttons at the top of this page. It doesn&apos;t
+                auto-update, so you&apos;d re-download it manually for future versions.
               </p>
             </Disclosure>
 
@@ -218,7 +224,7 @@ export default async function InstallPage() {
               <p className="mb-3">
                 JavihAI checks for new versions automatically when you launch the app.
               </p>
-              <p className="mb-2"><strong className="text-white">On macOS</strong>, once an update is found:</p>
+              <p className="mb-2">On both macOS and Windows, once an update is found:</p>
               <ol className="space-y-2 list-decimal list-inside mb-4">
                 <li>The new version downloads in the background — you can keep working.</li>
                 <li>A small badge appears in the toolbar showing the download progress.</li>
@@ -226,9 +232,10 @@ export default async function InstallPage() {
                 <li>On your next launch, you&apos;re running the latest version.</li>
               </ol>
               <p className="text-sm text-slate-400">
-                <strong className="text-white">On Windows</strong>, the toolbar badge tells you a new version is
-                out — click it to download the latest portable build and run it in place of the old one. Silent
-                background install-on-quit isn&apos;t available for the portable build yet.
+                <strong className="text-white">On Windows</strong>, this needs the installer version (the main
+                download button above). If you&apos;re on the portable <code className="text-indigo-300">.exe</code>{' '}
+                instead, there&apos;s no in-app auto-update — check back here and re-download manually when a new
+                version is out.
               </p>
               <p className="mt-3 text-sm text-slate-400">
                 You don&apos;t need to revisit this page for updates — the app handles it, or points you back to
@@ -253,7 +260,7 @@ export default async function InstallPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">&quot;An update is available but it won&apos;t install&quot;</h3>
-                  <p className="text-sm text-slate-400">On macOS, the update downloads automatically but only installs when you quit the app — close JavihAI completely and reopen it. On Windows, clicking the update badge downloads the latest portable build; run it in place of the old one. If the problem persists on either platform, download the latest version manually from the buttons above — your settings and account are preserved.</p>
+                  <p className="text-sm text-slate-400">The update downloads automatically but only installs when you quit the app — close JavihAI completely and reopen it. If the problem persists, download the latest version manually from the buttons above and run it — your settings and account are preserved.</p>
                 </div>
               </div>
             </Disclosure>

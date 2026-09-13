@@ -57,6 +57,10 @@ function DashboardContent() {
   const [ticketsLoading, setTicketsLoading] = useState(false);
   const [expandedTicket, setExpandedTicket] = useState<string|null>(null);
   const [appVersion, setAppVersion] = useState('');
+  // Only true when the current release has a portable exe distinct from
+  // the main Windows download (see winPortableUrl in lib/github-release.ts)
+  // — avoids showing a second link that would just redownload the same file.
+  const [winPortableAvailable, setWinPortableAvailable] = useState(false);
   const [hasDownloaded, setHasDownloaded] = useState(false);
   const [cancelBusy, setCancelBusy] = useState(false);
   const [detectedOS, setDetectedOS] = useState<'mac' | 'windows' | null>(null);
@@ -88,6 +92,7 @@ function DashboardContent() {
   useEffect(() => {
     fetch('/api/release').then(r => r.ok ? r.json() : null).then(d => {
       if (d?.version) setAppVersion(d.version);
+      setWinPortableAvailable(!!d?.winPortableUrl);
     }).catch(() => {});
   }, []);
 
@@ -244,7 +249,11 @@ function DashboardContent() {
     }
   }, [searchParams]);
 
-  const handleDownload = async (platform: 'windows' | 'mac', arch?: 'x64') => {
+  // Mac's variant is an architecture choice (arm64 default, x64 opt-in).
+  // Windows' variant is between two permanent, independently-offered
+  // binaries — the installer (default, auto-updates) and the portable exe
+  // (opt-in, no install/auto-update) — not an arch choice.
+  const handleDownload = async (platform: 'windows' | 'mac', variant?: 'x64' | 'portable') => {
     if (!user) return;
     localStorage.setItem('javihai_downloaded', 'true');
     setHasDownloaded(true);
@@ -255,7 +264,8 @@ function DashboardContent() {
     const token = await user.getIdToken();
     setDownloadToken(token);
     const base = platform === 'windows' ? WINDOWS_DOWNLOAD_URL : MAC_DOWNLOAD_URL;
-    const url = withToken(arch ? `${base}?arch=${arch}` : base, token);
+    const queryKey = platform === 'mac' ? 'arch' : 'variant';
+    const url = withToken(variant ? `${base}?${queryKey}=${variant}` : base, token);
     if (newTab) newTab.location.href = url;
     else window.open(url, '_blank', 'noopener');
     setModalOS(platform);
@@ -415,6 +425,11 @@ function DashboardContent() {
                           </button>
                         </div>
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
+                          {winPortableAvailable && (
+                            <button onClick={() => handleDownload('windows', 'portable')} className="text-xs text-slate-500 hover:text-slate-300">
+                              Prefer no install? Get the portable .exe
+                            </button>
+                          )}
                           <button onClick={() => handleDownload('mac', 'x64')} className="text-xs text-slate-500 hover:text-slate-300">
                             Intel Mac? Get the x64 build
                           </button>
