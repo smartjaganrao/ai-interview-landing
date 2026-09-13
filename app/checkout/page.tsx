@@ -8,6 +8,7 @@ import { db } from '@/lib/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { cachedGetDoc } from '@/lib/firestore-cache';
 import { PLANS, PlanId, AnyPlanId, migratePlanId, isOneTimePlan, isDowngrade, canUpgradeTo, isPricingHealthy } from '@/lib/pricing-config';
+import { buildWhatsAppLink } from '@/lib/whatsapp-link';
 
 // Razorpay Checkout is loaded from CDN at runtime; type the global for safety.
 declare global {
@@ -455,6 +456,19 @@ function CheckoutContent() {
                     {couponMessage && !couponOn && (
                       <p className={`text-xs mt-2 ${couponStatus === 'invalid' ? 'text-red-400' : 'text-green-400'}`}>{couponMessage}</p>
                     )}
+                    {couponStatus === 'invalid' && couponInput.trim() && (() => {
+                      const waLink = buildWhatsAppLink(`Hi! I need help with coupon ${couponInput.trim()} — it's not working for me.`);
+                      return waLink ? (
+                        <a
+                          href={waLink}
+                          target="_blank"
+                          rel="noopener"
+                          className="inline-block text-xs text-indigo-300 hover:underline mt-1.5"
+                        >
+                          Need help? Message us on WhatsApp
+                        </a>
+                      ) : null;
+                    })()}
                   </div>
                   <div className="flex justify-between items-baseline pt-4 border-t border-white/10">
                     <span className="text-lg font-semibold">Total</span>

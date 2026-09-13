@@ -7,6 +7,7 @@ import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { cachedGetDoc } from '@/lib/firestore-cache';
 import { isOneTimePlan, PlanId } from '@/lib/pricing-config';
+import { buildWhatsAppLink } from '@/lib/whatsapp-link';
 
 interface PopupCoupon {
   code: string;
@@ -136,6 +137,8 @@ export default function NewCustomerOfferPopup() {
 
   if (!visible || !popup || msRemaining <= 0) return null;
 
+  const waLink = buildWhatsAppLink(`Hi! I need help with coupon ${popup.code} — it's not working / I have a question.`);
+
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-slate-900 rounded-2xl max-w-md w-full border border-purple-500/30 shadow-2xl animate-fade-in-up overflow-hidden">
@@ -175,6 +178,16 @@ export default function NewCustomerOfferPopup() {
             Claim Offer & Buy Now →
           </button>
           <p className="text-xs text-slate-500 mt-3">This is a limited-time offer for new customers only.</p>
+          {waLink && (
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener"
+              className="inline-block text-xs text-slate-500 hover:text-slate-300 underline underline-offset-2 mt-2"
+            >
+              Need help with this coupon? Message us on WhatsApp
+            </a>
+          )}
         </div>
       </div>
     </div>
