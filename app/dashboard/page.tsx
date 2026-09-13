@@ -473,6 +473,36 @@ function DashboardContent() {
                 </>
               ) : (
                 <>
+                  {/* Returning-user view (hasFirstSession) replaces the whole
+                      "3 steps to get started" card above, INCLUDING its
+                      download step — meaning download disappeared from the
+                      dashboard entirely once someone had a real session. A
+                      new machine, a wiped OS, or an accidental uninstall all
+                      leave that user with no obvious way back to the binary
+                      from here; they'd have to already know about /install.
+                      Small, always-visible link instead of repeating the
+                      full step-1 card (this audience already knows how to
+                      install — they just need the file again). */}
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-5 pb-4 border-b border-white/5">
+                    <span className="text-xs text-slate-500">Need it on another computer, or reinstalling?</span>
+                    <div className="flex items-center gap-1 -mx-2">
+                      {/* py-2 -mx-2 combo: the text stays visually the same
+                          small link, but the actual tappable area grows to a
+                          comfortable touch target instead of matching the
+                          16px text line-height (measured live at 320px —
+                          confirmed this is the ONLY redownload path for a
+                          returning user, worth a real hit-area, not just
+                          matching the existing zero-padding text-link style
+                          elsewhere on this page). */}
+                      <button onClick={() => handleDownload('windows')} className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold px-2 py-2">
+                        ⬇ Windows {appVersion ? `(${appVersion})` : ''}
+                      </button>
+                      <button onClick={() => handleDownload('mac')} className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold px-2 py-2">
+                        ⬇ Mac {appVersion ? `(${appVersion})` : ''}
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="flex items-center gap-6 mb-5 flex-wrap">
                     {!dataReady.activity ? (
                       <div className="animate-pulse flex gap-6">
