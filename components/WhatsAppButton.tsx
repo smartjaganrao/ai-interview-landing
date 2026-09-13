@@ -1,17 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { usePathname } from 'next/navigation';
-
-// Pages where an auto-popped chat widget does more harm than good — the
-// homepage hero holds the primary download CTA, and /install holds the
-// step-by-step guide; on mobile this widget covers nearly the full
-// viewport, burying both. It's still one tap away via the bubble.
-// /pricing and /checkout excluded because the widget's expanded panel can
-// cover the entire viewport on mobile — auto-popping it over a page whose
-// whole job is a decision (compare plans, complete payment) actively hides
-// the content the visitor came for.
-const AUTO_OPEN_EXCLUDED_PATHS = ['/', '/install', '/pricing', '/checkout'];
 
 const RAW = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
 const NUMBER = RAW.replace(/[^\d]/g, '');
@@ -111,13 +100,10 @@ function matchFAQ(input: string): FAQItem | null {
 }
 
 export default function WhatsAppButton() {
-  const pathname = usePathname();
-  const autoOpenDisabled = AUTO_OPEN_EXCLUDED_PATHS.includes(pathname);
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [hasAutoOpened, setHasAutoOpened] = useState(false);
   const [faqVisible, setFaqVisible] = useState(true);
   const [viewportHeight, setViewportHeight] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -146,16 +132,6 @@ export default function WhatsAppButton() {
     window.addEventListener('open-whatsapp-form', handler);
     return () => window.removeEventListener('open-whatsapp-form', handler);
   }, []);
-
-  useEffect(() => {
-    if (!open && !hasAutoOpened && !autoOpenDisabled) {
-      const timer = setTimeout(() => {
-        setHasAutoOpened(true);
-        setOpen(true);
-      }, 2500);
-      return () => clearTimeout(timer);
-    }
-  }, [open, hasAutoOpened, autoOpenDisabled]);
 
   const resetChat = useCallback(() => {
     setMessages([
