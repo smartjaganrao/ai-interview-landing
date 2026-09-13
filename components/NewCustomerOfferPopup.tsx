@@ -18,6 +18,11 @@ interface PopupCoupon {
 }
 
 const SHOW_DELAY_MS = 1500;
+// Keyed to expiresAt (not just a boolean) so dismissing TODAY's offer
+// doesn't also suppress tomorrow's — each day's offer gets a genuinely
+// different expiresAt, so the stored value only ever matches the one the
+// visitor actually closed.
+const DISMISSED_KEY = 'javihai_offer_dismissed';
 
 function formatCountdown(msRemaining: number): string {
   const totalSeconds = Math.max(0, Math.floor(msRemaining / 1000));
@@ -36,8 +41,11 @@ function formatCountdown(msRemaining: number): string {
  * the real time left until this IST day actually ends. Only shown to
  * anonymous visitors and signed-in users with no active paid plan (see
  * [[dynamic-pricing]] skill for the coupon model this reads from). Closing
- * it only hides it for the current page view — dismissal isn't persisted,
- * so it reappears next time the daily window is open.
+ * it persists a dismissal for THIS SPECIFIC offer (keyed to its expiresAt)
+ * — previously this wasn't persisted at all, so a visitor browsing several
+ * pages during the same live hour got the popup shoved back in front of
+ * them on every navigation. Tomorrow's offer has a different expiresAt, so
+ * it isn't suppressed by today's dismissal.
  */
 export default function NewCustomerOfferPopup() {
   const { user, loading } = useAuth();
@@ -60,6 +68,14 @@ export default function NewCustomerOfferPopup() {
         // page that's been open a while before this fetch resolves could
         // still have a since-expired coupon in hand.
         if (!p || p.expiresAt <= Date.now() || cancelled) return;
+
+        // Already dismissed THIS specific offer (see DISMISSED_KEY's own
+        // comment) — skip entirely, including the trial-modal suppression
+        // below, so closing this popup doesn't also keep blocking that one
+        // on every later page view for no reason.
+        try {
+          if (localStorage.getItem(DISMISSED_KEY) === String(p.expiresAt)) return;
+        } catch { /* ignore — worst case it shows again */ }
 
         // "New customer" = anonymous, or signed in with no active paid plan.
         if (user) {
@@ -102,6 +118,13 @@ export default function NewCustomerOfferPopup() {
 
   const handleClose = () => {
     setVisible(false);
+    // Persist so it doesn't reappear on the next page nav during this same
+    // offer window (see DISMISSED_KEY's comment) — also runs via
+    // handleClaim below, which is correct: having claimed it, there's
+    // nothing left to show them again either.
+    if (popup) {
+      try { localStorage.setItem(DISMISSED_KEY, String(popup.expiresAt)); } catch { /* ignore */ }
+    }
   };
 
   const handleClaim = () => {

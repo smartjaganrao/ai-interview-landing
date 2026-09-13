@@ -99,6 +99,8 @@ function matchFAQ(input: string): FAQItem | null {
   return bestScore >= 1 ? bestMatch : null;
 }
 
+const CHAT_OPENED_KEY = 'javihai_chat_opened';
+
 export default function WhatsAppButton() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -106,6 +108,22 @@ export default function WhatsAppButton() {
   const [isTyping, setIsTyping] = useState(false);
   const [faqVisible, setFaqVisible] = useState(true);
   const [viewportHeight, setViewportHeight] = useState(0);
+  // Was hardcoded to always show "1" regardless of whether the visitor had
+  // ever opened the chat — a permanent fake unread count, not a real signal.
+  // Real now: true until they've actually opened it once, then persisted
+  // false forever (this browser) via localStorage — an honest "you have an
+  // unread welcome message" instead of urgency-bait that never goes away.
+  const [hasOpenedChat, setHasOpenedChat] = useState(true);
+  useEffect(() => {
+    // Same "read a client-only source, defer past hydration" idiom as
+    // CompleteProfileModal.tsx's mounted-gate effect — localStorage doesn't
+    // exist during SSR, so this can't be a useState lazy initializer without
+    // a server/client hydration mismatch; it has to run after mount instead.
+    try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setHasOpenedChat(localStorage.getItem(CHAT_OPENED_KEY) === '1');
+    } catch { /* ignore — badge just stays showing */ }
+  }, []);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -273,14 +291,20 @@ export default function WhatsAppButton() {
       {!open && (
         <div className="fixed bottom-6 right-6 z-[9998]">
           <button
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setOpen(true);
+              setHasOpenedChat(true);
+              try { localStorage.setItem(CHAT_OPENED_KEY, '1'); } catch { /* ignore */ }
+            }}
             className="group relative"
             aria-label="Chat with support"
           >
-            {/* Notification dot */}
-            <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-slate-900 flex items-center justify-center">
-              <span className="text-white text-[10px] font-bold">1</span>
-            </div>
+            {/* Notification dot — see hasOpenedChat's own comment */}
+            {!hasOpenedChat && (
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-slate-900 flex items-center justify-center">
+                <span className="text-white text-[10px] font-bold">1</span>
+              </div>
+            )}
 
             {/* Main button */}
             <div className="relative w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 border-4 border-slate-900">
