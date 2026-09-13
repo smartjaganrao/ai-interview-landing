@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { cachedGetDoc } from '@/lib/firestore-cache';
 import { isOneTimePlan, PlanId } from '@/lib/pricing-config';
 import { buildWhatsAppLink } from '@/lib/whatsapp-link';
+import { announceOfferPopupChecked, announceOfferPopupVisibility } from '@/lib/offer-popup-events';
 
 interface PopupCoupon {
   code: string;
@@ -97,11 +98,28 @@ export default function NewCustomerOfferPopup() {
         try { localStorage.setItem('trialModalDismissed', new Date().toDateString()); } catch { /* ignore */ }
 
         setTimeout(() => { if (!cancelled) setVisible(true); }, SHOW_DELAY_MS);
-      } catch { /* non-fatal — no popup on fetch failure */ }
+      } catch {
+        /* non-fatal — no popup on fetch failure */
+      } finally {
+        // Fires whichever branch above ran (including every early return) —
+        // FreeTrialModal's exit-intent listener in LandingClient waits for
+        // this before arming, so it always sees the final, settled value of
+        // trialModalDismissed instead of racing this async check.
+        if (!cancelled) announceOfferPopupChecked();
+      }
     })();
 
     return () => { cancelled = true; };
   }, [loading, user]);
+
+  // Tell Navbar's OfferBanner to hide itself while this modal is actually
+  // on screen, so a visitor is never pitched the same discount twice at
+  // once. Fires on every visibility change, and on unmount as a safety net
+  // (e.g. navigating away mid-open) so the banner can't get stuck hidden.
+  useEffect(() => {
+    announceOfferPopupVisibility(visible);
+    return () => announceOfferPopupVisibility(false);
+  }, [visible]);
 
   // Live countdown to the real, shared midnight-IST deadline; auto-close
   // once it actually passes (rather than lingering with a 00:00:00 display).

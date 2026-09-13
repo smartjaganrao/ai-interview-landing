@@ -10,6 +10,7 @@ import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
 import Footer from '@/components/Footer';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
 import { buildWhatsAppLink } from '@/lib/whatsapp-link';
+import { onOfferPopupChecked } from '@/lib/offer-popup-events';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 
 // Single source of truth for the FAQ section — rendered as the visible
@@ -271,29 +272,52 @@ export default function LandingClient(props: LandingClientProps) {
       if (d?.version) setAppVersion(d.version);
       if (d?.publishedAt) setIsNewRelease(Date.now() - new Date(d.publishedAt).getTime() < 14 * 86400000);
     }).catch(() => {});
+  }, []);
 
-    if (localStorage.getItem('trialModalDismissed')) return;
+  // Arms the exit-intent trial modal only after NewCustomerOfferPopup's own
+  // eligibility check has settled. That check can suppress this modal for
+  // the day (trialModalDismissed) — reading localStorage before it finishes
+  // risks showing both modals together if a visitor exit-intents within the
+  // first instant of the page load, before the async check resolves. Falls
+  // back to a fixed wait if the popup never reports in (e.g. it's genuinely
+  // not eligible today and errors before its `finally`), so a missed signal
+  // can't permanently disable the trial modal.
+  useEffect(() => {
+    let armed = false;
+    let shown = false;
+    let exitIntentTimer: ReturnType<typeof setTimeout> | null = null;
+    let handlePointerLeave: ((e: MouseEvent) => void) | null = null;
 
     // Used to cover the hero on every fresh load, before a visitor had read
     // the headline. Now it only shows on exit-intent (cursor leaving toward
     // the top of the viewport) or after 20s for touch devices, which have
     // no mouseleave signal, so the hero gets a real chance to be read first.
-    let shown = false;
-    const showTrialModal = () => {
-      if (shown) return;
-      shown = true;
-      setIsTrialModalOpen(true);
+    const arm = () => {
+      if (armed) return;
+      armed = true;
+      if (localStorage.getItem('trialModalDismissed')) return;
+
+      const showTrialModal = () => {
+        if (shown) return;
+        shown = true;
+        setIsTrialModalOpen(true);
+      };
+
+      exitIntentTimer = setTimeout(showTrialModal, 20000);
+      handlePointerLeave = (e: MouseEvent) => {
+        if (e.clientY <= 0) showTrialModal();
+      };
+      document.addEventListener('mouseout', handlePointerLeave);
     };
 
-    const exitIntentTimer = setTimeout(showTrialModal, 20000);
-    const handlePointerLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0) showTrialModal();
-    };
-    document.addEventListener('mouseout', handlePointerLeave);
+    const offChecked = onOfferPopupChecked(arm);
+    const fallbackTimer = setTimeout(arm, 3000);
 
     return () => {
-      clearTimeout(exitIntentTimer);
-      document.removeEventListener('mouseout', handlePointerLeave);
+      offChecked();
+      clearTimeout(fallbackTimer);
+      if (exitIntentTimer) clearTimeout(exitIntentTimer);
+      if (handlePointerLeave) document.removeEventListener('mouseout', handlePointerLeave);
     };
   }, []);
 

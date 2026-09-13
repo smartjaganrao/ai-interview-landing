@@ -10,6 +10,7 @@ import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { buildWhatsAppLink, getWhatsAppDisplayNumber } from '@/lib/whatsapp-link';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
+import { onOfferPopupVisibility } from '@/lib/offer-popup-events';
 
 interface Announcement { id: string; title: string; body: string; link: string | null; createdAt: number }
 
@@ -109,6 +110,11 @@ function OfferBanner() {
   const [coupon, setCoupon] = useState<FeaturedCoupon | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const [copied, setCopied] = useState(false);
+  // Hidden for as long as NewCustomerOfferPopup's own modal is on screen —
+  // both pitch the same "get a discount" message, and showing this strip
+  // underneath a blocking modal advertising the same thing reads as
+  // duplicate nagging rather than two separate features.
+  const [popupModalOpen, setPopupModalOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/coupons/featured')
@@ -121,7 +127,9 @@ function OfferBanner() {
       .catch(() => {});
   }, []);
 
-  if (!coupon || dismissed) return null;
+  useEffect(() => onOfferPopupVisibility(setPopupModalOpen), []);
+
+  if (!coupon || dismissed || popupModalOpen) return null;
 
   const discountText = coupon.discountType === 'percent'
     ? `${coupon.discountValue}% off`
