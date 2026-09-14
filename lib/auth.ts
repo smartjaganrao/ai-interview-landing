@@ -165,6 +165,24 @@ export async function ensureUserDocs(
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, name, type: 'welcome' }),
           }).catch(() => {});
+
+          // Wrapped in try/catch, not just a promise .catch() — getIdToken()
+          // throwing synchronously (not as a rejected promise) would
+          // otherwise escape straight out of this transaction callback,
+          // failing the whole users/{uid} write it's riding along with (see
+          // the equivalent hardening in the desktop app's auth.service.ts,
+          // added after its own test suite caught exactly this).
+          try {
+            user.getIdToken()
+              .then((idToken) => fetch(`${appUrl}/api/notifications/new-signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idToken, source: 'web' }),
+              }))
+              .catch(() => {});
+          } catch {
+            // ignore — never block sign-in
+          }
         } else {
           const existing = snap.data() as Record<string, unknown> | undefined;
           const updates: Record<string, unknown> = {};

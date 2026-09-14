@@ -327,6 +327,39 @@ export async function sendProfileCompletedAlert(params: {
   return { ok: true };
 }
 
+/** Notify admin (javihaiofficial@gmail.com) the moment a new account is
+ *  created — web signup (ensureUserDocs, lib/auth.ts) or desktop signup
+ *  (signInWithGoogle, auth.service.ts) both call the same
+ *  /api/notifications/new-signup route, idempotent server-side per uid.
+ *  Fires with whatever's on the account at registration (name + email) —
+ *  distinct from sendProfileCompletedAlert, which only fires once someone
+ *  fills in the full profile form, something a real share of signups never
+ *  do (see [[activation-funnel-2026-09]] memory), so this is the only alert
+ *  guaranteed to fire for every new account. */
+export async function sendNewSignupAlert(params: {
+  email: string;
+  name: string;
+  source: 'web' | 'desktop';
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!process.env.RESEND_API_KEY) return { ok: false, error: 'Email not configured' };
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const html = shell(`
+  <h1 style="font-size:22px;font-weight:800;margin-bottom:4px;">🆕 New Signup</h1>
+  <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;">Registered via the ${params.source === 'desktop' ? 'desktop app' : 'website'}</p>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;">
+    <tr><td style="padding:8px 0;color:#64748b;width:100px;">Name</td><td style="color:#e2e8f0;font-weight:600;">${params.name}</td></tr>
+    <tr><td style="padding:8px 0;color:#64748b;">Email</td><td style="color:#e2e8f0;">${params.email}</td></tr>
+  </table>
+  <p style="color:#64748b;font-size:13px;margin:0;">Full profile (WhatsApp, experience, city, referral source) shows up in a separate alert once they complete it — not everyone does.</p>`);
+
+  const { error } = await resend.emails.send({
+    from: FROM, to: 'javihaiofficial@gmail.com',
+    subject: `[Signup] ${params.name} (${params.email}) just registered`, html,
+  });
+  if (error) { console.error('[email/new-signup-alert]', JSON.stringify(error)); return { ok: false, error: error.message }; }
+  return { ok: true };
+}
+
 /**
  * Fires on every download attempt (not just first-time) so a real-time sales
  * lead never depends only on the WhatsApp message the visitor may or may not
