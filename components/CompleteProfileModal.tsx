@@ -159,14 +159,9 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       } else {
         await setDoc(userRef, patch, { merge: true });
       }
-      // Fire-and-forget notifications — never block profile completion.
+      // Fire-and-forget notification — never block profile completion.
       user.getIdToken()
         .then((idToken) => {
-          fetch('/api/notifications/whatsapp-welcome', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idToken }),
-          }).catch(() => {});
           fetch('/api/notifications/profile-completed', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -176,11 +171,12 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
         .catch(() => {});
 
       // Real-time sales visibility for the team — a pre-filled WhatsApp
-      // message the visitor still has to press Send on (no outbound
-      // automation exists; Twilio/Meta template approval is separately
-      // blocked — see [[whatsapp-welcome-notification]]). The owner also
-      // gets this same info by email regardless, via
-      // sendProfileCompletedAlert in /api/notifications/profile-completed.
+      // message the visitor still has to press Send on. There's no outbound
+      // WhatsApp automation at all (the Twilio-based version was removed —
+      // it was blocked on Meta template approval and never actually sent
+      // anything in production). The owner also gets this same info by
+      // email regardless, via sendProfileCompletedAlert in
+      // /api/notifications/profile-completed.
       const waLink = buildWhatsAppLink(
         `Hi! I just signed up for JavihAI — ${fullName.trim()} (${user.email ?? ''}), ${jobRole.trim()} in ${city.trim()}.`
       );
