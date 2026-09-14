@@ -79,7 +79,7 @@ const faqSchema = {
       name: 'Can I switch plans anytime?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we\'ll prorate any charges.',
+        text: 'Yes — upgrade anytime and it takes effect immediately. To downgrade, contact support and we\'ll handle it manually and prorate your billing.',
       },
     },
     {
@@ -442,7 +442,7 @@ export default function PricingPage() {
                  { q: 'Can I use JavihAI on Mac?', a: 'Yes! JavihAI supports both Windows and Mac (Apple Silicon M1/M2/M3 and Intel). Download the appropriate version from our download page.' },
                  { q: 'Is the overlay really invisible?', a: 'Yes. JavihAI uses OS-level APIs to exclude itself from all screen captures. The interviewer sees only your screen, not the overlay, on Zoom, Google Meet, and Microsoft Teams.' },
                  { q: 'How is JavihAI different from Final Round AI?', a: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and is more affordable than alternatives.' },
-                 { q: 'Can I switch plans anytime?', a: 'Yes, upgrade or downgrade your plan at any time. Changes take effect immediately, and we\'ll prorate any charges.' },
+                 { q: 'Can I switch plans anytime?', a: 'Yes — upgrade anytime and it takes effect immediately. To downgrade, contact support and we\'ll handle it manually and prorate your billing.' },
                  { q: 'Is there a free trial?', a: 'Yes! Start with our Free plan — limited AI usage, forever, no credit card required. We also offer a 7-day money-back guarantee on your first paid purchase.' },
                  { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, UPI, and net banking through our secure Razorpay integration.' },
                  { q: 'Do you offer refunds?', a: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you\'re not satisfied, contact support for a full refund.' },

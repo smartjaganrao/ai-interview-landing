@@ -198,12 +198,12 @@ function SignupContent() {
           </h1>
 
           <p className="text-xl text-slate-300 mb-10">
-            Join 2,400+ candidates getting AI-powered interview prep
+            Join 2,400+ candidates getting AI-powered interview prep<sup className="text-xs text-slate-500">*</sup>
           </p>
 
           <div className="space-y-5">
             {[
-              { icon: '🎯', title: 'Free Forever Plan', desc: 'Up to 25 AI answers per day, no credit card required' },
+              { icon: '🎯', title: 'Free Forever Plan', desc: '25 free answers/day — 5 screenshot, 10 listen, 10 typed. No credit card required.' },
               { icon: '🚀', title: 'Setup in 30 Seconds', desc: 'Sign up with Google, download app, start practicing' },
               { icon: '🔒', title: 'Private & Secure', desc: 'Your data is encrypted end-to-end' },
             ].map((item, i) => (
@@ -227,8 +227,13 @@ function SignupContent() {
                 </div>
               ))}
             </div>
-            <span>Joined by 2,400+ successful candidates</span>
+            <span>Joined by 2,400+ successful candidates<sup className="text-[10px] text-slate-500">*</sup></span>
           </div>
+          {/* Same disclaimer LandingClient.tsx's trust bar uses for this same
+              figure — footnoted there (note: true), so it should be here too. */}
+          <p className="text-[11px] text-slate-600 mt-3">
+            * Self-reported figures from JavihAI users at signup, not an independently audited count.
+          </p>
         </div>
 
         {/* Right: Sign Up */}

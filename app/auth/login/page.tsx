@@ -139,13 +139,19 @@ export default function LoginPage() {
             <p className="text-slate-300 leading-relaxed italic">
               &ldquo;Use the AI feedback to identify your weakest answers. Practice those first, and watch your confidence grow exponentially.&rdquo;
             </p>
-            <p className="text-sm text-slate-400 mt-3">— Sarah Chen, hired at Google</p>
           </div>
 
+          {/* Same self-reported figures + disclaimer LandingClient.tsx's trust
+              bar uses (2,400+ Candidates Helped / 4.9★ Early Rating, both
+              footnoted "not an independently audited count") — not a real
+              aggregate-review claim, so it shouldn't read like one. */}
           <div className="mt-8 flex items-center gap-2 text-sm text-slate-400">
             <span className="text-yellow-400 text-lg">★★★★★</span>
-            <span>4.9/5 from 2,400+ candidates</span>
+            <span>4.9★ early rating from 2,400+ candidates<sup className="text-[10px] text-slate-500">*</sup></span>
           </div>
+          <p className="text-[11px] text-slate-600 mt-2">
+            * Self-reported figures from JavihAI users at signup, not an independently audited count.
+          </p>
         </div>
 
         {/* Right: Sign In */}
