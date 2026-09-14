@@ -71,6 +71,12 @@ export async function GET(req: NextRequest) {
         if (res.ok) {
           await doc.ref.update({ sentAt: Timestamp.fromMillis(now) });
           sent.push(`${type}:${email}`);
+        } else {
+          // Was silently swallowed — a failed send (e.g. Resend rejecting
+          // the sender domain) left sentAt unset forever with zero trace,
+          // which is exactly how the queue going unsent went unnoticed.
+          const body = await res.text().catch(() => '');
+          console.error(`[email/schedule] send failed for ${type}:${email} — status ${res.status}: ${body.slice(0, 300)}`);
         }
       } catch (err) {
         console.error('[email/schedule] failed for', email, err);
