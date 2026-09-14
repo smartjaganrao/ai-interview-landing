@@ -373,6 +373,36 @@ export async function persistSubscription(params: {
       }
     }
     batch.set(userRef, update, { merge: true });
+
+    // subscriptions/{uid} is one doc per USER, overwritten on every purchase
+    // — it only ever reflects the latest state, so a repeat purchaser's
+    // earlier payments become invisible to anything reading that collection
+    // (confirmed live: a real customer's first ₹135 Quick Pass purchase was
+    // completely unrecoverable after their second ₹250 purchase overwrote
+    // the same doc — no error, no trace, just gone). payments/{paymentId} is
+    // a genuine append-only ledger, one immutable doc per real payment,
+    // keyed by paymentId itself so a webhook retry naturally no-ops instead
+    // of needing its own dedup check. This is what
+    // ai-interview-admin's Purchases page (app/api/purchases/list/route.ts)
+    // sources "Lifetime Revenue" from — subscriptions/{uid} remains the
+    // right source for CURRENT plan/access state, just not for history.
+    batch.set(
+      db.collection('payments').doc(params.paymentId),
+      {
+        uid: params.userId,
+        email: resolvedEmail || '',
+        plan: params.plan,
+        billing: params.billing,
+        amount: params.amount,
+        orderId: params.orderId,
+        paymentId: params.paymentId,
+        couponCode: params.couponCode ?? null,
+        source: params.source,
+        createdAt: Date.now(),
+      },
+      { merge: true }
+    );
+
     if (!alreadyLogged) {
       batch.set(logRef, {
         adminUid: 'system',
