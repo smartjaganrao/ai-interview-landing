@@ -1,7 +1,7 @@
 # Graph Report - ai-interview-landing  (2026-09-15)
 
 ## Corpus Check
-- 299 files · ~220,146 words
+- 299 files · ~220,236 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5e02d5fb`
+- Built from commit: `a7344b58`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -370,7 +370,7 @@ Nodes (8): detectDesktopOS(), InstallDownloadButtons(), buildUrl(), DOWNLOAD_PAT
 
 ### Community 6 - "dependencies"
 Cohesion: 0.10
-Nodes (21): clsx, firebase, groq-sdk, next, dependencies, clsx, firebase, groq-sdk (+13 more)
+Nodes (21): clsx, firebase, firebase-admin, groq-sdk, next, dependencies, clsx, firebase (+13 more)
 
 ### Community 7 - "layout.tsx"
 Cohesion: 0.16
