@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyWebhookSignature } from '@/lib/razorpay-server';
 import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission, db } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation, sendPaymentFailed } from '@/lib/email';
-import { getPlanById } from '@/lib/pricing-config';
+import { getPlanById, getPlanDurationMs } from '@/lib/pricing-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
           const planConfig = getPlanById(plan as import('@/lib/pricing-config').AnyPlanId);
           const hoursPurchased = isOneTime ? (planConfig?.durationValue ?? Number(notes.hoursPurchased ?? 0)) : 0;
           const hoursRemaining = isOneTime ? hoursPurchased : 0;
-          const expiresAt = isOneTime ? Date.now() + (planConfig?.durationValue ?? 1) * 24 * 60 * 60 * 1000 : null;
+          const expiresAt = isOneTime ? Date.now() + getPlanDurationMs(plan as import('@/lib/pricing-config').AnyPlanId) : null;
           const renewalDate = !isOneTime ? Date.now() + ((billing === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000) : null;
 
           const saved = await persistSubscription({

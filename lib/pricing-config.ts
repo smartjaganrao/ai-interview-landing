@@ -198,6 +198,30 @@ export function getPlanHours(plan: AnyPlanId): number {
   return config ? config.durationValue : 0;
 }
 
+/**
+ * Real one-time-plan duration in milliseconds, honoring `durationType` —
+ * NOT durationValue * a hardcoded day-length, which silently breaks any
+ * plan whose durationType isn't 'days'. Quick Pass is `durationType:
+ * 'hours', durationValue: 1` (a true 1-hour pass); every expiresAt call site
+ * used to multiply durationValue by a day-length constant regardless of
+ * durationType, which happened to be correct for Pro (`'days', 7` → 7 days)
+ * but silently gave Quick Pass buyers 24 hours instead of the 1 hour they
+ * paid for — a 24x overgrant that went unnoticed because the formula never
+ * actually looked at durationType. Confirmed 2026-09-15, fixed here as the
+ * one place all 3 duplicate call sites (lib/firebase-admin.ts,
+ * app/api/razorpay/verify-payment/route.ts, app/api/razorpay/webhook/route.ts)
+ * now compute it, instead of drifting independently again.
+ */
+export function getPlanDurationMs(plan: AnyPlanId): number {
+  const config = getPlanById(plan);
+  if (!config) return 24 * 60 * 60 * 1000; // 1 day — same fallback the old inline formula used
+  const msPerUnit =
+    config.durationType === 'hours' ? 60 * 60 * 1000
+    : config.durationType === 'month' ? 30 * 24 * 60 * 60 * 1000
+    : 24 * 60 * 60 * 1000; // 'days'
+  return config.durationValue * msPerUnit;
+}
+
 export function isUnlimitedPlan(plan: AnyPlanId): boolean {
   const config = getPlanById(plan);
   return config ? config.isUnlimited : false;

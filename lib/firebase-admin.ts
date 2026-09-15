@@ -14,6 +14,7 @@ import {
   PLAN_RANK,
   migratePlanId,
   getPlanById,
+  getPlanDurationMs,
 } from './pricing-config';
 import { sendQuotaUpgradeNudge } from './email';
 
@@ -76,7 +77,7 @@ function init() {
 
 init();
 
-export { db, PLAN_RANK, getPlanById };
+export { db, PLAN_RANK, getPlanById, getPlanDurationMs };
 
 /** Fetch a Firebase user's email + displayName by uid. Returns null if not found or Admin SDK absent. */
 export async function getUserInfo(uid: string): Promise<{ email: string; name: string } | null> {
@@ -129,7 +130,33 @@ export function dayKey(): string {
   return new Date().toISOString().slice(0, 10); // UTC YYYY-MM-DD, consistent across server timezones
 }
 
-/** Resolve a user's plan from users/{uid}, falling back to an active subscription. */
+/**
+ * True only when a subscription doc carries a real expiry/renewal timestamp
+ * that has already passed. No subscription doc, or one with neither field
+ * set (a permanent/undated grant), is NOT treated as expired — this function
+ * only closes the specific real-time-enforcement gap below, not a general
+ * "does this user deserve access" check.
+ */
+export function isSubscriptionExpired(sub: FirebaseFirestore.DocumentData | undefined, now: number): boolean {
+  if (!sub) return false;
+  const expiry = (sub.renewalDate as number | undefined) ?? (sub.expiresAt as number | undefined) ?? null;
+  return expiry !== null && expiry <= now;
+}
+
+/** Resolve a user's plan from users/{uid}, falling back to an active subscription.
+ *
+ * Real-time expiry check added 2026-09-15: users/{uid}.plan and
+ * subscriptions/{uid}.status only ever got reverted to free/expired by the
+ * once-daily email/schedule cron (app/api/email/schedule/route.ts) — meaning
+ * a lapsed plan kept full paid-tier access for up to ~24h after its real
+ * expiresAt/renewalDate, since nothing on the request path ever checked that
+ * timestamp directly. Harmless drift for week/month-scale plans, but Quick
+ * Pass is a genuine 1-hour pass (see getPlanDurationMs) — the same 24h lag
+ * meant up to ~23 extra hours of full access beyond what was paid for, every
+ * time. This checks the subscription doc's own expiry on every cache-miss
+ * instead of trusting a value the daily cron might not have corrected yet —
+ * bounded by PLAN_CACHE_TTL, so the worst case is now 2 minutes, not a day.
+ */
 const planCache = new Map<string, { plan: PlanId; expiresAt: number }>();
 const PLAN_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 
@@ -169,11 +196,16 @@ export async function getUserPlan(
     const up = u.exists ? u.data()?.plan : undefined;
     const migratedPlan = up ? migratePlanId(up as string) : undefined;
     if (migratedPlan && migratedPlan !== 'free') {
-      planCache.set(uid, { plan: migratedPlan, expiresAt: now + PLAN_CACHE_TTL });
-      return migratedPlan;
+      const s = await db.collection('subscriptions').doc(uid).get();
+      if (!isSubscriptionExpired(s.exists ? s.data() : undefined, now)) {
+        planCache.set(uid, { plan: migratedPlan, expiresAt: now + PLAN_CACHE_TTL });
+        return migratedPlan;
+      }
+      planCache.set(uid, { plan: 'free', expiresAt: now + PLAN_CACHE_TTL });
+      return 'free';
     }
     const s = await db.collection('subscriptions').doc(uid).get();
-    if (s.exists && s.data()?.status === 'active') {
+    if (s.exists && s.data()?.status === 'active' && !isSubscriptionExpired(s.data(), now)) {
       const sp = s.data()?.plan;
       const migratedSubPlan = sp ? migratePlanId(sp as string) : undefined;
       if (migratedSubPlan && migratedSubPlan !== 'free') {
@@ -326,7 +358,7 @@ export async function persistSubscription(params: {
 
     const hoursPurchased = params.hoursPurchased ?? (planConfig ? planConfig.durationValue : 0);
     const hoursRemaining = params.hoursRemaining ?? hoursPurchased;
-    const expiresAt = params.expiresAt ?? (isOneTime ? Date.now() + (planConfig?.durationValue ?? 1) * 24 * 60 * 60 * 1000 : null);
+    const expiresAt = params.expiresAt ?? (isOneTime ? Date.now() + getPlanDurationMs(params.plan) : null);
 
     const batch = db.batch();
     batch.set(

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyPaymentSignature, isRazorpayConfigured, getRazorpayClient, getRazorpayKeys } from '@/lib/razorpay-server';
-import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission, getPlanById } from '@/lib/firebase-admin';
+import { persistSubscription, getUserInfo, redeemCreditForOrder, rewardReferrerOnPayment, accrueCreatorCommission, getPlanById, getPlanDurationMs } from '@/lib/firebase-admin';
 import { sendPaymentConfirmation } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
     const planConfig = getPlanById(plan as import('@/lib/pricing-config').AnyPlanId);
     const hoursPurchased = isOneTime ? (planConfig?.durationValue ?? 0) : 0;
     const hoursRemaining = isOneTime ? hoursPurchased : 0;
-    const expiresAt = isOneTime ? Date.now() + (planConfig?.durationValue ?? 1) * 24 * 60 * 60 * 1000 : null;
+    const expiresAt = isOneTime ? Date.now() + getPlanDurationMs(plan as import('@/lib/pricing-config').AnyPlanId) : null;
 
     if (userId && plan && billing) {
       savedToFirestore = await persistSubscription({
