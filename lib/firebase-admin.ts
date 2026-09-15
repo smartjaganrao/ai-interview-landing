@@ -282,18 +282,22 @@ export async function checkAiQuota(uid: string, feature: QuotaFeature): Promise<
 
   // Pass the snapshot along (if the ban check above just fetched it) so a
   // getUserPlan cache miss doesn't re-read the same users/{uid} doc again.
-  const plan = await getUserPlan(uid, userSnap);
+  // Plan and today's usage are independent reads (usage doesn't need to know
+  // the plan first, only the LIMIT does) — run them concurrently instead of
+  // one after another. Same total Firestore reads as before on every path
+  // (this only changes sequential -> parallel, never adds a read the old
+  // code didn't already make), shaving one full round-trip off every
+  // quota-cache-miss request — this check sits in front of every single AI
+  // answer, so its latency is paid on every message, not just once.
+  const [plan, usageSnap] = await Promise.all([
+    getUserPlan(uid, userSnap),
+    db
+      ? db.collection('usage_tracking').doc(uid).collection('days').doc(dayKey()).get().catch(() => null)
+      : Promise.resolve(null),
+  ]);
   const limit = plan === 'free' ? FREE_FEATURE_LIMITS[feature] : (PAID_DAILY_LIMITS[plan] ?? Infinity);
-
-  let used = 0;
-  if (db) {
-    try {
-      const snap = await db
-        .collection('usage_tracking').doc(uid)
-        .collection('days').doc(dayKey()).get();
-      used = snap.exists ? (snap.data()?.[FEATURE_USAGE_FIELD[feature]] || 0) : 0;
-    } catch { /* read failure → fail open (don't block paying-adjacent users) */ }
-  }
+  // read failure / no db -> usageSnap is null -> used stays 0 -> fail open (don't block paying-adjacent users)
+  const used = usageSnap?.exists ? (usageSnap.data()?.[FEATURE_USAGE_FIELD[feature]] || 0) : 0;
   const result: QuotaResult = { allowed: used < limit, plan, used, limit, feature };
   quotaCache.set(cacheKey, { result, expiresAt: now + QUOTA_CACHE_TTL });
   return result;
