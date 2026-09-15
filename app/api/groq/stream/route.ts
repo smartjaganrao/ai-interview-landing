@@ -14,7 +14,19 @@ const MAX_CONCURRENT = 25;
 // Groq deprecates model IDs without warning (e.g. llama-3.1-8b-instant
 // vanished 2026-08) — tried in order after the requested model 404s with
 // "model_not_found" instead of failing the request outright.
-const FALLBACK_MODELS = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b', 'qwen/qwen3.6-27b', 'groq/compound-mini'];
+const FALLBACK_MODELS = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'groq/compound-mini'];
+// Only qwen3.8-27b accepts image_url content today. A screenshot (coding-
+// question) request that 404s on it must not fall back to a text-only
+// model — Groq rejects/garbles image content sent to those, which surfaced
+// as "screenshot captured but no answer came back" with no clear error.
+const VISION_MODELS = new Set(['qwen/qwen3.8-27b']);
+
+function hasImageContent(messages: unknown[]): boolean {
+  return messages.some(m =>
+    Array.isArray((m as { content?: unknown })?.content) &&
+    (m as { content: unknown[] }).content.some((part) => (part as { type?: string })?.type === 'image_url')
+  );
+}
 
 type GroqAttemptResult =
   | { ok: true; res: Response & { body: ReadableStream<Uint8Array> } }
@@ -124,7 +136,10 @@ export async function POST(req: NextRequest) {
 
     activeGroqRequests++;
     const requestedModel = model || 'openai/gpt-oss-20b';
-    const candidates = [requestedModel, ...FALLBACK_MODELS.filter(m => m !== requestedModel)];
+    const fallbackPool = hasImageContent(messages)
+      ? FALLBACK_MODELS.filter(m => VISION_MODELS.has(m))
+      : FALLBACK_MODELS;
+    const candidates = [requestedModel, ...fallbackPool.filter(m => m !== requestedModel)];
 
     let result: GroqAttemptResult;
     try {

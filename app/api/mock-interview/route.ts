@@ -23,7 +23,7 @@ const DIFFICULTY_GUIDE: Record<Difficulty, string> = {
 // Groq deprecates model IDs without warning (e.g. llama-3.1-8b-instant
 // vanished 2026-08) — tried in order after the requested model 404s with
 // "model_not_found" instead of falling through to the canned default.
-const FALLBACK_MODELS = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b', 'qwen/qwen3.6-27b', 'groq/compound-mini'];
+const FALLBACK_MODELS = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'groq/compound-mini'];
 
 function isModelNotFoundError(err: unknown): boolean {
   const e = err as { status?: number; error?: { error?: { code?: string } } };
