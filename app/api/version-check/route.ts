@@ -3,7 +3,12 @@ import { NextResponse } from 'next/server';
 // Bump this to force older clients to update before they can use the app.
 // Format: semver string e.g. "1.3.4"
 const MIN_VERSION = '1.3.4';
-const DOWNLOAD_URL = 'https://javihai.in/#download';
+// Was '#download' — no element on the homepage has that id, so the link did
+// nothing when clicked from the desktop app's hard version-block screen
+// (VersionGateModal). /install is a real page with working, already-tested
+// download buttons — same destination already used as the fallback download
+// link elsewhere in the desktop app (updateCheck.service.ts).
+const DOWNLOAD_URL = 'https://javihai.in/install';
 
 function parseVersion(v: string): number[] {
   return v.replace(/[^0-9.]/g, '').split('.').map(Number);
