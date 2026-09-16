@@ -76,7 +76,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
 export async function getAllPublishedSlugs(): Promise<{ slug: string; updatedAt: number }[]> {
   if (!db) return [];
   try {
-    const snap = await db.collection('blog_posts').where('published', '==', true).get();
+    const snap = await db.collection('blog_posts').where('published', '==', true).select('slug', 'updatedAt').get();
     return snap.docs.map((d) => ({ slug: d.data().slug || '', updatedAt: d.data().updatedAt || 0 })).filter((s) => s.slug);
   } catch {
     return [];
