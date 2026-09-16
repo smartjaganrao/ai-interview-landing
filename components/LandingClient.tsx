@@ -513,13 +513,6 @@ export default function LandingClient(props: LandingClientProps) {
                   </div>
                 </div>
 
-                {/* Floating badges */}
-                <div className="absolute -top-3 sm:-top-4 -right-3 sm:-right-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-blue-400 font-semibold border border-blue-500/20" style={{ transform: 'translateZ(70px)' }}>
-                  🥷 Invisible to Zoom
-                </div>
-                <div className="absolute -bottom-3 sm:-bottom-4 -left-3 sm:-left-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-purple-400 font-semibold border border-purple-500/20" style={{ transform: 'translateZ(70px)' }}>
-                  ⚡ Answer in 1.4s
-                </div>
               </div>
             </div>
           </div>
@@ -946,38 +939,27 @@ export default function LandingClient(props: LandingClientProps) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <Link href="/resume" className="card card-glow group block">
               <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-blue-500 to-indigo-500 group-hover:scale-110 transition-bounce shadow-lg">
                 📄
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Resume Builder</h3>
+              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Free ATS Resume Builder</h3>
               <p className="text-slate-400 leading-relaxed text-sm mb-4">
-                ATS-ready templates, live preview, one-click PDF export — all in your browser. Two premium templates included with Pro.
+                ATS-ready templates, live preview, multi-format export — all in your browser. Build your professional resume in minutes.
               </p>
-              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Build your resume →</span>
+              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Build your resume free →</span>
             </Link>
 
             <Link href="/jobs" className="card card-glow group block">
               <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-indigo-500 to-purple-500 group-hover:scale-110 transition-bounce shadow-lg">
                 💼
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Job Recommendations</h3>
+              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Tech Job Finder</h3>
               <p className="text-slate-400 leading-relaxed text-sm mb-4">
-                Curated tech roles across India — search by role, skill, or city, then practice for any of them with JavihAI.
+                Curated tech roles across India — search by role, tech stack, or city, then practice for any specific job description with JavihAI.
               </p>
-              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Browse jobs →</span>
-            </Link>
-
-            <Link href="/mock-interview" className="card card-glow group block">
-              <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-purple-500 to-blue-500 group-hover:scale-110 transition-bounce shadow-lg">
-                🗣️
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Voice Mock Interview</h3>
-              <p className="text-slate-400 leading-relaxed text-sm mb-4">
-                Speak your answers to questions generated from your profile and JD — scored live, inside the desktop app.
-              </p>
-              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">See how it works →</span>
+              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Browse open tech jobs →</span>
             </Link>
           </div>
         </div>
