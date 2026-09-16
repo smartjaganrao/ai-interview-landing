@@ -204,12 +204,12 @@ export default function PricingPage() {
         <div className="max-w-7xl mx-auto px-6">
           {/* Header */}
           <div className="text-center mb-16">
-            <div className="badge mb-4">💎 Pricing</div>
-            <h1 className="text-5xl md:text-6xl font-black mb-6">
-              Choose Your <span className="text-gradient">Path to Success</span>
+            <div className="badge mb-4">🇮🇳 India&apos;s 1st Unlimited AI Interview Copilot</div>
+            <h1 className="text-4xl md:text-6xl font-black mb-6">
+              India&apos;s 1st <span className="text-gradient">Unlimited Plan</span>
             </h1>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-8">
-              Start free, upgrade when you&apos;re ready. Cancel anytime.
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+              No hourly limits, no per-minute charges. Start free with daily resetting AI answers, or upgrade to India&apos;s 1st Unlimited AI Interview Assistant with Desi Mode &amp; Razorpay INR billing.
             </p>
           </div>
 

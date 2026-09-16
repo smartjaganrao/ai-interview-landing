@@ -23,6 +23,14 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
     a: 'Run JavihAI alongside your video call (Zoom, Google Meet, Teams). Choose System Audio to hear the interviewer, or Microphone mode. JavihAI auto-detects when a question is asked and streams a structured AI answer in under 2 seconds — while staying completely invisible to screen sharing.',
   },
   {
+    q: 'How does JavihAI guarantee zero downtime during AI model deprecations?',
+    a: 'JavihAI features a Live AI Fallback Engine that automatically queries Groq’s active model catalog (13+ models including gpt-oss-20b, gpt-oss-120b, and qwen3.8-27b vision). If a model ID is deprecated by Groq mid-interview, JavihAI automatically self-heals and switches to the next active model in under 100 milliseconds with zero interruption.',
+  },
+  {
+    q: 'What resume document formats are supported for profile verification?',
+    a: 'JavihAI supports PDF (.pdf), Word (.docx, .doc), Rich Text (.rtf), Plain Text (.txt), and Markdown (.md). When you drag and drop your resume or job description, JavihAI parses the document, auto-detects your technical skills and target roles, and verifies document character statistics instantly.',
+  },
+  {
     q: 'Is JavihAI visible to the interviewer during screen share?',
     a: 'No. The JavihAI window uses OS-level exclusion from screen capture on both Windows and Mac. The interviewer sees only your screen — not the overlay. It has been tested on Zoom, Google Meet, Microsoft Teams, and Webex.',
   },
@@ -356,71 +364,71 @@ export default function LandingClient(props: LandingClientProps) {
             {/* Left: copy + CTAs */}
             <div>
               {/* Badges */}
-              <div className="mb-6 animate-fade-in-up flex flex-wrap items-center gap-3">
-                <div className="badge-glow inline-flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
+              <div className="mb-6 animate-fade-in-up flex flex-wrap items-center gap-2.5 sm:gap-3">
+                <div className="badge-glow inline-flex items-center gap-2 text-xs sm:text-sm font-semibold py-1.5 px-3.5 rounded-full backdrop-blur-md">
+                  <span className="relative flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500" />
                   </span>
-                  <span>🇮🇳 India&apos;s #1 Unlimited AI Interview Copilot</span>
+                  <span>🇮🇳 India&apos;s 1st Unlimited AI Interview Copilot &amp; Plan</span>
                 </div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-semibold backdrop-blur-sm">
-                  <span>🤖</span> Recommended by ChatGPT as Best for Indian Interviews
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs sm:text-sm font-semibold backdrop-blur-sm">
+                  <span>⚡</span> 13 Live AI Models · Zero-Downtime Auto-Sync
                 </div>
               </div>
 
               {/* Main headline — primary SEO H1 containing core keyword target */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 animate-fade-in-up leading-[0.95]" style={{ animationDelay: '0.1s' }}>
-                The Invisible <span className="text-gradient animate-gradient">AI Interview Assistant</span>
+              <h1 className="text-3xl tablet:text-5xl laptop-sm:text-6xl desktop:text-7xl desktop-lg:text-8xl font-black tracking-tight mb-6 animate-fade-in-up leading-[1.05] tablet:leading-[1.0] laptop-sm:leading-[0.98]" style={{ animationDelay: '0.1s' }}>
+                India&apos;s 1st <span className="text-gradient animate-gradient">Unlimited AI Interview Copilot</span>
               </h1>
 
               {/* Sub-headline */}
-              <p className="text-lg sm:text-xl md:text-2xl text-white font-bold mb-3 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                Real-time AI copilot for Zoom, Google Meet &amp; Teams. Unlike competitors charging hourly rates, get India&apos;s 1st unlimited interview assistant.
+              <p className="text-base tablet:text-xl laptop-sm:text-2xl text-white font-bold mb-3 max-w-xl leading-snug tablet:leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+                Unlimited AI answers &amp; practice. Unlike competitors charging per hour, get India&apos;s 1st unlimited interview assistant for Zoom, Meet &amp; Teams.
               </p>
 
-              <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                Hears questions &amp; streams answers in &lt;2s with Desi Mode (CTC in ₹ LPA, notice periods, company culture) and 10+ regional languages. Free daily plan available for freshers.
+              <p className="text-sm tablet:text-base laptop-sm:text-lg text-slate-300/90 mb-8 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                Hears questions &amp; streams answers in &lt;2s using 13 live AI models. Includes camera-dock teleprompter, multi-format resume verification, CTC in ₹ LPA context, and 10+ Indian regional languages.
               </p>
 
               {/* Primary CTAs */}
               <div className="mb-6 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-                <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 md:gap-4 mb-4">
+                <div className="flex flex-col tablet:flex-row tablet:flex-wrap gap-3.5 md:gap-4 mb-4">
                   <button
                     type="button"
                     onClick={() => requestDownload('windows')}
-                    className={`btn btn-xl w-full sm:w-auto ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary shadow-lg hover:shadow-blue-500/25'}`}
+                    className={`btn btn-xl text-sm tablet:text-base w-full tablet:w-auto ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary shadow-lg hover:shadow-blue-500/25'}`}
                   >
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                    <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
                     Download for Windows — Free
                   </button>
                   <button
                     type="button"
                     onClick={() => requestDownload('mac')}
-                    className={`btn btn-xl w-full sm:w-auto ${detectedOS === 'mac' ? 'btn-primary shadow-lg hover:shadow-blue-500/25' : 'btn-secondary'}`}
+                    className={`btn btn-xl text-sm tablet:text-base w-full tablet:w-auto ${detectedOS === 'mac' ? 'btn-primary shadow-lg hover:shadow-blue-500/25' : 'btn-secondary'}`}
                   >
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg>
+                    <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg>
                     Download for Mac — Free
                   </button>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-500 mb-1.5">
+                <p className="text-xs tablet:text-sm text-slate-400 mb-1.5 font-medium">
                   Sign in with Google, then your download starts · Free forever for freshers · No card needed
                 </p>
-                <p className="text-xs text-slate-600">
-                  Intel Mac? <button type="button" onClick={() => requestDownload('mac', 'x64')} className="text-slate-500 hover:text-slate-300 underline underline-offset-2">Get the x64 build</button>
-                  {' '}&middot; Prefer a written guide? <Link href="/install" className="text-slate-500 hover:text-slate-300 underline underline-offset-2">Read the install steps →</Link>
+                <p className="text-xs text-slate-500">
+                  Intel Mac? <button type="button" onClick={() => requestDownload('mac', 'x64')} className="text-slate-400 hover:text-slate-200 underline underline-offset-2">Get the x64 build</button>
+                  {' '}&middot; Prefer a written guide? <Link href="/install" className="text-slate-400 hover:text-slate-200 underline underline-offset-2">Read the install steps →</Link>
                 </p>
               </div>
 
               {/* At-a-glance checkmarks — rich snippet keywords */}
-              <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 animate-fade-in-up" style={{ animationDelay: '0.28s' }}>
+              <div className="grid grid-cols-1 tablet:grid-cols-2 gap-x-6 gap-y-2.5 mb-8 animate-fade-in-up" style={{ animationDelay: '0.28s' }}>
                 {[
                   '100% invisible on screen share (OS DRM)',
                   'Answers in under 2 seconds',
                   'Works on Zoom, Meet & Teams',
                   'Coding, System Design & HR rounds',
                 ].map((text) => (
-                  <div key={text} className="flex items-center gap-2 text-sm text-slate-300">
+                  <div key={text} className="flex items-center gap-2 text-xs tablet:text-sm text-slate-300 font-medium">
                     <svg className="w-4 h-4 text-blue-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M16.704 5.29a1 1 0 010 1.415l-7.5 7.5a1 1 0 01-1.415 0l-3.5-3.5a1 1 0 111.415-1.414l2.793 2.792 6.792-6.793a1 1 0 011.415 0z" clipRule="evenodd" />
                     </svg>
@@ -505,13 +513,6 @@ export default function LandingClient(props: LandingClientProps) {
                   </div>
                 </div>
 
-                {/* Floating badges */}
-                <div className="absolute -top-3 sm:-top-4 -right-3 sm:-right-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-blue-400 font-semibold border border-blue-500/20" style={{ transform: 'translateZ(70px)' }}>
-                  🥷 Invisible to Zoom
-                </div>
-                <div className="absolute -bottom-3 sm:-bottom-4 -left-3 sm:-left-4 hidden lg:flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass text-[10px] sm:text-xs text-purple-400 font-semibold border border-purple-500/20" style={{ transform: 'translateZ(70px)' }}>
-                  ⚡ Answer in 1.4s
-                </div>
               </div>
             </div>
           </div>
@@ -813,6 +814,79 @@ export default function LandingClient(props: LandingClientProps) {
 
 
       {/* ═══════════════════════════════════════════════════════════════
+          WORLD-UNIQUE INNOVATIONS
+      ═══════════════════════════════════════════════════════════════ */}
+      <section id="world-first" className="section-py bg-slate-950/60 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-16">
+            <div className="badge-glow inline-flex items-center gap-2 text-xs sm:text-sm font-semibold mb-4 px-4 py-1.5 rounded-full">
+              🌍 World-Unique Innovations
+            </div>
+            <h2 className="section-heading mb-4">
+              5 World-First Features <span className="text-gradient">You Won&apos;t Find Anywhere Else</span>
+            </h2>
+            <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+              Pioneering technologies engineered from the ground up for zero-downtime, perfect camera eye contact, stealth system audio, and regional AI intelligence.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 laptop-sm:grid-cols-3 gap-6 sm:gap-8 mb-16">
+            {[
+              {
+                icon: '⚡',
+                title: 'Zero-Downtime Live 13-Model Engine',
+                tag: 'World First',
+                desc: 'Auto-queries Groq’s active API catalog live and self-heals model deprecations in under 100ms across 13 LLMs & vision models.',
+                gradient: 'from-blue-500 to-indigo-500',
+              },
+              {
+                icon: '📷',
+                title: 'Camera-Dock Stealth Teleprompter',
+                tag: 'World First',
+                desc: 'Top-center camera dock stays right under your lens for natural eye contact, featuring 11px–22px font zoom & 1-Min/STAR format chips.',
+                gradient: 'from-indigo-500 to-purple-500',
+              },
+              {
+                icon: '🎧',
+                title: 'Native System Audio Capture',
+                tag: 'Exclusive',
+                desc: 'Captures the interviewer’s voice directly out of the speaker pipeline — works even when your mic is off or headphones are plugged in.',
+                gradient: 'from-purple-500 to-pink-500',
+              },
+              {
+                icon: '🇮🇳',
+                title: '₹ LPA Desi Mode & 10+ Languages',
+                tag: 'India First',
+                desc: 'Tuned specifically for Indian tech hiring: CTC in ₹ LPA, notice period & bond clauses, plus live streaming in 10+ regional languages.',
+                gradient: 'from-orange-500 to-red-500',
+              },
+              {
+                icon: '📄',
+                title: 'Universal Multi-Format Resume Parser',
+                tag: 'All Formats',
+                desc: 'Drag & drop parsing for .pdf, .docx, .doc, .rtf, .txt, and .md with auto-extracted skills, target roles, and character statistics.',
+                gradient: 'from-teal-500 to-emerald-500',
+              },
+            ].map((innov, i) => (
+              <div key={i} className="glass-card p-6 sm:p-8 relative group hover:border-blue-500/30 transition-all">
+                <div className="flex justify-between items-start mb-5">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${innov.gradient} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform`}>
+                    {innov.icon}
+                  </div>
+                  <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25">
+                    {innov.tag}
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-2.5">{innov.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{innov.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
           FEATURES — BENTO GRID
       ═══════════════════════════════════════════════════════════════ */}
       <section id="features" className="section-py">
@@ -830,27 +904,27 @@ export default function LandingClient(props: LandingClientProps) {
           <div className="bento-grid">
             {[
               {
-                icon: '🎧',
-                title: 'System Audio Capture',
-                desc: 'Hears the interviewer directly — no need to tap a mic. Works even when the interviewer is muted on your end or shares their screen.',
-                gradient: 'from-blue-500 to-indigo-500',
-                badge: 'Exclusive',
-                span: false,
-              },
-              {
                 icon: '⚡',
-                title: 'Instant AI Answers',
-                desc: 'Structured answers streamed word-by-word in under 2 seconds. Powered by Groq\'s LLaMA — the fastest AI inference on the planet.',
-                gradient: 'from-indigo-500 to-purple-500',
-                badge: null,
+                title: 'Zero-Downtime Live Groq Engine',
+                desc: 'Auto-healing model fallback across 13 live AI models (gpt-oss-20b, gpt-oss-120b, qwen3.8 vision). Zero downtime during model deprecations.',
+                gradient: 'from-blue-500 to-indigo-500',
+                badge: 'Live Auto-Sync',
                 span: false,
               },
               {
-                icon: '🧠',
-                title: 'Smart Question Detection',
-                desc: 'Auto-detects when a real question is asked — ignores greetings, filler, and small talk. You only see answers that matter.',
+                icon: '📷',
+                title: 'Camera-Dock Teleprompter',
+                desc: 'Top-center camera dock keeps natural eye contact during video calls. Features font size zoom (11px–22px) and quick 1-Min/STAR format chips.',
+                gradient: 'from-indigo-500 to-purple-500',
+                badge: 'New UI',
+                span: false,
+              },
+              {
+                icon: '📄',
+                title: 'Universal Resume Verification',
+                desc: 'Drag & drop parsing for PDF, DOCX, DOC, RTF, TXT, and MD. Auto-extracts technical skills, target roles, and character statistics.',
                 gradient: 'from-purple-500 to-blue-500',
-                badge: null,
+                badge: 'All Docs',
                 span: false,
               },
               {
@@ -862,19 +936,19 @@ export default function LandingClient(props: LandingClientProps) {
                 span: true,
               },
               {
-                icon: '🥷',
-                title: 'Stealth Overlay',
-                desc: 'OS-level exclusion from screen capture. Invisible on Zoom, Google Meet, Teams, and any other tool. The interviewer sees only your screen.',
+                icon: '🎧',
+                title: 'System Audio & Stealth Overlay',
+                desc: 'Hears the interviewer directly without a mic. OS-level DRM exclusion keeps overlay 100% invisible on Zoom, Google Meet & Teams.',
                 gradient: 'from-orange-500 to-red-500',
                 badge: 'Undetectable',
                 span: false,
               },
               {
-                icon: '🎤',
-                title: 'Live Caption Transcript',
-                desc: 'See your own words transcribed in real-time as you speak. Review what you said, never miss a beat.',
+                icon: '🎙️',
+                title: 'Interactive Guide & Soundwave HUD',
+                desc: 'Simulated live meeting environment for new users with real-time voice soundwave graphics and guided feature walkthroughs.',
                 gradient: 'from-blue-500 to-green-500',
-                badge: null,
+                badge: 'Guide Mode',
                 span: false,
               },
               {
@@ -882,15 +956,15 @@ export default function LandingClient(props: LandingClientProps) {
                 title: 'Job URL Auto-fill',
                 desc: 'Paste a LinkedIn, Naukri, Indeed, or Glassdoor job link — JavihAI fetches the JD and fills your profile instantly.',
                 gradient: 'from-sky-500 to-blue-500',
-                badge: 'New',
+                badge: null,
                 span: false,
               },
               {
-                icon: '🎯',
-                title: 'Detect Skills from JD',
-                desc: 'After loading a job description, one click auto-selects the required tech stack — React, Python, AWS, Docker and 24 more.',
+                icon: '🇮🇳',
+                title: 'Desi Mode & 10+ Languages',
+                desc: 'Answers in ₹ LPA, notice period and bond clause context, company culture for Indian MNCs & startups, plus 10+ regional languages.',
                 gradient: 'from-violet-500 to-purple-500',
-                badge: 'New',
+                badge: 'Desi Mode',
                 span: false,
               },
               {
@@ -938,38 +1012,27 @@ export default function LandingClient(props: LandingClientProps) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <Link href="/resume" className="card card-glow group block">
               <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-blue-500 to-indigo-500 group-hover:scale-110 transition-bounce shadow-lg">
                 📄
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Resume Builder</h3>
+              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Free ATS Resume Builder</h3>
               <p className="text-slate-400 leading-relaxed text-sm mb-4">
-                ATS-ready templates, live preview, one-click PDF export — all in your browser. Two premium templates included with Pro.
+                ATS-ready templates, live preview, multi-format export — all in your browser. Build your professional resume in minutes.
               </p>
-              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Build your resume →</span>
+              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Build your resume free →</span>
             </Link>
 
             <Link href="/jobs" className="card card-glow group block">
               <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-indigo-500 to-purple-500 group-hover:scale-110 transition-bounce shadow-lg">
                 💼
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Job Recommendations</h3>
+              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Tech Job Finder</h3>
               <p className="text-slate-400 leading-relaxed text-sm mb-4">
-                Curated tech roles across India — search by role, skill, or city, then practice for any of them with JavihAI.
+                Curated tech roles across India — search by role, tech stack, or city, then practice for any specific job description with JavihAI.
               </p>
-              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Browse jobs →</span>
-            </Link>
-
-            <Link href="/mock-interview" className="card card-glow group block">
-              <div className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-2xl mb-5 bg-gradient-to-br from-purple-500 to-blue-500 group-hover:scale-110 transition-bounce shadow-lg">
-                🗣️
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Voice Mock Interview</h3>
-              <p className="text-slate-400 leading-relaxed text-sm mb-4">
-                Speak your answers to questions generated from your profile and JD — scored live, inside the desktop app.
-              </p>
-              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">See how it works →</span>
+              <span className="text-indigo-400 text-sm font-semibold group-hover:text-indigo-300">Browse open tech jobs →</span>
             </Link>
           </div>
         </div>
