@@ -370,7 +370,7 @@ export default function LandingClient(props: LandingClientProps) {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                   </span>
-                  <span>🇮🇳 India&apos;s #1 AI Interview Coach &amp; Copilot</span>
+                  <span>🇮🇳 India&apos;s 1st Unlimited AI Interview Copilot &amp; Plan</span>
                 </div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-semibold backdrop-blur-sm">
                   <span>⚡</span> 13 Live AI Models · Zero-Downtime Auto-Sync
@@ -379,16 +379,16 @@ export default function LandingClient(props: LandingClientProps) {
 
               {/* Main headline — primary SEO H1 containing core keyword target */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 animate-fade-in-up leading-[0.95]" style={{ animationDelay: '0.1s' }}>
-                India&apos;s Best <span className="text-gradient animate-gradient">AI Interview Coach</span>
+                India&apos;s 1st <span className="text-gradient animate-gradient">Unlimited AI Interview Copilot</span>
               </h1>
 
               {/* Sub-headline */}
               <p className="text-lg sm:text-xl md:text-2xl text-white font-bold mb-3 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                Stealth AI copilot for Zoom, Google Meet &amp; Teams. Get real-time answers, camera-dock teleprompter, and Desi Mode tuned for Indian tech hiring.
+                Unlimited AI answers &amp; practice. Unlike competitors charging per hour, get India&apos;s 1st unlimited interview assistant for Zoom, Meet &amp; Teams.
               </p>
 
               <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                Hears questions &amp; streams answers in &lt;2s using 13 live AI models. Includes multi-format resume verification (.pdf, .docx, .doc, .rtf, .txt, .md), CTC in ₹ LPA context, and 10+ Indian regional languages.
+                Hears questions &amp; streams answers in &lt;2s using 13 live AI models. Includes camera-dock teleprompter, multi-format resume verification, CTC in ₹ LPA context, and 10+ Indian regional languages.
               </p>
 
               {/* Primary CTAs */}
