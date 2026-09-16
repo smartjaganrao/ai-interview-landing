@@ -814,6 +814,79 @@ export default function LandingClient(props: LandingClientProps) {
 
 
       {/* ═══════════════════════════════════════════════════════════════
+          WORLD-UNIQUE INNOVATIONS
+      ═══════════════════════════════════════════════════════════════ */}
+      <section id="world-first" className="section-py bg-slate-950/60 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-16">
+            <div className="badge-glow inline-flex items-center gap-2 text-xs sm:text-sm font-semibold mb-4 px-4 py-1.5 rounded-full">
+              🌍 World-Unique Innovations
+            </div>
+            <h2 className="section-heading mb-4">
+              5 World-First Features <span className="text-gradient">You Won&apos;t Find Anywhere Else</span>
+            </h2>
+            <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+              Pioneering technologies engineered from the ground up for zero-downtime, perfect camera eye contact, stealth system audio, and regional AI intelligence.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 laptop-sm:grid-cols-3 gap-6 sm:gap-8 mb-16">
+            {[
+              {
+                icon: '⚡',
+                title: 'Zero-Downtime Live 13-Model Engine',
+                tag: 'World First',
+                desc: 'Auto-queries Groq’s active API catalog live and self-heals model deprecations in under 100ms across 13 LLMs & vision models.',
+                gradient: 'from-blue-500 to-indigo-500',
+              },
+              {
+                icon: '📷',
+                title: 'Camera-Dock Stealth Teleprompter',
+                tag: 'World First',
+                desc: 'Top-center camera dock stays right under your lens for natural eye contact, featuring 11px–22px font zoom & 1-Min/STAR format chips.',
+                gradient: 'from-indigo-500 to-purple-500',
+              },
+              {
+                icon: '🎧',
+                title: 'Native System Audio Capture',
+                tag: 'Exclusive',
+                desc: 'Captures the interviewer’s voice directly out of the speaker pipeline — works even when your mic is off or headphones are plugged in.',
+                gradient: 'from-purple-500 to-pink-500',
+              },
+              {
+                icon: '🇮🇳',
+                title: '₹ LPA Desi Mode & 10+ Languages',
+                tag: 'India First',
+                desc: 'Tuned specifically for Indian tech hiring: CTC in ₹ LPA, notice period & bond clauses, plus live streaming in 10+ regional languages.',
+                gradient: 'from-orange-500 to-red-500',
+              },
+              {
+                icon: '📄',
+                title: 'Universal Multi-Format Resume Parser',
+                tag: 'All Formats',
+                desc: 'Drag & drop parsing for .pdf, .docx, .doc, .rtf, .txt, and .md with auto-extracted skills, target roles, and character statistics.',
+                gradient: 'from-teal-500 to-emerald-500',
+              },
+            ].map((innov, i) => (
+              <div key={i} className="glass-card p-6 sm:p-8 relative group hover:border-blue-500/30 transition-all">
+                <div className="flex justify-between items-start mb-5">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${innov.gradient} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform`}>
+                    {innov.icon}
+                  </div>
+                  <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25">
+                    {innov.tag}
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-2.5">{innov.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{innov.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
           FEATURES — BENTO GRID
       ═══════════════════════════════════════════════════════════════ */}
       <section id="features" className="section-py">
