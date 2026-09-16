@@ -14,12 +14,66 @@ const MAX_CONCURRENT = 25;
 // Groq deprecates model IDs without warning (e.g. llama-3.1-8b-instant
 // vanished 2026-08) — tried in order after the requested model 404s with
 // "model_not_found" instead of failing the request outright.
-const FALLBACK_MODELS = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'groq/compound-mini'];
+const FALLBACK_MODELS = [
+  'openai/gpt-oss-20b',
+  'openai/gpt-oss-120b',
+  'qwen/qwen3.8-27b',
+  'llama-3.3-70b-versatile',
+  'llama-3.1-8b-instant',
+  'groq/compound-mini',
+];
 // Only qwen3.8-27b accepts image_url content today. A screenshot (coding-
 // question) request that 404s on it must not fall back to a text-only
 // model — Groq rejects/garbles image content sent to those, which surfaced
 // as "screenshot captured but no answer came back" with no clear error.
 const VISION_MODELS = new Set(['qwen/qwen3.8-27b']);
+
+function isModelNotFoundError(status: number, errBody: { error?: { message?: string; code?: string } }): boolean {
+  const code = errBody?.error?.code || '';
+  const msg = (errBody?.error?.message || '').toLowerCase();
+  return (
+    status === 404 ||
+    status === 400 ||
+    status === 422 ||
+    code === 'model_not_found' ||
+    code === 'model_decommissioned' ||
+    code === 'invalid_model' ||
+    msg.includes('model_not_found') ||
+    msg.includes('model_decommissioned') ||
+    msg.includes('decommissioned') ||
+    msg.includes('deprecated') ||
+    msg.includes('invalid_model') ||
+    msg.includes('does not exist') ||
+    msg.includes('no longer supported') ||
+    msg.includes('unknown model')
+  );
+}
+
+let liveModelCache: { models: string[]; fetchedAt: number } | null = null;
+
+async function getLiveFallbackModels(apiKey: string): Promise<string[]> {
+  if (liveModelCache && Date.now() - liveModelCache.fetchedAt < 3600_000) {
+    return liveModelCache.models;
+  }
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/models', {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const active = (data.data || [])
+        .filter((m: { active?: boolean }) => m.active !== false)
+        .map((m: { id: string }) => m.id);
+      if (active.length > 0) {
+        liveModelCache = { models: active, fetchedAt: Date.now() };
+        return active;
+      }
+    }
+  } catch {
+    /* fallback to static array */
+  }
+  return [];
+}
 
 function hasImageContent(messages: unknown[]): boolean {
   return messages.some(m =>
@@ -67,8 +121,8 @@ async function fetchGroqWithFallback(
     if (res.ok && res.body) return { ok: true, res: res as Response & { body: ReadableStream<Uint8Array> } };
     const errBody = await res.json().catch(() => ({}));
     last = { status: res.status, errBody };
-    if (!(res.status === 404 && errBody?.error?.code === 'model_not_found')) return { ok: false, ...last };
-    console.warn(`[groq/stream] Model "${candidateModel}" no longer exists, trying next fallback...`);
+    if (!isModelNotFoundError(res.status, errBody)) return { ok: false, ...last };
+    console.warn(`[groq/stream] Model "${candidateModel}" no longer exists/deprecated, trying next fallback...`);
   }
   return { ok: false, ...last };
 }
@@ -136,10 +190,11 @@ export async function POST(req: NextRequest) {
 
     activeGroqRequests++;
     const requestedModel = model || 'openai/gpt-oss-20b';
-    const fallbackPool = hasImageContent(messages)
-      ? FALLBACK_MODELS.filter(m => VISION_MODELS.has(m))
-      : FALLBACK_MODELS;
-    const candidates = [requestedModel, ...fallbackPool.filter(m => m !== requestedModel)];
+    const isVision = hasImageContent(messages);
+    const livePool = await getLiveFallbackModels(apiKey);
+    const basePool = livePool.length > 0 ? Array.from(new Set([...FALLBACK_MODELS, ...livePool])) : FALLBACK_MODELS;
+    const fallbackPool = isVision ? basePool.filter(m => VISION_MODELS.has(m) || m.includes('vision') || m.includes('qwen')) : basePool;
+    const candidates = Array.from(new Set([requestedModel, ...fallbackPool]));
 
     let result: GroqAttemptResult;
     try {

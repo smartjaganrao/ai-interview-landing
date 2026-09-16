@@ -23,11 +23,59 @@ const DIFFICULTY_GUIDE: Record<Difficulty, string> = {
 // Groq deprecates model IDs without warning (e.g. llama-3.1-8b-instant
 // vanished 2026-08) — tried in order after the requested model 404s with
 // "model_not_found" instead of falling through to the canned default.
-const FALLBACK_MODELS = ['openai/gpt-oss-20b', 'openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'groq/compound-mini'];
+const FALLBACK_MODELS = [
+  'openai/gpt-oss-20b',
+  'openai/gpt-oss-120b',
+  'qwen/qwen3.8-27b',
+  'llama-3.3-70b-versatile',
+  'llama-3.1-8b-instant',
+  'groq/compound-mini',
+];
 
 function isModelNotFoundError(err: unknown): boolean {
-  const e = err as { status?: number; error?: { error?: { code?: string } } };
-  return e?.status === 404 && e?.error?.error?.code === 'model_not_found';
+  if (!err) return false;
+  const msg = (err instanceof Error ? err.message : String(err)).toLowerCase();
+  const e = err as { status?: number; statusCode?: number; code?: string; error?: { status?: number; code?: string; error?: { code?: string; message?: string } } };
+  const status = e?.status || e?.statusCode || e?.error?.status;
+  const code = e?.error?.error?.code || e?.error?.code || e?.code || '';
+
+  return (
+    status === 404 ||
+    status === 400 ||
+    status === 422 ||
+    code === 'model_not_found' ||
+    code === 'model_decommissioned' ||
+    code === 'invalid_model' ||
+    msg.includes('model_not_found') ||
+    msg.includes('model_decommissioned') ||
+    msg.includes('decommissioned') ||
+    msg.includes('deprecated') ||
+    msg.includes('invalid_model') ||
+    msg.includes('does not exist') ||
+    msg.includes('no longer supported') ||
+    msg.includes('unknown model')
+  );
+}
+
+let liveModelCache: { models: string[]; fetchedAt: number } | null = null;
+
+async function getLiveFallbackModels(groq: Groq): Promise<string[]> {
+  if (liveModelCache && Date.now() - liveModelCache.fetchedAt < 3600_000) {
+    return liveModelCache.models;
+  }
+  try {
+    const list = await groq.models.list();
+    const active = (list.data || [])
+      .filter((m) => (m as unknown as { active?: boolean }).active !== false)
+      .map((m) => m.id);
+    if (active.length > 0) {
+      liveModelCache = { models: active, fetchedAt: Date.now() };
+      return active;
+    }
+  } catch {
+    /* fallback to static pool */
+  }
+  return [];
 }
 
 async function createChatCompletionWithFallback(
@@ -35,7 +83,9 @@ async function createChatCompletionWithFallback(
   params: Omit<ChatCompletionCreateParamsNonStreaming, 'model'>,
   preferredModel: string,
 ) {
-  const candidates = [preferredModel, ...FALLBACK_MODELS.filter(m => m !== preferredModel)];
+  const livePool = await getLiveFallbackModels(groq);
+  const basePool = livePool.length > 0 ? Array.from(new Set([...FALLBACK_MODELS, ...livePool])) : FALLBACK_MODELS;
+  const candidates = Array.from(new Set([preferredModel, ...basePool]));
   let lastErr: unknown;
   for (const model of candidates) {
     try {
@@ -43,7 +93,7 @@ async function createChatCompletionWithFallback(
     } catch (err) {
       lastErr = err;
       if (!isModelNotFoundError(err)) throw err;
-      console.warn(`[mock-interview] Model "${model}" no longer exists, trying next fallback...`);
+      console.warn(`[mock-interview] Model "${model}" no longer exists/deprecated, trying next fallback...`);
     }
   }
   throw lastErr;

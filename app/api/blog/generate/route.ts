@@ -21,11 +21,39 @@ function slugify(s: string): string {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
-// Groq's response_format:'json_object' constrained decoding occasionally
-// fails to produce valid JSON for long/complex output (confirmed in
-// production — intermittent even on gpt-oss-120b) — this is a known
-// probabilistic failure mode Groq itself recommends retrying on, not a
-// deterministic bug in the prompt.
+const FALLBACK_MODELS = [
+  'openai/gpt-oss-120b',
+  'openai/gpt-oss-20b',
+  'qwen/qwen3.8-27b',
+  'llama-3.3-70b-versatile',
+  'groq/compound-mini',
+];
+
+function isModelNotFoundError(err: unknown): boolean {
+  if (!err) return false;
+  const msg = (err instanceof Error ? err.message : String(err)).toLowerCase();
+  const e = err as { status?: number; statusCode?: number; code?: string; error?: { status?: number; code?: string; error?: { code?: string; message?: string } } };
+  const status = e?.status || e?.statusCode || e?.error?.status;
+  const code = e?.error?.error?.code || e?.error?.code || e?.code || '';
+
+  return (
+    status === 404 ||
+    (status === 400 && code !== 'json_validate_failed' && code !== 'json_generate_failed') ||
+    status === 422 ||
+    code === 'model_not_found' ||
+    code === 'model_decommissioned' ||
+    code === 'invalid_model' ||
+    msg.includes('model_not_found') ||
+    msg.includes('model_decommissioned') ||
+    msg.includes('decommissioned') ||
+    msg.includes('deprecated') ||
+    msg.includes('invalid_model') ||
+    msg.includes('does not exist') ||
+    msg.includes('no longer supported') ||
+    msg.includes('unknown model')
+  );
+}
+
 function isJsonGenerationError(err: unknown): boolean {
   const e = err as { status?: number; error?: { error?: { code?: string } } };
   return e?.status === 400 && (e?.error?.error?.code === 'json_validate_failed' || e?.error?.error?.code === 'json_generate_failed');
@@ -36,14 +64,23 @@ async function createJsonCompletionWithRetry(
   params: ChatCompletionCreateParamsNonStreaming,
   attempts = 5,
 ) {
+  const preferredModel = params.model || 'openai/gpt-oss-120b';
+  const candidates = Array.from(new Set([preferredModel, ...FALLBACK_MODELS]));
   let lastErr: unknown;
-  for (let i = 0; i < attempts; i++) {
-    try {
-      return await client.chat.completions.create(params);
-    } catch (err) {
-      lastErr = err;
-      if (!isJsonGenerationError(err)) throw err;
-      console.warn(`[blog-generate] JSON generation failed, retry ${i + 1}/${attempts}...`);
+
+  for (const modelCandidate of candidates) {
+    for (let i = 0; i < attempts; i++) {
+      try {
+        return await client.chat.completions.create({ ...params, model: modelCandidate });
+      } catch (err) {
+        lastErr = err;
+        if (isModelNotFoundError(err)) {
+          console.warn(`[blog-generate] Model "${modelCandidate}" deprecation/not found error, falling back...`);
+          break; // move to next model candidate
+        }
+        if (!isJsonGenerationError(err)) throw err;
+        console.warn(`[blog-generate] JSON generation failed on model "${modelCandidate}", retry ${i + 1}/${attempts}...`);
+      }
     }
   }
   throw lastErr;
