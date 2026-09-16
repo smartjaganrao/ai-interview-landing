@@ -58,6 +58,16 @@ export default function DownloadStepsModal({ open, onClose, os, onSwitchOS, down
 
         {os === 'windows' ? (
           <div>
+            <div className="mb-4">
+              <a
+                href="https://www.youtube.com/watch?v=uEDFnlf1hiw"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-lg bg-red-600/20 text-red-300 border border-red-500/30 hover:bg-red-600/30 transition-all"
+              >
+                ▶️ Watch Windows Installation Video →
+              </a>
+            </div>
             <ModalStep n={1} title="Your browser may block the download">
               <p className="text-sm text-slate-400 mb-3">
                 Chrome or Edge might flag the file as unusual. If so, click the small arrow next to it and
@@ -81,6 +91,16 @@ export default function DownloadStepsModal({ open, onClose, os, onSwitchOS, down
           </div>
         ) : (
           <div>
+            <div className="mb-4">
+              <a
+                href="https://www.youtube.com/watch?v=LvCAOrlH8zs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-lg bg-red-600/20 text-red-300 border border-red-500/30 hover:bg-red-600/30 transition-all"
+              >
+                ▶️ Watch Mac Installation Video →
+              </a>
+            </div>
             <ModalStep n={1} title="Open the .dmg">
               <p className="text-sm text-slate-400">
                 Open the downloaded file and drag <strong className="text-white">JavihAI</strong> into

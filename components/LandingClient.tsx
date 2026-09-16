@@ -710,6 +710,92 @@ export default function LandingClient(props: LandingClientProps) {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════
+          VIDEO TUTORIALS & INSTALLATION GUIDES
+      ═══════════════════════════════════════════════════════════════ */}
+      <section id="videos" className="section-py bg-slate-950/60 relative overflow-hidden">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <div className="section-label">🎬 Video Guides</div>
+            <h2 className="section-heading mb-4">
+              Watch <span className="text-gradient">JavihAI in Action</span>
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto text-lg">
+              Step-by-step video tutorials and installation guides for Windows and macOS.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {[
+              {
+                id: 'QeZDYWtKnsY',
+                title: 'Javih AI Tutorial Video',
+                tag: '🚀 Full Walkthrough',
+                desc: 'See how JavihAI works during live interview calls, screenshot problem solving, and Desi Mode.',
+                url: 'https://www.youtube.com/watch?v=QeZDYWtKnsY',
+              },
+              {
+                id: 'uEDFnlf1hiw',
+                title: 'Windows Installation Guide',
+                tag: '🪟 Windows Setup',
+                desc: 'Step-by-step video guide to download, install, and configure JavihAI on Windows 10 & 11.',
+                url: 'https://www.youtube.com/watch?v=uEDFnlf1hiw',
+              },
+              {
+                id: 'LvCAOrlH8zs',
+                title: 'Mac Installation Guide',
+                tag: '🍎 macOS Setup',
+                desc: 'Complete walkthrough for installing JavihAI on Mac, granting permissions, and launching.',
+                url: 'https://www.youtube.com/watch?v=LvCAOrlH8zs',
+              },
+            ].map((v) => (
+              <div key={v.id} className="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between group hover:border-indigo-500/30 transition-all">
+                <div>
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-950 mb-4 border border-white/5">
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full border-0"
+                    />
+                  </div>
+                  <div className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
+                    {v.tag}
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+                    {v.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                    {v.desc}
+                  </p>
+                </div>
+                <a
+                  href={v.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  Watch on YouTube →
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <a
+              href="https://www.youtube.com/channel/UCWAJd9eDBp9foxfxroxQukA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 font-semibold text-sm transition-all shadow-lg hover:scale-105"
+            >
+              <span>▶️</span> Subscribe to Javih AI Official YouTube Channel
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+      {/* ═══════════════════════════════════════════════════════════════
           FEATURES — BENTO GRID
       ═══════════════════════════════════════════════════════════════ */}
       <section id="features" className="section-py">
@@ -1258,7 +1344,7 @@ export default function LandingClient(props: LandingClientProps) {
               { platform: 'Twitter / X', handle: '@Javih_ai', href: 'https://x.com/Javih_ai', icon: '𝕏', desc: 'Daily interview tips & hot takes', color: 'from-slate-800 to-slate-900', border: 'border-slate-700/50' },
               { platform: 'LinkedIn', handle: 'javih-ai', href: 'https://www.linkedin.com/in/javih-ai/', icon: '💼', desc: 'Career advice & success stories', color: 'from-blue-950 to-slate-900', border: 'border-blue-800/30' },
               { platform: 'Instagram', handle: '@javih.ai', href: 'https://www.instagram.com/javih.ai/', icon: '📸', desc: 'App demos & interview reels', color: 'from-pink-950 to-slate-900', border: 'border-pink-800/30' },
-              { platform: 'YouTube', handle: '@javih_ai', href: 'https://www.youtube.com/@javih_ai', icon: '▶️', desc: 'Full interview prep tutorials', color: 'from-red-950 to-slate-900', border: 'border-red-800/30' },
+              { platform: 'YouTube', handle: 'Javih AI', href: 'https://www.youtube.com/channel/UCWAJd9eDBp9foxfxroxQukA', icon: '▶️', desc: 'Watch product demos & interview guides', color: 'from-red-950 to-slate-900', border: 'border-red-800/30' },
               { platform: 'WhatsApp', handle: 'Channel', href: '#', icon: '💬', desc: 'Message us on WhatsApp', color: 'from-green-950 to-slate-900', border: 'border-green-800/30', cta: 'Open WhatsApp' },
             ].map((s) => (
               s.platform === 'WhatsApp' ? (

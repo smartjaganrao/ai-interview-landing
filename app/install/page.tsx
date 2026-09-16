@@ -73,7 +73,7 @@ export default async function InstallPage() {
           )}
 
           {/* ==================== QUICK START ==================== */}
-          <div className="card card-glow mb-10 mt-6">
+          <div className="card card-glow mb-8 mt-6">
             <div className="badge text-xs mb-3">⚡ Quick start</div>
             <ol className="space-y-4">
               <Step n={1}>
@@ -96,6 +96,58 @@ export default async function InstallPage() {
               </Step>
             </ol>
           </div>
+
+          {/* ==================== VIDEO GUIDES ==================== */}
+          <div className="card border border-indigo-500/20 bg-indigo-950/20 mb-10">
+            <div className="badge text-xs mb-3">📹 Video Walkthroughs</div>
+            <h2 className="text-xl font-black text-white mb-2">Watch Step-by-Step Installation</h2>
+            <p className="text-slate-400 text-sm mb-6">Prefer watching a video? Check out the official installation and setup guides below.</p>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                  <span>🪟</span> Windows 10/11 Setup Guide
+                </h3>
+                <div className="aspect-video rounded-xl overflow-hidden bg-slate-950 border border-white/10 mb-2">
+                  <iframe
+                    src="https://www.youtube-nocookie.com/embed/uEDFnlf1hiw"
+                    title="Javih AI Windows Installation"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full border-0"
+                  />
+                </div>
+                <a href="https://www.youtube.com/watch?v=uEDFnlf1hiw" target="_blank" rel="noopener noreferrer" className="text-xs text-indigo-400 hover:underline">
+                  Watch &quot;Windows Installation&quot; on YouTube →
+                </a>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                  <span>🍎</span> macOS Setup Guide
+                </h3>
+                <div className="aspect-video rounded-xl overflow-hidden bg-slate-950 border border-white/10 mb-2">
+                  <iframe
+                    src="https://www.youtube-nocookie.com/embed/LvCAOrlH8zs"
+                    title="Javih AI Mac Installation"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full border-0"
+                  />
+                </div>
+                <a href="https://www.youtube.com/watch?v=LvCAOrlH8zs" target="_blank" rel="noopener noreferrer" className="text-xs text-indigo-400 hover:underline">
+                  Watch &quot;Mac Installation&quot; on YouTube →
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-white/10 text-center">
+              <a href="https://www.youtube.com/watch?v=QeZDYWtKnsY" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-indigo-300">
+                <span>🚀</span> Watch the Full Javih AI Product Tutorial Video →
+              </a>
+            </div>
+          </div>
+
 
           <div className="prose-content space-y-4 text-slate-300 leading-relaxed">
 

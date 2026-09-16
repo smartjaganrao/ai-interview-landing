@@ -143,7 +143,7 @@ const orgSchema = {
     'https://twitter.com/javihai',
     'https://www.linkedin.com/company/javihai',
     'https://www.instagram.com/javih.ai/',
-    'https://www.youtube.com/@javih_ai',
+    'https://www.youtube.com/channel/UCWAJd9eDBp9foxfxroxQukA',
     'https://github.com/smartjaganrao/ai-interview-helper',
   ],
 };

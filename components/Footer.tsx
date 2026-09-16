@@ -24,7 +24,7 @@ export default function Footer() {
                 { icon: '𝕏', href: 'https://x.com/Javih_ai', label: 'Twitter / X' },
                 { icon: '💼', href: 'https://www.linkedin.com/in/javih-ai/', label: 'LinkedIn' },
                 { icon: '📸', href: 'https://www.instagram.com/javih.ai/', label: 'Instagram' },
-                { icon: '▶️', href: 'https://www.youtube.com/@javih_ai', label: 'YouTube' },
+                { icon: '▶️', href: 'https://www.youtube.com/channel/UCWAJd9eDBp9foxfxroxQukA', label: 'YouTube' },
                 { icon: '💬', href: 'mailto:javihaiofficial@gmail.com', label: 'Email' },
               ].map((s, i) => (
                 <a
