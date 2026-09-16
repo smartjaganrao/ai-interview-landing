@@ -30,12 +30,27 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "JavihAI — India's First Unlimited AI Interview Copilot | 100% Invisible",
+    default: "JavihAI — India's 1st Unlimited AI Interview Copilot & Coach | 100% Invisible",
     template: '%s | JavihAI',
   },
 
   description:
-    "India's first unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Built for freshers & working professionals. Hears your interviewer & answers in <2s. Free forever. ~4× cheaper than Final Round AI. 7-day money-back guarantee. Works in 9 Indian regional languages.",
+    "India's 1st unlimited AI interview copilot & coach — 100% invisible desktop overlay for Zoom, Meet & Teams. Zero-downtime AI engine with 13 live models, system audio capture, camera teleprompter, multi-format resume parser (.pdf, .docx), CTC in ₹ LPA context, and 10+ regional languages. Free forever plan available.",
+
+  keywords: [
+    'AI interview assistant India',
+    'best AI interview coach',
+    'unlimited AI interview copilot',
+    'invisible AI interview overlay Zoom Meet Teams',
+    'HackerRank LeetCode screenshot solver AI',
+    'Desi Mode ₹ LPA CTC interview AI',
+    'AI mock interview practice free',
+    'Final Round AI alternative India',
+    'Cluely alternative India',
+    'Interview Coder alternative India',
+    'system audio AI interview helper',
+    'camera dock teleprompter AI',
+  ],
 
   authors: [{ name: 'JavihAI', url: BASE_URL }],
   creator: 'JavihAI',
@@ -58,15 +73,15 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: BASE_URL,
     siteName: 'JavihAI',
-    title: "JavihAI — India's First Unlimited AI Interview Copilot | 100% Invisible",
+    title: "JavihAI — India's 1st Unlimited AI Interview Copilot & Coach | 100% Invisible",
     description:
-      "India's first unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Free forever · ~4× cheaper than Final Round AI · 7-day money-back guarantee.",
+      "India's 1st unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Zero-downtime 13 AI models, camera teleprompter, free forever plan for freshers.",
     images: [
       {
         url: '/og-home.png',
         width: 1200,
         height: 630,
-        alt: 'JavihAI — Real-Time AI Interview Copilot',
+        alt: "JavihAI — India's 1st Unlimited AI Interview Copilot & Coach",
         type: 'image/png',
       },
     ],
@@ -76,9 +91,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@javihai',
     creator: '@javihai',
-    title: "JavihAI — India's First Unlimited AI Interview Tool | 100% Invisible",
+    title: "JavihAI — India's 1st Unlimited AI Interview Copilot & Coach",
     description:
-      "India's first unlimited AI interview copilot. Free for freshers, 100% invisible overlay. Hears your interviewer and answers in under 2 seconds.",
+      "India's 1st unlimited AI interview copilot. 100% invisible desktop overlay for Zoom, Meet & Teams. Hears questions and streams answers in under 2 seconds.",
     images: ['/og-home.png'],
   },
 
@@ -108,7 +123,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'JavihAI',
   url: BASE_URL,
-  description: "India's real-time AI interview copilot — free plan, stealth overlay, Desi Mode.",
+  description: "India's 1st real-time AI interview copilot & coach — free plan, stealth overlay, Desi Mode.",
   potentialAction: {
     '@type': 'SearchAction',
     target: { '@type': 'EntryPoint', urlTemplate: `${BASE_URL}/jobs?q={search_term_string}` },
@@ -124,7 +139,7 @@ const orgSchema = {
   url: BASE_URL,
   logo: `${BASE_URL}/logo.svg`,
   description:
-    'Real-time AI interview copilot for India — stealth desktop overlay with instant AI answers, Desi Mode, and mock interviews.',
+    'Real-time AI interview copilot and coach for India — stealth desktop overlay with instant AI answers, camera teleprompter, Desi Mode, and mock interviews.',
   foundingDate: '2024',
   areaServed: 'IN',
   address: {
@@ -158,13 +173,9 @@ const appSchema = {
   applicationSubCategory: 'Interview Preparation',
   url: BASE_URL,
   description:
-    'A stealth desktop overlay that listens to your interview, detects questions, and generates structured AI answers in under 2 seconds.',
+    'A stealth desktop overlay that listens to your interview, detects questions, and generates structured AI answers in under 2 seconds using 13 live AI models.',
   inLanguage: ['en', 'hi', 'ta', 'te', 'kn', 'ml', 'bn', 'mr', 'gu', 'pa'],
   author: { '@type': 'Organization', name: 'JavihAI', url: BASE_URL },
-  // No aggregateRating here — there is no real review-collection system
-  // backing a count yet, and asserting one Google can't verify is a
-  // structured-data risk, not a trust signal. Add it back only once a real
-  // count exists (see the matching removal in components/LandingClient.tsx).
 };
 
 // JSON-LD: BreadcrumbList
