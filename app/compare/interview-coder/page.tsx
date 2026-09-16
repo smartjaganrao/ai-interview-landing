@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const ROWS = [
   { feature: 'Free plan',                  javihai: '✅ 25 answers/day forever',     ic: '❌ No meaningful free trial' },
-  { feature: 'Entry price',                javihai: '✅ ₹250 (1-hour pass)',          ic: '❌ $299/month (~₹28,400)' },
+  { feature: 'Entry price',                javihai: '✅ ₹250 (24-hour pass)',          ic: '❌ $299/month (~₹28,400)' },
   { feature: 'Multi-day unlimited pass',   javihai: '✅ ₹1,000 (Pro — 7 days unlimited)', ic: '⚠️ $799 one-time (~₹76,000, lifetime)' },
   { feature: 'Coding round help',          javihai: '✅ Screenshot analysis',         ic: '✅ Yes — its core focus' },
   { feature: 'System design rounds',       javihai: '✅ Yes',                         ic: '❌ Coding-only tool' },

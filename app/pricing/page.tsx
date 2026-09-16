@@ -39,7 +39,7 @@ const faqSchema = {
       name: 'How does the Quick Pass work?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.',
+        text: 'The Quick Pass gives you 24 hours of full AI Interview Assistant access. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.',
       },
     },
     {
@@ -47,7 +47,7 @@ const faqSchema = {
       name: 'What\'s the difference between Quick Pass and Pro?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Quick Pass is 1 hour one-time access. Pro is a longer unlimited pass and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.',
+        text: 'Quick Pass is 24-hour one-time access. Pro is a longer unlimited pass and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.',
       },
     },
     {
@@ -437,8 +437,8 @@ export default function PricingPage() {
             <h2 className="text-3xl font-bold text-center mb-8">Common Questions</h2>
             <div className="space-y-4">
                {[
-                 { q: 'How does the Quick Pass work?', a: 'The Quick Pass gives you 1 hour of full AI Interview Assistant access. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.' },
-                 { q: 'What\'s the difference between Quick Pass and Pro?', a: 'Quick Pass is 1 hour one-time access. Pro is a longer unlimited pass and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.' },
+                 { q: 'How does the Quick Pass work?', a: 'The Quick Pass gives you 24 hours of full AI Interview Assistant access. It\'s a one-time purchase — no subscription, no auto-renewal. Perfect for interview day prep.' },
+                 { q: 'What\'s the difference between Quick Pass and Pro?', a: 'Quick Pass is 24-hour one-time access. Pro is a longer unlimited pass and includes Resume Analysis and company-specific interview support. Both are one-time purchases with no subscription.' },
                  { q: 'Can I use JavihAI on Mac?', a: 'Yes! JavihAI supports both Windows and Mac (Apple Silicon M1/M2/M3 and Intel). Download the appropriate version from our download page.' },
                  { q: 'Is the overlay really invisible?', a: 'Yes. JavihAI uses OS-level APIs to exclude itself from all screen captures. The interviewer sees only your screen, not the overlay, on Zoom, Google Meet, and Microsoft Teams.' },
                  { q: 'How is JavihAI different from Final Round AI?', a: 'JavihAI is built for Indian interviews with Desi Mode (CTC in LPA, notice period, Indian company context), supports Hindi and regional languages, and is more affordable than alternatives.' },

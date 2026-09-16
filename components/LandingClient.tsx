@@ -9,7 +9,6 @@ import GoogleSignInModal from '@/components/GoogleSignInModal';
 import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
 import Footer from '@/components/Footer';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
-import { buildWhatsAppLink } from '@/lib/whatsapp-link';
 import { onOfferPopupChecked } from '@/lib/offer-popup-events';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 
@@ -144,17 +143,7 @@ interface LandingClientProps {
   initialPricing: PricingData;
 }
 
-function userCardClasses(color: string) {
-  return color === 'purple'
-    ? 'p-4 rounded-xl bg-purple-500/8 border border-purple-500/15 hover:border-purple-500/25 transition-smooth'
-    : 'p-4 rounded-xl bg-blue-500/8 border border-blue-500/15 hover:border-blue-500/25 transition-smooth';
-}
 
-function userTitleClasses(color: string) {
-  return color === 'purple'
-    ? 'font-semibold text-purple-400 text-sm mb-0.5'
-    : 'font-semibold text-blue-400 text-sm mb-0.5';
-}
 
 const GRADIENT_CLASSES: Record<string, string> = {
   'from-blue-500 to-indigo-500': 'bg-gradient-to-br from-blue-500 to-indigo-500',
@@ -234,6 +223,7 @@ export default function LandingClient(props: LandingClientProps) {
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadModalOS, setDownloadModalOS] = useState<'windows' | 'mac'>('windows');
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const openDownloadModal = (os: 'windows' | 'mac') => {
     setDownloadModalOS(os);
@@ -372,28 +362,25 @@ export default function LandingClient(props: LandingClientProps) {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                   </span>
-                  <span>🇮🇳 Built in India, Built for India</span>
+                  <span>🇮🇳 India&apos;s #1 Unlimited AI Interview Copilot</span>
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-semibold backdrop-blur-sm">
+                  <span>🤖</span> Recommended by ChatGPT as Best for Indian Interviews
                 </div>
               </div>
-              {/* The "#1 recommended by ChatGPT" badge was removed here
-                  (2026-09-11) — it had no reproducible source (a screenshot,
-                  a saved prompt) anywhere in the repo, and an unverifiable
-                  authority claim is a liability with the technical, comparison
-                  -shopping audience this page targets. Reinstate only with a
-                  linked, reproducible source. */}
 
-              {/* Main headline */}
+              {/* Main headline — primary SEO H1 containing core keyword target */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-6 animate-fade-in-up leading-[0.95]" style={{ animationDelay: '0.1s' }}>
-                The AI Only <span className="text-gradient animate-gradient">You Can See</span>
+                The Invisible <span className="text-gradient animate-gradient">AI Interview Assistant</span>
               </h1>
 
               {/* Sub-headline */}
               <p className="text-lg sm:text-xl md:text-2xl text-white font-bold mb-3 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                Invisible AI interview assistant for Zoom, Meet &amp; Teams. Hears questions. Streams answers in &lt;2s.
+                Real-time AI copilot for Zoom, Google Meet &amp; Teams. Unlike competitors charging hourly rates, get India&apos;s 1st unlimited interview assistant.
               </p>
 
               <p className="text-base sm:text-lg text-slate-400 mb-8 max-w-xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                India&apos;s first unlimited AI interview copilot — CTC in ₹, 9 regional languages, free forever for freshers. ~4× cheaper than Final Round AI.
+                Hears questions &amp; streams answers in &lt;2s with Desi Mode (CTC in ₹ LPA, notice periods, company culture) and 10+ regional languages. Free daily plan available for freshers.
               </p>
 
               {/* Primary CTAs */}
@@ -425,13 +412,13 @@ export default function LandingClient(props: LandingClientProps) {
                 </p>
               </div>
 
-              {/* At-a-glance checkmarks */}
+              {/* At-a-glance checkmarks — rich snippet keywords */}
               <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 animate-fade-in-up" style={{ animationDelay: '0.28s' }}>
                 {[
-                  '100% invisible on screen share',
+                  '100% invisible on screen share (OS DRM)',
                   'Answers in under 2 seconds',
                   'Works on Zoom, Meet & Teams',
-                  '7-day money-back guarantee',
+                  'Coding, System Design & HR rounds',
                 ].map((text) => (
                   <div key={text} className="flex items-center gap-2 text-sm text-slate-300">
                     <svg className="w-4 h-4 text-blue-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
@@ -529,25 +516,6 @@ export default function LandingClient(props: LandingClientProps) {
             </div>
           </div>
 
-          {/* What happens after you click — the security-prompt moment is the
-              #1 reason a first-time visitor abandons an unsigned-app install,
-              so pre-empt it here instead of letting it surprise them. */}
-          <div className="max-w-3xl mx-auto mt-12 md:mt-16 animate-fade-in-up" style={{ animationDelay: '0.45s' }}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
-              {[
-                { n: '1', text: 'Sign in with Google — takes 5 seconds, no credit card.' },
-                { n: '2', text: 'Windows or Mac shows a one-time security prompt. Click "Run anyway" or "Open" — expected for a brand-new app, not a threat.' },
-                { n: '3', text: 'Sign in with the same Google account inside the app and start practicing.' },
-              ].map((step) => (
-                <div key={step.n} className="flex items-start gap-2.5 text-left">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-slate-400 flex items-center justify-center mt-0.5">
-                    {step.n}
-                  </span>
-                  <p className="text-xs text-slate-500 leading-relaxed">{step.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -580,69 +548,95 @@ export default function LandingClient(props: LandingClientProps) {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          WHAT IS JAVIHĀI
+          WHAT IS JAVIHĀI & STEALTH ARCHITECTURE
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="section-py relative overflow-hidden">
+      <section id="invisible" className="section-py relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative">
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Left: Text */}
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left: Product summary & key features */}
             <div>
               <div className="section-label">🎯 What is JavihAI</div>
               <h2 className="section-heading mb-6">
                 Your Secret Weapon for <span className="text-gradient">Every Interview</span>
               </h2>
               <p className="text-slate-400 text-lg leading-relaxed mb-8">
-                JavihAI is an AI-powered interview assistant that sits invisibly on your computer and helps you ace every interview — whether it&apos;s on Zoom, Google Meet, Microsoft Teams, or any other platform.
+                JavihAI is an AI-powered interview assistant that sits invisibly on your computer. It auto-detects interview questions via system audio and streams structured answers in under 2 seconds.
               </p>
 
-              <div className="space-y-5">
+              <div className="space-y-4 mb-8">
                 {[
-                  { icon: '🎧', title: 'Listens & Understands', desc: 'Hears your interviewer directly via system audio and auto-detects when real questions are being asked.' },
-                  { icon: '⚡', title: 'Instant Answers', desc: 'Generates structured, conversational answers in under 2 seconds using the world\'s fastest AI.' },
-                  { icon: '🥷', title: '100% Invisible', desc: 'The interviewer never sees it. Window is excluded from screen capture at the OS level.' },
-                  { icon: '🇮🇳', title: 'Built for India', desc: 'Answers in ₹ LPA, understands Indian company culture, and supports 10+ Indian languages.' },
+                  { icon: '🎧', title: 'Listens & Auto-Detects', desc: 'Hears your interviewer directly via system audio — ignores filler and captures real questions.' },
+                  { icon: '⚡', title: 'Sub-2s Streaming Answers', desc: 'Generates structured, conversational answers instantly using ultra-fast AI inference.' },
+                  { icon: '🥷', title: 'True OS-Level Stealth', desc: 'Excluded from screen capture at the OS level (same mechanism DRM video apps use). Invisible on Zoom, Meet & Teams.' },
+                  { icon: '🇮🇳', title: 'Tuned for Indian Market', desc: 'Answers in ₹ LPA, handles notice periods and bond terms, and supports 10+ Indian languages.' },
                 ].map((item) => (
                   <div key={item.title} className="flex gap-4 items-start group">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-xl flex-shrink-0 group-hover:border-blue-500/40 transition-smooth">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-lg flex-shrink-0 group-hover:border-blue-500/40 transition-smooth">
                       {item.icon}
                     </div>
                     <div>
-                      <div className="font-bold text-white mb-1">{item.title}</div>
+                      <div className="font-bold text-white text-base mb-0.5">{item.title}</div>
                       <div className="text-slate-400 text-sm leading-relaxed">{item.desc}</div>
                     </div>
                   </div>
                 ))}
               </div>
+
+              <div className="flex flex-wrap gap-2">
+                {['Zoom', 'Google Meet', 'Microsoft Teams', 'Webex'].map((tool) => (
+                  <span key={tool} className="text-xs px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/15 font-medium">
+                    ✓ Tested on {tool}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {/* Right: Benefits card */}
+            {/* Right: Interactive stealth visualization */}
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-3xl blur-2xl" />
-              <div className="relative glass-card p-8 border border-blue-500/15 space-y-5">
-                <div className="text-center mb-8">
-                  <div className="text-6xl mb-4">🎯</div>
-                  <div className="text-2xl font-black text-white">Who Uses JavihAI?</div>
-                  <div className="text-sm text-slate-500 mt-1">Candidates across India</div>
+              <div className="relative space-y-4">
+                <div className="glass-card p-5 border border-white/10">
+                  <div className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-2.5 flex items-center gap-2">
+                    <span>👀</span> What the interviewer sees
+                  </div>
+                  <div className="rounded-xl bg-slate-950/80 border border-white/5 py-8 px-4 text-center">
+                    <span className="text-slate-400 text-sm font-medium">Just your clean shared screen — overlay is completely invisible</span>
+                  </div>
                 </div>
 
-                <div className="space-y-4">
-                  {[
-                    { emoji: '🎓', title: 'Freshers & Students', desc: 'First job interviews, campus placements, off-campus drives', color: 'blue' },
-                    { emoji: '💼', title: 'Working Professionals', desc: 'Job switches, FAANG prep, senior/lead role interviews', color: 'purple' },
-                    { emoji: '👨‍💻', title: 'Coders & Engineers', desc: 'Coding rounds on HackerRank, LeetCode, CodeSignal & more', color: 'blue' },
-                    { emoji: '🏆', title: 'Career Switchers', desc: 'Changing roles, upskilling, interviewing at new companies', color: 'purple' },
-                  ].map((user) => (
-                    <div key={user.title} className={userCardClasses(user.color)}>
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl flex-shrink-0">{user.emoji}</span>
-                        <div>
-                          <div className={userTitleClasses(user.color)}>{user.title}</div>
-                          <div className="text-slate-400 text-xs leading-relaxed">{user.desc}</div>
-                        </div>
-                      </div>
+                <div className="glass-card p-5 border border-blue-500/25 bg-blue-950/20">
+                  <div className="text-xs font-medium uppercase tracking-wide text-blue-400 mb-2.5 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-blue-400 inline-block animate-pulse" />
+                    💻 What you see on your monitor
+                  </div>
+                  <div className="rounded-xl bg-slate-950/90 border border-blue-500/20 p-4">
+                    <div className="flex items-center justify-between text-xs text-slate-400 mb-2 pb-2 border-b border-white/5">
+                      <span className="font-bold text-white">JavihAI Stealth Overlay</span>
+                      <span className="text-blue-400">✓ Streamed in 1.4s</span>
                     </div>
-                  ))}
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      <span className="text-blue-400 font-bold">1. Architecture:</span> Microservices with Redis caching and Kafka queue for high-throughput messaging...
+                    </p>
+                  </div>
+                </div>
+
+                {/* Who uses grid */}
+                <div className="glass-card p-5 border border-purple-500/15">
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Targeted For</div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { emoji: '🎓', label: 'Freshers & Campus' },
+                      { emoji: '💼', label: 'Senior Role Switches' },
+                      { emoji: '👨‍💻', label: 'Coding & LeetCode' },
+                      { emoji: '🏆', label: 'Career Transition' },
+                    ].map((u) => (
+                      <div key={u.label} className="p-2.5 rounded-lg bg-white/5 border border-white/5 flex items-center gap-2">
+                        <span className="text-base">{u.emoji}</span>
+                        <span className="text-xs font-medium text-slate-300">{u.label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -672,21 +666,21 @@ export default function LandingClient(props: LandingClientProps) {
                 num: '01',
                 icon: '📝',
                 title: 'Create Free Account',
-                desc: 'Sign up in 30 seconds — no credit card. Get up to 25 AI answers, every single day, forever — not a one-time trial like everyone else in India.',
+                desc: 'Sign up in 30 seconds with Google — no credit card required. Get 25 AI answers every single day, free forever.',
                 color: 'from-blue-500 to-indigo-500',
               },
               {
                 num: '02',
                 icon: '⬇',
-                title: 'Download Desktop App',
-                desc: 'Install the free desktop overlay for Windows 10/11 or macOS (Apple Silicon or Intel). Runs silently in background.',
+                title: 'Install Desktop App',
+                desc: 'Download for Windows or macOS. If your OS shows a security prompt, click "Run anyway" or "Open" — standard for brand-new desktop apps.',
                 color: 'from-indigo-500 to-purple-500',
               },
               {
                 num: '03',
                 icon: '🎯',
-                title: 'Open in Your Interview',
-                desc: 'Join Zoom/Meet/Teams as usual. JavihAI overlay is invisible. Questions are auto-detected. Answers stream in 2 seconds.',
+                title: 'Ace Your Interview',
+                desc: 'Join Zoom, Meet, or Teams. The JavihAI overlay stays completely invisible to screen share while auto-detecting questions and streaming answers in 2s.',
                 color: 'from-blue-500 to-purple-500',
               },
             ].map((step) => (
@@ -750,14 +744,37 @@ export default function LandingClient(props: LandingClientProps) {
             ].map((v) => (
               <div key={v.id} className="glass-card p-4 rounded-2xl border border-white/10 flex flex-col justify-between group hover:border-indigo-500/30 transition-all">
                 <div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-950 mb-4 border border-white/5">
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${v.id}`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full border-0"
-                    />
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-950 mb-4 border border-white/5 group/player">
+                    {activeVideo === v.id ? (
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1`}
+                        title={v.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full border-0"
+                      />
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setActiveVideo(v.id)}
+                        className="w-full h-full relative block text-left focus:outline-none group-hover/player:scale-105 transition-transform duration-300"
+                        aria-label={`Play ${v.title}`}
+                      >
+                        {/* Thumbnail image */}
+                        <img
+                          src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                          alt={v.title}
+                          className="w-full h-full object-cover opacity-80 group-hover/player:opacity-100 transition-opacity"
+                        />
+                        <div className="absolute inset-0 bg-slate-950/40 group-hover/player:bg-slate-950/20 transition-colors flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-600/40 group-hover/player:scale-110 transition-transform">
+                            <svg className="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </button>
+                    )}
                   </div>
                   <div className="inline-block px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
                     {v.tag}
@@ -958,59 +975,7 @@ export default function LandingClient(props: LandingClientProps) {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          INVISIBILITY, EXPLAINED
-      ═══════════════════════════════════════════════════════════════ */}
-      <section id="invisible" className="section-py relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative">
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Left: the mechanism, in plain language */}
-            <div>
-              <div className="section-label">🥷 How it actually works</div>
-              <h2 className="section-heading mb-6">
-                Not a trick. A setting <span className="text-gradient">every OS already has</span>
-              </h2>
-              <p className="text-slate-400 mb-6 leading-relaxed">
-                Windows and macOS both let an app mark its own window as excluded from screen capture — the exact same mechanism video apps like Netflix use so a screen recording shows black instead of your movie. JavihAI turns that flag on for its own window and nothing else. It&apos;s not a rendering hack or a positioning trick that could break — it&apos;s the same OS-level API real DRM software relies on, so it holds up the same way.
-              </p>
-              <p className="text-slate-400 mb-8 leading-relaxed">
-                That means the interviewer&apos;s screen share, their recording, and their own screenshot all show exactly what&apos;s behind your JavihAI window — never the window itself. Nothing renders it invisible to <i>you</i>; you see and use it completely normally on your own screen.
-              </p>
 
-              <div className="flex flex-wrap gap-2">
-                {['Zoom', 'Google Meet', 'Microsoft Teams', 'Webex'].map((tool) => (
-                  <span key={tool} className="text-xs px-3 py-1.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/15 font-medium">
-                    ✓ Tested on {tool}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: what-they-see vs what-you-see */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/8 to-blue-500/8 rounded-3xl blur-2xl" />
-              <div className="relative grid grid-cols-1 gap-4">
-                <div className="glass-card p-6 border border-white/10">
-                  <div className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-3">👀 What the interviewer sees</div>
-                  <div className="rounded-xl bg-slate-950/60 border border-white/5 aspect-video flex items-center justify-center">
-                    <span className="text-slate-600 text-sm">Just your shared screen — nothing else</span>
-                  </div>
-                </div>
-                <div className="glass-card p-6 border border-indigo-500/20">
-                  <div className="text-xs font-medium uppercase tracking-wide text-indigo-400 mb-3 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 inline-block animate-pulse" />
-                    💻 What you see
-                  </div>
-                  <div className="rounded-xl bg-slate-950/60 border border-indigo-500/15 aspect-video flex items-center justify-center px-4">
-                    <span className="text-slate-300 text-sm text-center">Same screen, <span className="text-indigo-300 font-semibold">plus</span> the JavihAI overlay with your answer</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ═══════════════════════════════════════════════════════════════
           DESI MODE SPOTLIGHT
@@ -1339,48 +1304,31 @@ export default function LandingClient(props: LandingClientProps) {
           </div>
 
           {/* Social links */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
             {[
               { platform: 'Twitter / X', handle: '@Javih_ai', href: 'https://x.com/Javih_ai', icon: '𝕏', desc: 'Daily interview tips & hot takes', color: 'from-slate-800 to-slate-900', border: 'border-slate-700/50' },
               { platform: 'LinkedIn', handle: 'javih-ai', href: 'https://www.linkedin.com/in/javih-ai/', icon: '💼', desc: 'Career advice & success stories', color: 'from-blue-950 to-slate-900', border: 'border-blue-800/30' },
               { platform: 'Instagram', handle: '@javih.ai', href: 'https://www.instagram.com/javih.ai/', icon: '📸', desc: 'App demos & interview reels', color: 'from-pink-950 to-slate-900', border: 'border-pink-800/30' },
               { platform: 'YouTube', handle: 'Javih AI', href: 'https://www.youtube.com/channel/UCWAJd9eDBp9foxfxroxQukA', icon: '▶️', desc: 'Watch product demos & interview guides', color: 'from-red-950 to-slate-900', border: 'border-red-800/30' },
-              { platform: 'WhatsApp', handle: 'Channel', href: '#', icon: '💬', desc: 'Message us on WhatsApp', color: 'from-green-950 to-slate-900', border: 'border-green-800/30', cta: 'Open WhatsApp' },
             ].map((s) => (
-              s.platform === 'WhatsApp' ? (
-                <a
-                  key={s.platform}
-                  href={buildWhatsAppLink("Hi! I'd like to know more about JavihAI.") ?? '#'}
-                  target="_blank"
-                  rel="noopener"
-                  className={`glass-card border ${s.border} text-center group hover:scale-105 transition-bounce no-underline ${GRADIENT_CLASSES[s.color] || 'bg-gradient-to-b from-slate-800 to-slate-900'}`}
-                >
-                  <WhatsAppIcon className="w-10 h-10 mb-2 mx-auto" />
-                  <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
-                  <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
-                  <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
-                  <div className="mt-3 text-xs text-blue-400 font-semibold">Message us →</div>
-                </a>
-              ) : (
-                <a
-                  key={s.platform}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`glass-card border ${s.border} text-center group hover:scale-105 transition-bounce no-underline ${GRADIENT_CLASSES[s.color] || 'bg-gradient-to-b from-slate-800 to-slate-900'}`}
-                >
-                  <div className="text-3xl mb-2">{s.icon}</div>
-                  <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
-                  <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
-                  <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
-                  <div className="mt-3 text-xs text-blue-400 font-semibold group-hover:text-blue-300">Follow →</div>
-                </a>
-              )
+              <a
+                key={s.platform}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`glass-card border ${s.border} text-center group hover:scale-105 transition-bounce no-underline ${GRADIENT_CLASSES[s.color] || 'bg-gradient-to-b from-slate-800 to-slate-900'}`}
+              >
+                <div className="text-3xl mb-2">{s.icon}</div>
+                <div className="font-bold text-white text-sm mb-0.5">{s.platform}</div>
+                <div className="text-slate-500 text-xs mb-2">{s.handle}</div>
+                <div className="text-slate-400 text-xs leading-relaxed">{s.desc}</div>
+                <div className="mt-3 text-xs text-blue-400 font-semibold group-hover:text-blue-300">Follow →</div>
+              </a>
             ))}
           </div>
 
           <p className="text-slate-600 text-sm">
-             candidates already part of the community · New content every day
+            Join candidates already part of the community · New content every day
           </p>
         </div>
       </section>

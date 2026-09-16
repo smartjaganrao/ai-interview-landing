@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const ROWS = [
   { feature: 'Free plan',                  javihai: '✅ 25 answers/day forever',    fra: '⚠️ 5-min sessions only' },
-  { feature: 'Entry paid price',           javihai: '✅ ₹250 (1-hour pass)',        fra: '❌ ₹7,916/month (quarterly)' },
+  { feature: 'Entry paid price',           javihai: '✅ ₹250 (24-hour pass)',        fra: '❌ ₹7,916/month (quarterly)' },
   { feature: 'Unlimited monthly plan',    javihai: '✅ ₹2,000/month',               fra: '❌ ₹14,250/month' },
   { feature: 'Real-time overlay',         javihai: '✅ Yes — invisible',           fra: '✅ Yes — invisible' },
   { feature: 'Voice transcription',       javihai: '✅ Whisper (Groq)',            fra: '✅ Yes' },
