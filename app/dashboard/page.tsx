@@ -59,6 +59,8 @@ function DashboardContent() {
   const [ticketsLoading, setTicketsLoading] = useState(false);
   const [expandedTicket, setExpandedTicket] = useState<string|null>(null);
   const [appVersion, setAppVersion] = useState('');
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [videoFilter, setVideoFilter] = useState<'all' | 'windows' | 'mac' | 'overview'>('all');
   // Only true when the current release has a portable exe distinct from
   // the main Windows download (see winPortableUrl in lib/github-release.ts)
   // — avoids showing a second link that would just redownload the same file.
@@ -99,7 +101,10 @@ function DashboardContent() {
   }, []);
 
   useEffect(() => {
-    setDetectedOS(detectDesktopOS());
+    const os = detectDesktopOS();
+    setDetectedOS(os);
+    if (os === 'windows') setVideoFilter('windows');
+    else if (os === 'mac') setVideoFilter('mac');
     setOfferConfirmed(!!localStorage.getItem('javihai_offer_confirmed'));
   }, []);
 
@@ -407,75 +412,113 @@ function DashboardContent() {
           </div>
 
           {/* ==================== PRIMARY FOCUS ==================== */}
-          <div className="card card-glow bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-pink-500/10 mb-4">
+          <div className="card card-glow bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-pink-500/10 mb-6">
             {!hasFirstSession ? (
                 <>
                   <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                    <div className="badge text-xs">🚀 Get Started</div>
-                    <div className="text-xs text-slate-400">{onboardingStepsDone}/3 steps</div>
+                    <div className="badge text-xs">🚀 Quick Onboarding &amp; Setup</div>
+                    <div className="text-xs text-slate-400 font-medium">{onboardingStepsDone}/3 steps completed</div>
                   </div>
-                  <h1 className="text-xl md:text-2xl font-black mb-3">
+                  <h1 className="text-xl md:text-2xl font-black mb-2 text-white">
                     3 steps to your first <span className="text-gradient">AI-assisted</span> interview
                   </h1>
-                  <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
+                  <p className="text-xs text-slate-400 mb-4">
+                    Follow these 3 quick steps to install JavihAI on your desktop and run your first session.
+                  </p>
+
+                  <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-5">
                     <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500" style={{ width: `${onboardingPercent}%` }}></div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-3.5">
                     {/* Step 1: Download */}
-                    <div className={`p-3.5 rounded-xl border ${hasDownloaded ? 'bg-green-500/10 border-green-500/30' : 'bg-white/5 border-white/10'}`}>
-                      <div className="flex items-center gap-2.5 mb-2">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${hasDownloaded ? 'bg-green-500/20 text-green-400' : 'bg-indigo-500/20 text-indigo-300'}`}>
-                          {hasDownloaded ? '✓' : '1'}
+                    <div className={`p-4 rounded-xl border transition-all ${hasDownloaded ? 'bg-green-500/10 border-green-500/30' : 'bg-white/5 border-white/10'}`}>
+                      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <div className="flex items-center gap-2.5">
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${hasDownloaded ? 'bg-green-500/20 text-green-400' : 'bg-indigo-500/20 text-indigo-300'}`}>
+                            {hasDownloaded ? '✓' : '1'}
+                          </div>
+                          <div>
+                            <span className="text-sm font-bold text-white">{hasDownloaded ? 'Step 1: Download Completed' : 'Step 1: Download JavihAI Desktop App'}</span>
+                            <div className="text-xs text-slate-400">Choose your operating system below</div>
+                          </div>
                         </div>
-                        <span className="text-sm font-semibold">{hasDownloaded ? 'Downloaded' : 'Download JavihAI'}</span>
+                        {hasDownloaded && <span className="text-xs font-bold text-green-400 bg-green-500/15 px-2.5 py-1 rounded-full border border-green-500/20">Ready to Install</span>}
                       </div>
-                      <div className="pl-8">
+
+                      <div className="pl-9 mt-2">
                         <div className="flex flex-col sm:flex-row gap-2.5">
-                          <button onClick={() => handleDownload('windows')} className={`btn ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary'}`}>
-                            ⬇ Windows {appVersion ? `(${appVersion})` : ''}
+                          <button onClick={() => handleDownload('windows')} className={`btn ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary shadow-md'}`}>
+                            <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                            ⬇ Download for Windows {appVersion ? `(${appVersion})` : ''}
                           </button>
-                          <button onClick={() => handleDownload('mac')} className={`btn ${detectedOS === 'mac' ? 'btn-primary' : 'btn-secondary'}`}>
-                            ⬇ Mac {appVersion ? `(${appVersion})` : ''}
+                          <button onClick={() => handleDownload('mac')} className={`btn ${detectedOS === 'mac' ? 'btn-primary shadow-md' : 'btn-secondary'}`}>
+                            <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"/></svg>
+                            ⬇ Download for Mac {appVersion ? `(${appVersion})` : ''}
                           </button>
                         </div>
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2.5 text-xs text-slate-400">
                           {winPortableAvailable && (
-                            <button onClick={() => handleDownload('windows', 'portable')} className="text-xs text-slate-500 hover:text-slate-300">
-                              Prefer no install? Get the portable .exe
+                            <button onClick={() => handleDownload('windows', 'portable')} className="text-indigo-300 hover:underline font-medium">
+                              Windows Portable .exe (No Install)
                             </button>
                           )}
-                          <button onClick={() => handleDownload('mac', 'x64')} className="text-xs text-slate-500 hover:text-slate-300">
-                            Intel Mac? Get the x64 build
+                          {winPortableAvailable && <span>&middot;</span>}
+                          <button onClick={() => handleDownload('mac', 'x64')} className="text-indigo-300 hover:underline font-medium">
+                            Mac Intel x64 .dmg
                           </button>
-                          <Link href="/install" className="text-xs text-slate-500 hover:text-slate-300 underline underline-offset-2">
-                            Full install guide →
+                          <span>&middot;</span>
+                          <Link href="/install" className="text-slate-400 hover:text-slate-200 underline underline-offset-2 font-medium">
+                            Full Install Guide &rarr;
                           </Link>
                         </div>
                       </div>
                     </div>
 
                     {/* Step 2: Install & sign in */}
-                    <div className={`p-3.5 rounded-xl border ${hasDownloaded ? 'bg-white/5 border-indigo-500/20' : 'bg-white/[0.02] border-white/5 opacity-60'}`}>
+                    <div className={`p-4 rounded-xl border transition-all ${hasDownloaded ? 'bg-white/5 border-indigo-500/30' : 'bg-white/[0.02] border-white/5 opacity-75'}`}>
                       <div className="flex items-center gap-2.5 mb-2">
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-white/10 text-slate-400">2</div>
-                        <span className="text-sm font-semibold">Install &amp; sign in</span>
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-indigo-500/20 text-indigo-300">2</div>
+                        <div>
+                          <span className="text-sm font-bold text-white">Step 2: Install &amp; Grant Permissions</span>
+                          <div className="text-xs text-slate-400">Run file &rarr; Allow security prompt &rarr; Sign in</div>
+                        </div>
                       </div>
-                      <p className="text-xs text-slate-400 leading-relaxed pl-8">
-                        Your browser may first ask you to <strong className="text-white">&quot;Keep&quot;</strong> the file (Windows only —{' '}
-                        <Link href="/install" className="text-indigo-300 hover:underline">see what that looks like</Link>).
-                        Then run it — Windows or Mac will show a one-time security prompt — click <strong className="text-white">&quot;Run anyway&quot;</strong> or{' '}
-                        <strong className="text-white">&quot;Open&quot;</strong> (expected for a new app, not a threat), then sign in
-                        with this account ({user?.email}).
+                      <p className="text-xs text-slate-300 leading-relaxed pl-9 mb-3">
+                        Run the downloaded installer. On <strong className="text-white">Windows</strong>, if SmartScreen appears, click <strong className="text-white">&quot;More info &rarr; Run anyway&quot;</strong>. On <strong className="text-white">Mac</strong>, right-click &rarr; <strong className="text-white">&quot;Open&quot;</strong> and grant <strong className="text-white">Screen Recording</strong> permission for audio capture.
                       </p>
+                      
+                      <div className="pl-9 flex flex-wrap gap-2">
+                        <button
+                          onClick={() => {
+                            setActiveVideo('uEDFnlf1hiw');
+                            setVideoFilter('windows');
+                            document.getElementById('video-tutorials')?.scrollIntoView({ behavior: 'smooth' });
+                          }}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-red-600/20 text-red-300 border border-red-500/30 hover:bg-red-600/30 transition-all cursor-pointer"
+                        >
+                          ▶ Watch Windows Setup Video
+                        </button>
+                        <button
+                          onClick={() => {
+                            setActiveVideo('LvCAOrlH8zs');
+                            setVideoFilter('mac');
+                            document.getElementById('video-tutorials')?.scrollIntoView({ behavior: 'smooth' });
+                          }}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-red-600/20 text-red-300 border border-red-500/30 hover:bg-red-600/30 transition-all cursor-pointer"
+                        >
+                          ▶ Watch Mac Setup Video
+                        </button>
+                      </div>
+
                       {showInstallHelp && (
-                        <div className="mt-3 ml-8 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-start justify-between gap-3 flex-wrap">
+                        <div className="mt-3 ml-9 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-start justify-between gap-3 flex-wrap">
                           <div className="flex items-start gap-2">
                             <span className="text-lg">🤔</span>
-                            <p className="text-xs text-slate-300 max-w-sm">Still stuck? The install guide covers every step, or message us and we&apos;ll get you sorted.</p>
+                            <p className="text-xs text-slate-300 max-w-sm">Need assistance? Check the video guides below or message us on WhatsApp.</p>
                           </div>
                           <div className="flex items-center gap-2 flex-shrink-0">
-                            <Link href="/install" className="btn btn-secondary text-xs px-3 py-1.5">Install guide</Link>
+                            <Link href="/install" className="btn btn-secondary text-xs px-3 py-1.5">Install Guide</Link>
                             <button
                               onClick={() => {
                                 setShowInstallHelp(false);
@@ -485,7 +528,7 @@ function DashboardContent() {
                               }}
                               className="btn btn-primary text-xs px-3 py-1.5"
                             >
-                              Get help
+                              Get Help
                             </button>
                             <button onClick={() => setShowInstallHelp(false)} className="text-slate-500 hover:text-white text-lg px-1" aria-label="Dismiss">✕</button>
                           </div>
@@ -494,14 +537,16 @@ function DashboardContent() {
                     </div>
 
                     {/* Step 3: First session */}
-                    <div className="p-3.5 rounded-xl border bg-white/[0.02] border-white/5 opacity-60">
+                    <div className="p-4 rounded-xl border bg-white/[0.02] border-white/5 opacity-75">
                       <div className="flex items-center gap-2.5 mb-1">
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-white/10 text-slate-400">3</div>
-                        <span className="text-sm font-semibold">Join a call &amp; get your first answer</span>
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 bg-white/10 text-slate-400">3</div>
+                        <div>
+                          <span className="text-sm font-bold text-white">Step 3: Join Your Call &amp; Stream AI Answers</span>
+                          <div className="text-xs text-slate-400">Works on Zoom, Google Meet &amp; Teams</div>
+                        </div>
                       </div>
-                      <p className="text-xs text-slate-400 leading-relaxed pl-8">
-                        Sign in, pick your audio source, and start a call — see the{' '}
-                        <a href="#how-to-use" className="text-indigo-300 hover:underline">full walkthrough below</a>.
+                      <p className="text-xs text-slate-400 leading-relaxed pl-9">
+                        Sign into the desktop app with <strong className="text-white">{user?.email}</strong>. Select <strong className="text-white">System Audio</strong> mode, join your call, and press <strong className="text-white">Start</strong> or press <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px] font-mono">Alt</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px] font-mono">⌥</kbd> + <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px] font-mono">L</kbd> to listen.
                       </p>
                     </div>
                   </div>
@@ -561,7 +606,10 @@ function DashboardContent() {
                   {plan === 'free' && usageData ? (
                     <>
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-base font-bold">📊 Today&apos;s Usage</h3>
+                        <div>
+                          <h3 className="text-base font-bold">📊 Today&apos;s Usage</h3>
+                          <div className="text-[11px] text-slate-400">Resets daily at 12:00 AM UTC (5:30 AM IST)</div>
+                        </div>
                         <button onClick={handleRefresh} disabled={isSyncing} className="text-xs text-indigo-400 hover:text-indigo-300 disabled:opacity-50">
                           {isSyncing ? 'Refreshing…' : '↻ Refresh'}
                         </button>
@@ -618,6 +666,128 @@ function DashboardContent() {
                 </>
               )}
             </div>
+
+          {/* ==================== VIDEO INSTALLATION & SETUP GUIDES ==================== */}
+          <div id="video-tutorials" className="card card-glow mb-6 border border-indigo-500/20 bg-indigo-950/20 scroll-mt-24">
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <div>
+                <div className="badge text-xs mb-1">🎬 Video Tutorials</div>
+                <h2 className="text-lg font-bold text-white">Watch Installation &amp; Setup Guides</h2>
+                <p className="text-xs text-slate-400 mt-0.5">Step-by-step video instructions for Windows, Mac, and product features</p>
+              </div>
+              <Link href="/install" className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold">
+                Full Setup Guide &rarr;
+              </Link>
+            </div>
+
+            {/* Category Filters */}
+            <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1 text-xs">
+              {[
+                { id: 'all', label: 'All Videos' },
+                { id: 'windows', label: '🪟 Windows Setup' },
+                { id: 'mac', label: '🍎 macOS Setup' },
+                { id: 'overview', label: '🚀 Product Overview' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setVideoFilter(tab.id as any)}
+                  className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                    videoFilter === tab.id
+                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                      : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {tab.label}
+                  {detectedOS === tab.id && (
+                    <span className="text-[10px] bg-indigo-400/20 px-1.5 py-0.5 rounded-full text-indigo-200 ml-1.5 font-normal">
+                      Your OS
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                {
+                  id: 'QeZDYWtKnsY',
+                  category: 'overview',
+                  title: 'Full Product Walkthrough',
+                  tag: '🚀 Product Overview',
+                  desc: 'See JavihAI in action during live calls, screenshot solving, and Desi Mode.',
+                },
+                {
+                  id: 'uEDFnlf1hiw',
+                  category: 'windows',
+                  title: 'Windows 10/11 Setup Guide',
+                  tag: '🪟 Windows Setup',
+                  desc: 'Step-by-step video to download, run installer, and bypass SmartScreen.',
+                },
+                {
+                  id: 'LvCAOrlH8zs',
+                  category: 'mac',
+                  title: 'macOS Installation & Permissions',
+                  tag: '🍎 macOS Setup',
+                  desc: 'Complete guide for Mac Applications drag, Gatekeeper, and Screen Recording.',
+                },
+              ]
+                .filter((v) => videoFilter === 'all' || v.category === videoFilter)
+                .map((v) => (
+                  <div key={v.id} className="bg-slate-950/80 rounded-xl p-3.5 border border-white/10 flex flex-col justify-between group hover:border-indigo-500/30 transition-all">
+                    <div>
+                      <div className="relative aspect-video rounded-lg overflow-hidden bg-slate-950 mb-3 border border-white/5">
+                        {activeVideo === v.id ? (
+                          <iframe
+                            src={`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&mute=1&playsinline=1`}
+                            title={v.title}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="w-full h-full border-0"
+                          />
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setActiveVideo(v.id)}
+                            className="w-full h-full relative block text-left focus:outline-none group/player cursor-pointer"
+                            aria-label={`Play ${v.title}`}
+                          >
+                            <img
+                              src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                              alt={v.title}
+                              className="w-full h-full object-cover opacity-80 group-hover/player:opacity-100 transition-opacity"
+                            />
+                            <div className="absolute inset-0 bg-slate-950/40 group-hover/player:bg-slate-950/20 transition-colors flex items-center justify-center">
+                              <div className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-600/40 group-hover/player:scale-110 transition-transform">
+                                <svg className="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24">
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+                              </div>
+                            </div>
+                          </button>
+                        )}
+                      </div>
+                      <div className="inline-block px-2 py-0.5 rounded text-[11px] font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 mb-1.5">
+                        {v.tag}
+                      </div>
+                      <h3 className="text-sm font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors">
+                        {v.title}
+                      </h3>
+                      <p className="text-xs text-slate-400 leading-relaxed mb-3">
+                        {v.desc}
+                      </p>
+                    </div>
+                    <a
+                      href={`https://www.youtube.com/watch?v=${v.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 font-semibold"
+                    >
+                      Watch on YouTube &rarr;
+                    </a>
+                  </div>
+                ))}
+            </div>
+          </div>
 
           {/* ==================== GOT THE OFFER? (referral) ==================== */}
           {/* Only shown to users who've actually had a real session — asking
