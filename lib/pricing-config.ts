@@ -44,7 +44,7 @@ export const PLANS: PlanConfig[] = [
     isUnlimited: false,
     features: [
       '25 free answers/day — 5 screenshot, 10 listen, 10 typed',
-      'Resets every day, forever',
+      'Resets every day at 12:00 AM IST',
       'No credit card required',
     ],
     badge: null,

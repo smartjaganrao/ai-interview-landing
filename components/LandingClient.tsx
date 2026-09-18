@@ -7,6 +7,7 @@ import FreeTrialModal from '@/components/FreeTrialModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
 import GoogleSignInModal from '@/components/GoogleSignInModal';
 import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
+import LiveGuideModeDemo from '@/components/LiveGuideModeDemo';
 import Footer from '@/components/Footer';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
 import { onOfferPopupChecked } from '@/lib/offer-popup-events';
@@ -591,40 +592,7 @@ export default function LandingClient(props: LandingClientProps) {
                         )}
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 xl:grid-cols-5 gap-0">
-                        {/* Question panel */}
-                        <div className="xl:col-span-2 p-4 sm:p-6 border-r border-white/5">
-                          <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                            <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                            <span className="text-[10px] sm:text-xs text-slate-400 font-medium">System Audio · Auto-detected question</span>
-                          </div>
-                          <div className="text-sm sm:text-base font-semibold text-white leading-relaxed min-h-[60px] sm:min-h-[72px]">
-                            {typedQ}<span className="animate-pulse text-blue-400">|</span>
-                          </div>
-                          <div className="mt-3 sm:mt-4 flex gap-1.5 sm:gap-2 flex-wrap">
-                            <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-blue-500/15 text-blue-300">System Design</span>
-                            <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-slate-700/50 text-slate-400">SDE-2 Round</span>
-                          </div>
-                        </div>
-
-                        {/* AI answer stream */}
-                        <div className="xl:col-span-3 p-4 sm:p-6 bg-slate-950/50">
-                          <div className="text-[10px] sm:text-xs text-slate-400 mb-2 sm:mb-3 flex items-center gap-2">
-                            <span className="animate-pulse text-blue-400 text-base">●</span>
-                            <span className="font-medium text-slate-300">JavihAI answer</span>
-                            <span className="ml-auto text-blue-400">✓ 1.4s</span>
-                          </div>
-                          <div className="space-y-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                            <div><span className="text-blue-400 font-bold">1. Load Balancer</span> — Route to regional clusters (Mumbai, Delhi, Hyderabad) to reduce latency for Indian users by 40%.</div>
-                            <div><span className="text-blue-400 font-bold">2. Pub/Sub Queue</span> — Kafka topics per notification type; consumers fan out to FCM (Android), APNs (iOS), SMS (Twilio).</div>
-                            <div><span className="text-blue-400 font-bold">3. Rate Limiting</span> — Token bucket per user to avoid spam. Global limit: 10M notifs/min during IPL or election surges.</div>
-                            <div><span className="text-blue-400 font-bold">4. Deduplication</span> — Redis set with 24h TTL to prevent duplicate sends on retry.</div>
-                            <div className="text-slate-500 text-[10px] sm:text-xs pt-1 flex items-center gap-2">
-                              <span className="text-yellow-400">★</span>{' '}Tailored for Indian scale · invisible to interviewer
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <LiveGuideModeDemo compact appVersion={appVersion} />
                     )}
                   </div>
                 </div>
@@ -708,6 +676,29 @@ export default function LandingClient(props: LandingClientProps) {
           </div>
         </div>
       </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          INTERACTIVE LIVE DEMO - GUIDE MODE SIMULATOR
+      ═══════════════════════════════════════════════════════════════ */}
+      <section id="live-demo" className="section-py relative overflow-hidden bg-slate-950/60 border-y border-white/5">
+        <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-4 sm:px-6 relative">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <div className="badge-glow inline-block text-xs font-bold px-3 py-1 rounded-full text-blue-300 mb-3">
+              ⚡ Interactive Live Experience
+            </div>
+            <h2 className="section-heading mb-4">
+              Experience <span className="text-gradient">Guide Mode</span> Live in Your Browser
+            </h2>
+            <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+              No download required to test! Choose a scenario below, hear live system audio detection, and see how JavihAI streams stealth answers in real-time.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <LiveGuideModeDemo appVersion={appVersion} />
+          </div>
+        </div>
+      </section>
 
       {/* ═══════════════════════════════════════════════════════════════
           WHAT IS JAVIHĀI & STEALTH ARCHITECTURE

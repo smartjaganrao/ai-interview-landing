@@ -107,7 +107,11 @@ export async function ensureUserDocs(
   const uid = user.uid;
   const userRef = doc(db, 'users', uid);
   const email = user.email ?? '';
-  const name  = user.displayName || 'there';
+  if (!email) {
+    console.warn('[ensureUserDocs] Aborting: user has no email. Ghost users cannot be created.');
+    return;
+  }
+  const name  = user.displayName || email.split('@')[0] || 'there';
   const now   = Date.now();
 
   // ── Duplicate email protection (outside transaction) ─────────────────────

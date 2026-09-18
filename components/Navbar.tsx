@@ -3,11 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
 import { buildWhatsAppLink, getWhatsAppDisplayNumber } from '@/lib/whatsapp-link';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 import { onOfferPopupVisibility } from '@/lib/offer-popup-events';
@@ -198,6 +197,9 @@ function SupportNumberLink({ compact = false }: { compact?: boolean }) {
   );
 }
 
+import FeedbackModal from '@/components/FeedbackModal';
+import { AudioDiagnosticModal } from '@/components/AudioDiagnosticModal';
+
 const APP_PATHS = ['/dashboard', '/resume', '/jobs', '/mock-interview', '/creator'];
 
 export default function Navbar() {
@@ -206,6 +208,8 @@ export default function Navbar() {
   const { user, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showAudioDiagModal, setShowAudioDiagModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -213,6 +217,18 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('feedback') === '1') {
+        setShowFeedbackModal(true);
+      }
+      if (params.get('audiocheck') === '1' || params.get('mic') === '1') {
+        setShowAudioDiagModal(true);
+      }
+    }
+  }, [pathname]);
 
   const handleSignOut = async () => {
     await signOut(auth);
@@ -241,46 +257,46 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-1">
           {isAppPage ? (
             <>
-              <Link href="/" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Home
               </Link>
-              <Link href="/dashboard" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/dashboard" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Dashboard
               </Link>
-              <Link href="/resume" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-                Resume Builder
+              <Link href="/resume" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
+                Resume
               </Link>
-              <Link href="/jobs" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/jobs" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Jobs
               </Link>
-              <Link href="/mock-interview" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
-                Mock Interview
+              <Link href="/mock-interview" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
+                Mocks
               </Link>
-              <Link href="/pricing" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/pricing" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Plans
               </Link>
             </>
           ) : (
             <>
-              <Link href="/#how-it-works" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/#how-it-works" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 How It Works
               </Link>
-              <Link href="/#features" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/#features" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Features
               </Link>
-              <Link href="/#why" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/#why" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Desi Mode
               </Link>
-              <Link href="/#reviews" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/#reviews" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Reviews
               </Link>
-              <Link href="/pricing" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/pricing" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Pricing
               </Link>
-              <Link href="/blog" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/blog" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 Blog
               </Link>
-              <Link href="/#faq" className="px-4 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5">
+              <Link href="/#faq" className="px-3.5 py-2 text-slate-300 hover:text-white transition-smooth rounded-lg hover:bg-white/5 text-sm">
                 FAQ
               </Link>
             </>
@@ -289,6 +305,22 @@ export default function Navbar() {
 
         {/* Auth Actions */}
         <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={() => setShowAudioDiagModal(true)}
+            className="px-2.5 py-1.5 rounded-lg text-teal-300 hover:text-white hover:bg-teal-500/10 border border-teal-500/20 transition-smooth text-xs font-medium flex items-center gap-1.5"
+            title="Pre-Interview Audio & Mic Check"
+          >
+            <span>🎧</span>
+            <span>Mic Check</span>
+          </button>
+          <button
+            onClick={() => setShowFeedbackModal(true)}
+            className="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-smooth text-xs font-medium flex items-center gap-1.5"
+            title="Give Feedback"
+          >
+            <span>💬</span>
+            <span>Feedback</span>
+          </button>
           <SupportNumberLink />
           <WhatsNewBell />
           {!loading && (
@@ -313,6 +345,12 @@ export default function Navbar() {
 
         {/* Mobile: support number + bell + menu button */}
         <div className="md:hidden flex items-center gap-0.5">
+          <button
+            onClick={() => setShowFeedbackModal(true)}
+            className="p-1.5 text-xs text-slate-300 hover:text-white flex items-center gap-1"
+          >
+            💬
+          </button>
           <SupportNumberLink compact />
           <WhatsNewBell />
           <button
@@ -343,13 +381,13 @@ export default function Navbar() {
                   Dashboard
                 </Link>
                 <Link href="/resume" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-                  Resume Builder
+                  Resume
                 </Link>
                 <Link href="/jobs" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
                   Jobs
                 </Link>
                 <Link href="/mock-interview" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
-                  Mock Interview
+                  Mocks
                 </Link>
                 <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth">
                   Plans
@@ -380,6 +418,18 @@ export default function Navbar() {
                 </Link>
               </>
             )}
+            <button
+              onClick={() => { setMobileOpen(false); setShowAudioDiagModal(true); }}
+              className="px-4 py-3 text-teal-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth text-left flex items-center gap-2 font-medium"
+            >
+              <span>🎧</span> Mic & Audio Diagnostics
+            </button>
+            <button
+              onClick={() => { setMobileOpen(false); setShowFeedbackModal(true); }}
+              className="px-4 py-3 text-indigo-300 hover:text-white hover:bg-white/5 rounded-lg transition-smooth text-left flex items-center gap-2 font-medium"
+            >
+              <span>💬</span> Give Feedback
+            </button>
             <div className="h-px bg-white/10 my-2"></div>
             {user ? (
               <>
@@ -403,6 +453,18 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      <FeedbackModal
+        open={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        user={user}
+        platform={isAppPage ? 'web_dashboard' : 'web_landing'}
+      />
+
+      <AudioDiagnosticModal
+        isOpen={showAudioDiagModal}
+        onClose={() => setShowAudioDiagModal(false)}
+      />
     </nav>
   );
 }

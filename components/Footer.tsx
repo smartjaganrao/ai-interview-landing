@@ -54,6 +54,7 @@ export default function Footer() {
               <li><Link href="/jobs" className="text-slate-400 hover:text-white transition">Job Recommendations</Link></li>
               <li><Link href="/install" className="text-slate-400 hover:text-white transition">Download App</Link></li>
               <li><Link href="/install" className="text-slate-400 hover:text-white transition">Installation Guide</Link></li>
+              <li><Link href="/dashboard?feedback=1" className="text-slate-400 hover:text-white transition">💬 Give Feedback</Link></li>
               <li><Link href="/#faq" className="text-slate-400 hover:text-white transition">FAQ</Link></li>
             </ul>
           </div>

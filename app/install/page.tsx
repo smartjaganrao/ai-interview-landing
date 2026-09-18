@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Footer from '@/components/Footer';
 import InstallDownloadButtons from '@/components/InstallDownloadButtons';
 import BrowserKeepFileGraphic from '@/components/BrowserKeepFileGraphic';
@@ -313,6 +314,17 @@ export default async function InstallPage() {
                 <div>
                   <h3 className="font-semibold text-white">&quot;An update is available but it won&apos;t install&quot;</h3>
                   <p className="text-sm text-slate-400">The update downloads automatically but only installs when you quit the app — close JavihAI completely and reopen it. If the problem persists, download the latest version manually from the buttons above and run it — your settings and account are preserved.</p>
+                </div>
+                <div className="p-3.5 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-between gap-3 text-xs">
+                  <div className="text-teal-200">
+                    <strong>🎧 Test your audio setup right now:</strong> Run our interactive in-browser mic &amp; speaker check to ensure your audio levels and permissions are 100% call-ready.
+                  </div>
+                  <Link
+                    href="/dashboard?audiocheck=1"
+                    className="shrink-0 px-3 py-1.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold transition-colors"
+                  >
+                    Run Mic Check &rarr;
+                  </Link>
                 </div>
               </div>
             </Disclosure>

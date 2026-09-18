@@ -403,12 +403,20 @@ export async function persistSubscription(params: {
         const fbUser = await admin.auth().getUser(params.userId);
         resolvedEmail = fbUser.email ?? '';
         update.email = resolvedEmail;
-        update.name = fbUser.displayName ?? '';
+        update.name = fbUser.displayName || resolvedEmail.split('@')[0] || 'User';
+        if (!userSnap.exists) {
+          update.uid = params.userId;
+          update.createdAt = fbUser.metadata.creationTime ? new Date(fbUser.metadata.creationTime).getTime() : Date.now();
+          update.settings = { theme: 'dark', language: 'en' };
+        }
       } catch {
         // Admin SDK getUser can fail for deleted/disabled accounts; proceed without backfill
       }
     }
-    batch.set(userRef, update, { merge: true });
+    // Only write to users/{uid} if the document already exists or valid auth user identity was resolved
+    if (userSnap.exists || resolvedEmail) {
+      batch.set(userRef, update, { merge: true });
+    }
 
     // subscriptions/{uid} is one doc per USER, overwritten on every purchase
     // — it only ever reflects the latest state, so a repeat purchaser's
@@ -544,11 +552,36 @@ export async function getOrCreateReferralCode(uid: string): Promise<string | nul
   const existing = snap.exists ? (snap.data()?.referralCode as string | undefined) : undefined;
   if (existing) return existing;
 
+  // Never create an orphan skeleton document if the user doesn't exist in Firestore
+  let userInfo: { email: string; name: string } | null = null;
+  if (!snap.exists) {
+    userInfo = await getUserInfo(uid);
+    if (!userInfo) {
+      // User doesn't exist in Firestore OR Firebase Auth — abort to prevent ghost records
+      return null;
+    }
+  }
+
   for (let attempt = 0; attempt < 6; attempt++) {
     const code = randomCode();
     const dup = await db.collection('users').where('referralCode', '==', code).limit(1).get();
     if (dup.empty) {
-      await userRef.set({ referralCode: code, updatedAt: Date.now() }, { merge: true });
+      const now = Date.now();
+      if (!snap.exists && userInfo) {
+        // Initialize full user profile per user-identity-protection golden rule
+        await userRef.set({
+          uid,
+          email: userInfo.email,
+          name: userInfo.name || userInfo.email.split('@')[0] || 'User',
+          plan: 'free',
+          createdAt: now,
+          updatedAt: now,
+          referralCode: code,
+          settings: { theme: 'dark', language: 'en' },
+        });
+      } else {
+        await userRef.set({ referralCode: code, updatedAt: now }, { merge: true });
+      }
       return code;
     }
   }
@@ -662,7 +695,8 @@ export async function redeemCreditForOrder(uid: string, orderId: string, amount:
       const red = await tx.get(redemptionRef);
       if (red.exists) return false; // already redeemed for this order
       const us = await tx.get(userRef);
-      const cur = us.exists ? (us.data()?.referralCredits ?? 0) : 0;
+      if (!us.exists) return false; // Never create a ghost user on redemption
+      const cur = us.data()?.referralCredits ?? 0;
       tx.set(userRef, { referralCredits: Math.max(0, cur - amount), updatedAt: Date.now() }, { merge: true });
       tx.set(redemptionRef, { uid, orderId, amount, redeemedAt: Date.now() });
       return true;
@@ -698,8 +732,9 @@ export async function rewardReferrerOnPayment(refereeUid: string, orderId: strin
       const rd = await tx.get(refDocRef);
       if (!rd.exists || rd.data()?.status !== 'pending') return false;
       const rs = await tx.get(referrerRef);
-      const cur = rs.exists ? (rs.data()?.referralCredits ?? 0) : 0;
-      const cnt = rs.exists ? (rs.data()?.referralCount ?? 0) : 0;
+      if (!rs.exists) return false; // Never create a ghost referrer doc
+      const cur = rs.data()?.referralCredits ?? 0;
+      const cnt = rs.data()?.referralCount ?? 0;
       tx.set(referrerRef, { referralCredits: cur + reward, referralCount: cnt + 1, updatedAt: Date.now() }, { merge: true });
       tx.set(refDocRef, { status: 'rewarded', rewardedAt: Date.now(), orderId, paymentId }, { merge: true });
       return true;

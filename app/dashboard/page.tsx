@@ -11,6 +11,9 @@ import { setUser } from '@/lib/slices/userSlice';
 import CompleteProfileModal, { isProfileComplete } from '@/components/CompleteProfileModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
 import DownloadPromptModal from '@/components/DownloadPromptModal';
+import LiveGuideModeDemo from '@/components/LiveGuideModeDemo';
+import { CompanyPrepPacks } from '@/components/CompanyPrepPacks';
+import { AudioDiagnosticModal } from '@/components/AudioDiagnosticModal';
 import { trackEvent } from '@/components/GoogleAnalytics';
 import { PLANS, PlanId, migratePlanId, getPlanById } from '@/lib/pricing-config';
 import { buildWhatsAppLink } from '@/lib/whatsapp-link';
@@ -72,6 +75,7 @@ function DashboardContent() {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [modalOS, setModalOS] = useState<'windows' | 'mac'>('windows');
   const [showDownloadPrompt, setShowDownloadPrompt] = useState(false);
+  const [showAudioDiag, setShowAudioDiag] = useState(false);
   // "Got the offer" referral prompt — explicitly opt-in (the user clicks to
   // confirm a real outcome, nothing is inferred or automated) per the
   // sensitivity of this product category. Dismissal persists the same way
@@ -82,6 +86,12 @@ function DashboardContent() {
   const [referralInfo, setReferralInfo] = useState<{ code: string; link: string; reward: number } | null>(null);
   const [referralLoading, setReferralLoading] = useState(false);
   const [referralCopied, setReferralCopied] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('audiocheck') === '1' || searchParams.get('mic') === '1') {
+      setShowAudioDiag(true);
+    }
+  }, [searchParams]);
 
   // /api/download requires a signed-in Firebase ID token (see the public
   // landing/install pages' gated download flow) — this page is already
@@ -349,6 +359,11 @@ function DashboardContent() {
         onDownload={(platform) => { trackEvent('download_prompt_clicked', 'conversion', platform); handleDownload(platform); }}
       />
 
+      <AudioDiagnosticModal
+        isOpen={showAudioDiag}
+        onClose={() => setShowAudioDiag(false)}
+      />
+
       {showSuccessBanner && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-fade-in-up">
           <div className="glass-heavy rounded-xl p-4 border border-green-500/50 flex items-center gap-3">
@@ -447,6 +462,37 @@ function DashboardContent() {
                       </div>
 
                       <div className="pl-9 mt-2">
+                        {detectedOS === null && (
+                          <div className="mb-3 p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-lg text-xs text-slate-300">
+                            <div className="font-bold text-indigo-300 flex items-center gap-1 mb-1">
+                              📱 On a mobile phone or tablet?
+                            </div>
+                            <div>
+                              JavihAI is a desktop app for <strong className="text-white">Windows & Mac</strong>. Open <strong className="text-white">javihai.in/dashboard</strong> on your computer to run the installer, or send yourself the link:
+                            </div>
+                            <div className="flex flex-wrap gap-2 mt-2">
+                              <button
+                                onClick={() => {
+                                  if (navigator.clipboard) {
+                                    navigator.clipboard.writeText('https://javihai.in/dashboard');
+                                    alert('Copied link: https://javihai.in/dashboard\nPaste this on your computer browser!');
+                                  }
+                                }}
+                                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-white rounded text-[11px] font-medium border border-slate-700"
+                              >
+                                📋 Copy Link for PC
+                              </button>
+                              <a
+                                href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Open this link on your PC to download JavihAI:\nhttps://javihai.in/dashboard')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-200 rounded text-[11px] font-medium border border-emerald-500/30"
+                              >
+                                💬 Send to WhatsApp
+                              </a>
+                            </div>
+                          </div>
+                        )}
                         <div className="flex flex-col sm:flex-row gap-2.5">
                           <button onClick={() => handleDownload('windows')} className={`btn ${detectedOS === 'mac' ? 'btn-secondary' : 'btn-primary shadow-md'}`}>
                             <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
@@ -549,6 +595,25 @@ function DashboardContent() {
                         Sign into the desktop app with <strong className="text-white">{user?.email}</strong>. Select <strong className="text-white">System Audio</strong> mode, join your call, and press <strong className="text-white">Start</strong> or press <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px] font-mono">Alt</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px] font-mono">⌥</kbd> + <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-200 text-[11px] font-mono">L</kbd> to listen.
                       </p>
                     </div>
+
+                    {/* Interactive Live Demo Preview */}
+                    <div id="live-demo-section" className="pt-4 border-t border-white/10 mt-4 scroll-mt-24">
+                      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <div className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+                          <span>🎮</span> Practice Live Simulator Before Your Call
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setShowAudioDiag(true)}
+                            className="text-[11px] font-semibold text-teal-300 hover:text-white bg-teal-500/10 hover:bg-teal-500/20 px-2.5 py-1 rounded-lg border border-teal-500/30 transition-colors flex items-center gap-1.5"
+                          >
+                            <span>🎧</span> Test Mic &amp; Audio
+                          </button>
+                          <span className="text-[10px] text-slate-400">No download required</span>
+                        </div>
+                      </div>
+                      <LiveGuideModeDemo compact appVersion={appVersion} />
+                    </div>
                   </div>
                 </>
               ) : (
@@ -608,7 +673,7 @@ function DashboardContent() {
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className="text-base font-bold">📊 Today&apos;s Usage</h3>
-                          <div className="text-[11px] text-slate-400">Resets daily at 12:00 AM UTC (5:30 AM IST)</div>
+                          <div className="text-[11px] text-slate-400">Resets daily at 12:00 AM IST (Midnight)</div>
                         </div>
                         <button onClick={handleRefresh} disabled={isSyncing} className="text-xs text-indigo-400 hover:text-indigo-300 disabled:opacity-50">
                           {isSyncing ? 'Refreshing…' : '↻ Refresh'}
@@ -666,6 +731,53 @@ function DashboardContent() {
                 </>
               )}
             </div>
+
+          {/* ==================== PRE-INTERVIEW AUDIO & MIC READINESS CARD ==================== */}
+          <div className="card mb-6 border border-teal-500/30 bg-teal-950/20 backdrop-blur-sm p-6 rounded-3xl relative overflow-hidden shadow-xl">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5 relative z-10">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-2xl shrink-0">
+                  🎧
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-teal-300 bg-teal-500/10 px-2.5 py-0.5 rounded-full border border-teal-500/20 mb-1.5">
+                    Pre-Interview Readiness Check
+                  </div>
+                  <h3 className="text-base font-bold text-white">
+                    Test Your Microphone &amp; Speaker Audio Before Your Live Call
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1 max-w-xl leading-relaxed">
+                    Verify that your microphone volume levels are reactive, check speaker clarity with a sample interviewer question, and review OS loopback permissions so you enter your interview with 100% confidence.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 shrink-0 self-end md:self-center">
+                <button
+                  onClick={() => setShowAudioDiag(true)}
+                  className="px-5 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 font-bold text-xs transition-all shadow-lg shadow-teal-500/20 flex items-center gap-2 cursor-pointer"
+                >
+                  <span>Launch Audio Diagnostic Tool</span>
+                  <span>&rarr;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ==================== TOP INDIAN TECH COMPANY PREP PACKS ==================== */}
+          <div className="mb-6">
+            <CompanyPrepPacks
+              onSelectQuestion={() => {
+                const demoEl = document.getElementById('live-demo-section');
+                if (demoEl) {
+                  demoEl.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.scrollTo({ top: 400, behavior: 'smooth' });
+                }
+              }}
+            />
+          </div>
 
           {/* ==================== VIDEO INSTALLATION & SETUP GUIDES ==================== */}
           <div id="video-tutorials" className="card card-glow mb-6 border border-indigo-500/20 bg-indigo-950/20 scroll-mt-24">
