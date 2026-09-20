@@ -302,10 +302,6 @@ body {
   50% { border-color: rgba(139, 43, 226, 0.35); }
 }
 
-@keyframes typing-blink {
-  50% { opacity: 0; }
-}
-
 @keyframes orb-drift {
   0%, 100% { transform: translate(0, 0) scale(1); }
   25% { transform: translate(30px, -30px) scale(1.05); }
@@ -313,9 +309,18 @@ body {
   75% { transform: translate(20px, 10px) scale(1.02); }
 }
 
+/* Diwali offer banner — small twinkling sparks in the background, behind
+   the coupon text. Remove alongside the rest of the Diwali theming once
+   the festive coupon period ends. */
+@keyframes firecracker-sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.3) translateY(2px); }
+  50% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
 .animate-float { animation: float 6s ease-in-out infinite; }
 .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
 .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-firecracker { animation: firecracker-sparkle 1.8s ease-in-out infinite; }
 .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
 .animate-scale-in { animation: scale-in 0.5s ease-out forwards; }
 .animate-gradient {
@@ -552,14 +557,6 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-/* ── Typing cursor ────────────────────────────────────────────── */
-.typing-cursor::after {
-  content: '|';
-  animation: typing-blink 1s step-start infinite;
-  color: #00BFFF;
-  font-weight: 300;
 }
 
 /* ── Glow orbs for hero background ────────────────────────────── */

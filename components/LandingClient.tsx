@@ -37,18 +37,6 @@ const VIDEO_CALL_APPS = [
   { Icon: FaSlack, name: 'Slack Huddles', color: '#4A154B' },
 ];
 
-// Rotating example questions — a small proof-of-concept teaser in the hero
-// (not the interactive demo itself, which lives in the "See it live"
-// section below; this is just a typewriter line showing the kind of
-// question JavihAI handles).
-const QUESTIONS = [
-  '"Tell me about a time you improved system performance at scale."',
-  '"Design a notification system for 10 million users."',
-  '"Why do you want to leave your current company?"',
-  '"What is your expected CTC? What is your notice period?"',
-  '"Walk me through how you would build a URL shortener."',
-];
-
 interface PricingData {
   plans: {
     free: { oneTime: number };
@@ -135,9 +123,6 @@ function detectDesktopOS(): 'mac' | 'windows' | null {
 
 export default function LandingClient(props: LandingClientProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [questionIdx, setQuestionIdx] = useState(0);
-  const [typedQ, setTypedQ] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
   const [pricing] = useState<PricingData>(props.initialPricing);
   const [appVersion, setAppVersion] = useState('');
   const [isNewRelease, setIsNewRelease] = useState(false);
@@ -226,26 +211,6 @@ export default function LandingClient(props: LandingClientProps) {
     };
   }, []);
 
-  useEffect(() => {
-    const question = QUESTIONS[questionIdx];
-    if (isTyping) {
-      if (typedQ.length < question.length) {
-        const t = setTimeout(() => setTypedQ(question.slice(0, typedQ.length + 1)), 28);
-        return () => clearTimeout(t);
-      } else {
-        const t = setTimeout(() => setIsTyping(false), 1800);
-        return () => clearTimeout(t);
-      }
-    } else {
-      const t = setTimeout(() => {
-        setTypedQ('');
-        setQuestionIdx((i) => (i + 1) % QUESTIONS.length);
-        setIsTyping(true);
-      }, 400);
-      return () => clearTimeout(t);
-    }
-  }, [typedQ, isTyping, questionIdx]);
-
   return (
     <>
       {/* `.home-light` is now applied site-wide by ThemeScope.tsx (see
@@ -308,7 +273,7 @@ export default function LandingClient(props: LandingClientProps) {
                   <span className="flex items-center gap-1.5">🇮🇳 Desi Mode</span>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center laptop-sm:items-start justify-center laptop-sm:justify-start gap-3 mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+                <div className="flex flex-col sm:flex-row sm:flex-wrap items-center laptop-sm:items-start justify-center laptop-sm:justify-start gap-3 mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
                   <button
                     type="button"
                     onClick={() => requestDownload(detectedOS === 'mac' ? 'mac' : 'windows')}
@@ -320,19 +285,18 @@ export default function LandingClient(props: LandingClientProps) {
                     </svg>
                     Download for {detectedOS === 'mac' ? 'Mac' : 'Windows'} — Free
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setHeroVideoPlaying(true);
-                      document.getElementById('hero-video')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }}
+                  {/* Same real WhatsApp community group used in the
+                      "Join Candidates on WhatsApp" section further down —
+                      not a new/invented link. */}
+                  <a
+                    href="https://chat.whatsapp.com/JdfkOG55dqEHlWNvEXkFh0?s=sw&p=a&ilr=4"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="btn btn-secondary text-sm px-6 py-3 flex items-center justify-center gap-1.5"
                   >
-                    <svg className="w-4 h-4 text-red-500 fill-current flex-shrink-0" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                    Watch Demo
-                  </button>
+                    <WhatsAppIcon glyphOnly className="w-4 h-4 flex-shrink-0" />
+                    Join WhatsApp Group
+                  </a>
                   <div className="flex flex-col items-center gap-1">
                     <Link href="/pricing" className="btn btn-secondary text-sm px-6 py-3">
                       See Pricing
@@ -346,13 +310,6 @@ export default function LandingClient(props: LandingClientProps) {
                   <Link href="/install" className="underline underline-offset-2 hover:text-[#1A1512]">Other platforms</Link>
                 </p>
 
-                {/* Small typewriter teaser — not the interactive demo itself
-                    (that's the "See it live" section below), just a hint at
-                    the kind of question JavihAI handles. */}
-                <div className="hl-text-secondary inline-flex items-center gap-2 text-xs sm:text-sm font-mono bg-white/70 border border-[rgba(26,21,18,0.08)] rounded-full px-4 py-2 animate-fade-in-up max-w-full" style={{ animationDelay: '0.35s' }}>
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse flex-shrink-0" />
-                  <span className="typing-cursor truncate">{typedQ}</span>
-                </div>
               </div>
 
               {/* RIGHT — hero demo video. Same click-to-play YouTube embed

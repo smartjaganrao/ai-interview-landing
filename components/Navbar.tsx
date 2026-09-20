@@ -151,11 +151,25 @@ function OfferBanner() {
     ? `${coupon.discountValue}% off`
     : `₹${coupon.discountValue} off`;
 
+  // Diwali-themed banner (gold/maroon/orange, matching the DIWALI15 coupon)
+  // instead of the generic purple/pink promo gradient — swap back to that
+  // once the festive coupon period ends.
   return (
-    <div className="bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-sm border-b border-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.15)]">
+    <div className="relative overflow-hidden bg-gradient-to-r from-red-900/95 via-orange-700/95 to-amber-600/95 backdrop-blur-sm border-b border-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.15)]">
+      {/* Twinkling sparks scattered behind the text — cheap CSS-only effect
+          sized for a slim banner, not a full particle system. */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <span className="absolute left-[6%] top-1 text-xs animate-firecracker" style={{ animationDelay: '0s' }}>✨</span>
+        <span className="absolute left-[18%] top-2.5 text-[10px] animate-firecracker" style={{ animationDelay: '0.5s' }}>✨</span>
+        <span className="absolute left-[32%] top-0.5 text-xs animate-firecracker" style={{ animationDelay: '1.1s' }}>✨</span>
+        <span className="absolute left-[62%] top-2 text-[10px] animate-firecracker" style={{ animationDelay: '0.3s' }}>✨</span>
+        <span className="absolute left-[76%] top-0.5 text-xs animate-firecracker" style={{ animationDelay: '0.9s' }}>✨</span>
+        <span className="absolute left-[90%] top-2 text-xs animate-firecracker" style={{ animationDelay: '1.4s' }}>✨</span>
+        <span className="absolute left-[97%] top-1 text-[10px] animate-firecracker" style={{ animationDelay: '0.7s' }}>✨</span>
+      </div>
       <div className="max-w-7xl desktop:max-w-[1440px] desktop-lg:max-w-[1600px] mx-auto px-6 py-2 flex items-center justify-center gap-3 text-sm text-white relative">
         <span className="font-semibold text-center">
-          🎟️ Use code{' '}
+          <span className="animate-pulse-glow inline-block rounded-full">🪔</span>{' '}Use code{' '}
           <button
             onClick={() => {
               navigator.clipboard?.writeText(coupon.code).catch(() => {});

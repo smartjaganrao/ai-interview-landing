@@ -160,8 +160,8 @@ export default function NewCustomerOfferPopup() {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-slate-900 rounded-2xl max-w-md w-full border border-purple-500/30 shadow-2xl animate-fade-in-up overflow-hidden">
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4 flex items-center justify-between">
-          <span className="text-white font-black text-lg">🔥 New Customer Offer</span>
+        <div className="bg-gradient-to-r from-red-900 via-orange-700 to-amber-600 px-6 py-4 flex items-center justify-between">
+          <span className="text-white font-black text-lg">🪔 New Customer Offer</span>
           <button
             onClick={handleClose}
             className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
@@ -191,7 +191,7 @@ export default function NewCustomerOfferPopup() {
 
           <button
             onClick={handleClaim}
-            className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:shadow-lg hover:scale-105 transition-all"
+            className="w-full py-3 px-4 bg-gradient-to-r from-red-900 via-orange-700 to-amber-600 text-white font-bold rounded-lg hover:shadow-lg hover:scale-105 transition-all"
           >
             Claim Offer & Buy Now →
           </button>
