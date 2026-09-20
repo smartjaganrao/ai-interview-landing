@@ -40,8 +40,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_about_page",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 315,
+      "community_name": "page.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -51,8 +51,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "app_about_page_orgschema",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 315,
+      "community_name": "page.tsx",
       "norm_label": "orgschema"
     },
     {
@@ -62,8 +62,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "app_about_page_metadata",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 315,
+      "community_name": "page.tsx",
       "norm_label": "metadata"
     },
     {
@@ -73,8 +73,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "app_about_page_aboutpage",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 315,
+      "community_name": "page.tsx",
       "norm_label": "aboutpage()"
     },
     {
@@ -326,8 +326,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_apply_route",
-      "community": 175,
-      "community_name": "Em Dashes: The Primary AI Tell",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -337,8 +337,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_creator_apply_route_post",
-      "community": 175,
-      "community_name": "Em Dashes: The Primary AI Tell",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "post()"
     },
     {
@@ -392,8 +392,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_payout_method_route",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -403,8 +403,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "app_api_creator_payout_method_route_post",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "post()"
     },
     {
@@ -931,8 +931,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_mock_interview_route",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -942,8 +942,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_difficulty",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "difficulty"
     },
     {
@@ -953,8 +953,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_difficulty_guide",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "difficulty_guide"
     },
     {
@@ -964,8 +964,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_fallback_models",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "fallback_models"
     },
     {
@@ -975,8 +975,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_ismodelnotfounderror",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "ismodelnotfounderror()"
     },
     {
@@ -986,8 +986,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_getlivefallbackmodels",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "getlivefallbackmodels()"
     },
     {
@@ -997,8 +997,8 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_createchatcompletionwithfallback",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "createchatcompletionwithfallback()"
     },
     {
@@ -1008,8 +1008,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_getgroq",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "getgroq()"
     },
     {
@@ -1019,8 +1019,8 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_profile",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "profile"
     },
     {
@@ -1030,8 +1030,8 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_profilecontext",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "profilecontext()"
     },
     {
@@ -1041,8 +1041,8 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_generatequestion",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "generatequestion()"
     },
     {
@@ -1052,8 +1052,8 @@
       "source_location": "L167",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_post",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "post()"
     },
     {
@@ -1063,8 +1063,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_notifications_new_signup_route",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1074,8 +1074,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_api_notifications_new_signup_route_cors_headers",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "cors_headers"
     },
     {
@@ -1085,8 +1085,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_api_notifications_new_signup_route_json",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "json()"
     },
     {
@@ -1096,8 +1096,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_api_notifications_new_signup_route_options",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "options()"
     },
     {
@@ -1107,8 +1107,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "app_api_notifications_new_signup_route_post",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "post()"
     },
     {
@@ -1195,8 +1195,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_pricing_route",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1206,8 +1206,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_api_pricing_route_get",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "get()"
     },
     {
@@ -1217,8 +1217,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_razorpay_create_order_route",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1228,8 +1228,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_api_razorpay_create_order_route_post",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "post()"
     },
     {
@@ -1360,8 +1360,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_referral_me_route",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -1371,8 +1371,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_referral_me_route_post",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "post()"
     },
     {
@@ -1712,8 +1712,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_blog_page",
-      "community": 298,
-      "community_name": "AI Visibility Audit",
+      "community": 9,
+      "community_name": "page.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -1723,8 +1723,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "app_blog_page_metadata",
-      "community": 298,
-      "community_name": "AI Visibility Audit",
+      "community": 9,
+      "community_name": "page.tsx",
       "norm_label": "metadata"
     },
     {
@@ -1734,8 +1734,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_blog_page_formatdate",
-      "community": 298,
-      "community_name": "AI Visibility Audit",
+      "community": 9,
+      "community_name": "page.tsx",
       "norm_label": "formatdate()"
     },
     {
@@ -1745,8 +1745,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_blog_page_blogindexpage",
-      "community": 298,
-      "community_name": "AI Visibility Audit",
+      "community": 9,
+      "community_name": "page.tsx",
       "norm_label": "blogindexpage()"
     },
     {
@@ -1855,8 +1855,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "app_checkout_page_offer",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "offer"
     },
     {
@@ -1877,8 +1877,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "app_checkout_page_couponpreview",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "couponpreview"
     },
     {
@@ -2119,8 +2119,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_compare_interview_coder_page",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -2130,8 +2130,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "app_compare_interview_coder_page_metadata",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "metadata"
     },
     {
@@ -2141,8 +2141,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_compare_interview_coder_page_rows",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "rows"
     },
     {
@@ -2152,8 +2152,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "app_compare_interview_coder_page_interviewcodercomparepage",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "interviewcodercomparepage()"
     },
     {
@@ -2163,8 +2163,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_compare_lockedin_ai_page",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 316,
+      "community_name": "page.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -2174,8 +2174,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "app_compare_lockedin_ai_page_metadata",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 316,
+      "community_name": "page.tsx",
       "norm_label": "metadata"
     },
     {
@@ -2185,8 +2185,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_compare_lockedin_ai_page_rows",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 316,
+      "community_name": "page.tsx",
       "norm_label": "rows"
     },
     {
@@ -2196,8 +2196,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "app_compare_lockedin_ai_page_lockedinaicomparepage",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 316,
+      "community_name": "page.tsx",
       "norm_label": "lockedinaicomparepage()"
     },
     {
@@ -2207,8 +2207,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_compare_page",
-      "community": 162,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -2218,8 +2218,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "app_compare_page_metadata",
-      "community": 162,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "metadata"
     },
     {
@@ -2229,8 +2229,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "app_compare_page_competitors",
-      "community": 162,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "competitors"
     },
     {
@@ -2240,8 +2240,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "app_compare_page_comparepage",
-      "community": 162,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "comparepage()"
     },
     {
@@ -2542,6 +2542,204 @@
       "norm_label": "installpage()"
     },
     {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_interview_prep_amazon_page",
+      "community": 286,
+      "community_name": "Sitemap Configuration",
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "ROUNDS",
+      "file_type": "code",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "app_interview_prep_amazon_page_rounds",
+      "community": 286,
+      "community_name": "Sitemap Configuration",
+      "norm_label": "rounds"
+    },
+    {
+      "label": "FAQ_ITEMS",
+      "file_type": "code",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "app_interview_prep_amazon_page_faq_items",
+      "community": 286,
+      "community_name": "Sitemap Configuration",
+      "norm_label": "faq_items"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "app_interview_prep_amazon_page_metadata",
+      "community": 286,
+      "community_name": "Sitemap Configuration",
+      "norm_label": "metadata"
+    },
+    {
+      "label": "faqSchema",
+      "file_type": "code",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "app_interview_prep_amazon_page_faqschema",
+      "community": 286,
+      "community_name": "Sitemap Configuration",
+      "norm_label": "faqschema"
+    },
+    {
+      "label": "AmazonInterviewPrepPage()",
+      "file_type": "code",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "app_interview_prep_amazon_page_amazoninterviewpreppage",
+      "community": 286,
+      "community_name": "Sitemap Configuration",
+      "norm_label": "amazoninterviewpreppage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_interview_prep_infosys_page",
+      "community": 289,
+      "community_name": "getReferralSummary",
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "ROUNDS",
+      "file_type": "code",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "app_interview_prep_infosys_page_rounds",
+      "community": 289,
+      "community_name": "getReferralSummary",
+      "norm_label": "rounds"
+    },
+    {
+      "label": "FAQ_ITEMS",
+      "file_type": "code",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "app_interview_prep_infosys_page_faq_items",
+      "community": 289,
+      "community_name": "getReferralSummary",
+      "norm_label": "faq_items"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "app_interview_prep_infosys_page_metadata",
+      "community": 289,
+      "community_name": "getReferralSummary",
+      "norm_label": "metadata"
+    },
+    {
+      "label": "faqSchema",
+      "file_type": "code",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "app_interview_prep_infosys_page_faqschema",
+      "community": 289,
+      "community_name": "getReferralSummary",
+      "norm_label": "faqschema"
+    },
+    {
+      "label": "InfosysInterviewPrepPage()",
+      "file_type": "code",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "app_interview_prep_infosys_page_infosysinterviewpreppage",
+      "community": 289,
+      "community_name": "getReferralSummary",
+      "norm_label": "infosysinterviewpreppage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_interview_prep_tcs_page",
+      "community": 290,
+      "community_name": "PlanId",
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "ROUNDS",
+      "file_type": "code",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "app_interview_prep_tcs_page_rounds",
+      "community": 290,
+      "community_name": "PlanId",
+      "norm_label": "rounds"
+    },
+    {
+      "label": "FAQ_ITEMS",
+      "file_type": "code",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "app_interview_prep_tcs_page_faq_items",
+      "community": 290,
+      "community_name": "PlanId",
+      "norm_label": "faq_items"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "app_interview_prep_tcs_page_metadata",
+      "community": 290,
+      "community_name": "PlanId",
+      "norm_label": "metadata"
+    },
+    {
+      "label": "faqSchema",
+      "file_type": "code",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "app_interview_prep_tcs_page_faqschema",
+      "community": 290,
+      "community_name": "PlanId",
+      "norm_label": "faqschema"
+    },
+    {
+      "label": "TCSInterviewPrepPage()",
+      "file_type": "code",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "app_interview_prep_tcs_page_tcsinterviewpreppage",
+      "community": 290,
+      "community_name": "PlanId",
+      "norm_label": "tcsinterviewpreppage()"
+    },
+    {
       "label": "layout.tsx",
       "file_type": "code",
       "source_file": "app/jobs/layout.tsx",
@@ -2834,19 +3032,19 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_page",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 8,
+      "community_name": "github-release.ts",
       "norm_label": "page.tsx"
     },
     {
       "label": "Page()",
       "file_type": "code",
       "source_file": "app/page.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "app_page_page",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "page()"
     },
     {
@@ -2900,8 +3098,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "app_pricing_page_offer",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "offer"
     },
     {
@@ -2922,8 +3120,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "app_pricing_page_featuredcoupon",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "featuredcoupon"
     },
     {
@@ -2966,8 +3164,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_privacy_page",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 319,
+      "community_name": "page.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -2977,8 +3175,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "app_privacy_page_metadata",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 319,
+      "community_name": "page.tsx",
       "norm_label": "metadata"
     },
     {
@@ -2988,8 +3186,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "app_privacy_page_privacypage",
-      "community": 2,
-      "community_name": "Footer.tsx",
+      "community": 319,
+      "community_name": "page.tsx",
       "norm_label": "privacypage()"
     },
     {
@@ -3054,8 +3252,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_refund_page",
-      "community": 302,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "page.tsx"
     },
     {
@@ -3065,8 +3263,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "app_refund_page_metadata",
-      "community": 302,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "metadata"
     },
     {
@@ -3076,8 +3274,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "app_refund_page_refundpage",
-      "community": 302,
-      "community_name": "page.tsx",
+      "community": 2,
+      "community_name": "Footer.tsx",
       "norm_label": "refundpage()"
     },
     {
@@ -3637,8 +3835,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_feedbackmodal",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 298,
+      "community_name": "AI Visibility Audit",
       "norm_label": "feedbackmodal.tsx"
     },
     {
@@ -3648,8 +3846,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_feedbackmodal_feedbackmodalprops",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 298,
+      "community_name": "AI Visibility Audit",
       "norm_label": "feedbackmodalprops"
     },
     {
@@ -3659,8 +3857,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_feedbackmodal_categories",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 298,
+      "community_name": "AI Visibility Audit",
       "norm_label": "categories"
     },
     {
@@ -3670,8 +3868,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "components_feedbackmodal_feedbackmodal",
-      "community": 280,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 298,
+      "community_name": "AI Visibility Audit",
       "norm_label": "feedbackmodal()"
     },
     {
@@ -3813,8 +4011,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_installdownloadbuttons",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "installdownloadbuttons.tsx"
     },
     {
@@ -3824,8 +4022,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "components_installdownloadbuttons_detectdesktopos",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "detectdesktopos()"
     },
     {
@@ -3835,8 +4033,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "components_installdownloadbuttons_installdownloadbuttons",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "installdownloadbuttons()"
     },
     {
@@ -3884,43 +4082,21 @@
       "norm_label": "landingclient.tsx"
     },
     {
-      "label": "FAQ_ITEMS",
+      "label": "VIDEO_CALL_APPS",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L32",
+      "source_location": "L31",
       "_origin": "ast",
-      "id": "components_landingclient_faq_items",
+      "id": "components_landingclient_video_call_apps",
       "community": 8,
       "community_name": "github-release.ts",
-      "norm_label": "faq_items"
-    },
-    {
-      "label": "faqSchema",
-      "file_type": "code",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L59",
-      "_origin": "ast",
-      "id": "components_landingclient_faqschema",
-      "community": 8,
-      "community_name": "github-release.ts",
-      "norm_label": "faqschema"
-    },
-    {
-      "label": "howToSchema",
-      "file_type": "code",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L69",
-      "_origin": "ast",
-      "id": "components_landingclient_howtoschema",
-      "community": 8,
-      "community_name": "github-release.ts",
-      "norm_label": "howtoschema"
+      "norm_label": "video_call_apps"
     },
     {
       "label": "QUESTIONS",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L97",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "components_landingclient_questions",
       "community": 8,
@@ -3931,7 +4107,7 @@
       "label": "PricingData",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L105",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "components_landingclient_pricingdata",
       "community": 8,
@@ -3942,7 +4118,7 @@
       "label": "effectivePrice()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L115",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "components_landingclient_effectiveprice",
       "community": 8,
@@ -3953,7 +4129,7 @@
       "label": "LandingClientProps",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L122",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "components_landingclient_landingclientprops",
       "community": 8,
@@ -3964,7 +4140,7 @@
       "label": "GRADIENT_CLASSES",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L126",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "components_landingclient_gradient_classes",
       "community": 8,
@@ -3975,7 +4151,7 @@
       "label": "StatusBadge()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L141",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "components_landingclient_statusbadge",
       "community": 8,
@@ -3986,7 +4162,7 @@
       "label": "detectDesktopOS()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L181",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "components_landingclient_detectdesktopos",
       "community": 8,
@@ -3997,7 +4173,7 @@
       "label": "LandingClient()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L189",
+      "source_location": "L136",
       "_origin": "ast",
       "id": "components_landingclient_landingclient",
       "community": 8,
@@ -4187,8 +4363,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_popupcoupon",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "popupcoupon"
     },
     {
@@ -4385,8 +4561,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usegateddownload",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "usegateddownload.ts"
     },
     {
@@ -4396,8 +4572,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "hooks_usegateddownload_downloadplatform",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "downloadplatform"
     },
     {
@@ -4407,8 +4583,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "hooks_usegateddownload_downloadvariant",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "downloadvariant"
     },
     {
@@ -4418,8 +4594,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "hooks_usegateddownload_pendingdownload",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "pendingdownload"
     },
     {
@@ -4429,8 +4605,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "hooks_usegateddownload_download_path",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "download_path"
     },
     {
@@ -4440,8 +4616,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "hooks_usegateddownload_buildurl",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "buildurl()"
     },
     {
@@ -4451,8 +4627,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "hooks_usegateddownload_usegateddownload",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 136,
+      "community_name": "page.tsx",
       "norm_label": "usegateddownload()"
     },
     {
@@ -4572,8 +4748,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "lib_blog_getpublishedposts",
-      "community": 298,
-      "community_name": "AI Visibility Audit",
+      "community": 9,
+      "community_name": "page.tsx",
       "norm_label": "getpublishedposts()"
     },
     {
@@ -4847,8 +5023,8 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "lib_email_sendpaymentfailed",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 17,
+      "community_name": "route.ts",
       "norm_label": "sendpaymentfailed()"
     },
     {
@@ -4913,8 +5089,8 @@
       "source_location": "L339",
       "_origin": "ast",
       "id": "lib_email_sendnewsignupalert",
-      "community": 5,
-      "community_name": "razorpay-server.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "sendnewsignupalert()"
     },
     {
@@ -5210,8 +5386,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "lib_firebase_admin_issubscriptionexpired",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "issubscriptionexpired()"
     },
     {
@@ -5265,8 +5441,8 @@
       "source_location": "L181",
       "_origin": "ast",
       "id": "lib_firebase_admin_getuserplan",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "getuserplan()"
     },
     {
@@ -5342,8 +5518,8 @@
       "source_location": "L486",
       "_origin": "ast",
       "id": "lib_firebase_admin_consumehours",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "consumehours()"
     },
     {
@@ -5353,8 +5529,8 @@
       "source_location": "L515",
       "_origin": "ast",
       "id": "lib_firebase_admin_getremaininghours",
-      "community": 47,
-      "community_name": "pricing-config.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getremaininghours()"
     },
     {
@@ -5397,8 +5573,8 @@
       "source_location": "L595",
       "_origin": "ast",
       "id": "lib_firebase_admin_getreferralsummary",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "getreferralsummary()"
     },
     {
@@ -5408,8 +5584,8 @@
       "source_location": "L612",
       "_origin": "ast",
       "id": "lib_firebase_admin_getreferralcredits",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getreferralcredits()"
     },
     {
@@ -5463,8 +5639,8 @@
       "source_location": "L763",
       "_origin": "ast",
       "id": "lib_firebase_admin_creatorcodebase",
-      "community": 175,
-      "community_name": "Em Dashes: The Primary AI Tell",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "creatorcodebase()"
     },
     {
@@ -5474,8 +5650,8 @@
       "source_location": "L769",
       "_origin": "ast",
       "id": "lib_firebase_admin_getorcreatecreator",
-      "community": 175,
-      "community_name": "Em Dashes: The Primary AI Tell",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "getorcreatecreator()"
     },
     {
@@ -5507,8 +5683,8 @@
       "source_location": "L832",
       "_origin": "ast",
       "id": "lib_firebase_admin_invalidatecreatorcache",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "invalidatecreatorcache()"
     },
     {
@@ -5518,8 +5694,8 @@
       "source_location": "L840",
       "_origin": "ast",
       "id": "lib_firebase_admin_setcreatorpayoutupi",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "setcreatorpayoutupi()"
     },
     {
@@ -5551,8 +5727,8 @@
       "source_location": "L932",
       "_origin": "ast",
       "id": "lib_firebase_admin_offer",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "offer"
     },
     {
@@ -5584,8 +5760,8 @@
       "source_location": "L962",
       "_origin": "ast",
       "id": "lib_firebase_admin_pricingfallback",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "pricingfallback()"
     },
     {
@@ -5595,8 +5771,8 @@
       "source_location": "L976",
       "_origin": "ast",
       "id": "lib_firebase_admin_getdynamicpricing",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getdynamicpricing()"
     },
     {
@@ -5617,8 +5793,8 @@
       "source_location": "L1039",
       "_origin": "ast",
       "id": "lib_firebase_admin_offerapplies",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "offerapplies()"
     },
     {
@@ -5628,8 +5804,8 @@
       "source_location": "L1046",
       "_origin": "ast",
       "id": "lib_firebase_admin_effectiveamount",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "effectiveamount()"
     },
     {
@@ -5771,8 +5947,8 @@
       "source_location": "L1222",
       "_origin": "ast",
       "id": "lib_firebase_admin_applycoupondiscount",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "applycoupondiscount()"
     },
     {
@@ -5804,8 +5980,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_firebase",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 298,
+      "community_name": "AI Visibility Audit",
       "norm_label": "firebase.ts"
     },
     {
@@ -5815,8 +5991,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "lib_firebase_firebaseconfig",
-      "community": 123,
-      "community_name": "Generative Engine Optimization (GEO) Patterns",
+      "community": 298,
+      "community_name": "AI Visibility Audit",
       "norm_label": "firebaseconfig"
     },
     {
@@ -6172,6 +6348,50 @@
       "norm_label": "getlatestrelease()"
     },
     {
+      "label": "homepage-schema.ts",
+      "file_type": "code",
+      "source_file": "lib/homepage-schema.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_homepage_schema",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "homepage-schema.ts"
+    },
+    {
+      "label": "FAQ_ITEMS",
+      "file_type": "code",
+      "source_file": "lib/homepage-schema.ts",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "lib_homepage_schema_faq_items",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "faq_items"
+    },
+    {
+      "label": "faqSchema",
+      "file_type": "code",
+      "source_file": "lib/homepage-schema.ts",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "lib_homepage_schema_faqschema",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "faqschema"
+    },
+    {
+      "label": "howToSchema",
+      "file_type": "code",
+      "source_file": "lib/homepage-schema.ts",
+      "source_location": "L55",
+      "_origin": "ast",
+      "id": "lib_homepage_schema_howtoschema",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "howtoschema"
+    },
+    {
       "label": "hooks.ts",
       "file_type": "code",
       "source_file": "lib/hooks.ts",
@@ -6266,8 +6486,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "lib_pending_user_sync_pendingusersync",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "pendingusersync"
     },
     {
@@ -6332,8 +6552,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_pricing_config_planid",
-      "community": 286,
-      "community_name": "Sitemap Configuration",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "planid"
     },
     {
@@ -6365,8 +6585,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_pricing_config_billingtype",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "billingtype"
     },
     {
@@ -6420,8 +6640,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "lib_pricing_config_plan_rank",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "plan_rank"
     },
     {
@@ -6783,8 +7003,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "lib_razorpay_server_getrazorpaykeyid",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getrazorpaykeyid()"
     },
     {
@@ -6816,8 +7036,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplanamount",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplanamount()"
     },
     {
@@ -6827,8 +7047,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "lib_razorpay_server_getplantype",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "getplantype()"
     },
     {
@@ -7047,8 +7267,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_slices_usageslice",
-      "community": 156,
-      "community_name": "On-Page SEO Audit",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "usageslice.ts"
     },
     {
@@ -7058,8 +7278,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usagedata",
-      "community": 156,
-      "community_name": "On-Page SEO Audit",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "usagedata"
     },
     {
@@ -7069,8 +7289,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usagestate",
-      "community": 156,
-      "community_name": "On-Page SEO Audit",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "usagestate"
     },
     {
@@ -7080,8 +7300,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "lib_slices_usageslice_initialstate",
-      "community": 156,
-      "community_name": "On-Page SEO Audit",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "initialstate"
     },
     {
@@ -7091,8 +7311,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "lib_slices_usageslice_usageslice",
-      "community": 156,
-      "community_name": "On-Page SEO Audit",
+      "community": 27,
+      "community_name": "route.ts",
       "norm_label": "usageslice"
     },
     {
@@ -7509,8 +7729,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "package_dependencies_groq_sdk",
-      "community": 292,
-      "community_name": "Common Technical Issues",
+      "community": 156,
+      "community_name": "On-Page SEO Audit",
       "norm_label": "groq-sdk"
     },
     {
@@ -7520,8 +7740,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "groq_sdk",
-      "community": 292,
-      "community_name": "Common Technical Issues",
+      "community": 156,
+      "community_name": "On-Page SEO Audit",
       "norm_label": "groq-sdk"
     },
     {
@@ -9920,8 +10140,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_aeo_and_geo_content_patterns",
-      "community": 290,
-      "community_name": "PlanId",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "aeo and geo content patterns"
     },
     {
@@ -9931,8 +10151,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_contents",
-      "community": 290,
-      "community_name": "PlanId",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "contents"
     },
     {
@@ -10019,8 +10239,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_generative_engine_optimization_geo_patterns",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "generative engine optimization (geo) patterns"
     },
     {
@@ -10030,8 +10250,8 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_statistic_citation_block",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "statistic citation block"
     },
     {
@@ -10041,8 +10261,8 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_expert_quote_block",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "expert quote block"
     },
     {
@@ -10052,8 +10272,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_authoritative_claim_block",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "authoritative claim block"
     },
     {
@@ -10063,8 +10283,8 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_self_contained_answer_block",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "self-contained answer block"
     },
     {
@@ -10074,8 +10294,8 @@
       "source_location": "L217",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_evidence_sandwich_block",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "evidence sandwich block"
     },
     {
@@ -10085,8 +10305,8 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_domain_specific_geo_tactics",
-      "community": 136,
-      "community_name": "page.tsx",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "domain-specific geo tactics"
     },
     {
@@ -10096,8 +10316,8 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_technology_content",
-      "community": 136,
-      "community_name": "page.tsx",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "technology content"
     },
     {
@@ -10107,8 +10327,8 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_health_medical_content",
-      "community": 136,
-      "community_name": "page.tsx",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "health/medical content"
     },
     {
@@ -10118,8 +10338,8 @@
       "source_location": "L250",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_financial_content",
-      "community": 136,
-      "community_name": "page.tsx",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "financial content"
     },
     {
@@ -10129,8 +10349,8 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_legal_content",
-      "community": 136,
-      "community_name": "page.tsx",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "legal content"
     },
     {
@@ -10140,8 +10360,8 @@
       "source_location": "L262",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_business_marketing_content",
-      "community": 136,
-      "community_name": "page.tsx",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "business/marketing content"
     },
     {
@@ -10151,8 +10371,8 @@
       "source_location": "L270",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_voice_search_optimization",
-      "community": 290,
-      "community_name": "PlanId",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "voice search optimization"
     },
     {
@@ -10162,8 +10382,8 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_question_formats_for_voice",
-      "community": 290,
-      "community_name": "PlanId",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "question formats for voice"
     },
     {
@@ -10173,8 +10393,8 @@
       "source_location": "L282",
       "_origin": "ast",
       "id": "kilo_skills_ai_seo_references_content_patterns_voice_optimized_answer_structure",
-      "community": 290,
-      "community_name": "PlanId",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "voice-optimized answer structure"
     },
     {
@@ -20161,8 +20381,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_nice_to_have_optimization",
-      "community": 54,
-      "community_name": "Next.js SEO Audit Checklist",
+      "community": 313,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "nice to have (optimization)"
     },
     {
@@ -20172,8 +20392,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_pwa",
-      "community": 54,
-      "community_name": "Next.js SEO Audit Checklist",
+      "community": 313,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "pwa"
     },
     {
@@ -20183,8 +20403,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_performance",
-      "community": 54,
-      "community_name": "Next.js SEO Audit Checklist",
+      "community": 313,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "performance"
     },
     {
@@ -20194,8 +20414,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_international_if_applicable",
-      "community": 54,
-      "community_name": "Next.js SEO Audit Checklist",
+      "community": 313,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "international (if applicable)"
     },
     {
@@ -20205,8 +20425,8 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_advanced",
-      "community": 54,
-      "community_name": "Next.js SEO Audit Checklist",
+      "community": 313,
+      "community_name": "Nice to Have (Optimization)",
       "norm_label": "advanced"
     },
     {
@@ -20293,8 +20513,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_common_schemas",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "common schemas"
     },
     {
@@ -20304,8 +20524,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_website_schema",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "website schema"
     },
     {
@@ -20315,8 +20535,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_organization_schema",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "organization schema"
     },
     {
@@ -20326,8 +20546,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_webapplication_schema",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "webapplication schema"
     },
     {
@@ -20337,8 +20557,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_faqpage_schema",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "faqpage schema"
     },
     {
@@ -20348,8 +20568,8 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_schema",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "product schema"
     },
     {
@@ -20359,8 +20579,8 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_product_snippet_vs_merchant_listing_experience",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "product snippet vs merchant listing experience"
     },
     {
@@ -20370,8 +20590,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_article_schema",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "article schema"
     },
     {
@@ -20381,8 +20601,8 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_json_ld_breadcrumblist_schema",
-      "community": 150,
-      "community_name": "AI Visibility Audit",
+      "community": 55,
+      "community_name": "JSON-LD Structured Data in Next.js",
       "norm_label": "breadcrumblist schema"
     },
     {
@@ -20689,8 +20909,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_sitemap_configuration",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "sitemap configuration"
     },
     {
@@ -20700,8 +20920,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_basic_static_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "basic static sitemap"
     },
     {
@@ -20711,8 +20931,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_dynamic_sitemap_with_database",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "dynamic sitemap with database"
     },
     {
@@ -20722,8 +20942,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_image_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "image sitemap"
     },
     {
@@ -20733,8 +20953,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_video_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "video sitemap"
     },
     {
@@ -20744,8 +20964,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_multiple_sitemaps_large_sites",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "multiple sitemaps (large sites)"
     },
     {
@@ -20755,8 +20975,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_localized_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 5,
+      "community_name": "razorpay-server.ts",
       "norm_label": "localized sitemap"
     },
     {
@@ -21778,8 +21998,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill",
-      "community": 281,
-      "community_name": "International SEO & Localization",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "skill.md"
     },
     {
@@ -22251,8 +22471,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection",
-      "community": 281,
-      "community_name": "International SEO & Localization",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "ai-writing-detection.md"
     },
     {
@@ -22284,8 +22504,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_em_dashes_the_primary_ai_tell",
-      "community": 289,
-      "community_name": "getReferralSummary",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "em dashes: the primary ai tell"
     },
     {
@@ -22295,8 +22515,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_why_em_dashes_signal_ai_writing",
-      "community": 289,
-      "community_name": "getReferralSummary",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "why em dashes signal ai writing"
     },
     {
@@ -22306,8 +22526,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_what_to_do_instead",
-      "community": 289,
-      "community_name": "getReferralSummary",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "what to do instead"
     },
     {
@@ -22317,8 +22537,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_guidelines",
-      "community": 289,
-      "community_name": "getReferralSummary",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "guidelines"
     },
     {
@@ -22449,8 +22669,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_international_seo",
-      "community": 281,
-      "community_name": "International SEO & Localization",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "international-seo.md"
     },
     {
@@ -22460,8 +22680,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_international_seo_international_seo_evidence_sources",
-      "community": 281,
-      "community_name": "International SEO & Localization",
+      "community": 150,
+      "community_name": "AI Visibility Audit",
       "norm_label": "international seo: evidence & sources"
     },
     {
@@ -34712,6 +34932,207 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_amazon_page",
+      "target": "app_interview_prep_amazon_page_amazoninterviewpreppage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_amazon_page",
+      "target": "app_interview_prep_amazon_page_faq_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_amazon_page",
+      "target": "app_interview_prep_amazon_page_faqschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_amazon_page",
+      "target": "app_interview_prep_amazon_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_amazon_page",
+      "target": "app_interview_prep_amazon_page_rounds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/amazon/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_amazon_page",
+      "target": "components_footer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_infosys_page",
+      "target": "app_interview_prep_infosys_page_faq_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_infosys_page",
+      "target": "app_interview_prep_infosys_page_faqschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_infosys_page",
+      "target": "app_interview_prep_infosys_page_infosysinterviewpreppage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_infosys_page",
+      "target": "app_interview_prep_infosys_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_infosys_page",
+      "target": "app_interview_prep_infosys_page_rounds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/infosys/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_infosys_page",
+      "target": "components_footer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_tcs_page",
+      "target": "app_interview_prep_tcs_page_faq_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_tcs_page",
+      "target": "app_interview_prep_tcs_page_faqschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_tcs_page",
+      "target": "app_interview_prep_tcs_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_tcs_page",
+      "target": "app_interview_prep_tcs_page_rounds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_tcs_page",
+      "target": "app_interview_prep_tcs_page_tcsinterviewpreppage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/interview-prep/tcs/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_interview_prep_tcs_page",
+      "target": "components_footer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "app/jobs/layout.tsx",
       "source_location": "L23",
       "weight": 1.0,
@@ -35065,7 +35486,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/page.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page",
@@ -35109,12 +35530,48 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "lib_homepage_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "lib_homepage_schema_faqschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_page",
+      "target": "lib_homepage_schema_howtoschema",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app/page.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_page_page",
@@ -36987,7 +37444,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L181",
+      "source_location": "L128",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -36998,7 +37455,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L115",
+      "source_location": "L62",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37009,29 +37466,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L32",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_landingclient_faq_items",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L59",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_landingclient_faqschema",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L126",
+      "source_location": "L73",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37042,18 +37477,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L69",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_landingclient_howtoschema",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L189",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37064,7 +37488,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L122",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37075,7 +37499,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L105",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37086,7 +37510,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L97",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37097,11 +37521,22 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L141",
+      "source_location": "L88",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
       "target": "components_landingclient_statusbadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "components_landingclient_video_call_apps",
       "confidence_score": 1.0
     },
     {
@@ -37157,6 +37592,30 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "lib_homepage_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "lib_homepage_schema_faq_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
       "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
@@ -37181,7 +37640,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L882",
+      "source_location": "L865",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -37193,7 +37652,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L227",
+      "source_location": "L174",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -37206,7 +37665,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L220",
+      "source_location": "L167",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -37218,7 +37677,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L271",
+      "source_location": "L218",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -41190,6 +41649,39 @@
       "_origin": "ast",
       "source": "lib_github_release_getlatestrelease",
       "target": "lib_github_release_getlatestreleaseraw",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/homepage-schema.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_homepage_schema",
+      "target": "lib_homepage_schema_faq_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/homepage-schema.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_homepage_schema",
+      "target": "lib_homepage_schema_faqschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/homepage-schema.ts",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "lib_homepage_schema",
+      "target": "lib_homepage_schema_howtoschema",
       "confidence_score": 1.0
     },
     {
@@ -61487,5 +61979,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1fbc8dbed959f58ae49b7caa118fd793dbd7832b"
+  "built_at_commit": "14ca770eafd3514ee34bced90569ae96dcdbff2e"
 }

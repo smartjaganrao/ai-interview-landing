@@ -22,6 +22,21 @@ import { FAQ_ITEMS } from '@/lib/homepage-schema';
 // Component) so the FAQPage/HowTo <script> tags render in the server HTML
 // instead of only appearing after client hydration — see that file for why.
 
+// Supported video-call apps — shown compactly in the hero and again as its
+// own full section further down ("Works With Your Video Call App"). Single
+// source of truth so the two never drift out of sync. Google Duo was
+// requested once but is dropped: Google discontinued it in 2022, merging
+// it into Google Meet — no icon library carries it because it isn't a
+// distinct current product anymore.
+const VIDEO_CALL_APPS = [
+  { Icon: SiZoom, name: 'Zoom', color: '#2D8CFF' },
+  { Icon: SiGooglemeet, name: 'Google Meet', color: '#00897B' },
+  { Icon: BsMicrosoftTeams, name: 'Microsoft Teams', color: '#6264A7' },
+  { Icon: SiWebex, name: 'Webex', color: '#049FD9' },
+  { Icon: FaSkype, name: 'Skype', color: '#00AFF0' },
+  { Icon: FaSlack, name: 'Slack Huddles', color: '#4A154B' },
+];
+
 // Rotating example questions — a small proof-of-concept teaser in the hero
 // (not the interactive demo itself, which lives in the "See it live"
 // section below; this is just a typewriter line showing the kind of
@@ -277,9 +292,21 @@ export default function LandingClient(props: LandingClientProps) {
                   Walk Into Any Interview with India&apos;s 1st <span className="text-gradient animate-gradient">Unlimited AI Copilot</span>
                 </h1>
 
-                <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-lg mb-8 max-w-2xl mx-auto laptop-sm:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+                <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-lg mb-6 max-w-2xl mx-auto laptop-sm:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
                   Hears your interview questions and streams structured AI answers in under 2 seconds — completely invisible on screen share, unlimited on the Power plan, and free forever for freshers.
                 </p>
+
+                {/* Compact version of 4 of the 6 "What It Does" cards below
+                    (id="features") — same names/claims, just without the
+                    full descriptions, so the hero's core differentiators
+                    (speed, stealth, audio, Desi Mode) are visible before a
+                    visitor decides whether to keep scrolling. */}
+                <div className="flex flex-wrap items-center justify-center laptop-sm:justify-start gap-x-5 gap-y-2 text-[#1A1512] text-sm font-semibold mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <span className="flex items-center gap-1.5">⚡ Sub-2s Answers</span>
+                  <span className="flex items-center gap-1.5">🥷 100% Invisible</span>
+                  <span className="flex items-center gap-1.5">🎧 System Audio</span>
+                  <span className="flex items-center gap-1.5">🇮🇳 Desi Mode</span>
+                </div>
 
                 <div className="flex flex-col sm:flex-row items-center laptop-sm:items-start justify-center laptop-sm:justify-start gap-3 mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
                   <button
@@ -306,25 +333,18 @@ export default function LandingClient(props: LandingClientProps) {
                     </svg>
                     Watch Demo
                   </button>
+                  <div className="flex flex-col items-center gap-1">
+                    <Link href="/pricing" className="btn btn-secondary text-sm px-6 py-3">
+                      See Pricing
+                    </Link>
+                    <span className="hl-text-muted text-[10px]">Plans start from ₹250</span>
+                  </div>
                 </div>
 
                 <p className="hl-text-muted text-xs mb-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                   Sign in with Google, then your download starts · Free forever for freshers · No card needed ·{' '}
                   <Link href="/install" className="underline underline-offset-2 hover:text-[#1A1512]">Other platforms</Link>
                 </p>
-
-                {/* Trust badges — same claims/wording already used on
-                    /pricing's trust strip (256-bit encryption, 7-day
-                    money-back guarantee, Razorpay secured, cancel anytime),
-                    surfaced here too since the hero is where people
-                    actually decide whether to trust the download. Nothing
-                    new claimed, just made visible where it matters. */}
-                <div className="flex flex-wrap items-center justify-center laptop-sm:justify-start gap-x-5 gap-y-2 text-[#57534E] text-xs mb-8 animate-fade-in-up" style={{ animationDelay: '0.32s' }}>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🔒</span> 256-bit encryption</span>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🛡️</span> 7-day money-back guarantee</span>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">💳</span> Razorpay secured</span>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">✓</span> Cancel anytime</span>
-                </div>
 
                 {/* Small typewriter teaser — not the interactive demo itself
                     (that's the "See it live" section below), just a hint at
@@ -390,19 +410,78 @@ export default function LandingClient(props: LandingClientProps) {
                       { num: '~4×', label: 'Cheaper than FR AI' },
                       { num: '100%', label: 'Invisible on Screen' },
                       { num: '10+', label: 'Indian Languages' },
-                      { num: '4.9★', label: 'Early Rating', note: true },
-                    ].map((stat) => (
-                      <div key={stat.label} className="text-center min-w-0">
-                        <div className="hl-heading text-lg tablet:text-xl font-black tracking-tight mb-0.5 whitespace-nowrap">
-                          {stat.num}{stat.note && <sup className="hl-text-muted text-[9px]">*</sup>}
-                        </div>
-                        <div className="hl-text-muted text-[10px] font-medium leading-tight">{stat.label}</div>
-                      </div>
-                    ))}
+                      // Linked to #reviews — a rating is a claim; a click-through
+                      // to the actual testimonials is what makes it checkable
+                      // instead of just a bare number.
+                      { num: '4.9★', label: 'Early Rating', note: true, href: '/#reviews' },
+                    ].map((stat) => {
+                      const content = (
+                        <>
+                          <div className="hl-heading text-lg tablet:text-xl font-black tracking-tight mb-0.5 whitespace-nowrap">
+                            {stat.num}{stat.note && <sup className="hl-text-muted text-[9px]">*</sup>}
+                          </div>
+                          <div className={`hl-text-muted text-[10px] font-medium leading-tight ${stat.href ? 'underline decoration-dotted underline-offset-2' : ''}`}>
+                            {stat.label}
+                          </div>
+                        </>
+                      );
+                      return stat.href ? (
+                        <Link key={stat.label} href={stat.href} className="text-center min-w-0 hover:opacity-70 transition-opacity">
+                          {content}
+                        </Link>
+                      ) : (
+                        <div key={stat.label} className="text-center min-w-0">{content}</div>
+                      );
+                    })}
                   </div>
                   <p className="hl-text-muted text-[10px] text-center mt-3 pt-3 border-t border-[rgba(26,21,18,0.08)]">
                     * Self-reported figures from JavihAI users at signup, not an independently audited count.
                   </p>
+                </div>
+
+                {/* Trust badges — same claims/wording already used on
+                    /pricing's trust strip (256-bit encryption, 7-day
+                    money-back guarantee, Razorpay secured, cancel anytime).
+                    Moved here (from the left column) to balance the two
+                    sides of the hero — left carries the pitch + CTA, right
+                    carries the proof (demo, stats, trust, compatibility). */}
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#57534E] text-xs mt-4 animate-fade-in-up" style={{ animationDelay: '0.45s' }}>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🔒</span> 256-bit encryption</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🛡️</span> 7-day money-back guarantee</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">💳</span> Razorpay secured</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">✓</span> Cancel anytime</span>
+                </div>
+
+                {/* Links to the "Privacy You Can Verify" section further
+                    down — that section already directly answers this
+                    product's #1 specific objection ("will this get me
+                    caught, is my audio safe") point-by-point, but had zero
+                    visibility from the hero where people actually decide. */}
+                <Link
+                  href="/#privacy"
+                  className="inline-flex items-center gap-1.5 text-xs text-[#57534E] hover:text-[#1A1512] underline underline-offset-2 mt-3 animate-fade-in-up"
+                  style={{ animationDelay: '0.47s' }}
+                >
+                  🔐 See how we protect your privacy →
+                </Link>
+
+                {/* Compact version of the "Works With Your Video Call App"
+                    section further down the page — same shared app list, so
+                    compatibility (a real decision factor before download)
+                    is visible without scrolling. Also moved here from the
+                    left column for the same balance reason as the trust
+                    badges above. */}
+                <div className="flex flex-wrap items-center gap-2 mt-4 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+                  <span className="hl-text-muted text-xs font-medium mr-0.5">Works with:</span>
+                  {VIDEO_CALL_APPS.map((app) => (
+                    <span
+                      key={app.name}
+                      title={app.name}
+                      className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/70 border border-[rgba(26,21,18,0.08)]"
+                    >
+                      <app.Icon size={16} color={app.color} aria-label={app.name} />
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -563,14 +642,7 @@ export default function LandingClient(props: LandingClientProps) {
               Works With Your Video Call App
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              {[
-                { Icon: SiZoom, name: 'Zoom', color: '#2D8CFF' },
-                { Icon: SiGooglemeet, name: 'Google Meet', color: '#00897B' },
-                { Icon: BsMicrosoftTeams, name: 'Microsoft Teams', color: '#6264A7' },
-                { Icon: SiWebex, name: 'Webex', color: '#049FD9' },
-                { Icon: FaSkype, name: 'Skype', color: '#00AFF0' },
-                { Icon: FaSlack, name: 'Slack Huddles', color: '#4A154B' },
-              ].map((app) => (
+              {VIDEO_CALL_APPS.map((app) => (
                 <div
                   key={app.name}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/70 border border-[rgba(26,21,18,0.08)] shadow-sm"
@@ -595,7 +667,7 @@ export default function LandingClient(props: LandingClientProps) {
             claim ("we don't sell your data and don't use it to train
             third-party AI models") rather than a looser paraphrase.
             ═══════════════════════════════════════════════════════════ */}
-        <section className="section-py">
+        <section id="privacy" className="section-py">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-12">
               <div className="section-label">🔐 Privacy You Can Verify</div>
