@@ -376,7 +376,7 @@ function DashboardContent() {
         </div>
       )}
 
-      <section className="pt-20 pb-12 min-h-screen">
+      <section className="pt-12 sm:pt-16 md:pt-20 pb-12 min-h-screen">
         <div className="max-w-6xl mx-auto px-6">
 
           {/* ==================== IDENTITY ==================== */}

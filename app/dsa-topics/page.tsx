@@ -77,7 +77,7 @@ export default function DSATopicsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="pt-24 pb-20">
+      <div className="pt-12 sm:pt-16 md:pt-20 pb-20">
 
         {/* Hero */}
         <div className="max-w-4xl mx-auto px-6 text-center mb-16">
@@ -85,7 +85,7 @@ export default function DSATopicsPage() {
           <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
             Every DSA Topic, <span className="text-gradient">From Arrays to System Design</span>
           </h1>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-[#57534E] max-w-2xl mx-auto mb-8">
             Screenshot the problem — JavihAI reads it, works through the approach, and returns a
             solution with time/space complexity in under 2 seconds. Covers data structures,
             algorithm patterns, SQL, and system design rounds.
@@ -100,10 +100,10 @@ export default function DSATopicsPage() {
         <div className="max-w-6xl mx-auto px-6 mb-20">
           {groups.map((group) => (
             <div key={group} className="mb-10">
-              <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">{group}</h2>
+              <h2 className="text-sm font-bold text-[#57534E] uppercase tracking-wider mb-4">{group}</h2>
               <div className="flex flex-wrap gap-2.5">
                 {TOPICS.filter((t) => t.group === group).map((t) => (
-                  <span key={t.name} className="text-sm px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-200">
+                  <span key={t.name} className="text-sm px-4 py-2 rounded-lg bg-[rgba(26,21,18,0.04)] border border-[rgba(26,21,18,0.1)] text-[#1A1512]">
                     {t.name}
                   </span>
                 ))}
@@ -120,11 +120,11 @@ export default function DSATopicsPage() {
           <div className="space-y-3">
             {FAQ_TOPICS.map((name) => (
               <details key={name} className="card group">
-                <summary className="cursor-pointer font-semibold text-white flex items-center justify-between list-none">
+                <summary className="cursor-pointer font-semibold text-[#1A1512] flex items-center justify-between list-none">
                   Can JavihAI solve {name} interview questions?
-                  <span className="text-slate-500 group-open:rotate-180 transition-transform">⌄</span>
+                  <span className="text-[#78716C] group-open:rotate-180 transition-transform">⌄</span>
                 </summary>
-                <p className="text-slate-400 text-sm mt-3 leading-relaxed">
+                <p className="text-[#57534E] text-sm mt-3 leading-relaxed">
                   Yes. Press the Screenshot Solve hotkey while a {name} problem is on screen — JavihAI reads it
                   and returns a step-by-step approach with time/space complexity in under 2 seconds, in
                   whichever of the 10 supported languages you&apos;re using.
@@ -138,7 +138,7 @@ export default function DSATopicsPage() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center card bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30">
             <h2 className="text-3xl font-black mb-4">Ready for Any DSA Round?</h2>
-            <p className="text-slate-400 mb-6">Free plan available. No credit card. Works alongside any video call.</p>
+            <p className="text-[#57534E] mb-6">Free plan available. No credit card. Works alongside any video call.</p>
             <div className="flex gap-4 justify-center flex-wrap">
               <Link href="/auth/signup" className="btn btn-primary btn-lg">Start Free →</Link>
               <Link href="/pricing" className="btn btn-secondary btn-lg">See Pricing</Link>

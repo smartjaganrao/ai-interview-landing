@@ -230,8 +230,8 @@ export default function ResumePage() {
     window.print();
   };
 
-  const inputCls = 'w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500';
-  const labelCls = 'block text-xs text-slate-400 mb-1';
+  const inputCls = 'w-full bg-[rgba(26,21,18,0.04)] border border-[rgba(26,21,18,0.15)] rounded-lg px-3 py-2 text-sm text-[#1A1512] placeholder-[#78716C] focus:outline-none focus:border-indigo-500';
+  const labelCls = 'block text-xs text-[#57534E] mb-1';
   const tabs: Array<{ id: typeof activeTab; label: string }> = [
     { id: 'basics',     label: 'Basics'     },
     { id: 'experience', label: 'Experience' },
@@ -252,19 +252,19 @@ export default function ResumePage() {
       `}</style>
 
 
-      <div className="pt-24 pb-20 max-w-7xl mx-auto px-4">
+      <div className="pt-12 sm:pt-16 md:pt-20 pb-20 max-w-7xl mx-auto px-4">
         {/* Page header */}
         <div className="mb-8">
           <div className="badge mb-3">📄 Resume Builder</div>
           <h1 className="text-4xl font-black mb-2">
             Build Your <span className="text-gradient">ATS-Ready Resume</span>
           </h1>
-          <p className="text-slate-400">Fill in your details, pick a template, download as PDF. Bold & Elegant templates require Pro.</p>
+          <p className="text-[#57534E]">Fill in your details, pick a template, download as PDF. Bold & Elegant templates require Pro.</p>
         </div>
 
         {/* Template picker */}
         <div className="mb-6">
-          <p className="text-xs text-slate-400 mb-2">Template</p>
+          <p className="text-xs text-[#57534E] mb-2">Template</p>
           <div className="flex gap-2 flex-wrap">
             {TEMPLATES.map(t => (
               <button
@@ -272,13 +272,13 @@ export default function ResumePage() {
                 onClick={() => { if (t.free || plan !== 'free') setTemplate(t.id); }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all ${
                   template === t.id
-                    ? 'border-indigo-500 bg-indigo-500/20 text-white'
-                    : 'border-slate-700 text-slate-400 hover:border-slate-500'
+                    ? 'border-indigo-500 bg-indigo-500/20 text-[#1A1512]'
+                    : 'border-[rgba(26,21,18,0.15)] text-[#57534E] hover:border-[rgba(26,21,18,0.3)]'
                 }`}
                 style={template === t.id ? { borderColor: t.accent } : {}}
               >
                 <span style={{ color: template === t.id ? t.accent : undefined }}>{t.label}</span>
-                {!t.free && <span className="ml-1 text-xs text-yellow-400">Pro</span>}
+                {!t.free && <span className="ml-1 text-xs text-[#92650C]">Pro</span>}
               </button>
             ))}
           </div>
@@ -288,7 +288,7 @@ export default function ResumePage() {
           {/* ── Left: Editor ──────────────────────────────────────────────── */}
           <div>
             {/* Tabs */}
-            <div className="flex gap-1 mb-4 bg-slate-800/50 p-1 rounded-lg">
+            <div className="flex gap-1 mb-4 bg-[rgba(26,21,18,0.04)] p-1 rounded-lg">
               {tabs.map(tab => (
                 <button
                   key={tab.id}
@@ -296,7 +296,7 @@ export default function ResumePage() {
                   className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${
                     activeTab === tab.id
                       ? 'bg-indigo-600 text-white'
-                      : 'text-slate-400 hover:text-white'
+                      : 'text-[#57534E] hover:text-[#1A1512]'
                   }`}
                 >
                   {tab.label}
@@ -307,7 +307,7 @@ export default function ResumePage() {
             {/* ── Basics ── */}
             {activeTab === 'basics' && (
               <div className="card space-y-4">
-                <h3 className="text-sm font-semibold text-white">Personal Information</h3>
+                <h3 className="text-sm font-semibold text-[#1A1512]">Personal Information</h3>
                 <div className="grid grid-cols-2 gap-3">
                   <div><label className={labelCls}>Full Name *</label><input className={inputCls} placeholder="Rahul Sharma" value={data.name} onChange={e => set({ name: e.target.value })} /></div>
                   <div><label className={labelCls}>Email *</label><input className={inputCls} type="email" placeholder="rahul@gmail.com" value={data.email} onChange={e => set({ email: e.target.value })} /></div>
@@ -333,8 +333,8 @@ export default function ResumePage() {
                 {data.experience.map((exp, idx) => (
                   <div key={exp.id} className="card">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-slate-300">Experience #{idx + 1}</span>
-                      <button onClick={() => delExp(exp.id)} className="text-slate-500 hover:text-red-400 text-xs">✕ Remove</button>
+                      <span className="text-xs font-semibold text-[#57534E]">Experience #{idx + 1}</span>
+                      <button onClick={() => delExp(exp.id)} className="text-[#78716C] hover:text-red-600 text-xs">✕ Remove</button>
                     </div>
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       <div><label className={labelCls}>Job Title</label><input className={inputCls} placeholder="Software Engineer" value={exp.title} onChange={e => updExp(exp.id, { title: e.target.value })} /></div>
@@ -346,7 +346,7 @@ export default function ResumePage() {
                         <input className={inputCls} placeholder="Dec 2024" value={exp.endDate} disabled={exp.current} onChange={e => updExp(exp.id, { endDate: e.target.value })} />
                       </div>
                       <div className="flex items-end pb-2">
-                        <label className="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
+                        <label className="flex items-center gap-2 text-xs text-[#57534E] cursor-pointer">
                           <input type="checkbox" checked={exp.current} onChange={e => updExp(exp.id, { current: e.target.checked })} />
                           Currently working here
                         </label>
@@ -356,10 +356,10 @@ export default function ResumePage() {
                     {exp.bullets.map((b, bi) => (
                       <div key={bi} className="flex gap-2 mb-2">
                         <input className={inputCls} placeholder={`Built payment retry system reducing failures by 40%`} value={b} onChange={e => { const next = [...exp.bullets]; next[bi] = e.target.value; updExp(exp.id, { bullets: next }); }} />
-                        <button onClick={() => { const next = exp.bullets.filter((_, i) => i !== bi); updExp(exp.id, { bullets: next.length ? next : [''] }); }} className="text-slate-500 hover:text-red-400 text-xs px-1">✕</button>
+                        <button onClick={() => { const next = exp.bullets.filter((_, i) => i !== bi); updExp(exp.id, { bullets: next.length ? next : [''] }); }} className="text-[#78716C] hover:text-red-600 text-xs px-1">✕</button>
                       </div>
                     ))}
-                    <button onClick={() => updExp(exp.id, { bullets: [...exp.bullets, ''] })} className="text-indigo-400 hover:text-indigo-300 text-xs">+ Add bullet</button>
+                    <button onClick={() => updExp(exp.id, { bullets: [...exp.bullets, ''] })} className="text-[#0B63C7] hover:text-[#1E90FF] text-xs">+ Add bullet</button>
                   </div>
                 ))}
                 <button onClick={addExp} className="btn btn-secondary w-full">+ Add Experience</button>
@@ -372,8 +372,8 @@ export default function ResumePage() {
                 {data.education.map((edu, idx) => (
                   <div key={edu.id} className="card">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-slate-300">Education #{idx + 1}</span>
-                      <button onClick={() => delEdu(edu.id)} className="text-slate-500 hover:text-red-400 text-xs">✕ Remove</button>
+                      <span className="text-xs font-semibold text-[#57534E]">Education #{idx + 1}</span>
+                      <button onClick={() => delEdu(edu.id)} className="text-[#78716C] hover:text-red-600 text-xs">✕ Remove</button>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="col-span-2"><label className={labelCls}>Degree / Course</label><input className={inputCls} placeholder="B.Tech Computer Science" value={edu.degree} onChange={e => updEdu(edu.id, { degree: e.target.value })} /></div>
@@ -394,8 +394,8 @@ export default function ResumePage() {
                 {data.projects.map((prj, idx) => (
                   <div key={prj.id} className="card">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-slate-300">Project #{idx + 1}</span>
-                      <button onClick={() => delPrj(prj.id)} className="text-slate-500 hover:text-red-400 text-xs">✕ Remove</button>
+                      <span className="text-xs font-semibold text-[#57534E]">Project #{idx + 1}</span>
+                      <button onClick={() => delPrj(prj.id)} className="text-[#78716C] hover:text-red-600 text-xs">✕ Remove</button>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div><label className={labelCls}>Project Name</label><input className={inputCls} placeholder="E-commerce Platform" value={prj.name} onChange={e => updPrj(prj.id, { name: e.target.value })} /></div>
@@ -433,10 +433,10 @@ export default function ResumePage() {
           <div className="hidden lg:block">
             <div className="sticky top-24">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs text-slate-400 font-medium">Live Preview</span>
+                <span className="text-xs text-[#57534E] font-medium">Live Preview</span>
                 <button onClick={handlePrint} className="btn btn-primary text-xs px-4 py-1.5">⬇ Download PDF</button>
               </div>
-              <div className="border border-slate-700 rounded-xl overflow-auto bg-white" style={{ maxHeight: '80vh' }}>
+              <div className="border border-[rgba(26,21,18,0.15)] rounded-xl overflow-auto bg-white" style={{ maxHeight: '80vh' }}>
                 <div style={{ transform: 'scale(0.65)', transformOrigin: 'top left', width: '154%' }}>
                   <div id="resume-print-wrapper">
                     <ResumePreview data={data} template={template} />
@@ -449,8 +449,8 @@ export default function ResumePage() {
 
         {/* ATS Tips */}
         <div className="mt-10 card">
-          <h3 className="text-sm font-semibold text-white mb-3">✅ ATS Tips for Indian Job Market</h3>
-          <div className="grid md:grid-cols-3 gap-3 text-xs text-slate-400">
+          <h3 className="text-sm font-semibold text-[#1A1512] mb-3">✅ ATS Tips for Indian Job Market</h3>
+          <div className="grid md:grid-cols-3 gap-3 text-xs text-[#57534E]">
             <div>• Use exact keywords from the job description</div>
             <div>• No tables, columns, headers, or footers in the file</div>
             <div>• Quantify achievements (%, ₹, users, ms)</div>

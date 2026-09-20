@@ -54,7 +54,7 @@ export default function CodingPlatformsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="pt-24 pb-20">
+      <div className="pt-12 sm:pt-16 md:pt-20 pb-20">
 
         {/* Hero */}
         <div className="max-w-4xl mx-auto px-6 text-center mb-16">
@@ -62,7 +62,7 @@ export default function CodingPlatformsPage() {
           <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
             Works on <span className="text-gradient">Every Coding Round Platform</span>
           </h1>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-[#57534E] max-w-2xl mx-auto mb-8">
             HackerRank, LeetCode, CodeSignal, or any other browser-based coding platform — Screenshot
             Solve reads whatever&apos;s on screen and returns a working solution in under 2 seconds.
           </p>
@@ -79,18 +79,18 @@ export default function CodingPlatformsPage() {
             <h2 className="section-heading mb-4">
               Wherever Your <span className="text-gradient">Coding Round Runs</span>
             </h2>
-            <p className="text-slate-400">Screenshot Solve doesn&apos;t care which platform — it reads whatever&apos;s on your screen.</p>
+            <p className="text-[#57534E]">Screenshot Solve doesn&apos;t care which platform — it reads whatever&apos;s on your screen.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PLATFORMS.map((p) => (
               <div key={p.name} className="card">
-                <div className="text-xl font-bold text-white mb-2">{p.name}</div>
-                <p className="text-slate-400 text-sm leading-relaxed">{p.context}</p>
+                <div className="text-xl font-bold text-[#1A1512] mb-2">{p.name}</div>
+                <p className="text-[#57534E] text-sm leading-relaxed">{p.context}</p>
               </div>
             ))}
-            <div className="card border-dashed border-white/20 flex flex-col justify-center">
-              <div className="text-sm font-semibold text-slate-300 mb-1">+ Any other browser-based platform</div>
-              <p className="text-slate-500 text-xs leading-relaxed">Screenshot Solve works on the problem as displayed — it isn&apos;t tied to a specific platform&apos;s layout.</p>
+            <div className="card border-dashed border-[rgba(26,21,18,0.2)] flex flex-col justify-center">
+              <div className="text-sm font-semibold text-[#1A1512] mb-1">+ Any other browser-based platform</div>
+              <p className="text-[#78716C] text-xs leading-relaxed">Screenshot Solve works on the problem as displayed — it isn&apos;t tied to a specific platform&apos;s layout.</p>
             </div>
           </div>
         </div>
@@ -103,11 +103,11 @@ export default function CodingPlatformsPage() {
           <div className="space-y-3">
             {PLATFORMS.map((p) => (
               <details key={p.name} className="card group">
-                <summary className="cursor-pointer font-semibold text-white flex items-center justify-between list-none">
+                <summary className="cursor-pointer font-semibold text-[#1A1512] flex items-center justify-between list-none">
                   Does JavihAI work on {p.name}?
-                  <span className="text-slate-500 group-open:rotate-180 transition-transform">⌄</span>
+                  <span className="text-[#78716C] group-open:rotate-180 transition-transform">⌄</span>
                 </summary>
-                <p className="text-slate-400 text-sm mt-3 leading-relaxed">
+                <p className="text-[#57534E] text-sm mt-3 leading-relaxed">
                   Yes. Press the Screenshot Solve hotkey while a problem is open on {p.name} — JavihAI reads it
                   and returns a solution with a step-by-step approach and time/space complexity in under 2
                   seconds. Commonly used for {p.context.toLowerCase()}.
@@ -121,7 +121,7 @@ export default function CodingPlatformsPage() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center card bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30">
             <h2 className="text-3xl font-black mb-4">Your Coding Round, Covered</h2>
-            <p className="text-slate-400 mb-6">Free plan available. No credit card. Works alongside any video call.</p>
+            <p className="text-[#57534E] mb-6">Free plan available. No credit card. Works alongside any video call.</p>
             <div className="flex gap-4 justify-center flex-wrap">
               <Link href="/auth/signup" className="btn btn-primary btn-lg">Start Free →</Link>
               <Link href="/pricing" className="btn btn-secondary btn-lg">See Pricing</Link>

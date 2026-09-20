@@ -52,6 +52,9 @@ export default function Footer() {
               <li><Link href="/mock-interview" className="text-slate-400 hover:text-white transition">Mock Interview</Link></li>
               <li><Link href="/resume" className="text-slate-400 hover:text-white transition">Resume Builder</Link></li>
               <li><Link href="/jobs" className="text-slate-400 hover:text-white transition">Job Recommendations</Link></li>
+              <li><Link href="/coding-platforms" className="text-slate-400 hover:text-white transition">Coding Platforms Supported</Link></li>
+              <li><Link href="/dsa-topics" className="text-slate-400 hover:text-white transition">DSA Topics Covered</Link></li>
+              <li><Link href="/programming-languages" className="text-slate-400 hover:text-white transition">Programming Languages</Link></li>
               <li><Link href="/install" className="text-slate-400 hover:text-white transition">Download App</Link></li>
               <li><Link href="/install" className="text-slate-400 hover:text-white transition">Installation Guide</Link></li>
               <li><Link href="/dashboard?feedback=1" className="text-slate-400 hover:text-white transition">💬 Give Feedback</Link></li>
@@ -64,6 +67,7 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-3 text-sm">
               <li><Link href="/about" className="text-slate-400 hover:text-white transition">About Us</Link></li>
+              <li><Link href="/blog" className="text-slate-400 hover:text-white transition">Blog</Link></li>
               <li><Link href="/indian-languages" className="text-slate-400 hover:text-white transition">9 Indian Languages 🇮🇳</Link></li>
               <li><Link href="/compare" className="text-slate-400 hover:text-white transition">Compare</Link></li>
               <li><Link href="/creator" className="text-slate-400 hover:text-white transition">Creator Program 💸</Link></li>

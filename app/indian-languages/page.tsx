@@ -55,7 +55,7 @@ export default function IndianLanguagesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="pt-24 pb-20">
+      <div className="pt-12 sm:pt-16 md:pt-20 pb-20">
 
         {/* Hero */}
         <div className="max-w-4xl mx-auto px-6 text-center mb-16">
@@ -63,7 +63,7 @@ export default function IndianLanguagesPage() {
           <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
             Interview Answers in <span className="text-gradient">Your Language</span> — Not Just English
           </h1>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-[#57534E] max-w-2xl mx-auto mb-8">
             JavihAI is the first AI interview copilot built for India to answer live interview
             questions in Hindi, Tamil, Telugu, and 6 more Indian languages — not just English.
             Speak the language you think in, even under interview pressure.
@@ -77,19 +77,19 @@ export default function IndianLanguagesPage() {
         {/* Why it matters */}
         <div className="max-w-4xl mx-auto px-6 mb-16">
           <div className="glass-card p-8 border border-orange-500/15">
-            <h2 className="text-2xl font-bold text-white mb-4">Why English-only AI tools fall short in India</h2>
-            <p className="text-slate-400 leading-relaxed mb-4">
+            <h2 className="text-2xl font-bold text-[#1A1512] mb-4">Why English-only AI tools fall short in India</h2>
+            <p className="text-[#57534E] leading-relaxed mb-4">
               Millions of Indian engineers and professionals think in Hindi, Tamil, Telugu, or
               Bengali — but are expected to answer interview questions in English, live, on a
               video call. Every other AI interview tool —{' '}
-              <Link href="/compare/cluely" className="text-blue-400 hover:text-blue-300 underline">Cluely</Link>,{' '}
-              <Link href="/compare/final-round-ai" className="text-blue-400 hover:text-blue-300 underline">Final Round AI</Link>,{' '}
-              <Link href="/compare/interview-coder" className="text-blue-400 hover:text-blue-300 underline">Interview Coder</Link>,{' '}
-              <Link href="/compare/lockedin-ai" className="text-blue-400 hover:text-blue-300 underline">LockedIn AI</Link>, and{' '}
-              <Link href="/compare/parakeet-ai" className="text-blue-400 hover:text-blue-300 underline">Parakeet AI</Link>{' '}
+              <Link href="/compare/cluely" className="text-[#0B63C7] hover:text-[#1E90FF] underline">Cluely</Link>,{' '}
+              <Link href="/compare/final-round-ai" className="text-[#0B63C7] hover:text-[#1E90FF] underline">Final Round AI</Link>,{' '}
+              <Link href="/compare/interview-coder" className="text-[#0B63C7] hover:text-[#1E90FF] underline">Interview Coder</Link>,{' '}
+              <Link href="/compare/lockedin-ai" className="text-[#0B63C7] hover:text-[#1E90FF] underline">LockedIn AI</Link>, and{' '}
+              <Link href="/compare/parakeet-ai" className="text-[#0B63C7] hover:text-[#1E90FF] underline">Parakeet AI</Link>{' '}
               — answers in English only.
             </p>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="text-[#57534E] leading-relaxed">
               JavihAI&apos;s Desi Mode changes that: hear the question in English, get the answer
               streamed back in your own language in under 2 seconds, while any code stays in
               English syntax.
@@ -100,21 +100,21 @@ export default function IndianLanguagesPage() {
         {/* Hero example in Hindi */}
         <div className="max-w-3xl mx-auto px-6 mb-20">
           <div className="glass-card p-8 border border-orange-500/15">
-            <div className="text-xs text-slate-500 uppercase tracking-wide font-medium mb-2">Interviewer asks (English)</div>
-            <p className="text-slate-300 italic mb-6 leading-relaxed">
+            <div className="text-xs text-[#78716C] uppercase tracking-wide font-medium mb-2">Interviewer asks (English)</div>
+            <p className="text-[#57534E] italic mb-6 leading-relaxed">
               &ldquo;Tell me about a time you solved a difficult technical problem.&rdquo;
             </p>
-            <div className="border-t border-white/5 pt-6">
-              <div className="text-xs text-orange-400 uppercase tracking-wide font-medium mb-2 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block animate-pulse" />
+            <div className="border-t border-[rgba(26,21,18,0.08)] pt-6">
+              <div className="text-xs text-[#C2410C] uppercase tracking-wide font-medium mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C2410C] inline-block animate-pulse" />
                 JavihAI answers in Hindi (हिन्दी)
               </div>
-              <p lang="hi" className="text-slate-200 text-lg leading-relaxed mb-3">
+              <p lang="hi" className="text-[#1A1512] text-lg leading-relaxed mb-3">
                 एक बार प्रोडक्शन में हमारा पेमेंट गेटवे बार-बार टाइमआउट हो रहा था। मैंने लॉग्स
                 एनालाइज़ किए, समस्या को कनेक्शन पूल एग्जॉशन तक ट्रेस किया, और पूल साइज़ बढ़ाकर तथा
                 रिट्राई लॉजिक जोड़कर उसे ठीक किया।
               </p>
-              <p className="text-slate-500 text-sm">
+              <p className="text-[#78716C] text-sm">
                 English: &ldquo;Once in production, our payment gateway kept timing out. I
                 analyzed the logs, traced it to connection pool exhaustion, and fixed it by
                 increasing the pool size and adding retry logic.&rdquo;
@@ -130,17 +130,17 @@ export default function IndianLanguagesPage() {
             <h2 className="section-heading mb-4">
               Answer In the Language <span className="text-gradient">You&apos;re Most Fluent In</span>
             </h2>
-            <p className="text-slate-400">Toggle Desi Mode, pick a language, and every AI answer switches — instantly.</p>
+            <p className="text-[#57534E]">Toggle Desi Mode, pick a language, and every AI answer switches — instantly.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {LANGUAGES.map((l) => (
               <div key={l.code} className="card">
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span lang={l.code} className="text-2xl font-bold text-white">{l.native}</span>
-                  <span className="text-sm text-slate-500">{l.name}</span>
+                  <span lang={l.code} className="text-2xl font-bold text-[#1A1512]">{l.native}</span>
+                  <span className="text-sm text-[#78716C]">{l.name}</span>
                 </div>
-                <p lang={l.code} className="text-slate-300 mb-2 leading-relaxed">{l.tagline}</p>
-                <p className="text-xs text-slate-500">Popular with candidates in {l.hub}</p>
+                <p lang={l.code} className="text-[#57534E] mb-2 leading-relaxed">{l.tagline}</p>
+                <p className="text-xs text-[#78716C]">Popular with candidates in {l.hub}</p>
               </div>
             ))}
           </div>
@@ -161,9 +161,9 @@ export default function IndianLanguagesPage() {
               { n: '3', title: 'Pick your language', desc: 'Choose Hindi, Tamil, Telugu, or any of the 9 supported languages. Answers switch instantly.' },
             ].map((s) => (
               <div key={s.n} className="card text-center">
-                <div className="w-8 h-8 rounded-full bg-orange-500/15 text-orange-300 font-bold flex items-center justify-center mx-auto mb-3">{s.n}</div>
-                <h3 className="font-bold text-white mb-2">{s.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+                <div className="w-8 h-8 rounded-full bg-orange-500/15 text-[#C2410C] font-bold flex items-center justify-center mx-auto mb-3">{s.n}</div>
+                <h3 className="font-bold text-[#1A1512] mb-2">{s.title}</h3>
+                <p className="text-[#57534E] text-sm leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -177,11 +177,11 @@ export default function IndianLanguagesPage() {
           <div className="space-y-3">
             {LANGUAGES.map((l) => (
               <details key={l.code} className="card group">
-                <summary className="cursor-pointer font-semibold text-white flex items-center justify-between list-none">
+                <summary className="cursor-pointer font-semibold text-[#1A1512] flex items-center justify-between list-none">
                   Does JavihAI answer interview questions in {l.name}?
-                  <span className="text-slate-500 group-open:rotate-180 transition-transform">⌄</span>
+                  <span className="text-[#78716C] group-open:rotate-180 transition-transform">⌄</span>
                 </summary>
-                <p className="text-slate-400 text-sm mt-3 leading-relaxed">
+                <p className="text-[#57534E] text-sm mt-3 leading-relaxed">
                   Yes. Open Profile → AI Answer Style, enable Desi Mode, and set {l.name} ({l.native}) as
                   your answer language. JavihAI responds to live interview questions in {l.name} in real
                   time — popular with candidates interviewing from {l.hub}. Code and technical syntax
@@ -196,7 +196,7 @@ export default function IndianLanguagesPage() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center card bg-gradient-to-r from-orange-500/10 to-red-500/10 border-orange-500/30">
             <h2 className="text-3xl font-black mb-4">Interview In the Language You Think In</h2>
-            <p className="text-slate-400 mb-6">Free plan available. No credit card. Desi Mode included on Pro &amp; Power.</p>
+            <p className="text-[#57534E] mb-6">Free plan available. No credit card. Desi Mode included on Pro &amp; Power.</p>
             <div className="flex gap-4 justify-center flex-wrap">
               <Link href="/auth/signup" className="btn btn-primary btn-lg">Start Free →</Link>
               <Link href="/pricing" className="btn btn-secondary btn-lg">See Pricing</Link>

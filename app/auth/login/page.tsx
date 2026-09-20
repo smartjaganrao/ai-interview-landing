@@ -118,8 +118,8 @@ export default function LoginPage() {
               AI
             </div>
             <div>
-              <div className="font-bold text-xl text-white">JavihAI</div>
-              <div className="text-xs text-slate-400">Master Every Question</div>
+              <div className="font-bold text-xl text-[#1A1512]">JavihAI</div>
+              <div className="text-xs text-[#57534E]">Master Every Question</div>
             </div>
           </Link>
 
@@ -127,7 +127,7 @@ export default function LoginPage() {
             Welcome Back to <span className="text-gradient">Your AI Coach</span>
           </h1>
 
-          <p className="text-xl text-slate-300 mb-10">
+          <p className="text-xl text-[#57534E] mb-10">
             Continue your journey to interview mastery
           </p>
 
@@ -136,7 +136,7 @@ export default function LoginPage() {
               <div className="text-4xl">💡</div>
               <h3 className="text-xl font-bold">Pro Tip</h3>
             </div>
-            <p className="text-slate-300 leading-relaxed italic">
+            <p className="text-[#57534E] leading-relaxed italic">
               &ldquo;Use the AI feedback to identify your weakest answers. Practice those first, and watch your confidence grow exponentially.&rdquo;
             </p>
           </div>
@@ -145,11 +145,11 @@ export default function LoginPage() {
               bar uses (2,400+ Candidates Helped / 4.9★ Early Rating, both
               footnoted "not an independently audited count") — not a real
               aggregate-review claim, so it shouldn't read like one. */}
-          <div className="mt-8 flex items-center gap-2 text-sm text-slate-400">
-            <span className="text-yellow-400 text-lg">★★★★★</span>
-            <span>4.9★ early rating from 2,400+ candidates<sup className="text-[10px] text-slate-500">*</sup></span>
+          <div className="mt-8 flex items-center gap-2 text-sm text-[#57534E]">
+            <span className="text-[#92650C] text-lg">★★★★★</span>
+            <span>4.9★ early rating from 2,400+ candidates<sup className="text-[10px] text-[#78716C]">*</sup></span>
           </div>
-          <p className="text-[11px] text-slate-600 mt-2">
+          <p className="text-[11px] text-[#78716C] mt-2">
             * Self-reported figures from JavihAI users at signup, not an independently audited count.
           </p>
         </div>
@@ -164,11 +164,11 @@ export default function LoginPage() {
 
             <div className="text-center mb-8">
               <h2 className="text-3xl font-black mb-2">Welcome back 👋</h2>
-              <p className="text-slate-400">Sign in to continue practicing</p>
+              <p className="text-[#57534E]">Sign in to continue practicing</p>
             </div>
 
             {error && (
-              <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-400">
+              <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-600">
                 ⚠️ {error}
               </div>
             )}
@@ -187,9 +187,9 @@ export default function LoginPage() {
               <span className="text-base font-semibold">{isLoading ? 'Signing in…' : 'Continue with Google'}</span>
             </button>
 
-            <p className="text-center text-slate-500 text-xs mt-8">
+            <p className="text-center text-[#78716C] text-xs mt-8">
               Don&apos;t have an account?{' '}
-              <Link href="/auth/signup" className="text-indigo-400 hover:text-indigo-300 font-semibold">
+              <Link href="/auth/signup" className="text-[#0B63C7] hover:text-[#1E90FF] font-semibold">
                 Sign Up Free
               </Link>
             </p>

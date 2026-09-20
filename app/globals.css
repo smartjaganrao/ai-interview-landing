@@ -720,3 +720,278 @@ input[type=number]::-webkit-outer-spin-button {
 .footer-link:hover {
   color: #00BFFF;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   HOMEPAGE LIGHT THEME (scoped, additive-only)
+   ────────────────────────────────────────────────────────────────
+   Everything below applies ONLY inside `.home-light`, the wrapper
+   `LandingClient.tsx` renders its homepage content in. Every rule is
+   either a brand-new class or a `.home-light <existing-class>`
+   descendant-selector override — nothing above this comment is
+   edited, so every other page (which never renders inside
+   `.home-light`) is completely unaffected. See the
+   `nifty-mixing-kitten` plan for the full rationale/token list.
+   ════════════════════════════════════════════════════════════════ */
+
+.home-light {
+  /* Subtle brand-color blooms over the cream base — a light-theme
+     equivalent of the dark theme's `.bg-gradient-mesh` (see near the top
+     of this file), which `.home-light`'s flat background was otherwise
+     replacing outright (this rule wins the cascade over `.bg-gradient-mesh`
+     on the same element since it's declared later — see ThemeScope.tsx).
+     Low opacity so it reads as gentle depth, not a colored page. */
+  background:
+    radial-gradient(at 0% 0%, rgba(30, 144, 255, 0.07) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 43, 226, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 191, 255, 0.04) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(139, 43, 226, 0.04) 0px, transparent 50%),
+    #F5EDE4;
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: #1A1512;
+}
+
+/* Alt section stripe — light-theme equivalent of the dark theme's
+   bg-slate-950/40 / bg-slate-950/60 alternating-section treatment. */
+.home-light .section-alt {
+  background: #EFE5D8;
+}
+
+/* Text hierarchy — brand-new classes, only ever used inside
+   `.home-light`-wrapped markup, so they can never collide with the
+   dark theme's text-white/text-slate-400/text-slate-500 Tailwind
+   utilities used elsewhere on the homepage (e.g. the reused dark
+   demo-video chrome, which must stay dark+white regardless). */
+.home-light .hl-heading,
+.home-light .hl-text {
+  color: #1A1512;
+}
+
+.home-light .hl-text-secondary {
+  color: #57534E;
+}
+
+.home-light .hl-text-muted {
+  color: #78716C;
+}
+
+/* Section helpers */
+.home-light .section-heading {
+  color: #1A1512;
+}
+
+.home-light .section-subheading {
+  color: #57534E;
+}
+
+.home-light .section-label {
+  background: rgba(30, 144, 255, 0.08);
+  border-color: rgba(30, 144, 255, 0.22);
+  color: #0B63C7;
+}
+
+/* Badges */
+.home-light .badge {
+  background: rgba(30, 144, 255, 0.08);
+  border-color: rgba(30, 144, 255, 0.22);
+  color: #0B63C7;
+}
+
+.home-light .badge-glow {
+  background: rgba(30, 144, 255, 0.08);
+  border-color: rgba(30, 144, 255, 0.25);
+  color: #0B63C7;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.08);
+}
+
+/* Glass / cards */
+.home-light .glass {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(26, 21, 18, 0.08);
+}
+
+.home-light .glass-heavy {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(26, 21, 18, 0.08);
+}
+
+.home-light .glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(26, 21, 18, 0.08);
+}
+
+.home-light .glass-card:hover {
+  border-color: rgba(30, 144, 255, 0.35);
+  background: #FFFFFF;
+  box-shadow: 0 20px 40px -20px rgba(26, 21, 18, 0.15);
+}
+
+.home-light .card {
+  background: #FFFFFF;
+  border-color: rgba(26, 21, 18, 0.08);
+}
+
+.home-light .card:hover {
+  border-color: rgba(30, 144, 255, 0.3);
+  background: #FFFFFF;
+}
+
+/* Buttons */
+.home-light .btn-secondary {
+  background: rgba(26, 21, 18, 0.04);
+  color: #1A1512;
+  border-color: rgba(26, 21, 18, 0.15);
+}
+
+.home-light .btn-secondary:hover {
+  background: rgba(30, 144, 255, 0.08);
+  border-color: rgba(30, 144, 255, 0.3);
+}
+
+.home-light .btn-ghost {
+  color: #57534E;
+}
+
+.home-light .btn-ghost:hover {
+  color: #1A1512;
+  background: rgba(26, 21, 18, 0.05);
+}
+
+/* Inputs */
+.home-light .input {
+  background: #FFFFFF;
+  border-color: rgba(26, 21, 18, 0.15);
+  color: #1A1512;
+}
+
+.home-light .input::placeholder {
+  color: #78716C;
+}
+
+/* Testimonial avatar */
+.home-light .testimonial-avatar {
+  background: linear-gradient(135deg, rgba(30, 144, 255, 0.12), rgba(139, 43, 226, 0.12));
+  border-color: rgba(30, 144, 255, 0.25);
+}
+
+/* Footer — Footer.tsx itself is unmodified (per the redesign plan) and
+   uses raw Tailwind slate/white utility classes directly rather than
+   the semantic classes above, so these overrides are scoped to the
+   <footer> tag specifically rather than to `.home-light` as a whole.
+   That scoping matters: a blanket `.home-light .text-white` override
+   would also repaint the reused dark demo-video chrome elsewhere on
+   the homepage, which must stay dark-background/white-text. */
+.home-light footer {
+  border-top-color: rgba(26, 21, 18, 0.1);
+}
+
+.home-light footer h4 {
+  color: #1A1512;
+}
+
+.home-light footer .text-slate-400 {
+  color: #57534E;
+}
+
+.home-light footer .text-white {
+  color: #1A1512;
+}
+
+.home-light footer .hover\:text-white:hover {
+  color: #1E90FF;
+}
+
+.home-light footer .border-white\/10 {
+  border-color: rgba(26, 21, 18, 0.1);
+}
+
+.home-light footer .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(26, 21, 18, 0.1);
+}
+
+/* ── Navbar (isHomePage light variant) ───────────────────────────
+   Navbar.tsx is NOT a descendant of `.home-light` (it's rendered by
+   app/layout.tsx outside the page content), so it can't pick up the
+   descendant-selector overrides above. It branches its own classes
+   directly via `isHomePage`; this is the one new top-level class
+   that branch needs (the light equivalent of `.nav-solid` — a scoped
+   solid fallback for when `backdrop-filter` silently no-ops, see
+   `.nav-solid`'s own comment above for why that's scoped per-surface
+   rather than reusing `.glass-heavy`). */
+.nav-light-solid {
+  background: rgba(245, 237, 228, 0.95);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(26, 21, 18, 0.08);
+}
+
+/* ── Legal/prose pages (terms, privacy, refund) ──────────────────
+   All three share the exact same `.prose-content` structure: a
+   `text-slate-300` body container with `text-white` h2/strong and
+   `text-indigo-400` inline links. Scoped to the reused `.prose-content`
+   class (not a blanket `.text-white`/`.text-slate-300` override) so it
+   can't touch any other page's use of those Tailwind utilities. */
+.home-light .prose-content {
+  color: #57534E;
+}
+
+.home-light .prose-content h2,
+.home-light .prose-content strong {
+  color: #1A1512;
+}
+
+.home-light .prose-content a {
+  color: #0B63C7;
+}
+
+.home-light .prose-content a:hover {
+  color: #1E90FF;
+}
+
+/* ── Blog post body (`.blog-content`, dangerouslySetInnerHTML'd
+   rendered-markdown class used by every /blog/[slug] post) — same
+   reused-class approach as `.prose-content` above. `pre`/`pre code`
+   (fenced code blocks) are the one deliberately-dark exception here,
+   same precedent as the homepage community section's dark tiles: a
+   code block reads as a terminal/editor surface regardless of page
+   theme, so it keeps its dark background + light text rather than
+   flipping to light (which would just be a white "code" box, not a
+   real design pattern). Inline `code` (not inside `pre`) is NOT a
+   solid dark surface — just a subtle tint on the page background — so
+   that one does get a light-appropriate treatment. */
+.home-light .blog-content {
+  color: #57534E;
+}
+
+.home-light .blog-content h2,
+.home-light .blog-content h3,
+.home-light .blog-content strong {
+  color: #1A1512;
+}
+
+.home-light .blog-content a {
+  color: #0B63C7;
+}
+
+.home-light .blog-content a:hover {
+  color: #1E90FF;
+}
+
+.home-light .blog-content blockquote {
+  color: #57534E;
+}
+
+.home-light .blog-content code {
+  background: rgba(30, 144, 255, 0.08);
+  color: #0B63C7;
+}
+
+.home-light .blog-content pre {
+  background: rgba(26, 21, 18, 0.85);
+}
+
+.home-light .blog-content pre code {
+  background: none;
+  color: #E5E1DC;
+}

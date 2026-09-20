@@ -29,7 +29,7 @@ const ROWS = [
 export default function LockedInAIComparePage() {
   return (
     <>
-      <div className="pt-28 pb-20 max-w-5xl mx-auto px-6">
+      <div className="pt-12 sm:pt-16 md:pt-20 pb-20 max-w-5xl mx-auto px-6">
 
         {/* Hero */}
         <div className="text-center mb-16">
@@ -37,7 +37,7 @@ export default function LockedInAIComparePage() {
           <h1 className="text-5xl md:text-6xl font-black mb-6">
             JavihAI vs <span className="text-gradient">LockedIn AI</span>
           </h1>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl text-[#57534E] max-w-2xl mx-auto">
             Both offer a real-time invisible interview assistant. JavihAI is priced in rupees
             for the Indian market — no credit-based guesswork, no dollar billing.
           </p>
@@ -47,18 +47,18 @@ export default function LockedInAIComparePage() {
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <div className="card border-indigo-500/50 bg-indigo-500/5 text-center">
             <div className="badge mb-3">🏆 JavihAI</div>
-            <div className="text-5xl font-black text-white mb-1">₹2,000<span className="text-xl font-normal text-slate-400">/mo</span></div>
-            <div className="text-slate-400 mb-2">Power plan — unlimited AI answers</div>
-            <div className="text-green-400 text-sm font-semibold">✓ Free plan available forever</div>
+            <div className="text-5xl font-black text-[#1A1512] mb-1">₹2,000<span className="text-xl font-normal text-[#57534E]">/mo</span></div>
+            <div className="text-[#57534E] mb-2">Power plan — unlimited AI answers</div>
+            <div className="text-[#15803D] text-sm font-semibold">✓ Free plan available forever</div>
           </div>
           <div className="card text-center opacity-75">
-            <div className="text-sm font-semibold text-slate-400 mb-3">LockedIn AI (Unlimited Pro)</div>
-            <div className="text-5xl font-black text-slate-300 mb-1">$49.99<span className="text-xl font-normal text-slate-500">/mo</span></div>
-            <div className="text-slate-500 mb-2">≈ ₹4,749/month, billed in USD</div>
-            <div className="text-red-400 text-sm">✗ Credit plans add pricing complexity</div>
+            <div className="text-sm font-semibold text-[#57534E] mb-3">LockedIn AI (Unlimited Pro)</div>
+            <div className="text-5xl font-black text-[#57534E] mb-1">$49.99<span className="text-xl font-normal text-[#78716C]">/mo</span></div>
+            <div className="text-[#78716C] mb-2">≈ ₹4,749/month, billed in USD</div>
+            <div className="text-red-600 text-sm">✗ Credit plans add pricing complexity</div>
           </div>
         </div>
-        <p className="text-slate-500 text-sm text-center -mt-8 mb-12">
+        <p className="text-[#78716C] text-sm text-center -mt-8 mb-12">
           Just one interview coming up? JavihAI also has a ₹250 one-time Quick Pass — no monthly plan required.
         </p>
 
@@ -66,18 +66,18 @@ export default function LockedInAIComparePage() {
         <div className="card overflow-hidden mb-12">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-700">
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Feature</th>
-                <th className="text-center py-3 px-4 text-indigo-400 font-semibold">JavihAI</th>
-                <th className="text-center py-3 px-4 text-slate-400 font-medium">LockedIn AI</th>
+              <tr className="border-b border-[rgba(26,21,18,0.1)]">
+                <th className="text-left py-3 px-4 text-[#57534E] font-medium">Feature</th>
+                <th className="text-center py-3 px-4 text-[#0B63C7] font-semibold">JavihAI</th>
+                <th className="text-center py-3 px-4 text-[#57534E] font-medium">LockedIn AI</th>
               </tr>
             </thead>
             <tbody>
               {ROWS.map((row, i) => (
-                <tr key={i} className={`border-b border-slate-800 ${i % 2 === 0 ? 'bg-slate-800/20' : ''}`}>
-                  <td className="py-3 px-4 text-slate-300">{row.feature}</td>
-                  <td className="py-3 px-4 text-center text-slate-200">{row.javihai}</td>
-                  <td className="py-3 px-4 text-center text-slate-400">{row.lockedin}</td>
+                <tr key={i} className={`border-b border-[rgba(26,21,18,0.08)] ${i % 2 === 0 ? 'bg-[rgba(26,21,18,0.03)]' : ''}`}>
+                  <td className="py-3 px-4 text-[#57534E]">{row.feature}</td>
+                  <td className="py-3 px-4 text-center text-[#1A1512]">{row.javihai}</td>
+                  <td className="py-3 px-4 text-center text-[#57534E]">{row.lockedin}</td>
                 </tr>
               ))}
             </tbody>
@@ -93,8 +93,8 @@ export default function LockedInAIComparePage() {
           ].map((c, i) => (
             <div key={i} className="card text-center">
               <div className="text-4xl mb-3">{c.icon}</div>
-              <h3 className="font-bold text-white mb-2">{c.title}</h3>
-              <p className="text-slate-400 text-sm">{c.body}</p>
+              <h3 className="font-bold text-[#1A1512] mb-2">{c.title}</h3>
+              <p className="text-[#57534E] text-sm">{c.body}</p>
             </div>
           ))}
         </div>
@@ -102,14 +102,14 @@ export default function LockedInAIComparePage() {
         {/* CTA */}
         <div className="text-center card bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-indigo-500/30">
           <h2 className="text-3xl font-black mb-4">Switch to JavihAI — 7-day money-back</h2>
-          <p className="text-slate-400 mb-6">No credit card for free plan. Upgrade anytime. Cancel anytime.</p>
+          <p className="text-[#57534E] mb-6">No credit card for free plan. Upgrade anytime. Cancel anytime.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/signup" className="btn btn-primary btn-lg">Start Free →</Link>
             <Link href="/pricing" className="btn btn-secondary btn-lg">See Pricing</Link>
           </div>
         </div>
 
-        <p className="text-center text-slate-600 text-xs mt-8">
+        <p className="text-center text-[#78716C] text-xs mt-8">
           LockedIn AI pricing sourced from lockedinai.com/pricing and third-party reviews, verified September 2026. USD converted at ≈₹95/$1. All prices approximate and subject to change.
         </p>
       </div>

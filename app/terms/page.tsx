@@ -9,11 +9,11 @@ export default function TermsPage() {
   return (
     <>
 
-      <section className="pt-32 pb-20">
+      <section className="pt-12 sm:pt-16 md:pt-20 pb-20">
         <div className="max-w-3xl mx-auto px-6">
           <div className="badge mb-4">📜 Terms</div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">Terms of Service</h1>
-          <p className="text-slate-400 mb-12">Last updated: September 11, 2026</p>
+          <p className="text-[#78716C] mb-12">Last updated: September 11, 2026</p>
 
           <div className="prose-content space-y-8 text-slate-300 leading-relaxed">
             <p className="text-lg">
@@ -210,10 +210,10 @@ export default function TermsPage() {
             </section>
 
             <section className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
-              <p className="text-sm text-yellow-300 mb-2">
+              <p className="text-sm text-[#92650C] mb-2">
                 ⚠️ <strong>Note:</strong> This template was drafted in plain English to be readable. Before going to a wide audience, have a lawyer in your jurisdiction review it.
               </p>
-              <p className="text-sm text-yellow-300/90">
+              <p className="text-sm text-[#92650C]/90">
                 Sections 5, 6, 9, 14, 16, 17, and 19 are new drafting (added September 11, 2026) and haven&apos;t been reviewed at all yet — flag these to counsel specifically: the interview-conduct clause (§6) for enforceability and whether it needs employer-specific carve-outs; the arbitration clause (§19) for seat/venue and whether a sole arbitrator is appropriate at this scale; whether a designated Grievance Officer is required under India&apos;s IT Rules, 2021 given the volume of users; and whether the 16-year-old contract-capacity threshold in §1 is actually valid under the Indian Contract Act for a paid service.
               </p>
             </section>

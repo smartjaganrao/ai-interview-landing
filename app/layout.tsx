@@ -6,6 +6,7 @@ import CaptureAttribution from '@/components/CaptureAttribution';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import Navbar from '@/components/Navbar';
 import { ReduxProvider } from '@/components/ReduxProvider';
+import ThemeScope from '@/components/ThemeScope';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
@@ -221,11 +222,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CaptureAttribution />
         <WhatsAppButton />
         <Navbar />
-        <div className="bg-gradient-mesh bg-grid min-h-screen">
+        <ThemeScope>
           <ReduxProvider>
             {children}
           </ReduxProvider>
-        </div>
+        </ThemeScope>
       </body>
     </html>
   );
