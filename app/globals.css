@@ -734,7 +734,19 @@ input[type=number]::-webkit-outer-spin-button {
    ════════════════════════════════════════════════════════════════ */
 
 .home-light {
-  background: #F5EDE4;
+  /* Subtle brand-color blooms over the cream base — a light-theme
+     equivalent of the dark theme's `.bg-gradient-mesh` (see near the top
+     of this file), which `.home-light`'s flat background was otherwise
+     replacing outright (this rule wins the cascade over `.bg-gradient-mesh`
+     on the same element since it's declared later — see ThemeScope.tsx).
+     Low opacity so it reads as gentle depth, not a colored page. */
+  background:
+    radial-gradient(at 0% 0%, rgba(30, 144, 255, 0.07) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 43, 226, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 191, 255, 0.04) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(139, 43, 226, 0.04) 0px, transparent 50%),
+    #F5EDE4;
+  background-attachment: fixed;
   min-height: 100vh;
   color: #1A1512;
 }
@@ -912,4 +924,74 @@ input[type=number]::-webkit-outer-spin-button {
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border-bottom: 1px solid rgba(26, 21, 18, 0.08);
+}
+
+/* ── Legal/prose pages (terms, privacy, refund) ──────────────────
+   All three share the exact same `.prose-content` structure: a
+   `text-slate-300` body container with `text-white` h2/strong and
+   `text-indigo-400` inline links. Scoped to the reused `.prose-content`
+   class (not a blanket `.text-white`/`.text-slate-300` override) so it
+   can't touch any other page's use of those Tailwind utilities. */
+.home-light .prose-content {
+  color: #57534E;
+}
+
+.home-light .prose-content h2,
+.home-light .prose-content strong {
+  color: #1A1512;
+}
+
+.home-light .prose-content a {
+  color: #0B63C7;
+}
+
+.home-light .prose-content a:hover {
+  color: #1E90FF;
+}
+
+/* ── Blog post body (`.blog-content`, dangerouslySetInnerHTML'd
+   rendered-markdown class used by every /blog/[slug] post) — same
+   reused-class approach as `.prose-content` above. `pre`/`pre code`
+   (fenced code blocks) are the one deliberately-dark exception here,
+   same precedent as the homepage community section's dark tiles: a
+   code block reads as a terminal/editor surface regardless of page
+   theme, so it keeps its dark background + light text rather than
+   flipping to light (which would just be a white "code" box, not a
+   real design pattern). Inline `code` (not inside `pre`) is NOT a
+   solid dark surface — just a subtle tint on the page background — so
+   that one does get a light-appropriate treatment. */
+.home-light .blog-content {
+  color: #57534E;
+}
+
+.home-light .blog-content h2,
+.home-light .blog-content h3,
+.home-light .blog-content strong {
+  color: #1A1512;
+}
+
+.home-light .blog-content a {
+  color: #0B63C7;
+}
+
+.home-light .blog-content a:hover {
+  color: #1E90FF;
+}
+
+.home-light .blog-content blockquote {
+  color: #57534E;
+}
+
+.home-light .blog-content code {
+  background: rgba(30, 144, 255, 0.08);
+  color: #0B63C7;
+}
+
+.home-light .blog-content pre {
+  background: rgba(26, 21, 18, 0.85);
+}
+
+.home-light .blog-content pre code {
+  background: none;
+  color: #E5E1DC;
 }

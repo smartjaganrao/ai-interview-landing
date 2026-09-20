@@ -93,7 +93,7 @@ export default function CreatorPage() {
 
   return (
     <>
-      <section className="pt-32 pb-20 min-h-screen">
+      <section className="pt-12 sm:pt-16 md:pt-20 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">
           <div className="badge mb-4">🎬 Creator Program</div>
 
@@ -101,8 +101,8 @@ export default function CreatorPage() {
             /* ── Join CTA ───────────────────────────────────────────── */
             <div className="card card-glow">
               <h1 className="text-4xl font-black mb-3">Earn {pct}% recurring commission</h1>
-              <p className="text-slate-400 text-lg mb-8 max-w-2xl">
-                Promote JavihAI to your audience. Earn <strong className="text-white">{pct}% of every payment</strong> your
+              <p className="text-[#57534E] text-lg mb-8 max-w-2xl">
+                Promote JavihAI to your audience. Earn <strong className="text-[#1A1512]">{pct}% of every payment</strong> your
                 referred users make — including renewals — for as long as they stay subscribed. Paid out to your UPI every month.
               </p>
 
@@ -112,10 +112,10 @@ export default function CreatorPage() {
                   { icon: '💸', title: `${pct}% recurring`, desc: 'On every payment, every renewal — not just the first' },
                   { icon: '📅', title: 'Monthly UPI payout', desc: 'Track earnings live, get paid to your UPI' },
                 ].map((b, i) => (
-                  <div key={i} className="p-5 rounded-xl bg-white/5 border border-white/10">
+                  <div key={i} className="p-5 rounded-xl bg-[rgba(26,21,18,0.04)] border border-[rgba(26,21,18,0.1)]">
                     <div className="text-3xl mb-2">{b.icon}</div>
-                    <div className="font-bold text-white mb-1">{b.title}</div>
-                    <div className="text-sm text-slate-400">{b.desc}</div>
+                    <div className="font-bold text-[#1A1512] mb-1">{b.title}</div>
+                    <div className="text-sm text-[#57534E]">{b.desc}</div>
                   </div>
                 ))}
               </div>
@@ -123,8 +123,8 @@ export default function CreatorPage() {
               <button onClick={join} disabled={joining} className="btn btn-primary btn-lg disabled:opacity-50">
                 {joining ? 'Setting up…' : 'Become a Creator →'}
               </button>
-              <p className="text-xs text-slate-500 mt-4">
-                By joining you agree to our <Link href="/terms" className="text-indigo-400">Terms</Link>. Commission is paid on
+              <p className="text-xs text-[#78716C] mt-4">
+                By joining you agree to our <Link href="/terms" className="text-[#0B63C7]">Terms</Link>. Commission is paid on
                 successful, non-refunded payments. Self-referrals don&apos;t qualify.
               </p>
             </div>
@@ -133,7 +133,7 @@ export default function CreatorPage() {
             <>
               <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
                 <h1 className="text-4xl font-black">Creator Dashboard</h1>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${data.status === 'active' ? 'bg-green-500/20 text-green-300' : 'bg-yellow-500/20 text-yellow-300'}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${data.status === 'active' ? 'bg-green-500/20 text-[#15803D]' : 'bg-yellow-500/20 text-[#92650C]'}`}>
                   {data.status === 'active' ? '● Active' : data.status}
                 </span>
               </div>
@@ -141,14 +141,14 @@ export default function CreatorPage() {
               {/* Earnings */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 {[
-                  { value: `₹${data.pending ?? 0}`, label: 'Pending payout', accent: 'text-green-400' },
-                  { value: `₹${data.totalEarned ?? 0}`, label: 'Total earned', accent: 'text-white' },
-                  { value: `₹${data.totalPaid ?? 0}`, label: 'Paid out', accent: 'text-white' },
-                  { value: data.referredCount ?? 0, label: 'Users referred', accent: 'text-white' },
+                  { value: `₹${data.pending ?? 0}`, label: 'Pending payout', accent: 'text-[#15803D]' },
+                  { value: `₹${data.totalEarned ?? 0}`, label: 'Total earned', accent: 'text-[#1A1512]' },
+                  { value: `₹${data.totalPaid ?? 0}`, label: 'Paid out', accent: 'text-[#1A1512]' },
+                  { value: data.referredCount ?? 0, label: 'Users referred', accent: 'text-[#1A1512]' },
                 ].map((s, i) => (
                   <div key={i} className="card py-5">
                     <div className={`text-3xl font-black ${s.accent}`}>{s.value}</div>
-                    <div className="text-xs text-slate-400 mt-1">{s.label}</div>
+                    <div className="text-xs text-[#57534E] mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -156,11 +156,11 @@ export default function CreatorPage() {
               {/* Share link */}
               <div className="card mb-6">
                 <h3 className="text-lg font-bold mb-2">Your creator link</h3>
-                <p className="text-slate-400 text-sm mb-4">Share this anywhere. You earn {pct}% of every payment from anyone who signs up through it.</p>
+                <p className="text-[#57534E] text-sm mb-4">Share this anywhere. You earn {pct}% of every payment from anyone who signs up through it.</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     readOnly value={data.link ?? ''} onFocus={(e) => e.currentTarget.select()}
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-200 text-sm font-mono focus:outline-none focus:border-indigo-500"
+                    className="flex-1 bg-[rgba(26,21,18,0.04)] border border-[rgba(26,21,18,0.1)] rounded-xl px-4 py-3 text-[#1A1512] text-sm font-mono focus:outline-none focus:border-indigo-500"
                   />
                   <button
                     onClick={() => { navigator.clipboard.writeText(data.link ?? '').then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }); }}
@@ -178,33 +178,33 @@ export default function CreatorPage() {
                     Share on WhatsApp
                   </a>
                 </div>
-                <div className="mt-3 text-sm text-slate-500">Code: <span className="font-mono text-slate-300">{data.code}</span></div>
-                <div className="mt-3 text-sm text-slate-500">
-                  📖 Need ideas? <Link href="/blog/earn-money-with-javihai-affiliate-referral-program" className="text-indigo-400 hover:text-indigo-300">Read our guide to maximizing your commission</Link>
+                <div className="mt-3 text-sm text-[#78716C]">Code: <span className="font-mono text-[#57534E]">{data.code}</span></div>
+                <div className="mt-3 text-sm text-[#78716C]">
+                  📖 Need ideas? <Link href="/blog/earn-money-with-javihai-affiliate-referral-program" className="text-[#0B63C7] hover:text-[#1E90FF]">Read our guide to maximizing your commission</Link>
                 </div>
               </div>
 
               {/* Payout method */}
               <div className="card">
                 <h3 className="text-lg font-bold mb-2">Payout details</h3>
-                <p className="text-slate-400 text-sm mb-4">We pay your pending balance to this UPI ID each month.</p>
+                <p className="text-[#57534E] text-sm mb-4">We pay your pending balance to this UPI ID each month.</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     type="text" placeholder="yourname@bank" value={upi}
                     onChange={(e) => { setUpi(e.target.value); setUpiStatus(''); }}
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    className="flex-1 bg-[rgba(26,21,18,0.04)] border border-[rgba(26,21,18,0.1)] rounded-xl px-4 py-3 text-[#1A1512] placeholder-[#78716C] focus:outline-none focus:border-indigo-500"
                   />
                   <button onClick={saveUpi} disabled={upiStatus === 'saving'} className="btn btn-secondary whitespace-nowrap disabled:opacity-50">
                     {upiStatus === 'saving' ? 'Saving…' : upiStatus === 'saved' ? '✓ Saved' : 'Save UPI'}
                   </button>
                 </div>
-                {upiStatus === 'error' && <p className="text-red-400 text-sm mt-2">Enter a valid UPI ID (e.g. name@bank).</p>}
-                {upiStatus === 'saved' && <p className="text-green-400 text-sm mt-2">Payout UPI saved.</p>}
+                {upiStatus === 'error' && <p className="text-red-600 text-sm mt-2">Enter a valid UPI ID (e.g. name@bank).</p>}
+                {upiStatus === 'saved' && <p className="text-[#15803D] text-sm mt-2">Payout UPI saved.</p>}
               </div>
 
-              <p className="text-xs text-slate-500 mt-6">
+              <p className="text-xs text-[#78716C] mt-6">
                 Commission accrues on successful payments and is reconciled against refunds. Payouts are made monthly once your
-                pending balance clears the minimum threshold. Questions? <a href="mailto:javihaiofficial@gmail.com" className="text-indigo-400">javihaiofficial@gmail.com</a>
+                pending balance clears the minimum threshold. Questions? <a href="mailto:javihaiofficial@gmail.com" className="text-[#0B63C7]">javihaiofficial@gmail.com</a>
               </p>
             </>
           )}

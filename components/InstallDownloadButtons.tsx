@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import DownloadStepsModal from './DownloadStepsModal';
 import GoogleSignInModal from './GoogleSignInModal';
+import CompleteProfileModal from './CompleteProfileModal';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
 
 function detectDesktopOS(): 'mac' | 'windows' | null {
@@ -23,8 +24,10 @@ export default function InstallDownloadButtons({ winReady, macReady, winPortable
     setShowModal(true);
   };
 
-  const { showSignIn, requestDownload, cancelSignIn, handleSignedIn, retryUrl } =
-    useGatedDownload((platform) => openModal(platform));
+  const {
+    user, showSignIn, requestDownload, cancelSignIn, handleSignedIn, retryUrl,
+    showProfileModal, fetchedUserData, handleProfileDone,
+  } = useGatedDownload((platform) => openModal(platform));
 
   useEffect(() => {
     setDetectedOS(detectDesktopOS());
@@ -71,6 +74,23 @@ export default function InstallDownloadButtons({ winReady, macReady, winPortable
       )}
 
       <GoogleSignInModal open={showSignIn} onClose={cancelSignIn} onSignedIn={handleSignedIn} />
+
+      {/* Same profile-completion gate used on /auth/signup, /auth/login,
+          and /dashboard — this page's download buttons used to skip it. */}
+      {showProfileModal && user && (
+        <CompleteProfileModal
+          user={user}
+          onDone={handleProfileDone}
+          initial={{
+            phone: (fetchedUserData?.phone as string) || undefined,
+            fullName: (fetchedUserData?.fullName as string) || (fetchedUserData?.profile as Record<string, unknown> | undefined)?.fullName as string || user.displayName || '',
+            whatsapp: (fetchedUserData?.whatsapp as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.whatsapp as string) || (fetchedUserData?.phone as string) || '',
+            experienceLevel: (fetchedUserData?.experienceLevel as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.experienceLevel as string) || undefined,
+            city: (fetchedUserData?.city as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.city as string) || undefined,
+            jobRole: (fetchedUserData?.jobRole as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.jobRole as string) || undefined,
+          }}
+        />
+      )}
 
       <DownloadStepsModal
         open={showModal}

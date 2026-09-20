@@ -188,8 +188,8 @@ function SignupContent() {
               AI
             </div>
             <div>
-              <div className="font-bold text-xl text-white">JavihAI</div>
-              <div className="text-xs text-slate-400">Master Every Question</div>
+              <div className="font-bold text-xl text-[#1A1512]">JavihAI</div>
+              <div className="text-xs text-[#57534E]">Master Every Question</div>
             </div>
           </Link>
 
@@ -197,8 +197,8 @@ function SignupContent() {
             Start Your Journey to <span className="text-gradient">Interview Mastery</span>
           </h1>
 
-          <p className="text-xl text-slate-300 mb-10">
-            Join 2,400+ candidates getting AI-powered interview prep<sup className="text-xs text-slate-500">*</sup>
+          <p className="text-xl text-[#57534E] mb-10">
+            Join 2,400+ candidates getting AI-powered interview prep<sup className="text-xs text-[#78716C]">*</sup>
           </p>
 
           <div className="space-y-5">
@@ -212,26 +212,26 @@ function SignupContent() {
                   {item.icon}
                 </div>
                 <div>
-                  <h3 className="font-bold text-white mb-1">{item.title}</h3>
-                  <p className="text-sm text-slate-400">{item.desc}</p>
+                  <h3 className="font-bold text-[#1A1512] mb-1">{item.title}</h3>
+                  <p className="text-sm text-[#57534E]">{item.desc}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 flex items-center gap-2 text-sm text-slate-400">
+          <div className="mt-12 flex items-center gap-2 text-sm text-[#57534E]">
             <div className="flex -space-x-2">
               {['👩‍💻', '👨‍💼', '👩‍🔬', '👨‍🎨'].map((emoji, i) => (
-                <div key={i} className="w-8 h-8 rounded-full glass flex items-center justify-center text-sm border-2 border-slate-900">
+                <div key={i} className="w-8 h-8 rounded-full glass flex items-center justify-center text-sm border-2 border-[#F5EDE4]">
                   {emoji}
                 </div>
               ))}
             </div>
-            <span>Joined by 2,400+ successful candidates<sup className="text-[10px] text-slate-500">*</sup></span>
+            <span>Joined by 2,400+ successful candidates<sup className="text-[10px] text-[#78716C]">*</sup></span>
           </div>
           {/* Same disclaimer LandingClient.tsx's trust bar uses for this same
               figure — footnoted there (note: true), so it should be here too. */}
-          <p className="text-[11px] text-slate-600 mt-3">
+          <p className="text-[11px] text-[#78716C] mt-3">
             * Self-reported figures from JavihAI users at signup, not an independently audited count.
           </p>
         </div>
@@ -246,14 +246,14 @@ function SignupContent() {
 
             <div className="text-center mb-8">
               <h2 className="text-3xl font-black mb-2">Create your account</h2>
-              <p className="text-slate-400">
+              <p className="text-[#57534E]">
                 {plan !== 'free' ? `Sign up to get ${planConfig.name} plan` : 'Free forever, no credit card required'}
               </p>
             </div>
 
             {plan !== 'free' && (
               <div className="mb-6 p-3 rounded-xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/30">
-                <div className="text-sm text-indigo-300 flex items-center gap-2">
+                <div className="text-sm text-[#4F46E5] flex items-center gap-2">
                   <span className="text-xl">{planConfig.emoji}</span>
                   After signup, you&apos;ll proceed to {plan.toUpperCase()} checkout
                 </div>
@@ -262,7 +262,7 @@ function SignupContent() {
 
             {ref && (
               <div className="mb-6 p-3 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30">
-                <div className="text-sm text-green-300 flex items-center gap-2">
+                <div className="text-sm text-[#15803D] flex items-center gap-2">
                   <span className="text-xl">🎁</span>
                   You were invited! Get <strong>₹100 off</strong> your first plan after signup.
                 </div>
@@ -270,7 +270,7 @@ function SignupContent() {
             )}
 
             {error && (
-              <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-400">
+              <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm text-red-600">
                 ⚠️ {error}
               </div>
             )}
@@ -289,18 +289,18 @@ function SignupContent() {
               <span className="text-base font-semibold">{isLoading ? 'Creating account…' : 'Continue with Google'}</span>
             </button>
 
-            <p className="text-center text-slate-500 text-xs mt-8">
+            <p className="text-center text-[#78716C] text-xs mt-8">
               Already have an account?{' '}
-              <Link href="/auth/login" className="text-indigo-400 hover:text-indigo-300 font-semibold">
+              <Link href="/auth/login" className="text-[#0B63C7] hover:text-[#1E90FF] font-semibold">
                 Sign In
               </Link>
             </p>
 
-            <p className="text-center text-xs text-slate-500 mt-3">
+            <p className="text-center text-xs text-[#78716C] mt-3">
               By signing up, you agree to our{' '}
-              <Link href="/terms" className="text-slate-400 underline hover:text-slate-300">Terms</Link>{' '}
+              <Link href="/terms" className="text-[#57534E] underline hover:text-[#1A1512]">Terms</Link>{' '}
               and{' '}
-              <Link href="/privacy" className="text-slate-400 underline hover:text-slate-300">Privacy Policy</Link>
+              <Link href="/privacy" className="text-[#57534E] underline hover:text-[#1A1512]">Privacy Policy</Link>
             </p>
           </div>
         </div>

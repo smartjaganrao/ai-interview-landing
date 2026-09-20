@@ -9,11 +9,11 @@ export default function PrivacyPage() {
   return (
     <>
 
-      <section className="pt-32 pb-20">
+      <section className="pt-12 sm:pt-16 md:pt-20 pb-20">
         <div className="max-w-3xl mx-auto px-6">
           <div className="badge mb-4">🔒 Privacy</div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">Privacy Policy</h1>
-          <p className="text-slate-400 mb-12">Last updated: June 14, 2026</p>
+          <p className="text-[#78716C] mb-12">Last updated: June 14, 2026</p>
 
           <div className="prose-content space-y-8 text-slate-300 leading-relaxed">
             <p className="text-lg">

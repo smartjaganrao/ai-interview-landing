@@ -200,7 +200,7 @@ export default function PricingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <section className="pt-32 pb-20">
+      <section className="pt-12 sm:pt-16 md:pt-20 pb-20">
         <div className="max-w-7xl mx-auto px-6">
           {/* Header */}
           <div className="text-center mb-16">
@@ -208,7 +208,7 @@ export default function PricingPage() {
             <h1 className="text-4xl md:text-6xl font-black mb-6">
               India&apos;s 1st <span className="text-gradient">Unlimited Plan</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+            <p className="text-lg md:text-xl text-[#57534E] max-w-2xl mx-auto mb-8">
               No hourly limits, no per-minute charges. Start free with daily resetting AI answers, or upgrade to India&apos;s 1st Unlimited AI Interview Assistant with Desi Mode &amp; Razorpay INR billing.
             </p>
           </div>
@@ -222,7 +222,7 @@ export default function PricingPage() {
           {featuredCoupon && (
             <div className="max-w-2xl mx-auto mb-4 -mt-6">
               <div className="card text-center bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30 py-4">
-                <span className="text-purple-200 font-semibold">
+                <span className="text-[#8B2BE2] font-semibold">
                   🎟️ Use code{' '}
                   <button
                     onClick={() => {
@@ -230,7 +230,7 @@ export default function PricingPage() {
                       setCouponCopied(true);
                       setTimeout(() => setCouponCopied(false), 2000);
                     }}
-                    className="underline decoration-dotted underline-offset-4 hover:text-white"
+                    className="underline decoration-dotted underline-offset-4 hover:text-[#1A1512]"
                     title="Copy code"
                   >
                     {featuredCoupon.code}
@@ -239,7 +239,7 @@ export default function PricingPage() {
                   {featuredCoupon.appliesTo !== 'all' &&
                     ` on ${PLANS.find((p) => p.id === featuredCoupon.appliesTo)?.name ?? featuredCoupon.appliesTo}`}
                   {featuredCoupon.label ? ` — ${featuredCoupon.label}` : ''}
-                  {couponCopied && <span className="ml-2 text-green-400">Copied!</span>}
+                  {couponCopied && <span className="ml-2 text-[#15803D]">Copied!</span>}
                 </span>
               </div>
             </div>
@@ -249,7 +249,7 @@ export default function PricingPage() {
             (!pricing.offer.expiresAt || Date.now() < pricing.offer.expiresAt) && (
               <div className="max-w-2xl mx-auto mb-10 -mt-6">
                 <div className="card text-center bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-green-500/30 py-4">
-                  <span className="text-green-300 font-semibold">
+                  <span className="text-[#15803D] font-semibold">
                     🎉 {pricing.offer.label || `Limited offer — ${pricing.offer.percentOff}% off`}
                   </span>
                 </div>
@@ -299,42 +299,42 @@ export default function PricingPage() {
                   <div className={`inline-flex w-16 h-16 rounded-2xl bg-gradient-to-br ${plan.gradient} items-center justify-center text-3xl mb-4`}>
                     {plan.emoji}
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-1">{plan.name}</h3>
-                  <p className="text-sm text-slate-400 mb-4">{plan.tagline}</p>
+                  <h3 className="text-2xl font-bold text-[#1A1512] mb-1">{plan.name}</h3>
+                  <p className="text-sm text-[#57534E] mb-4">{plan.tagline}</p>
 
                   {plan.id === 'free' ? (
-                    <div className="text-4xl font-black text-white mb-1">Free</div>
+                    <div className="text-4xl font-black text-[#1A1512] mb-1">Free</div>
                   ) : (
                     <div className="flex items-baseline justify-center gap-1 mb-1">
                       {offerOn && hasPricing && (
-                        <span className="text-2xl font-bold text-slate-500 line-through mr-1">₹{cyclePrice}</span>
+                        <span className="text-2xl font-bold text-[#78716C] line-through mr-1">₹{cyclePrice}</span>
                       )}
                       {hasPricing ? (
                         <>
-                          <span className="text-5xl font-black text-white">₹{effCycle}</span>
+                          <span className="text-5xl font-black text-[#1A1512]">₹{effCycle}</span>
                           {isOneTime ? (
-                            <span className="text-slate-400">one-time</span>
+                            <span className="text-[#57534E]">one-time</span>
                           ) : (
-                            <span className="text-slate-400">/mo</span>
+                            <span className="text-[#57534E]">/mo</span>
                           )}
                         </>
                       ) : (
-                        <span className="text-5xl font-black text-white">—</span>
+                        <span className="text-5xl font-black text-[#1A1512]">—</span>
                       )}
                     </div>
                   )}
                   {offerOn && plan.id !== 'free' && hasPricing && (
-                    <p className="text-xs text-green-400 font-semibold mb-1">{pricing!.offer.percentOff}% off applied</p>
+                    <p className="text-xs text-[#15803D] font-semibold mb-1">{pricing!.offer.percentOff}% off applied</p>
                   )}
-                  <p className="text-xs text-slate-500 mb-1">{usageLabel}</p>
+                  <p className="text-xs text-[#78716C] mb-1">{usageLabel}</p>
                   {plan.billingType === 'one_time' && plan.durationType === 'hours' && (
-                    <p className="text-xs text-slate-600">Unused hours carry over · expires after {plan.durationValue * 24}h</p>
+                    <p className="text-xs text-[#78716C]">Unused hours carry over · expires after {plan.durationValue * 24}h</p>
                   )}
                 </div>
 
                 {user && plan.id === currentPlan && (
                   <div className="mb-3 text-center">
-                    <span className="px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-semibold">✓ Your current plan</span>
+                    <span className="px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-[#15803D] text-xs font-semibold">✓ Your current plan</span>
                   </div>
                 )}
                 <button
@@ -349,9 +349,9 @@ export default function PricingPage() {
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm">
                       <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-green-400 text-xs">✓</span>
+                        <span className="text-[#15803D] text-xs">✓</span>
                       </div>
-                      <span className="text-slate-300">{feature}</span>
+                      <span className="text-[#57534E]">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -366,12 +366,12 @@ export default function PricingPage() {
             <div className="card overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="text-left py-4 px-4 text-slate-400 font-medium">Feature</th>
+                  <tr className="border-b border-[rgba(26,21,18,0.1)]">
+                    <th className="text-left py-4 px-4 text-[#57534E] font-medium">Feature</th>
                     {sortedPlans.map(plan => (
-                      <th key={plan.id} className={`text-center py-4 px-4 ${plan.id === 'power' ? 'text-purple-300' : 'text-white'} font-semibold`}>
+                      <th key={plan.id} className={`text-center py-4 px-4 ${plan.id === 'power' ? 'text-[#8B2BE2]' : 'text-[#1A1512]'} font-semibold`}>
                         {plan.name}
-                        {plan.badge && <div className="text-xs text-purple-300 mt-1">{plan.badge}</div>}
+                        {plan.badge && <div className="text-xs text-[#8B2BE2] mt-1">{plan.badge}</div>}
                       </th>
                     ))}
                   </tr>
@@ -408,10 +408,10 @@ export default function PricingPage() {
                     { name: 'Priority Support', getValue: (p: typeof PLANS[0]) => p.id === 'power' ? '✓' : '—' },
                     { name: 'Early Access Features', getValue: (p: typeof PLANS[0]) => p.id === 'power' ? '✓' : '—' },
                   ].map((feature, i) => (
-                    <tr key={i} className="border-b border-white/5 last:border-0">
-                      <td className="py-3 px-4 text-slate-300">{feature.name}</td>
+                    <tr key={i} className="border-b border-[rgba(26,21,18,0.06)] last:border-0">
+                      <td className="py-3 px-4 text-[#57534E]">{feature.name}</td>
                       {sortedPlans.map(plan => (
-                        <td key={plan.id} className={`text-center py-3 px-4 ${feature.getValue(plan) === '✓' ? 'text-green-400' : feature.getValue(plan) === '—' ? 'text-slate-600' : 'text-white'}`}>
+                        <td key={plan.id} className={`text-center py-3 px-4 ${feature.getValue(plan) === '✓' ? 'text-[#15803D]' : feature.getValue(plan) === '—' ? 'text-[#78716C]' : 'text-[#1A1512]'}`}>
                           {feature.getValue(plan)}
                         </td>
                       ))}
@@ -424,11 +424,11 @@ export default function PricingPage() {
 
           {/* Trust section */}
           <div className="mt-16 text-center">
-            <div className="flex flex-wrap items-center justify-center gap-8 text-slate-400 text-sm">
-              <span className="flex items-center gap-2"><span className="text-green-400">🔒</span> 256-bit encryption</span>
-              <span className="flex items-center gap-2"><span className="text-green-400">🛡️</span> 7-day money-back guarantee</span>
-              <span className="flex items-center gap-2"><span className="text-green-400">💳</span> Razorpay secured</span>
-              <span className="flex items-center gap-2"><span className="text-green-400">✓</span> Cancel anytime</span>
+            <div className="flex flex-wrap items-center justify-center gap-8 text-[#57534E] text-sm">
+              <span className="flex items-center gap-2"><span className="text-[#15803D]">🔒</span> 256-bit encryption</span>
+              <span className="flex items-center gap-2"><span className="text-[#15803D]">🛡️</span> 7-day money-back guarantee</span>
+              <span className="flex items-center gap-2"><span className="text-[#15803D]">💳</span> Razorpay secured</span>
+              <span className="flex items-center gap-2"><span className="text-[#15803D]">✓</span> Cancel anytime</span>
             </div>
           </div>
 
@@ -448,8 +448,8 @@ export default function PricingPage() {
                  { q: 'Do you offer refunds?', a: 'Yes, we offer a 7-day money-back guarantee on your first payment. If you\'re not satisfied, contact support for a full refund.' },
                ].map((item, i) => (
                 <div key={i} className="card">
-                  <h4 className="text-lg font-semibold text-white mb-2">{item.q}</h4>
-                  <p className="text-slate-400">{item.a}</p>
+                  <h4 className="text-lg font-semibold text-[#1A1512] mb-2">{item.q}</h4>
+                  <p className="text-[#57534E]">{item.a}</p>
                 </div>
               ))}
             </div>

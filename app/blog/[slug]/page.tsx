@@ -75,19 +75,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <article className="pt-32 pb-20">
+      <article className="pt-12 sm:pt-16 md:pt-20 pb-20">
         <div className="max-w-3xl mx-auto px-6">
           {post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {post.tags.map((tag) => (
-                <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/25">
+                <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-[#0B63C7] border border-indigo-500/25">
                   {tag}
                 </span>
               ))}
             </div>
           )}
           <h1 className="text-3xl md:text-4xl font-black mb-3">{post.title}</h1>
-          <div className="text-sm text-slate-500 mb-8">
+          <div className="text-sm text-[#78716C] mb-8">
             By {post.authorName} · {formatDate(post.publishedAt || post.createdAt)}
           </div>
 

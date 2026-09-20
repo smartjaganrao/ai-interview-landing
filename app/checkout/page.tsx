@@ -321,7 +321,7 @@ function CheckoutContent() {
 
   return (
     <>
-      <section className="pt-32 pb-20 min-h-screen">
+      <section className="pt-12 sm:pt-16 md:pt-20 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
             <div className="badge mb-4">🔒 Secure Checkout</div>

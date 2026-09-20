@@ -28,18 +28,18 @@ export default async function BlogIndexPage() {
   return (
     <>
 
-      <section className="pt-32 pb-20">
+      <section className="pt-12 sm:pt-16 md:pt-20 pb-20">
         <div className="max-w-5xl mx-auto px-6">
           <div className="badge mb-4">📝 Blog</div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">Interview Prep Tips &amp; Guides</h1>
-          <p className="text-slate-400 mb-12 max-w-2xl">
+          <p className="text-[#57534E] mb-12 max-w-2xl">
             Practical, India-focused advice on cracking coding rounds, system design, and HR interviews —
             from the team behind JavihAI.
           </p>
 
           {posts.length === 0 ? (
             <div className="card text-center py-16">
-              <p className="text-slate-400">No posts yet — check back soon.</p>
+              <p className="text-[#57534E]">No posts yet — check back soon.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 gap-6">
@@ -56,15 +56,15 @@ export default async function BlogIndexPage() {
                       />
                     </div>
                   )}
-                  <div className="text-xs text-slate-500 mb-2">{formatDate(post.publishedAt || post.createdAt)}</div>
-                  <h2 className="text-xl font-black text-white group-hover:text-indigo-300 transition-colors mb-2">
+                  <div className="text-xs text-[#78716C] mb-2">{formatDate(post.publishedAt || post.createdAt)}</div>
+                  <h2 className="text-xl font-black text-[#1A1512] group-hover:text-[#0B63C7] transition-colors mb-2">
                     {post.title}
                   </h2>
-                  <p className="text-slate-400 text-sm mb-3">{post.excerpt}</p>
+                  <p className="text-[#57534E] text-sm mb-3">{post.excerpt}</p>
                   {post.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {post.tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/25">
+                        <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-[#0B63C7] border border-indigo-500/25">
                           {tag}
                         </span>
                       ))}

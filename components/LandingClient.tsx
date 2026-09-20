@@ -5,12 +5,16 @@ import { useState, useEffect } from 'react';
 import FreeTrialModal from '@/components/FreeTrialModal';
 import DownloadStepsModal from '@/components/DownloadStepsModal';
 import GoogleSignInModal from '@/components/GoogleSignInModal';
+import CompleteProfileModal from '@/components/CompleteProfileModal';
 import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
 import LiveGuideModeDemo from '@/components/LiveGuideModeDemo';
 import Footer from '@/components/Footer';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
 import { onOfferPopupChecked } from '@/lib/offer-popup-events';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
+import { SiZoom, SiGooglemeet, SiWebex } from 'react-icons/si';
+import { BsMicrosoftTeams } from 'react-icons/bs';
+import { FaSkype, FaSlack } from 'react-icons/fa6';
 
 // Single source of truth for the FAQ section — rendered as the visible
 // accordion below AND compiled into faqSchema's JSON-LD. Keeping these in
@@ -199,6 +203,10 @@ export default function LandingClient(props: LandingClientProps) {
   // into a separate hero mockup and a 3-video grid; both were cut).
   const [demoView, setDemoView] = useState<'simulator' | 'video'>('simulator');
   const [demoVideoPlaying, setDemoVideoPlaying] = useState(false);
+  // Separate from `demoVideoPlaying` (the "See it live" section's own video
+  // tab, further down the page) — a hero-embedded preview, like
+  // competitors show, so visitors see the product before scrolling at all.
+  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
 
   const openDownloadModal = (os: 'windows' | 'mac') => {
     setDownloadModalOS(os);
@@ -206,8 +214,10 @@ export default function LandingClient(props: LandingClientProps) {
   };
   const [detectedOS, setDetectedOS] = useState<'mac' | 'windows' | null>(null);
 
-  const { showSignIn, requestDownload, cancelSignIn, handleSignedIn, retryUrl } =
-    useGatedDownload((platform) => openDownloadModal(platform));
+  const {
+    user: downloadUser, showSignIn, requestDownload, cancelSignIn, handleSignedIn, retryUrl,
+    showProfileModal, fetchedUserData, handleProfileDone,
+  } = useGatedDownload((platform) => openDownloadModal(platform));
 
   useEffect(() => {
     // OS detection needs navigator.userAgent (client-only) — deferring past
@@ -289,12 +299,6 @@ export default function LandingClient(props: LandingClientProps) {
     }
   }, [typedQ, isTyping, questionIdx]);
 
-  const scrollToLiveDemo = (view: 'simulator' | 'video') => {
-    setDemoView(view);
-    if (view === 'video') setDemoVideoPlaying(true);
-    document.getElementById('live-demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   return (
     <>
       <script
@@ -306,10 +310,13 @@ export default function LandingClient(props: LandingClientProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
 
-      {/* Homepage-only light theme. Every visual rule for this scope lives
-          in the additive ".home-light" section at the bottom of
-          app/globals.css — every other page keeps the site's dark theme
-          untouched, since only this route renders the wrapper. */}
+      {/* `.home-light` is now applied site-wide by ThemeScope.tsx (see
+          app/layout.tsx) for every page except /checkout and /dashboard —
+          this wrapper is kept as a harmless no-op (nesting `.home-light`
+          inside `.home-light` changes nothing) rather than risk a
+          mismatched-tag edit hunting for its closing tag in this file.
+          Every visual rule for this scope lives in the additive
+          ".home-light" section at the bottom of app/globals.css. */}
       <div className="home-light">
 
         {/* ═══════════════════════════════════════════════════════════
@@ -320,94 +327,167 @@ export default function LandingClient(props: LandingClientProps) {
             and "What it does" below — cut here to avoid saying the same
             thing three times before a visitor has scrolled once.
             ═══════════════════════════════════════════════════════════ */}
-        <section className="relative pt-32 sm:pt-36 md:pt-40 pb-16 md:pb-24 overflow-hidden">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10 text-center">
-            <div className="mb-6 animate-fade-in-up flex justify-center">
-              <div className="badge-glow inline-flex items-center gap-2 text-xs sm:text-sm font-semibold py-1 px-3 rounded-full backdrop-blur-md">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
-                </span>
-                <span>🇮🇳 India&apos;s 1st Unlimited AI Interview Copilot</span>
+        {/* The coupon banner now lives outside the nav in normal document
+            flow (see Navbar.tsx) and the nav itself is `sticky`, not
+            `fixed` — so nothing above this section is taken out of flow
+            on initial load, and no compensating top padding is needed to
+            avoid overlap. This is just ordinary breathing room. */}
+        <section className="relative pt-12 sm:pt-16 md:pt-20 pb-16 md:pb-24 overflow-hidden">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+            <div className="grid grid-cols-1 laptop-sm:grid-cols-2 gap-10 laptop-lg:gap-16 items-center">
+              {/* LEFT — copy. Centered on mobile/tablet (stacked above the
+                  video), left-aligned once the 2-column grid kicks in at
+                  laptop-sm — the classic SaaS hero split instead of one
+                  long centered column with the video buried at the bottom. */}
+              <div className="text-center laptop-sm:text-left">
+                <div className="mb-6 animate-fade-in-up flex justify-center laptop-sm:justify-start">
+                  <div className="badge-glow inline-flex items-center gap-2 text-xs sm:text-sm font-semibold py-1 px-3 rounded-full backdrop-blur-md">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+                    </span>
+                    <span>🇮🇳 India&apos;s 1st Unlimited AI Interview Copilot</span>
+                  </div>
+                </div>
+
+                <h1 className="hl-heading text-4xl tablet:text-5xl laptop-sm:text-5xl laptop-lg:text-6xl font-black tracking-tight mb-5 animate-fade-in-up leading-tight" style={{ animationDelay: '0.1s' }}>
+                  Walk Into Any Interview with India&apos;s 1st <span className="text-gradient animate-gradient">Unlimited AI Copilot</span>
+                </h1>
+
+                <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-lg mb-8 max-w-2xl mx-auto laptop-sm:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+                  Hears your interview questions and streams structured AI answers in under 2 seconds — completely invisible on screen share, unlimited on the Power plan, and free forever for freshers.
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center laptop-sm:items-start justify-center laptop-sm:justify-start gap-3 mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+                  <button
+                    type="button"
+                    onClick={() => requestDownload(detectedOS === 'mac' ? 'mac' : 'windows')}
+                    className="btn btn-primary text-sm px-6 py-3 shadow-lg hover:shadow-blue-500/25"
+                  >
+                    <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 3a1 1 0 011 1v8.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V4a1 1 0 011-1z" clipRule="evenodd" />
+                      <path d="M4 15a1 1 0 011 1v1a1 1 0 001 1h8a1 1 0 001-1v-1a1 1 0 112 0v1a3 3 0 01-3 3H6a3 3 0 01-3-3v-1a1 1 0 011-1z" />
+                    </svg>
+                    Download for {detectedOS === 'mac' ? 'Mac' : 'Windows'} — Free
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setHeroVideoPlaying(true);
+                      document.getElementById('hero-video')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }}
+                    className="btn btn-secondary text-sm px-6 py-3 flex items-center justify-center gap-1.5"
+                  >
+                    <svg className="w-4 h-4 text-red-500 fill-current flex-shrink-0" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Watch Demo
+                  </button>
+                </div>
+
+                <p className="hl-text-muted text-xs mb-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                  Sign in with Google, then your download starts · Free forever for freshers · No card needed ·{' '}
+                  <Link href="/install" className="underline underline-offset-2 hover:text-[#1A1512]">Other platforms</Link>
+                </p>
+
+                {/* Trust badges — same claims/wording already used on
+                    /pricing's trust strip (256-bit encryption, 7-day
+                    money-back guarantee, Razorpay secured, cancel anytime),
+                    surfaced here too since the hero is where people
+                    actually decide whether to trust the download. Nothing
+                    new claimed, just made visible where it matters. */}
+                <div className="flex flex-wrap items-center justify-center laptop-sm:justify-start gap-x-5 gap-y-2 text-[#57534E] text-xs mb-8 animate-fade-in-up" style={{ animationDelay: '0.32s' }}>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🔒</span> 256-bit encryption</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🛡️</span> 7-day money-back guarantee</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">💳</span> Razorpay secured</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">✓</span> Cancel anytime</span>
+                </div>
+
+                {/* Small typewriter teaser — not the interactive demo itself
+                    (that's the "See it live" section below), just a hint at
+                    the kind of question JavihAI handles. */}
+                <div className="hl-text-secondary inline-flex items-center gap-2 text-xs sm:text-sm font-mono bg-white/70 border border-[rgba(26,21,18,0.08)] rounded-full px-4 py-2 animate-fade-in-up max-w-full" style={{ animationDelay: '0.35s' }}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse flex-shrink-0" />
+                  <span className="typing-cursor truncate">{typedQ}</span>
+                </div>
               </div>
-            </div>
 
-            <h1 className="hl-heading text-4xl tablet:text-5xl laptop-sm:text-6xl font-black tracking-tight mb-5 animate-fade-in-up leading-tight" style={{ animationDelay: '0.1s' }}>
-              Walk Into Any Interview with an <span className="text-gradient animate-gradient">Unlimited AI Copilot</span>
-            </h1>
+              {/* RIGHT — hero demo video. Same click-to-play YouTube embed
+                  pattern as the "See it live" section below (same video,
+                  own local play state so the two don't cross-trigger each
+                  other). A soft glow behind the card gives it some depth
+                  instead of a flat rectangle sitting on the page. */}
+              <div className="relative animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                <div className="absolute -inset-6 bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent rounded-[2rem] blur-2xl -z-10" aria-hidden="true" />
+                <div id="hero-video" className="relative aspect-video w-full bg-slate-950 rounded-2xl overflow-hidden border border-[rgba(26,21,18,0.1)] shadow-2xl">
+                  {heroVideoPlaying ? (
+                    <iframe
+                      src="https://www.youtube-nocookie.com/embed/QeZDYWtKnsY?autoplay=1&mute=1&playsinline=1"
+                      title="JavihAI Product Demo"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full border-0"
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setHeroVideoPlaying(true)}
+                      className="w-full h-full relative block text-left group/hero-play focus:outline-none cursor-pointer"
+                      aria-label="Play JavihAI Product Demo Video"
+                    >
+                      <img
+                        src="https://img.youtube.com/vi/QeZDYWtKnsY/hqdefault.jpg"
+                        alt="JavihAI Product Walkthrough Video"
+                        className="w-full h-full object-cover opacity-85 group-hover/hero-play:opacity-100 transition-opacity"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex items-center justify-center">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl shadow-red-600/50 group-hover/hero-play:scale-110 transition-transform border-2 border-white/20">
+                          <svg className="w-8 h-8 sm:w-10 sm:h-10 fill-current ml-1" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="absolute bottom-3 left-4 text-white text-sm font-semibold drop-shadow">
+                        ▶ 90-second walkthrough
+                      </div>
+                    </button>
+                  )}
+                </div>
 
-            <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-xl mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-              Hears your interview questions and streams structured AI answers in under 2 seconds — completely invisible on screen share, unlimited on the Power plan, and free forever for freshers.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-              <button
-                type="button"
-                onClick={() => requestDownload(detectedOS === 'mac' ? 'mac' : 'windows')}
-                className="btn btn-primary text-sm px-6 py-3 shadow-lg hover:shadow-blue-500/25"
-              >
-                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 3a1 1 0 011 1v8.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V4a1 1 0 011-1z" clipRule="evenodd" />
-                  <path d="M4 15a1 1 0 011 1v1a1 1 0 001 1h8a1 1 0 001-1v-1a1 1 0 112 0v1a3 3 0 01-3 3H6a3 3 0 01-3-3v-1a1 1 0 011-1z" />
-                </svg>
-                Download for {detectedOS === 'mac' ? 'Mac' : 'Windows'} — Free
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToLiveDemo('video')}
-                className="btn btn-secondary text-sm px-6 py-3 flex items-center justify-center gap-1.5"
-              >
-                <svg className="w-4 h-4 text-red-500 fill-current flex-shrink-0" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-                Watch Demo
-              </button>
-            </div>
-
-            <p className="hl-text-muted text-xs mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              Sign in with Google, then your download starts · Free forever for freshers · No card needed ·{' '}
-              <Link href="/install" className="underline underline-offset-2 hover:text-[#1A1512]">Other platforms</Link>
-            </p>
-
-            {/* Small typewriter teaser — not the interactive demo itself
-                (that's the "See it live" section below), just a hint at
-                the kind of question JavihAI handles. */}
-            <div className="hl-text-secondary inline-flex items-center gap-2 text-xs sm:text-sm font-mono bg-white/70 border border-[rgba(26,21,18,0.08)] rounded-full px-4 py-2 animate-fade-in-up max-w-full" style={{ animationDelay: '0.35s' }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse flex-shrink-0" />
-              <span className="typing-cursor truncate">{typedQ}</span>
+                {/* Trust stats — moved here from their own full-width
+                    section below the hero, so the right column carries
+                    both the product shot and the proof points together
+                    instead of the video sitting alone next to a wall of
+                    left-column text. */}
+                <div className="glass rounded-2xl p-4 mt-4">
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      { num: '2,400+', label: 'Candidates Helped', note: true },
+                      { num: '<2s', label: 'AI Answer Speed' },
+                      { num: '~4×', label: 'Cheaper than FR AI' },
+                      { num: '100%', label: 'Invisible on Screen' },
+                      { num: '10+', label: 'Indian Languages' },
+                      { num: '4.9★', label: 'Early Rating', note: true },
+                    ].map((stat) => (
+                      <div key={stat.label} className="text-center min-w-0">
+                        <div className="hl-heading text-lg tablet:text-xl font-black tracking-tight mb-0.5 whitespace-nowrap">
+                          {stat.num}{stat.note && <sup className="hl-text-muted text-[9px]">*</sup>}
+                        </div>
+                        <div className="hl-text-muted text-[10px] font-medium leading-tight">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="hl-text-muted text-[10px] text-center mt-3 pt-3 border-t border-[rgba(26,21,18,0.08)]">
+                    * Self-reported figures from JavihAI users at signup, not an independently audited count.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════
-            TRUST BAR
-            ═══════════════════════════════════════════════════════════ */}
-        <div className="relative z-10 mb-10 md:mb-16">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            <div className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6">
-              <div className="grid grid-cols-2 tablet:grid-cols-3 laptop-sm:grid-cols-6 gap-3 tablet:gap-4 laptop-sm:gap-6">
-                {[
-                  { num: '2,400+', label: 'Candidates Helped', note: true },
-                  { num: '<2s', label: 'AI Answer Speed' },
-                  { num: '~4×', label: 'Cheaper than FR AI' },
-                  { num: '100%', label: 'Invisible on Screen' },
-                  { num: '10+', label: 'Indian Languages' },
-                  { num: '4.9★', label: 'Early Rating', note: true },
-                ].map((stat) => (
-                  <div key={stat.label} className="text-center min-w-0">
-                    <div className="hl-heading text-xl tablet:text-2xl font-black tracking-tight mb-1 whitespace-nowrap">
-                      {stat.num}{stat.note && <sup className="hl-text-muted text-[10px]">*</sup>}
-                    </div>
-                    <div className="hl-text-muted text-[11px] tablet:text-xs font-medium leading-tight">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-              <p className="hl-text-muted text-[10px] sm:text-[11px] text-center mt-4 pt-3 border-t border-[rgba(26,21,18,0.08)]">
-                * Self-reported figures from JavihAI users at signup, not an independently audited count.
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Trust bar now lives in the hero's right column, under the video
+            (see above) — no longer a separate full-width section here. */}
 
         {/* ═══════════════════════════════════════════════════════════
             SEE IT LIVE — the one place the interactive demo lives.
@@ -450,7 +530,13 @@ export default function LandingClient(props: LandingClientProps) {
             {appVersion && (
               <p className="hl-text-muted text-xs text-center mb-6 flex items-center justify-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block" />
-                <span>JavihAI {appVersion}</span>
+                {/* Linked to the public changelog — most competitors don't
+                    publish real release notes, so pointing directly at
+                    exactly what shipped and when is a transparency signal,
+                    not just decorative version text. */}
+                <Link href="/changelog" className="underline underline-offset-2 hover:text-[#1A1512]">
+                  JavihAI {appVersion} · View public changelog
+                </Link>
                 {isNewRelease && (
                   <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-700">NEW</span>
                 )}
@@ -530,6 +616,103 @@ export default function LandingClient(props: LandingClientProps) {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            WORKS WITH — real brand marks via react-icons (Simple Icons /
+            Font Awesome / Bootstrap Icons sets), which are explicitly
+            licensed for representing a brand — not the companies' own
+            logo files, and not the same trademark-usage question as
+            fetching an official lockup. Zoom/Meet/Teams/Webex are the 4
+            apps named as tested elsewhere on this page (FAQ, feature grid,
+            HowTo schema); Skype and Slack (Huddles) added per explicit ask
+            since the product works via system audio + OS-level screen
+            exclusion — platform-agnostic, not a per-app integration, so
+            listing more than the 4 "tested" ones is reasonable. Google Duo
+            was requested too but is dropped: Google discontinued it in
+            2022, merging it into Google Meet — no icon library carries it
+            because it isn't a distinct current product anymore.
+            ═══════════════════════════════════════════════════════════ */}
+        <section className="pb-16 md:pb-20">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <p className="hl-text-muted text-sm font-medium mb-5 uppercase tracking-wide">
+              Works With Your Video Call App
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {[
+                { Icon: SiZoom, name: 'Zoom', color: '#2D8CFF' },
+                { Icon: SiGooglemeet, name: 'Google Meet', color: '#00897B' },
+                { Icon: BsMicrosoftTeams, name: 'Microsoft Teams', color: '#6264A7' },
+                { Icon: SiWebex, name: 'Webex', color: '#049FD9' },
+                { Icon: FaSkype, name: 'Skype', color: '#00AFF0' },
+                { Icon: FaSlack, name: 'Slack Huddles', color: '#4A154B' },
+              ].map((app) => (
+                <div
+                  key={app.name}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/70 border border-[rgba(26,21,18,0.08)] shadow-sm"
+                >
+                  <app.Icon size={18} color={app.color} aria-hidden="true" />
+                  <span className="hl-heading text-sm font-semibold">{app.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            PRIVACY YOU CAN VERIFY — the trust badges in the hero
+            (encryption, refund, Razorpay) address payment trust. This
+            addresses the actual anxiety specific to this product: "will
+            using this get me caught, and is my audio safe." Each claim
+            here is already stated elsewhere on the site (FAQ, feature
+            grid, /privacy) — this just surfaces them together instead of
+            leaving them buried in FAQ text nobody reads before deciding.
+            Wording is kept literally consistent with /privacy's actual
+            claim ("we don't sell your data and don't use it to train
+            third-party AI models") rather than a looser paraphrase.
+            ═══════════════════════════════════════════════════════════ */}
+        <section className="section-py">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-12">
+              <div className="section-label">🔐 Privacy You Can Verify</div>
+              <h2 className="section-heading mb-4">
+                Not Just Hidden — <span className="text-gradient">Actually Private</span>
+              </h2>
+              <p className="hl-text-secondary section-subheading mx-auto">
+                The specific things people actually worry about before running this in a real interview.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 tablet:grid-cols-3 gap-6">
+              {[
+                {
+                  icon: '🎙️',
+                  title: 'Audio never stored',
+                  desc: 'Transcribed in real-time on your device and immediately discarded. No recordings, no logs, nothing kept.',
+                },
+                {
+                  icon: '🥷',
+                  title: 'OS-level exclusion, not a hack',
+                  desc: 'Excluded from screen capture at the operating-system level on both Mac and Windows — not a browser trick or window trick that can fail mid-call.',
+                },
+                {
+                  icon: '🚫',
+                  title: 'Never sold, never used to train AI',
+                  desc: "We don't sell your data, and we don't use it to train third-party AI models. Full policy is public — nothing hidden in fine print.",
+                },
+              ].map((item) => (
+                <div key={item.title} className="card p-6 sm:p-8 text-center">
+                  <div className="text-3xl mb-4">{item.icon}</div>
+                  <h3 className="hl-heading text-lg font-bold mb-2">{item.title}</h3>
+                  <p className="hl-text-secondary leading-relaxed text-sm">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-center mt-8">
+              <Link href="/privacy" className="text-sm hl-text-secondary underline underline-offset-2 hover:text-[#1A1512]">
+                Read the full privacy policy →
+              </Link>
+            </p>
           </div>
         </section>
 
@@ -920,6 +1103,23 @@ export default function LandingClient(props: LandingClientProps) {
       <NewCustomerOfferPopup />
       <FreeTrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />
       <GoogleSignInModal open={showSignIn} onClose={cancelSignIn} onSignedIn={handleSignedIn} />
+      {/* Same profile-completion gate already used on /auth/signup,
+          /auth/login, and /dashboard — the homepage download button used to
+          be the one path that skipped it entirely. */}
+      {showProfileModal && downloadUser && (
+        <CompleteProfileModal
+          user={downloadUser}
+          onDone={handleProfileDone}
+          initial={{
+            phone: (fetchedUserData?.phone as string) || undefined,
+            fullName: (fetchedUserData?.fullName as string) || (fetchedUserData?.profile as Record<string, unknown> | undefined)?.fullName as string || downloadUser.displayName || '',
+            whatsapp: (fetchedUserData?.whatsapp as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.whatsapp as string) || (fetchedUserData?.phone as string) || '',
+            experienceLevel: (fetchedUserData?.experienceLevel as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.experienceLevel as string) || undefined,
+            city: (fetchedUserData?.city as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.city as string) || undefined,
+            jobRole: (fetchedUserData?.jobRole as string) || ((fetchedUserData?.profile as Record<string, unknown> | undefined)?.jobRole as string) || undefined,
+          }}
+        />
+      )}
       <DownloadStepsModal
         open={showDownloadModal}
         onClose={() => setShowDownloadModal(false)}
