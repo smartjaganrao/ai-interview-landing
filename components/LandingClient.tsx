@@ -15,80 +15,12 @@ import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 import { SiZoom, SiGooglemeet, SiWebex } from 'react-icons/si';
 import { BsMicrosoftTeams } from 'react-icons/bs';
 import { FaSkype, FaSlack } from 'react-icons/fa6';
+import { FAQ_ITEMS } from '@/lib/homepage-schema';
 
-// Single source of truth for the FAQ section — rendered as the visible
-// accordion below AND compiled into faqSchema's JSON-LD. Keeping these in
-// one array prevents the schema from drifting out of sync with what's
-// actually on the page (Google requires structured data to match visible
-// content for FAQPage rich results).
-//
-// Trimmed from 18 to the 6 highest-value, least-duplicated questions for the
-// 2026-09 homepage redesign (see the `nifty-mixing-kitten` plan) — the
-// dropped items (DSA topic coverage, full competitor breakdown, full
-// language list, freshers/campus framing, coding-platform support, resume
-// formats) are already covered by dedicated pages (`/compare`,
-// `/indian-languages`, `/dsa-topics`, `/programming-languages`) that carry
-// their own on-page content and schema.
-const FAQ_ITEMS: { q: string; a: string }[] = [
-  {
-    q: 'How does JavihAI — the AI interview assistant — work during a live interview?',
-    a: 'Run JavihAI alongside your video call (Zoom, Google Meet, Teams). Choose System Audio to hear the interviewer, or Microphone mode. JavihAI auto-detects when a question is asked and streams a structured AI answer in under 2 seconds — while staying completely invisible to screen sharing.',
-  },
-  {
-    q: 'Is JavihAI visible to the interviewer during screen share?',
-    a: 'No. The JavihAI window uses OS-level exclusion from screen capture on both Windows and Mac. The interviewer sees only your screen — not the overlay. It has been tested on Zoom, Google Meet, Microsoft Teams, and Webex.',
-  },
-  {
-    q: 'How much does JavihAI cost? Is there a free plan?',
-    a: 'JavihAI has a permanent free plan with up to 25 AI answers per day (5 screenshot solves, 10 system-audio answers, 10 mic answers) — no credit card, no time limit. Unlike other AI interview tools in India that give a one-time trial that runs out, JavihAI\'s free allowance resets every single day, forever, for every user. Paid plans unlock unlimited answers, Desi Mode, and more. Both paid plans include a 7-day money-back guarantee.',
-  },
-  {
-    q: 'What platforms and operating systems does JavihAI support?',
-    a: 'JavihAI supports Windows 10, Windows 11, and macOS — both Apple Silicon (M1/M2/M3) and Intel. The desktop app is required for real-time interview mode and works alongside Zoom, Google Meet, Microsoft Teams, and Webex.',
-  },
-  {
-    q: 'How do I install JavihAI? My computer shows a security warning.',
-    a: 'On Windows: run the .exe — if you see "Windows protected your PC", click More info → Run anyway. On Mac: drag to Applications, then right-click → Open → Open (or System Settings → Privacy & Security → Open Anyway). This is normal for new publishers and the app is completely safe.',
-  },
-  {
-    q: 'What is Desi Mode?',
-    a: 'Desi Mode is a Power-plan feature that adapts every AI answer to Indian interview culture: CTC in ₹ LPA (not USD), notice period and bond clause context, ESOP vs variable pay, and company-specific framing for FAANG India, product startups, MNCs, and IT services. It also enables answers in Hindi, Tamil, Telugu, Kannada, and other Indian languages.',
-  },
-];
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: FAQ_ITEMS.map(({ q, a }) => ({
-    '@type': 'Question',
-    name: q,
-    acceptedAnswer: { '@type': 'Answer', text: a },
-  })),
-};
-
-const howToSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: 'How to use JavihAI for interview prep',
-  description: 'Get started with JavihAI in 3 steps: create a free account, download the desktop app, and start getting AI answers in your interviews.',
-  step: [
-    {
-      '@type': 'HowToStep',
-      name: 'Create Free Account',
-      text: 'Sign up in 30 seconds with Google — no credit card required. Get up to 25 AI answers/day free, forever.',
-    },
-    {
-      '@type': 'HowToStep',
-      name: 'Download Desktop App',
-      text: 'Install the free desktop overlay for Windows 10/11 or macOS (Apple Silicon or Intel). Runs silently in background.',
-    },
-    {
-      '@type': 'HowToStep',
-      name: 'Open in Your Interview',
-      text: 'Join Zoom/Meet/Teams as usual. JavihAI overlay is invisible. Questions are auto-detected. Answers stream in 2 seconds.',
-    },
-  ],
-};
+// FAQ_ITEMS (and its JSON-LD) now lives in lib/homepage-schema.ts, imported
+// here for the visible accordion below and by app/page.tsx (a Server
+// Component) so the FAQPage/HowTo <script> tags render in the server HTML
+// instead of only appearing after client hydration — see that file for why.
 
 // Rotating example questions — a small proof-of-concept teaser in the hero
 // (not the interactive demo itself, which lives in the "See it live"
@@ -301,15 +233,6 @@ export default function LandingClient(props: LandingClientProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema).replace(/</g, '\\u003c') }}
-      />
-
       {/* `.home-light` is now applied site-wide by ThemeScope.tsx (see
           app/layout.tsx) for every page except /checkout and /dashboard —
           this wrapper is kept as a harmless no-op (nesting `.home-light`
