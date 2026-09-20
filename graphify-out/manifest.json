@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "app/page.tsx": {
-    "mtime": 1785989409.1726286,
-    "ast_hash": "3bafd11e48e281868b97f3f8dd5e315f",
+    "mtime": 1789883460.494426,
+    "ast_hash": "27c51af37c0c741d163600a70960a297",
     "semantic_hash": ""
   },
   "app/pricing/layout.tsx": {
@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "app/sitemap.ts": {
-    "mtime": 1789146884.912,
-    "ast_hash": "8e5f02a5ecbc671b2452f82c14ffff07",
+    "mtime": 1789884168.8376508,
+    "ast_hash": "26c4fc59636b24821552550650736ce3",
     "semantic_hash": ""
   },
   "app/terms/page.tsx": {
@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "components/Footer.tsx": {
-    "mtime": 1789876325.14577,
-    "ast_hash": "f7edb8278da8a57c63be3b9c12e05440",
+    "mtime": 1789884175.437007,
+    "ast_hash": "d5021f010277a10ebcef2a387cf8ab60",
     "semantic_hash": ""
   },
   "components/FreeTrialModal.tsx": {
@@ -385,7 +385,7 @@
     "semantic_hash": "62ef0f4fd77746bc94b2caae8d972a34"
   },
   "package.json": {
-    "mtime": 1789876325.1577737,
+    "mtime": 1789883417.3052893,
     "ast_hash": "01f226af49b0c667b28657edfdc8e8fa",
     "semantic_hash": ""
   },
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1789881345.2787757,
-    "ast_hash": "932ebd6651421a428191f8c969e5fafd",
+    "mtime": 1789883460.4951065,
+    "ast_hash": "bbad11eeabd173570835f762ef8ed5b4",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {
@@ -1582,6 +1582,26 @@
   "components/ThemeScope.tsx": {
     "mtime": 1789876325.1472602,
     "ast_hash": "66a5298ee0d5a967a58f3c5b1cd86b02",
+    "semantic_hash": ""
+  },
+  "app/interview-prep/amazon/page.tsx": {
+    "mtime": 1789884162.968942,
+    "ast_hash": "dc3550055c71fb9fc08806af5e983557",
+    "semantic_hash": ""
+  },
+  "app/interview-prep/infosys/page.tsx": {
+    "mtime": 1789884133.3517103,
+    "ast_hash": "4e9b85325c5d07513e0d646c823a9834",
+    "semantic_hash": ""
+  },
+  "app/interview-prep/tcs/page.tsx": {
+    "mtime": 1789884106.0125124,
+    "ast_hash": "52a467ce5fa3b0a1f295ef02cc69c7b2",
+    "semantic_hash": ""
+  },
+  "lib/homepage-schema.ts": {
+    "mtime": 1789882275.0624173,
+    "ast_hash": "041e0b620e01d215dd3f2dba7c317013",
     "semantic_hash": ""
   }
 }

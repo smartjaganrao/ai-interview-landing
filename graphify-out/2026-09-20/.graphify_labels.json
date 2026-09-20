@@ -304,14 +304,6 @@
   "302": "page.tsx",
   "303": "route.ts",
   "304": "Technical SEO Audit",
-  "305": "route.ts",
-  "306": "recharts",
-  "307": "@reduxjs/toolkit",
   "308": "vitest.config.ts",
-  "309": "code-reviewer.md",
-  "310": "International SEO & Localization",
-  "311": "Common Issues by Site Type",
-  "312": "FreeTrialModal.tsx",
-  "313": "LiveGuideModeDemo.tsx",
-  "314": "Robots.txt Configuration"
+  "309": "code-reviewer.md"
 }
