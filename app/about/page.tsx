@@ -25,7 +25,7 @@ const orgSchema = {
 };
 
 export const metadata = {
-  title: 'About JavihAI — India\'s First Unlimited AI Interview Copilot',
+  title: { absolute: 'About JavihAI — India\'s First Unlimited AI Interview Copilot' },
   description:
     'JavihAI is built by Indian engineers for Indian candidates. Learn why 2,400+ candidates trust JavihAI for Zoom, Meet & Teams interviews. Free forever plan available.',
   alternates: { canonical: 'https://javihai.in/about' },
@@ -36,7 +36,7 @@ export default function AboutPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema).replace(/</g, '\\u003c') }}
       />
       <div className="pt-12 sm:pt-16 md:pt-20 pb-20">
         <div className="max-w-4xl mx-auto px-6">

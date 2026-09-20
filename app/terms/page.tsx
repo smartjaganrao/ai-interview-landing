@@ -1,8 +1,8 @@
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Terms of Service — JavihAI',
-  description: 'The rules of using our service.',
+  title: { absolute: 'Terms of Service — JavihAI' },
+  description: 'JavihAI terms of service: acceptable use, subscriptions & billing, refunds, the referral program, AI disclaimer, and account termination — for the AI interview copilot.',
 };
 
 export default function TermsPage() {

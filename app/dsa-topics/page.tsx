@@ -75,7 +75,7 @@ export default function DSATopicsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }}
       />
       <div className="pt-12 sm:pt-16 md:pt-20 pb-20">
 

@@ -5,7 +5,7 @@ import BrowserKeepFileGraphic from '@/components/BrowserKeepFileGraphic';
 import { getLatestRelease } from '@/lib/github-release';
 
 export const metadata = {
-  title: 'Installation Guide — JavihAI',
+  title: { absolute: 'Installation Guide — JavihAI' },
   description: 'Step-by-step instructions to download, install, and set up the JavihAI desktop app on Windows and macOS.',
 };
 

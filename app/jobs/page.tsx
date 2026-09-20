@@ -72,7 +72,7 @@ export default function JobsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobBoardSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobBoardSchema).replace(/</g, '\\u003c') }}
       />
 
       <div className="pt-12 sm:pt-16 md:pt-20 pb-20 max-w-6xl mx-auto px-4">

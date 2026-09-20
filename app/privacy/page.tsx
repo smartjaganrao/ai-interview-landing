@@ -1,8 +1,8 @@
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Privacy Policy — JavihAI',
-  description: 'How we collect, use, and protect your data.',
+  title: { absolute: 'Privacy Policy — JavihAI' },
+  description: "JavihAI's privacy policy: what data we collect, how we use it, third-party services, security, your rights, and cookies — for the invisible AI interview copilot.",
 };
 
 export default function PrivacyPage() {

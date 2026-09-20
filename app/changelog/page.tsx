@@ -3,7 +3,7 @@ import Footer from '@/components/Footer';
 import { getAllReleases } from '@/lib/github-release';
 
 export const metadata = {
-  title: 'Changelog — JavihAI',
+  title: { absolute: 'Changelog — JavihAI' },
   description: "What's new in each JavihAI desktop release.",
 };
 

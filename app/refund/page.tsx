@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Refund & Cancellation Policy — JavihAI',
+  title: { absolute: 'Refund & Cancellation Policy — JavihAI' },
   description: 'Our 7-day money-back guarantee, cancellation terms, and how refunds are processed.',
 };
 
