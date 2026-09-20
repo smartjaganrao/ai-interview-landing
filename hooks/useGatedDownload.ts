@@ -2,11 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { User } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { buildWhatsAppLink } from '@/lib/whatsapp-link';
-import { isProfileComplete } from '@/lib/auth';
 
 const PENDING_KEY = 'javihai_pending_download';
 
@@ -87,7 +84,18 @@ export function useGatedDownload(onDownloadStart?: (platform: DownloadPlatform) 
   // Checks profile completeness before actually starting the download —
   // shows CompleteProfileModal and parks the download until it's done if
   // the profile isn't complete yet, otherwise downloads immediately.
+  // Firestore + lib/firebase + lib/auth are dynamic-imported here rather
+  // than statically at the top of this file for the same reason as
+  // useAuth.ts — this hook is reachable from the homepage's critical
+  // render path, so a static import put the Firebase SDK in the bundle
+  // blocking the hero's paint. See useAuth.ts's top comment for the full
+  // rationale; lib/firebase.ts and lib/auth.ts themselves are unchanged.
   const proceedIfProfileComplete = async (pending: PendingDownload, authedUser: User) => {
+    const [{ doc, getDoc }, { db }, { isProfileComplete }] = await Promise.all([
+      import('firebase/firestore'),
+      import('@/lib/firebase'),
+      import('@/lib/auth'),
+    ]);
     let userData: Record<string, unknown> | null = null;
     try {
       const snap = await getDoc(doc(db, 'users', authedUser.uid));

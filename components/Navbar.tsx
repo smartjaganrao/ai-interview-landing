@@ -2,14 +2,20 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { auth } from '@/lib/firebase';
-import { signOut } from 'firebase/auth';
 import { buildWhatsAppLink, getWhatsAppDisplayNumber } from '@/lib/whatsapp-link';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 import { onOfferPopupVisibility } from '@/lib/offer-popup-events';
+
+// Navbar renders on every page via the root layout, so a statically-
+// imported FeedbackModal (which imports firebase/firestore directly) put
+// the Firestore SDK in every page's initial bundle — not just wherever
+// feedback is submitted. Gated behind showFeedbackModal (starts false),
+// so dynamic-importing it costs nothing visible.
+const FeedbackModal = dynamic(() => import('@/components/FeedbackModal'), { ssr: false });
 
 interface Announcement { id: string; title: string; body: string; link: string | null; createdAt: number }
 
@@ -232,7 +238,6 @@ function SupportNumberLink({ compact = false, isLightPage = false }: { compact?:
   );
 }
 
-import FeedbackModal from '@/components/FeedbackModal';
 import { AudioDiagnosticModal } from '@/components/AudioDiagnosticModal';
 
 const APP_PATHS = ['/dashboard', '/resume', '/jobs', '/mock-interview', '/creator'];
@@ -270,7 +275,16 @@ export default function Navbar() {
     }
   }, [pathname]);
 
+  // Navbar renders on every page via the root layout, so a static Firebase
+  // import here put the SDK in every page's initial bundle — not just the
+  // homepage. Dynamic-imported for the same reason as useAuth.ts/
+  // useGatedDownload.ts; sign-out behavior/timing is unchanged since this
+  // only ever ran on click, never during render.
   const handleSignOut = async () => {
+    const [{ auth }, { signOut }] = await Promise.all([
+      import('@/lib/firebase'),
+      import('firebase/auth'),
+    ]);
     await signOut(auth);
     router.push('/');
   };
