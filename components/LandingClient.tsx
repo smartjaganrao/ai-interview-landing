@@ -1,13 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
-import FreeTrialModal from '@/components/FreeTrialModal';
-import DownloadStepsModal from '@/components/DownloadStepsModal';
-import GoogleSignInModal from '@/components/GoogleSignInModal';
-import CompleteProfileModal from '@/components/CompleteProfileModal';
-import NewCustomerOfferPopup from '@/components/NewCustomerOfferPopup';
-import LiveGuideModeDemo from '@/components/LiveGuideModeDemo';
 import Footer from '@/components/Footer';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
 import { onOfferPopupChecked } from '@/lib/offer-popup-events';
@@ -16,6 +11,25 @@ import { SiZoom, SiGooglemeet, SiWebex } from 'react-icons/si';
 import { BsMicrosoftTeams } from 'react-icons/bs';
 import { FaSkype, FaSlack } from 'react-icons/fa6';
 import { FAQ_ITEMS } from '@/lib/homepage-schema';
+
+// Code-split: none of these render anything on initial paint (each is
+// gated behind state that starts false/null, or is the always-null-until-
+// triggered NewCustomerOfferPopup) — dynamic-importing them keeps their JS
+// out of the bundle the browser must parse before the hero can paint.
+// Measured via Lighthouse on production: LCP was 7.6s with ~2.9s of
+// main-thread work blocking the hero H1's paint before this split.
+const FreeTrialModal = dynamic(() => import('@/components/FreeTrialModal'), { ssr: false });
+const DownloadStepsModal = dynamic(() => import('@/components/DownloadStepsModal'), { ssr: false });
+const GoogleSignInModal = dynamic(() => import('@/components/GoogleSignInModal'), { ssr: false });
+const CompleteProfileModal = dynamic(() => import('@/components/CompleteProfileModal'), { ssr: false });
+const NewCustomerOfferPopup = dynamic(() => import('@/components/NewCustomerOfferPopup'), { ssr: false });
+// This one DOES render by default (the "See it live" section's default
+// tab) — give it a lightweight skeleton matching its dark card shape so
+// splitting it out doesn't cause a layout jump.
+const LiveGuideModeDemo = dynamic(() => import('@/components/LiveGuideModeDemo'), {
+  ssr: false,
+  loading: () => <div className="w-full max-w-3xl mx-auto aspect-video bg-slate-950 rounded-2xl animate-pulse" />,
+});
 
 // FAQ_ITEMS (and its JSON-LD) now lives in lib/homepage-schema.ts, imported
 // here for the visible accordion below and by app/page.tsx (a Server

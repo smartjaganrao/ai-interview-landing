@@ -260,8 +260,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_coupons_featured_route",
-      "community": 302,
-      "community_name": "getCoupons",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "route.ts"
     },
     {
@@ -271,8 +271,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "app_api_coupons_featured_route_get",
-      "community": 302,
-      "community_name": "getCoupons",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "get()"
     },
     {
@@ -370,8 +370,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_me_route",
-      "community": 317,
-      "community_name": "route.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -381,8 +381,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_creator_me_route_post",
-      "community": 317,
-      "community_name": "route.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "post()"
     },
     {
@@ -392,8 +392,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_creator_payout_method_route",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -403,8 +403,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "app_api_creator_payout_method_route_post",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "post()"
     },
     {
@@ -744,8 +744,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_free_trial_route",
-      "community": 281,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "route.ts"
     },
     {
@@ -755,8 +755,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "app_api_free_trial_route_generatevouchercode",
-      "community": 281,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "generatevouchercode()"
     },
     {
@@ -766,8 +766,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "app_api_free_trial_route_formatphonenumber",
-      "community": 281,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "formatphonenumber()"
     },
     {
@@ -777,8 +777,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "app_api_free_trial_route_post",
-      "community": 281,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "post()"
     },
     {
@@ -931,8 +931,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_mock_interview_route",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -942,8 +942,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_difficulty",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "difficulty"
     },
     {
@@ -953,8 +953,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_difficulty_guide",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "difficulty_guide"
     },
     {
@@ -964,8 +964,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_fallback_models",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "fallback_models"
     },
     {
@@ -975,8 +975,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_ismodelnotfounderror",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "ismodelnotfounderror()"
     },
     {
@@ -986,8 +986,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_getlivefallbackmodels",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "getlivefallbackmodels()"
     },
     {
@@ -997,8 +997,8 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_createchatcompletionwithfallback",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "createchatcompletionwithfallback()"
     },
     {
@@ -1008,8 +1008,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_getgroq",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "getgroq()"
     },
     {
@@ -1019,8 +1019,8 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_profile",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "profile"
     },
     {
@@ -1030,8 +1030,8 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_profilecontext",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "profilecontext()"
     },
     {
@@ -1041,8 +1041,8 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_generatequestion",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "generatequestion()"
     },
     {
@@ -1052,8 +1052,8 @@
       "source_location": "L167",
       "_origin": "ast",
       "id": "app_api_mock_interview_route_post",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "post()"
     },
     {
@@ -1118,8 +1118,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_notifications_profile_completed_route",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1129,8 +1129,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "app_api_notifications_profile_completed_route_cors_headers",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "cors_headers"
     },
     {
@@ -1140,8 +1140,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "app_api_notifications_profile_completed_route_json",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "json()"
     },
     {
@@ -1151,8 +1151,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "app_api_notifications_profile_completed_route_options",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "options()"
     },
     {
@@ -1162,8 +1162,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "app_api_notifications_profile_completed_route_post",
-      "community": 12,
-      "community_name": "page.tsx",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "post()"
     },
     {
@@ -1195,8 +1195,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_pricing_route",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "route.ts"
     },
     {
@@ -1206,8 +1206,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "app_api_pricing_route_get",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "get()"
     },
     {
@@ -1360,8 +1360,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_referral_me_route",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "route.ts"
     },
     {
@@ -1371,8 +1371,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_api_referral_me_route_post",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "post()"
     },
     {
@@ -3032,8 +3032,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_page",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 8,
+      "community_name": "github-release.ts",
       "norm_label": "page.tsx"
     },
     {
@@ -3043,8 +3043,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "app_page_page",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "page()"
     },
     {
@@ -3901,8 +3901,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_freetrialmodal",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "freetrialmodal.tsx"
     },
     {
@@ -3912,8 +3912,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "components_freetrialmodal_formdata",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "formdata"
     },
     {
@@ -3923,8 +3923,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_freetrialmodal_freetrialmodalprops",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "freetrialmodalprops"
     },
     {
@@ -3934,8 +3934,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_freetrialmodal_freetrialmodal",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 160,
+      "community_name": "page.tsx",
       "norm_label": "freetrialmodal()"
     },
     {
@@ -4082,10 +4082,76 @@
       "norm_label": "landingclient.tsx"
     },
     {
+      "label": "FreeTrialModal",
+      "file_type": "code",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "components_landingclient_freetrialmodal",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "freetrialmodal"
+    },
+    {
+      "label": "DownloadStepsModal",
+      "file_type": "code",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "components_landingclient_downloadstepsmodal",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "downloadstepsmodal"
+    },
+    {
+      "label": "GoogleSignInModal",
+      "file_type": "code",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "components_landingclient_googlesigninmodal",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "googlesigninmodal"
+    },
+    {
+      "label": "CompleteProfileModal",
+      "file_type": "code",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "components_landingclient_completeprofilemodal",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "completeprofilemodal"
+    },
+    {
+      "label": "NewCustomerOfferPopup",
+      "file_type": "code",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "components_landingclient_newcustomerofferpopup",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "newcustomerofferpopup"
+    },
+    {
+      "label": "LiveGuideModeDemo",
+      "file_type": "code",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "components_landingclient_liveguidemodedemo",
+      "community": 8,
+      "community_name": "github-release.ts",
+      "norm_label": "liveguidemodedemo"
+    },
+    {
       "label": "VIDEO_CALL_APPS",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L31",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "components_landingclient_video_call_apps",
       "community": 8,
@@ -4096,7 +4162,7 @@
       "label": "PricingData",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L40",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "components_landingclient_pricingdata",
       "community": 8,
@@ -4107,7 +4173,7 @@
       "label": "effectivePrice()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L50",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "components_landingclient_effectiveprice",
       "community": 8,
@@ -4118,7 +4184,7 @@
       "label": "LandingClientProps",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L57",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "components_landingclient_landingclientprops",
       "community": 8,
@@ -4129,7 +4195,7 @@
       "label": "GRADIENT_CLASSES",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L61",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "components_landingclient_gradient_classes",
       "community": 8,
@@ -4140,7 +4206,7 @@
       "label": "StatusBadge()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L76",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "components_landingclient_statusbadge",
       "community": 8,
@@ -4151,7 +4217,7 @@
       "label": "detectDesktopOS()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L116",
+      "source_location": "L130",
       "_origin": "ast",
       "id": "components_landingclient_detectdesktopos",
       "community": 8,
@@ -4162,7 +4228,7 @@
       "label": "LandingClient()",
       "file_type": "code",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L124",
+      "source_location": "L138",
       "_origin": "ast",
       "id": "components_landingclient_landingclient",
       "community": 8,
@@ -4341,8 +4407,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 121,
+      "community_name": "useAuth",
       "norm_label": "newcustomerofferpopup.tsx"
     },
     {
@@ -4363,8 +4429,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_formatcountdown",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 121,
+      "community_name": "useAuth",
       "norm_label": "formatcountdown()"
     },
     {
@@ -4374,8 +4440,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "components_newcustomerofferpopup_newcustomerofferpopup",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 121,
+      "community_name": "useAuth",
       "norm_label": "newcustomerofferpopup()"
     },
     {
@@ -4990,8 +5056,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "lib_email_sendpaymentconfirmation",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "sendpaymentconfirmation()"
     },
     {
@@ -5056,8 +5122,8 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "lib_email_sendnewleadalert",
-      "community": 281,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "sendnewleadalert()"
     },
     {
@@ -5100,8 +5166,8 @@
       "source_location": "L397",
       "_origin": "ast",
       "id": "lib_email_sendfreetrialvoucher",
-      "community": 281,
-      "community_name": "route.ts",
+      "community": 10,
+      "community_name": "email.ts",
       "norm_label": "sendfreetrialvoucher()"
     },
     {
@@ -5243,8 +5309,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_firebase_admin_test",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "firebase-admin.test.ts"
     },
     {
@@ -5254,8 +5320,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "lib_firebase_admin_test_makecoupon",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "makecoupon()"
     },
     {
@@ -5298,8 +5364,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "lib_firebase_admin_getuserinfo",
-      "community": 10,
-      "community_name": "email.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getuserinfo()"
     },
     {
@@ -5375,8 +5441,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "lib_firebase_admin_issubscriptionexpired",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "issubscriptionexpired()"
     },
     {
@@ -5430,8 +5496,8 @@
       "source_location": "L181",
       "_origin": "ast",
       "id": "lib_firebase_admin_getuserplan",
-      "community": 77,
-      "community_name": "route.ts",
+      "community": 0,
+      "community_name": "Navbar.tsx",
       "norm_label": "getuserplan()"
     },
     {
@@ -5562,8 +5628,8 @@
       "source_location": "L595",
       "_origin": "ast",
       "id": "lib_firebase_admin_getreferralsummary",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "getreferralsummary()"
     },
     {
@@ -5661,8 +5727,8 @@
       "source_location": "L807",
       "_origin": "ast",
       "id": "lib_firebase_admin_getcreatorsummary",
-      "community": 317,
-      "community_name": "route.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "getcreatorsummary()"
     },
     {
@@ -5672,8 +5738,8 @@
       "source_location": "L832",
       "_origin": "ast",
       "id": "lib_firebase_admin_invalidatecreatorcache",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "invalidatecreatorcache()"
     },
     {
@@ -5683,8 +5749,8 @@
       "source_location": "L840",
       "_origin": "ast",
       "id": "lib_firebase_admin_setcreatorpayoutupi",
-      "community": 1,
-      "community_name": "firebase-admin.ts",
+      "community": 12,
+      "community_name": "page.tsx",
       "norm_label": "setcreatorpayoutupi()"
     },
     {
@@ -5749,8 +5815,8 @@
       "source_location": "L962",
       "_origin": "ast",
       "id": "lib_firebase_admin_pricingfallback",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "pricingfallback()"
     },
     {
@@ -5760,8 +5826,8 @@
       "source_location": "L976",
       "_origin": "ast",
       "id": "lib_firebase_admin_getdynamicpricing",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 72,
+      "community_name": "route.ts",
       "norm_label": "getdynamicpricing()"
     },
     {
@@ -5826,8 +5892,8 @@
       "source_location": "L1061",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponrecord",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "couponrecord"
     },
     {
@@ -5848,8 +5914,8 @@
       "source_location": "L1080",
       "_origin": "ast",
       "id": "lib_firebase_admin_getcoupons",
-      "community": 302,
-      "community_name": "getCoupons",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getcoupons()"
     },
     {
@@ -5870,8 +5936,8 @@
       "source_location": "L1121",
       "_origin": "ast",
       "id": "lib_firebase_admin_couponisvalid",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "couponisvalid()"
     },
     {
@@ -5892,8 +5958,8 @@
       "source_location": "L1137",
       "_origin": "ast",
       "id": "lib_firebase_admin_getfeaturedcoupon",
-      "community": 302,
-      "community_name": "getCoupons",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getfeaturedcoupon()"
     },
     {
@@ -5903,8 +5969,8 @@
       "source_location": "L1156",
       "_origin": "ast",
       "id": "lib_firebase_admin_nextistmidnight",
-      "community": 72,
-      "community_name": "route.ts",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "nextistmidnight()"
     },
     {
@@ -5914,8 +5980,8 @@
       "source_location": "L1181",
       "_origin": "ast",
       "id": "lib_firebase_admin_getpopupcoupon",
-      "community": 302,
-      "community_name": "getCoupons",
+      "community": 1,
+      "community_name": "firebase-admin.ts",
       "norm_label": "getpopupcoupon()"
     },
     {
@@ -6343,8 +6409,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_homepage_schema",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 8,
+      "community_name": "github-release.ts",
       "norm_label": "homepage-schema.ts"
     },
     {
@@ -6354,8 +6420,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "lib_homepage_schema_faq_items",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 8,
+      "community_name": "github-release.ts",
       "norm_label": "faq_items"
     },
     {
@@ -6365,8 +6431,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "lib_homepage_schema_faqschema",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 8,
+      "community_name": "github-release.ts",
       "norm_label": "faqschema"
     },
     {
@@ -6376,8 +6442,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "lib_homepage_schema_howtoschema",
-      "community": 124,
-      "community_name": "firestore-cache.ts",
+      "community": 8,
+      "community_name": "github-release.ts",
       "norm_label": "howtoschema"
     },
     {
@@ -6409,8 +6475,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_offer_popup_events",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 121,
+      "community_name": "useAuth",
       "norm_label": "offer-popup-events.ts"
     },
     {
@@ -6420,8 +6486,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "lib_offer_popup_events_announceofferpopupchecked",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 121,
+      "community_name": "useAuth",
       "norm_label": "announceofferpopupchecked()"
     },
     {
@@ -6442,8 +6508,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "lib_offer_popup_events_announceofferpopupvisibility",
-      "community": 8,
-      "community_name": "github-release.ts",
+      "community": 121,
+      "community_name": "useAuth",
       "norm_label": "announceofferpopupvisibility()"
     },
     {
@@ -6629,8 +6695,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "lib_pricing_config_plan_rank",
-      "community": 17,
-      "community_name": "route.ts",
+      "community": 47,
+      "community_name": "pricing-config.ts",
       "norm_label": "plan_rank"
     },
     {
@@ -19985,8 +20051,8 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_key_principles",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "key principles"
     },
     {
@@ -19996,8 +20062,8 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_cache_components_seo",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "cache components & seo"
     },
     {
@@ -20007,8 +20073,8 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_rendering_strategy_for_seo",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "rendering strategy for seo"
     },
     {
@@ -20018,8 +20084,8 @@
       "source_location": "L216",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_core_web_vitals_targets",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "core web vitals targets"
     },
     {
@@ -20029,8 +20095,8 @@
       "source_location": "L229",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_skill_ranking_signals_beyond_technical_seo",
-      "community": 80,
-      "community_name": "Next.js SEO Optimization",
+      "community": 124,
+      "community_name": "firestore-cache.ts",
       "norm_label": "ranking signals beyond technical seo"
     },
     {
@@ -20370,8 +20436,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_nice_to_have_optimization",
-      "community": 313,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "nice to have (optimization)"
     },
     {
@@ -20381,8 +20447,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_pwa",
-      "community": 313,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "pwa"
     },
     {
@@ -20392,8 +20458,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_performance",
-      "community": 313,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "performance"
     },
     {
@@ -20403,8 +20469,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_international_if_applicable",
-      "community": 313,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "international (if applicable)"
     },
     {
@@ -20414,8 +20480,8 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_checklist_advanced",
-      "community": 313,
-      "community_name": "Nice to Have (Optimization)",
+      "community": 54,
+      "community_name": "Next.js SEO Audit Checklist",
       "norm_label": "advanced"
     },
     {
@@ -20898,8 +20964,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_sitemap_configuration",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "sitemap configuration"
     },
     {
@@ -20909,8 +20975,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_basic_static_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "basic static sitemap"
     },
     {
@@ -20920,8 +20986,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_dynamic_sitemap_with_database",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "dynamic sitemap with database"
     },
     {
@@ -20931,8 +20997,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_image_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "image sitemap"
     },
     {
@@ -20942,8 +21008,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_video_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "video sitemap"
     },
     {
@@ -20953,8 +21019,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_multiple_sitemaps_large_sites",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "multiple sitemaps (large sites)"
     },
     {
@@ -20964,8 +21030,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_sitemap_robots_localized_sitemap",
-      "community": 300,
-      "community_name": "How AI Search Works",
+      "community": 77,
+      "community_name": "route.ts",
       "norm_label": "localized sitemap"
     },
     {
@@ -21096,8 +21162,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_google_indexing_issues",
-      "community": 311,
-      "community_name": "Google Indexing Issues",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "google indexing issues"
     },
     {
@@ -21107,8 +21173,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_discovered_currently_not_indexed",
-      "community": 311,
-      "community_name": "Google Indexing Issues",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"discovered - currently not indexed\""
     },
     {
@@ -21118,8 +21184,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_crawled_currently_not_indexed",
-      "community": 311,
-      "community_name": "Google Indexing Issues",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"crawled - currently not indexed\""
     },
     {
@@ -21129,8 +21195,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_url_is_not_on_google",
-      "community": 311,
-      "community_name": "Google Indexing Issues",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"url is not on google\""
     },
     {
@@ -21140,8 +21206,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "kilo_skills_nextjs_seo_references_troubleshooting_blocked_by_robots_txt",
-      "community": 311,
-      "community_name": "Google Indexing Issues",
+      "community": 83,
+      "community_name": "SEO Troubleshooting Guide",
       "norm_label": "\"blocked by robots.txt\""
     },
     {
@@ -21987,8 +22053,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill",
-      "community": 152,
-      "community_name": "Canonicalization & i18n",
+      "community": 175,
+      "community_name": "Technical SEO Audit",
       "norm_label": "skill.md"
     },
     {
@@ -22053,8 +22119,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_technical_seo_audit",
-      "community": 175,
-      "community_name": "Technical SEO Audit",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "technical seo audit"
     },
     {
@@ -22064,8 +22130,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_crawlability",
-      "community": 175,
-      "community_name": "Technical SEO Audit",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "crawlability"
     },
     {
@@ -22075,8 +22141,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_indexation",
-      "community": 175,
-      "community_name": "Technical SEO Audit",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "indexation"
     },
     {
@@ -22086,8 +22152,8 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_site_speed_core_web_vitals",
-      "community": 175,
-      "community_name": "Technical SEO Audit",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "site speed & core web vitals"
     },
     {
@@ -22097,8 +22163,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_mobile_friendliness",
-      "community": 175,
-      "community_name": "Technical SEO Audit",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "mobile-friendliness"
     },
     {
@@ -22108,8 +22174,8 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_security_https",
-      "community": 175,
-      "community_name": "Technical SEO Audit",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "security & https"
     },
     {
@@ -22119,8 +22185,8 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_url_structure",
-      "community": 175,
-      "community_name": "Technical SEO Audit",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "url structure"
     },
     {
@@ -22130,8 +22196,8 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_international_seo_localization",
-      "community": 292,
-      "community_name": "International SEO & Localization",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "international seo & localization"
     },
     {
@@ -22141,8 +22207,8 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_hreflang",
-      "community": 292,
-      "community_name": "International SEO & Localization",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "hreflang"
     },
     {
@@ -22152,8 +22218,8 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_canonicalization_for_multilingual_sites",
-      "community": 292,
-      "community_name": "International SEO & Localization",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "canonicalization for multilingual sites"
     },
     {
@@ -22163,8 +22229,8 @@
       "source_location": "L189",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_international_sitemaps",
-      "community": 292,
-      "community_name": "International SEO & Localization",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "international sitemaps"
     },
     {
@@ -22174,8 +22240,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_locale_url_structure",
-      "community": 292,
-      "community_name": "International SEO & Localization",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "locale url structure"
     },
     {
@@ -22185,8 +22251,8 @@
       "source_location": "L211",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_content_quality_across_locales",
-      "community": 292,
-      "community_name": "International SEO & Localization",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "content quality across locales"
     },
     {
@@ -22196,8 +22262,8 @@
       "source_location": "L232",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_on_page_seo_audit",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "on-page seo audit"
     },
     {
@@ -22207,8 +22273,8 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_title_tags",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "title tags"
     },
     {
@@ -22218,8 +22284,8 @@
       "source_location": "L250",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_meta_descriptions",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "meta descriptions"
     },
     {
@@ -22229,8 +22295,8 @@
       "source_location": "L265",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_heading_structure",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "heading structure"
     },
     {
@@ -22240,8 +22306,8 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_content_optimization",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "content optimization"
     },
     {
@@ -22251,8 +22317,8 @@
       "source_location": "L295",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_image_optimization",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "image optimization"
     },
     {
@@ -22262,8 +22328,8 @@
       "source_location": "L306",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_internal_linking",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "internal linking"
     },
     {
@@ -22273,8 +22339,8 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_keyword_targeting",
-      "community": 160,
-      "community_name": "page.tsx",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "keyword targeting"
     },
     {
@@ -22328,8 +22394,8 @@
       "source_location": "L379",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_common_issues_by_site_type",
-      "community": 295,
-      "community_name": "usageSlice.ts",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "common issues by site type"
     },
     {
@@ -22339,8 +22405,8 @@
       "source_location": "L381",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_saas_product_sites",
-      "community": 295,
-      "community_name": "usageSlice.ts",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "saas/product sites"
     },
     {
@@ -22350,8 +22416,8 @@
       "source_location": "L388",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_e_commerce",
-      "community": 295,
-      "community_name": "usageSlice.ts",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "e-commerce"
     },
     {
@@ -22361,8 +22427,8 @@
       "source_location": "L395",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_content_blog_sites",
-      "community": 295,
-      "community_name": "usageSlice.ts",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "content/blog sites"
     },
     {
@@ -22372,8 +22438,8 @@
       "source_location": "L402",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_multilingual_multi_regional_sites",
-      "community": 295,
-      "community_name": "usageSlice.ts",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "multilingual / multi-regional sites"
     },
     {
@@ -22383,8 +22449,8 @@
       "source_location": "L412",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_skill_local_business",
-      "community": 295,
-      "community_name": "usageSlice.ts",
+      "community": 35,
+      "community_name": "SEO Audit",
       "norm_label": "local business"
     },
     {
@@ -22460,8 +22526,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection",
-      "community": 152,
-      "community_name": "Canonicalization & i18n",
+      "community": 175,
+      "community_name": "Technical SEO Audit",
       "norm_label": "ai-writing-detection.md"
     },
     {
@@ -22493,8 +22559,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_em_dashes_the_primary_ai_tell",
-      "community": 110,
-      "community_name": "AI Writing Detection",
+      "community": 281,
+      "community_name": "route.ts",
       "norm_label": "em dashes: the primary ai tell"
     },
     {
@@ -22504,8 +22570,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_why_em_dashes_signal_ai_writing",
-      "community": 110,
-      "community_name": "AI Writing Detection",
+      "community": 281,
+      "community_name": "route.ts",
       "norm_label": "why em dashes signal ai writing"
     },
     {
@@ -22515,8 +22581,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_what_to_do_instead",
-      "community": 110,
-      "community_name": "AI Writing Detection",
+      "community": 281,
+      "community_name": "route.ts",
       "norm_label": "what to do instead"
     },
     {
@@ -22526,8 +22592,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_ai_writing_detection_guidelines",
-      "community": 110,
-      "community_name": "AI Writing Detection",
+      "community": 281,
+      "community_name": "route.ts",
       "norm_label": "guidelines"
     },
     {
@@ -22658,8 +22724,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_international_seo",
-      "community": 152,
-      "community_name": "Canonicalization & i18n",
+      "community": 175,
+      "community_name": "Technical SEO Audit",
       "norm_label": "international-seo.md"
     },
     {
@@ -22669,8 +22735,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "kilo_skills_seo_audit_references_international_seo_international_seo_evidence_sources",
-      "community": 152,
-      "community_name": "Canonicalization & i18n",
+      "community": 175,
+      "community_name": "Technical SEO Audit",
       "norm_label": "international seo: evidence & sources"
     },
     {
@@ -36862,18 +36928,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_completeprofilemodal",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -37001,18 +37055,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_downloadstepsmodal",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/FeedbackModal.tsx",
@@ -37085,7 +37127,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L11",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37123,18 +37165,6 @@
       "_origin": "ast",
       "source": "components_freetrialmodal",
       "target": "components_freetrialmodal_freetrialmodalprops",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_freetrialmodal",
       "confidence_score": 1.0
     },
     {
@@ -37250,18 +37280,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_installdownloadbuttons",
-      "target": "components_googlesigninmodal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
       "target": "components_googlesigninmodal",
       "confidence_score": 1.0
     },
@@ -37410,7 +37428,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L14",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37422,7 +37440,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L14",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37433,7 +37451,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L116",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "components_landingclient_completeprofilemodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L130",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37444,7 +37473,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L50",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "components_landingclient_downloadstepsmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L64",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37455,7 +37495,29 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L61",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "components_landingclient_freetrialmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "components_landingclient_googlesigninmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L75",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37466,7 +37528,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L124",
+      "source_location": "L138",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37477,7 +37539,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L57",
+      "source_location": "L71",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37488,7 +37550,29 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L40",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "components_landingclient_liveguidemodedemo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_landingclient",
+      "target": "components_landingclient_newcustomerofferpopup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/LandingClient.tsx",
+      "source_location": "L54",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37499,7 +37583,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L76",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37510,7 +37594,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L31",
+      "source_location": "L45",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37522,31 +37606,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_liveguidemodedemo",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "components_landingclient",
-      "target": "components_newcustomerofferpopup",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/LandingClient.tsx",
-      "source_location": "L12",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37558,7 +37618,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L12",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37570,7 +37630,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L18",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37582,7 +37642,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L18",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37594,7 +37654,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L13",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37606,7 +37666,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L13",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient",
@@ -37618,7 +37678,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L834",
+      "source_location": "L848",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -37630,7 +37690,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L159",
+      "source_location": "L173",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -37643,7 +37703,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L152",
+      "source_location": "L166",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -37655,7 +37715,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/LandingClient.tsx",
-      "source_location": "L203",
+      "source_location": "L217",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_landingclient_landingclient",
@@ -61957,5 +62017,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b46a30147b6fa72103b90fd4d5383bb8d631380c"
+  "built_at_commit": "48320e2a2bfc112410299d384c518e62eb3f973e"
 }

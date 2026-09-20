@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1789894899.9904988,
-    "ast_hash": "ab0e378bc7c46260e65978119124c212",
+    "mtime": 1789902143.4627173,
+    "ast_hash": "4dc4d9d6c96e3cc70994b1447f1cc9e8",
     "semantic_hash": ""
   },
   "components/ReduxProvider.tsx": {
