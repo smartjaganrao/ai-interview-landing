@@ -303,7 +303,7 @@ export default function LandingClient(props: LandingClientProps) {
                       "Join Candidates on WhatsApp" section further down —
                       not a new/invented link. */}
                   <a
-                    href="https://chat.whatsapp.com/JdfkOG55dqEHlWNvEXkFh0?s=sw&p=a&ilr=4"
+                    href="https://chat.whatsapp.com/CrcPkUc3uceAyKJgGV30FV?s=cl&p=a&mlu=4&ilr=4"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-secondary text-sm px-6 py-3 flex items-center justify-center gap-1.5"
@@ -378,7 +378,7 @@ export default function LandingClient(props: LandingClientProps) {
                     {[
                       { num: '2,400+', label: 'Candidates Helped', note: true },
                       { num: '<2s', label: 'AI Answer Speed' },
-                      { num: '~4×', label: 'Cheaper than FR AI' },
+                      { num: '~7×', label: 'Cheaper than FR AI' },
                       { num: '100%', label: 'Invisible on Screen' },
                       { num: '10+', label: 'Indian Languages' },
                       // Linked to #reviews — a rating is a claim; a click-through
@@ -834,7 +834,7 @@ export default function LandingClient(props: LandingClientProps) {
               <h2 className="section-heading mb-4">
                 JavihAI vs <span className="text-gradient">Every Other Tool</span>
               </h2>
-              <p className="hl-text-secondary">India&apos;s first unlimited AI interview plan — priced for India, ~4× cheaper than the rest.</p>
+              <p className="hl-text-secondary">India&apos;s first unlimited AI interview plan — priced for India, ~7× cheaper than the rest.</p>
             </div>
 
             <div className="glass-card overflow-hidden">
@@ -845,29 +845,29 @@ export default function LandingClient(props: LandingClientProps) {
                       <th className="text-left px-5 py-4 hl-text-secondary font-semibold w-44">Feature</th>
                       <th className="px-4 py-4 text-center">
                         <div className="hl-heading font-bold text-base">JavihAI</div>
-                        <div className="text-blue-600 text-xs font-semibold mt-0.5">₹{effectivePrice(pricing.plans.pro.oneTime, pricing.offer, 'pro')}</div>
+                        <div className="text-blue-600 text-xs font-semibold mt-0.5">₹{effectivePrice(pricing.plans.power.monthly, pricing.offer, 'power')}/mo</div>
                       </th>
                       <th className="px-4 py-4 text-center">
                         <div className="hl-text-secondary font-semibold">Final Round AI</div>
-                        <div className="hl-text-muted text-xs mt-0.5">₹7,695/mo</div>
+                        <div className="hl-text-muted text-xs mt-0.5">₹14,250/mo</div>
                       </th>
                       <th className="px-4 py-4 text-center">
                         <div className="hl-text-secondary font-semibold">Cluely</div>
-                        <div className="hl-text-muted text-xs mt-0.5">~₹7,125/mo</div>
+                        <div className="hl-text-muted text-xs mt-0.5">~₹14,250/mo</div>
                       </th>
                       <th className="px-4 py-4 text-center">
-                        <div className="hl-text-secondary font-semibold">OphyAI</div>
-                        <div className="hl-text-muted text-xs mt-0.5">₹817/mo</div>
+                        <div className="hl-text-secondary font-semibold">Interview Coder</div>
+                        <div className="hl-text-muted text-xs mt-0.5">~₹28,400/mo</div>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {[
-                      ['Desktop app (true stealth)', '✅', '⚠️ Web', '✅', '⚠️ Web'],
+                      ['Desktop app (true stealth)', '✅', '⚠️ Web', '✅', '✅'],
                       ['System audio capture', '✅', '❌', '✅', '❌'],
-                      ['Indian languages (10+)', '✅', '❌', '❌', '⚠️ 2'],
+                      ['Indian languages (10+)', '✅', '❌', '❌', '❌'],
                       ['₹ LPA salary & notice norms', '✅', '❌', '❌', '❌'],
-                      ['Free plan (no time limit)', '✅', '❌', '❌', '⚠️ Trial'],
+                      ['Free plan (no time limit)', '✅', '❌', '❌', '❌'],
                     ].map(([feature, ...vals], i) => (
                       <tr key={i} className={`border-b border-[rgba(26,21,18,0.06)] ${i % 2 === 0 ? 'bg-[rgba(26,21,18,0.02)]' : ''}`}>
                         <td className="px-5 py-3.5 hl-text-secondary font-medium">{feature}</td>
@@ -1009,7 +1009,7 @@ export default function LandingClient(props: LandingClientProps) {
               Join the <span className="text-gradient">JavihAI Community</span>
             </h2>
             <p className="hl-text-secondary max-w-xl mx-auto mb-10">
-              Daily interview tips, coding round solutions, salary negotiation advice, and real candidate success stories.
+              Daily job postings, interview tips, coding round solutions, salary negotiation advice, and real candidate success stories.
             </p>
 
             {/* WhatsApp CTA */}
@@ -1019,10 +1019,10 @@ export default function LandingClient(props: LandingClientProps) {
                 Join Candidates on WhatsApp
               </h3>
               <p className="hl-text-secondary text-lg mb-6 max-w-lg mx-auto">
-                Daily interview tips, success stories, and exclusive strategies from candidates who&apos;ve cracked FAANG and India&apos;s top companies.
+                Daily job postings, interview tips, and exclusive strategies from candidates who&apos;ve cracked FAANG and India&apos;s top companies.
               </p>
               <a
-                href="https://chat.whatsapp.com/JdfkOG55dqEHlWNvEXkFh0?s=sw&p=a&ilr=4"
+                href="https://chat.whatsapp.com/CrcPkUc3uceAyKJgGV30FV?s=cl&p=a&mlu=4&ilr=4"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 transition-all shadow-md"
