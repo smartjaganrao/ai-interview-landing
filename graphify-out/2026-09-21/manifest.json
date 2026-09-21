@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "components/CompleteProfileModal.tsx": {
-    "mtime": 1789994162.6645439,
-    "ast_hash": "5c9c303f508f7da715fea4e8025491fc",
+    "mtime": 1789376636.105704,
+    "ast_hash": "eb0e403af18347041501b0f494319df4",
     "semantic_hash": ""
   },
   "components/Footer.tsx": {
@@ -325,8 +325,8 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1789904405.0882473,
-    "ast_hash": "abd525ff6a1943aa2d34691a19f98e50",
+    "mtime": 1789895779.9566505,
+    "ast_hash": "27033eb4fbe81a83ab662bbd0158b98e",
     "semantic_hash": ""
   },
   "components/WhatsAppButton.tsx": {
@@ -335,8 +335,8 @@
     "semantic_hash": ""
   },
   "hooks/useAuth.ts": {
-    "mtime": 1789903994.439629,
-    "ast_hash": "02bdd6ccd61b2ac77cb872ec2d4c12d9",
+    "mtime": 1788510007.2700863,
+    "ast_hash": "e7be8be1994a3909b4bfcaef813099ab",
     "semantic_hash": ""
   },
   "lib/auth.ts": {
@@ -365,8 +365,8 @@
     "semantic_hash": "1f0aa0fd99ab287dd76adfa4f6cd5641"
   },
   "lib/github-release.ts": {
-    "mtime": 1789977552.4964807,
-    "ast_hash": "11948bbe1eb32e7b2392c22f3222cd9b",
+    "mtime": 1789819531.6093562,
+    "ast_hash": "3ef49ddadf429e8c3b3a920dd89c72be",
     "semantic_hash": ""
   },
   "lib/razorpay-server.ts": {
@@ -1480,8 +1480,8 @@
     "semantic_hash": ""
   },
   "hooks/useGatedDownload.ts": {
-    "mtime": 1789904012.8988743,
-    "ast_hash": "43c5d7bef24d6691bb3011e2a73177f1",
+    "mtime": 1789876325.1566854,
+    "ast_hash": "3cc31bcf0be18dedb690e8b9c319ae3b",
     "semantic_hash": ""
   },
   "public/llms.txt": {

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const ROWS = [
-  { feature: 'Free plan',                   javihai: '✅ 25 answers/day forever',        lockedin: '⚠️ Free trial — 10 credits' },
+  { feature: 'Free plan',                   javihai: '✅ 3 answers/day forever',         lockedin: '⚠️ Free trial — 10 credits' },
   { feature: 'Unlimited Pro (monthly)',     javihai: '✅ ₹2,000/month',                   lockedin: '❌ ~$49.99/month (~₹4,749)' },
   { feature: 'Pricing model',                javihai: '✅ Simple flat plans',              lockedin: '⚠️ Credits or unlimited — can get confusing' },
   { feature: 'Built for Indian interviews',  javihai: '✅ Yes — ₹ CTC, Indian companies',   lockedin: '❌ No India-specific focus' },

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const ROWS = [
-  { feature: 'Free plan',              javihai: '✅ 25 answers/day forever',      chiku: '⚠️ 10-min trial only' },
+  { feature: 'Free plan',              javihai: '✅ 3 answers/day forever',       chiku: '⚠️ 10-min trial only' },
   { feature: 'Entry paid price',       javihai: '✅ ₹250 (24-hour pass)',          chiku: '❌ ₹1,199 (3 interviews only)' },
   { feature: 'Unlimited plan',         javihai: '✅ ₹2,000/month',                chiku: '❌ ₹3,499/month' },
   { feature: 'Desi Mode',             javihai: '✅ Yes — toggle in profile',      chiku: '✅ Yes' },
@@ -92,7 +92,7 @@ export default function ChikuAIComparePage() {
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
             { icon: '💰', title: '~1.8× Cheaper', body: 'JavihAI Power at ₹2,000/mo vs Chiku AI unlimited at ₹3,499/mo — save ~₹18,000/year, same real-time AI.' },
-            { icon: '🆓', title: 'Real Free Plan', body: 'Up to 25 AI answers every single day, forever. Chiku AI\'s free tier is a 10-minute one-time trial.' },
+            { icon: '🆓', title: 'Real Free Plan', body: 'Up to 3 AI answers every single day, forever. Chiku AI\'s free tier is a 10-minute one-time trial.' },
             { icon: '🎯', title: 'Mock Interview', body: 'Practice with a full AI-powered mock interview — pick role, get asked real questions, get scored instantly.' },
           ].map((c, i) => (
             <div key={i} className="card text-center">

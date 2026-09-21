@@ -203,7 +203,7 @@ function SignupContent() {
 
           <div className="space-y-5">
             {[
-              { icon: '🎯', title: 'Free Forever Plan', desc: '25 free answers/day — 5 screenshot, 10 listen, 10 typed. No credit card required.' },
+              { icon: '🎯', title: 'Free Forever Plan', desc: '3 free answers/day — 1 screenshot, 1 listen, 1 typed. No credit card required.' },
               { icon: '🚀', title: 'Setup in 30 Seconds', desc: 'Sign up with Google, download app, start practicing' },
               { icon: '🔒', title: 'Private & Secure', desc: 'Your data is encrypted end-to-end' },
             ].map((item, i) => (

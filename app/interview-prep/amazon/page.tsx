@@ -42,7 +42,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is JavihAI free to use for Amazon interview prep?',
-    a: 'Yes. JavihAI has a permanent free plan with up to 25 AI answers per day — no credit card required. Paid plans unlock unlimited answers.',
+    a: 'Yes. JavihAI has a permanent free plan with up to 3 AI answers per day — no credit card required. Paid plans unlock unlimited answers.',
   },
 ];
 

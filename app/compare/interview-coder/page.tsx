@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const ROWS = [
-  { feature: 'Free plan',                  javihai: '✅ 25 answers/day forever',     ic: '❌ No meaningful free trial' },
+  { feature: 'Free plan',                  javihai: '✅ 3 answers/day forever',      ic: '❌ No meaningful free trial' },
   { feature: 'Entry price',                javihai: '✅ ₹250 (24-hour pass)',          ic: '❌ $299/month (~₹28,400)' },
   { feature: 'Multi-day unlimited pass',   javihai: '✅ ₹1,000 (Pro — 7 days unlimited)', ic: '⚠️ $799 one-time (~₹76,000, lifetime)' },
   { feature: 'Coding round help',          javihai: '✅ Screenshot analysis',         ic: '✅ Yes — its core focus' },
@@ -111,7 +111,7 @@ export default function InterviewCoderComparePage() {
         {/* CTA */}
         <div className="text-center card bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-indigo-500/30">
           <h2 className="text-3xl font-black mb-4">Try JavihAI free — no credit card needed</h2>
-          <p className="text-[#57534E] mb-6">Up to 25 AI answers every day, forever. Upgrade to Power anytime for ₹2,000/month.</p>
+          <p className="text-[#57534E] mb-6">Up to 3 AI answers every day, forever. Upgrade to Power anytime for ₹2,000/month.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/signup" className="btn btn-primary btn-lg">Get Started Free →</Link>
             <Link href="/pricing" className="btn btn-secondary btn-lg">See Pricing</Link>

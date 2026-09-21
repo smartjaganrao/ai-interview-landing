@@ -704,7 +704,7 @@ export default function LandingClient(props: LandingClientProps) {
                   num: '01',
                   icon: '📝',
                   title: 'Create Free Account',
-                  desc: 'Sign up in 30 seconds with Google — no credit card required. Get 25 AI answers every single day, free forever.',
+                  desc: 'Sign up in 30 seconds with Google — no credit card required. Get 3 AI answers every single day, free forever.',
                   color: 'from-blue-500 to-indigo-500',
                 },
                 {
