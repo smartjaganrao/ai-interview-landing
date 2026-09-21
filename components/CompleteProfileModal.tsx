@@ -177,8 +177,44 @@ export default function CompleteProfileModal({ user, onDone, initial }: Props) {
       // anything in production). The owner also gets this same info by
       // email regardless, via sendProfileCompletedAlert in
       // /api/notifications/profile-completed.
+      // Doubles as the new customer's own welcome message: since a wa.me
+      // link always sends FROM the visitor's WhatsApp TO the support
+      // number, pressing Send also leaves this message — with the
+      // website/install/pricing links — sitting in their own chat history
+      // for later, not just in the support inbox. WhatsApp has no HTML
+      // rendering — *text* is its own bold markup, and the emoji prefixes
+      // give the line-up a consistent left edge since WhatsApp has no
+      // real tab/table alignment either.
       const waLink = buildWhatsAppLink(
-        `Hi! I just signed up for JavihAI — ${fullName.trim()} (${user.email ?? ''}), ${jobRole.trim()} in ${city.trim()}.`
+        `*Welcome to JavihAI!* 🎉\n\n` +
+        `Just signed up:\n` +
+        `👤 ${fullName.trim()}\n` +
+        `📧 ${user.email ?? ''}\n` +
+        `💼 ${jobRole.trim()} — ${city.trim()}\n\n` +
+        `*Quick-start links:*\n` +
+        `🌐 Website: https://javihai.in\n` +
+        `💻 Install: https://javihai.in/install\n` +
+        `💳 Pricing: https://javihai.in/pricing\n` +
+        `📊 Dashboard: https://javihai.in/dashboard\n\n` +
+        `*Video guides:*\n` +
+        `🚀 Full product tutorial: https://www.youtube.com/watch?v=QeZDYWtKnsY\n` +
+        `🪟 Windows install: https://www.youtube.com/watch?v=uEDFnlf1hiw\n` +
+        `🍎 Mac install: https://www.youtube.com/watch?v=LvCAOrlH8zs\n` +
+        `▶️ All videos (YouTube channel): https://www.youtube.com/channel/UCWAJd9eDBp9foxfxroxQukA\n\n` +
+        `*Your free plan includes (daily):*\n` +
+        `📸 5 screenshot solves\n` +
+        `🔊 10 system-audio (Listen) answers\n` +
+        `🎙️ 10 mic/typed answers\n\n` +
+        `*Getting started:*\n` +
+        `⌨️ Show/Hide app: Alt+H (Win) / ⌥H (Mac)\n` +
+        `📋 Copy last answer: Alt+C (Win) / ⌥C (Mac)\n` +
+        `⚠️ Security warning on install? Windows: click "More info" → "Run anyway". Mac: right-click the app → Open → Open. This is normal for new apps — JavihAI is safe.\n` +
+        `❓ More questions: https://javihai.in/#faq\n\n` +
+        `*Stay in touch:*\n` +
+        `𝕏 Twitter/X: https://x.com/Javih_ai\n` +
+        `💼 LinkedIn: https://www.linkedin.com/in/javih-ai/\n` +
+        `📸 Instagram: https://www.instagram.com/javih.ai/\n` +
+        `✉️ Support email: javihaiofficial@gmail.com`
       );
       if (waLink) {
         if (waTab) waTab.location.href = waLink;
