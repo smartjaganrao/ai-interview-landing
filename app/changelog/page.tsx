@@ -4,7 +4,9 @@ import { getAllReleases } from '@/lib/github-release';
 
 export const metadata = {
   title: { absolute: 'Changelog — JavihAI' },
-  description: "What's new in each JavihAI desktop release.",
+  description: "See what's new in every JavihAI desktop release — new features, fixes, and updates for the AI interview copilot app.",
+  keywords: ['JavihAI changelog', 'JavihAI updates', 'JavihAI release notes', 'JavihAI new features'],
+  alternates: { canonical: 'https://javihai.in/changelog' },
 };
 
 function formatDate(iso: string | null): string {

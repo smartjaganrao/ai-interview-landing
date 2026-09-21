@@ -5,8 +5,14 @@ import BrowserKeepFileGraphic from '@/components/BrowserKeepFileGraphic';
 import { getLatestRelease } from '@/lib/github-release';
 
 export const metadata = {
-  title: { absolute: 'Installation Guide — JavihAI' },
-  description: 'Step-by-step instructions to download, install, and set up the JavihAI desktop app on Windows and macOS.',
+  title: { absolute: 'Download JavihAI — Install Guide for Windows & Mac' },
+  description: 'Download and install JavihAI, the invisible AI interview copilot, on Windows or macOS. Step-by-step setup guide with video walkthroughs — free plan included, no credit card required.',
+  keywords: [
+    'download JavihAI', 'install AI interview assistant', 'JavihAI Windows download',
+    'JavihAI Mac download', 'AI interview copilot setup guide', 'JavihAI installation guide',
+    'how to install JavihAI',
+  ],
+  alternates: { canonical: 'https://javihai.in/install' },
 };
 
 // Re-fetched from GitHub at most every 10 minutes (see lib/github-release.ts)

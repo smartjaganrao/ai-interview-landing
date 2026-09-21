@@ -28,6 +28,10 @@ export const metadata = {
   title: { absolute: 'About JavihAI — India\'s First Unlimited AI Interview Copilot' },
   description:
     'JavihAI is built by Indian engineers for Indian candidates. Learn why 2,400+ candidates trust JavihAI for Zoom, Meet & Teams interviews. Free forever plan available.',
+  keywords: [
+    'about JavihAI', 'JavihAI company', 'AI interview copilot India', 'who made JavihAI',
+    'JavihAI founders', 'AI interview assistant company India',
+  ],
   alternates: { canonical: 'https://javihai.in/about' },
 };
 
