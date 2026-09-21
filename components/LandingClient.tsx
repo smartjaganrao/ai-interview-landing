@@ -268,11 +268,11 @@ export default function LandingClient(props: LandingClientProps) {
                 </div>
 
                 <h1 className="hl-heading text-4xl tablet:text-5xl laptop-sm:text-5xl laptop-lg:text-6xl font-black tracking-tight mb-5 animate-fade-in-up leading-tight" style={{ animationDelay: '0.1s' }}>
-                  Walk Into Any Interview with India&apos;s 1st <span className="text-gradient animate-gradient">Unlimited AI Copilot</span>
+                  Ace Your Next Interview <span className="text-gradient animate-gradient">With AI</span>
                 </h1>
 
                 <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-lg mb-6 max-w-2xl mx-auto laptop-sm:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                  Hears your interview questions and streams structured AI answers in under 2 seconds — completely invisible on screen share, unlimited on the Power plan, and free forever for freshers.
+                  Real-time AI answers while you interview — 100% invisible on screen share. Free forever to start, no credit card needed.
                 </p>
 
                 {/* Compact version of 4 of the 6 "What It Does" cards below
@@ -665,6 +665,16 @@ export default function LandingClient(props: LandingClientProps) {
                   icon: '🚫',
                   title: 'Never sold, never used to train AI',
                   desc: "We don't sell your data, and we don't use it to train third-party AI models. Full policy is public — nothing hidden in fine print.",
+                },
+                {
+                  icon: '💳',
+                  title: 'Secure payments',
+                  desc: 'Billing runs through Razorpay, a PCI-DSS compliant processor — we never see your full card number.',
+                },
+                {
+                  icon: '🗑️',
+                  title: 'Delete anytime',
+                  desc: 'Email us from your account address and we\'ll close your account and erase your data within 30 days.',
                 },
               ].map((item) => (
                 <div key={item.title} className="card p-6 sm:p-8 text-center">
