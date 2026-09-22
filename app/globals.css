@@ -992,3 +992,363 @@ input[type=number]::-webkit-outer-spin-button {
   background: none;
   color: #E5E1DC;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SITE-WIDE HUD THEME (scoped, additive-only)
+   ────────────────────────────────────────────────────────────────
+   A dark sci-fi "holographic HUD" look — cyan/amber glow, scanline
+   texture, panel-corner brackets. Applied via `.home-hud`, added by
+   ThemeScope.tsx alongside `.home-light` on every page except
+   /checkout and /dashboard (those two keep the app's plain dark
+   theme). Every selector below mirrors a `.home-light` selector
+   above at equal specificity (one class + one class) and wins the
+   cascade tie by being declared later in this file — nothing above
+   this block is touched, so if `.home-hud` were ever removed from a
+   page, `.home-light` would still render it exactly as before.
+   Deliberately generic sci-fi HUD styling — no third-party character
+   names, logos, or imagery; JavihAI-branded only.
+
+   RETHEMING: every color below is a `var(--hud-*)` token declared
+   once on `.home-hud` itself. To restyle the whole site (swap the
+   accent color, lighten the surfaces, etc.), change the token values
+   in that one block — nothing else in this file needs to change.
+   The three `-rgb` tokens hold bare "r, g, b" triplets (no `rgb()`
+   wrapper) specifically so call sites can wrap them in `rgba(var(--x-
+   rgb), <alpha>)` and vary opacity per use; the plain tokens are
+   ready-to-use `color:` values.
+   ════════════════════════════════════════════════════════════════ */
+
+.home-hud {
+  /* ── Retheme here ── */
+  --hud-bg: #05070C;                  /* page background base */
+  --hud-alt-rgb: 4, 9, 18;            /* .section-alt stripe */
+  --hud-surface-rgb: 8, 14, 24;       /* card/glass/input/badge fill */
+  --hud-surface-hover-rgb: 10, 18, 30; /* card/glass hover fill */
+  --hud-surface-heavy-rgb: 6, 11, 20; /* glass-heavy, denser */
+  --hud-accent-rgb: 34, 211, 238;     /* primary cyan glow/border */
+  --hud-accent2-rgb: 255, 176, 32;    /* secondary amber glow */
+  --hud-bloom-rgb: 139, 43, 226;      /* purple background bloom only */
+  --hud-text: #EAF6FF;                /* primary text/headings */
+  --hud-text-secondary: #8FA8C2;
+  --hud-text-muted: #5D7690;
+  --hud-text-accent: #67E8F9;         /* links, label/badge text */
+  --hud-text-accent-hover: #00BFFF;
+  --hud-text-on-btn: #CFF4FF;         /* text on .btn-secondary */
+  --hud-code-text: #CFE9F5;           /* blog-content pre code */
+  --hud-success: #4ADE80;             /* was light-theme's #15803D */
+  --hud-warning: #FBBF24;             /* was light-theme's #92650C */
+
+  position: relative;
+  background:
+    radial-gradient(at 15% 0%, rgba(var(--hud-accent-rgb), 0.10) 0px, transparent 55%),
+    radial-gradient(at 100% 0%, rgba(var(--hud-accent2-rgb), 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(var(--hud-accent-rgb), 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(var(--hud-bloom-rgb), 0.06) 0px, transparent 50%),
+    var(--hud-bg);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--hud-text);
+}
+
+/* Faint HUD scanline texture over the whole page — decorative only,
+   `pointer-events: none` so it never intercepts clicks/taps. */
+.home-hud::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(var(--hud-accent-rgb), 0.035) 0px,
+    rgba(var(--hud-accent-rgb), 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* 3D perspective grid floor — a fixed HUD-style horizon grid, tilted
+   into depth with `perspective`/`rotateX` and faded out near the top
+   via a mask so it reads as a receding floor rather than a flat
+   pattern. Generic sci-fi HUD trope, not tied to any franchise.
+   `pointer-events: none` + low opacity throughout so it never
+   interferes with reading content or clicking through it.
+   Deliberately static (no drift animation): animating
+   `background-position` on this element while `mask-image` and the
+   `perspective`/`rotateX` transform are both active caused the whole
+   element to intermittently paint solid black — a real compositor
+   bug reproduced in the actual browser, not a tooling artifact.
+   Confirmed by toggling the animation off in devtools: static is
+   stable, animated is not. If motion is wanted again later, animate
+   `transform` (e.g. an extra `translateY`) instead of
+   `background-position` and re-verify across scroll positions before
+   shipping — don't just re-add the same animation. */
+.home-hud::after {
+  content: '';
+  position: fixed;
+  left: -50%;
+  right: -50%;
+  bottom: 0;
+  height: 55vh;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--hud-accent-rgb), 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--hud-accent-rgb), 0.55) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(500px) rotateX(75deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 90%);
+}
+
+.home-hud > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hud .section-alt {
+  background: rgba(var(--hud-alt-rgb), 0.55);
+}
+
+.home-hud .hl-heading,
+.home-hud .hl-text {
+  color: var(--hud-text);
+}
+
+.home-hud .hl-text-secondary {
+  color: var(--hud-text-secondary);
+}
+
+.home-hud .hl-text-muted {
+  color: var(--hud-text-muted);
+}
+
+.home-hud .section-heading {
+  color: var(--hud-text);
+  text-shadow: 0 0 24px rgba(var(--hud-accent-rgb), 0.18);
+}
+
+.home-hud .section-subheading {
+  color: var(--hud-text-secondary);
+}
+
+.home-hud .section-label {
+  background: rgba(var(--hud-accent-rgb), 0.08);
+  border-color: rgba(var(--hud-accent-rgb), 0.3);
+  color: var(--hud-text-accent);
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  box-shadow: 0 0 16px rgba(var(--hud-accent-rgb), 0.12);
+}
+
+.home-hud .badge {
+  background: rgba(var(--hud-accent-rgb), 0.08);
+  border-color: rgba(var(--hud-accent-rgb), 0.3);
+  color: var(--hud-text-accent);
+}
+
+.home-hud .badge-glow {
+  background: rgba(var(--hud-accent-rgb), 0.08);
+  border-color: rgba(var(--hud-accent-rgb), 0.35);
+  color: var(--hud-text-accent);
+  box-shadow: 0 0 24px rgba(var(--hud-accent-rgb), 0.2);
+}
+
+.home-hud .glass {
+  background: rgba(var(--hud-surface-rgb), 0.55);
+  border-color: rgba(var(--hud-accent-rgb), 0.14);
+}
+
+.home-hud .glass-heavy {
+  background: rgba(var(--hud-surface-heavy-rgb), 0.8);
+  border-color: rgba(var(--hud-accent-rgb), 0.14);
+}
+
+.home-hud .glass-card {
+  background: rgba(var(--hud-surface-rgb), 0.65);
+  border-color: rgba(var(--hud-accent-rgb), 0.16);
+  position: relative;
+}
+
+.home-hud .glass-card:hover {
+  border-color: rgba(var(--hud-accent-rgb), 0.5);
+  background: rgba(var(--hud-surface-hover-rgb), 0.85);
+  box-shadow: 0 20px 50px -20px rgba(var(--hud-accent-rgb), 0.25), 0 0 0 1px rgba(var(--hud-accent-rgb), 0.2) inset;
+}
+
+.home-hud .card {
+  background: rgba(var(--hud-surface-rgb), 0.6);
+  border-color: rgba(var(--hud-accent-rgb), 0.14);
+  position: relative;
+}
+
+.home-hud .card:hover {
+  border-color: rgba(var(--hud-accent-rgb), 0.45);
+  background: rgba(var(--hud-surface-hover-rgb), 0.75);
+  box-shadow: 0 20px 45px -20px rgba(var(--hud-accent-rgb), 0.25);
+}
+
+/* Corner-bracket accents on hover — a generic sci-fi HUD-panel motif
+   (targeting-reticle corners), not tied to any franchise. */
+.home-hud .card::after,
+.home-hud .glass-card::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid rgba(var(--hud-accent-rgb), 0.55);
+  border-left: 2px solid rgba(var(--hud-accent-rgb), 0.55);
+  border-radius: 3px 0 0 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.home-hud .card:hover::after,
+.home-hud .glass-card:hover::after {
+  opacity: 1;
+}
+
+.home-hud .btn-secondary {
+  background: rgba(var(--hud-accent-rgb), 0.06);
+  color: var(--hud-text-on-btn);
+  border-color: rgba(var(--hud-accent-rgb), 0.25);
+}
+
+.home-hud .btn-secondary:hover {
+  background: rgba(var(--hud-accent-rgb), 0.14);
+  border-color: rgba(var(--hud-accent-rgb), 0.45);
+}
+
+.home-hud .btn-ghost {
+  color: var(--hud-text-secondary);
+}
+
+.home-hud .btn-ghost:hover {
+  color: var(--hud-text);
+  background: rgba(var(--hud-accent-rgb), 0.08);
+}
+
+.home-hud .input {
+  background: rgba(var(--hud-surface-heavy-rgb), 0.8);
+  border-color: rgba(var(--hud-accent-rgb), 0.2);
+  color: var(--hud-text);
+}
+
+.home-hud .input::placeholder {
+  color: var(--hud-text-muted);
+}
+
+.home-hud .testimonial-avatar {
+  background: linear-gradient(135deg, rgba(var(--hud-accent-rgb), 0.18), rgba(var(--hud-accent2-rgb), 0.14));
+  border-color: rgba(var(--hud-accent-rgb), 0.3);
+}
+
+/* ── Site-wide literal-color catch-all ───────────────────────────
+   `.home-hud` is applied to every `.home-light` page (see
+   ThemeScope.tsx), but most of those pages were built hardcoding the
+   light theme's raw hex/rgba values directly (they predate the
+   `hl-*` semantic classes LandingClient.tsx uses), so the class-based
+   overrides above don't reach them. Rather than editing ~700
+   occurrences across 30+ page/component files individually, these
+   attribute-substring selectors retarget the literal Tailwind
+   arbitrary-value classes directly wherever they appear — `[class*=]`
+   matches the literal substring in the compiled `class` attribute, so
+   it needs no bracket/hash/paren escaping and doesn't depend on
+   Tailwind's exact generated selector syntax. Intentionally excludes
+   bg-white/*, border-white/*, text-white/* — those are already
+   dark-native (e.g. FreeTrialModal's `bg-slate-900 border-white/10`),
+   not light-theme-specific, so overriding them would break already-
+   correct dark UI. Every color here is a `var(--hud-*)` token too, so
+   a retheme still only touches the block above. */
+.home-hud [class*="text-[#1A1512]"] { color: var(--hud-text); }
+.home-hud [class*="text-[#57534E]"] { color: var(--hud-text-secondary); }
+.home-hud [class*="text-[#78716C]"] { color: var(--hud-text-muted); }
+.home-hud [class*="text-[#15803D]"] { color: var(--hud-success); }
+.home-hud [class*="text-[#92650C]"] { color: var(--hud-warning); }
+.home-hud [class*="text-[#0B63C7]"] { color: var(--hud-text-accent); }
+.home-hud [class*="hover:text-[#1A1512]"]:hover { color: var(--hud-text); }
+.home-hud [class*="hover:text-[#1E90FF]"]:hover { color: var(--hud-text-accent); }
+
+.home-hud [class*="border-[rgba(26,21,18,0.03)]"] { border-color: rgba(var(--hud-accent-rgb), 0.05); }
+.home-hud [class*="border-[rgba(26,21,18,0.04)]"] { border-color: rgba(var(--hud-accent-rgb), 0.06); }
+.home-hud [class*="border-[rgba(26,21,18,0.05)]"] { border-color: rgba(var(--hud-accent-rgb), 0.08); }
+.home-hud [class*="border-[rgba(26,21,18,0.06)]"] { border-color: rgba(var(--hud-accent-rgb), 0.10); }
+.home-hud [class*="border-[rgba(26,21,18,0.08)]"] { border-color: rgba(var(--hud-accent-rgb), 0.14); }
+.home-hud [class*="border-[rgba(26,21,18,0.1)]"]  { border-color: rgba(var(--hud-accent-rgb), 0.16); }
+.home-hud [class*="border-[rgba(26,21,18,0.12)]"] { border-color: rgba(var(--hud-accent-rgb), 0.18); }
+.home-hud [class*="border-[rgba(26,21,18,0.15)]"] { border-color: rgba(var(--hud-accent-rgb), 0.22); }
+.home-hud [class*="border-[rgba(26,21,18,0.2)]"]  { border-color: rgba(var(--hud-accent-rgb), 0.28); }
+.home-hud [class*="border-[rgba(26,21,18,0.3)]"]  { border-color: rgba(var(--hud-accent-rgb), 0.4); }
+
+.home-hud [class*="bg-[rgba(26,21,18,0.03)]"] { background-color: rgba(var(--hud-accent-rgb), 0.05); }
+.home-hud [class*="bg-[rgba(26,21,18,0.04)]"] { background-color: rgba(var(--hud-accent-rgb), 0.06); }
+.home-hud [class*="bg-[rgba(26,21,18,0.05)]"] { background-color: rgba(var(--hud-accent-rgb), 0.08); }
+.home-hud [class*="bg-[rgba(26,21,18,0.06)]"] { background-color: rgba(var(--hud-accent-rgb), 0.10); }
+.home-hud [class*="bg-[rgba(26,21,18,0.08)]"] { background-color: rgba(var(--hud-accent-rgb), 0.14); }
+.home-hud [class*="bg-[rgba(26,21,18,0.1)]"]  { background-color: rgba(var(--hud-accent-rgb), 0.16); }
+
+/* Border-color-matches-page-background ring (auth/signup's stacked
+   avatar list) — was #F5EDE4 to match `.home-light`'s cream bg. */
+.home-hud [class*="border-[#F5EDE4]"] { border-color: var(--hud-bg); }
+
+/* Legal/prose pages (terms, privacy, refund) and blog posts — mirrors
+   `.home-light .prose-content` / `.blog-content` above, same reused-
+   class scoping rationale (see that block's own comment). */
+.home-hud .prose-content {
+  color: var(--hud-text-secondary);
+}
+
+.home-hud .prose-content h2,
+.home-hud .prose-content strong {
+  color: var(--hud-text);
+}
+
+.home-hud .prose-content a {
+  color: var(--hud-text-accent);
+}
+
+.home-hud .prose-content a:hover {
+  color: var(--hud-text-accent-hover);
+}
+
+.home-hud .blog-content {
+  color: var(--hud-text-secondary);
+}
+
+.home-hud .blog-content h2,
+.home-hud .blog-content h3,
+.home-hud .blog-content strong {
+  color: var(--hud-text);
+}
+
+.home-hud .blog-content a {
+  color: var(--hud-text-accent);
+}
+
+.home-hud .blog-content a:hover {
+  color: var(--hud-text-accent-hover);
+}
+
+.home-hud .blog-content blockquote {
+  color: var(--hud-text-secondary);
+}
+
+.home-hud .blog-content code {
+  background: rgba(var(--hud-accent-rgb), 0.1);
+  color: var(--hud-text-accent);
+}
+
+.home-hud .blog-content pre {
+  background: rgba(var(--hud-alt-rgb), 0.85);
+}
+
+.home-hud .blog-content pre code {
+  background: none;
+  color: var(--hud-code-text);
+}

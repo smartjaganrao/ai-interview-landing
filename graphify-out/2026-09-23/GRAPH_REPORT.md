@@ -1,7 +1,7 @@
 # Graph Report - ai-interview-landing  (2026-09-23)
 
 ## Corpus Check
-- 313 files · ~235,782 words
+- 313 files · ~235,703 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -173,7 +173,6 @@
 - page.tsx
 - page.tsx
 - page.tsx
-- groq-sdk
 - page.tsx
 - Building ai-interview-helper locally
 - Security Scanning
@@ -316,6 +315,7 @@
 - code-reviewer.md
 - Em Dashes: The Primary AI Tell
 - ThemeScope.tsx
+- react
 - page.tsx
 - page.tsx
 
@@ -374,7 +374,7 @@ Nodes (9): BLANK, Education, Experience, Project, ResumeClient(), ResumeData, Re
 
 ### Community 6 - "dependencies"
 Cohesion: 0.10
-Nodes (21): clsx, firebase-admin, next, dependencies, clsx, firebase-admin, next, razorpay (+13 more)
+Nodes (21): clsx, firebase-admin, groq-sdk, next, dependencies, clsx, firebase-admin, groq-sdk (+13 more)
 
 ### Community 7 - "layout.tsx"
 Cohesion: 0.16
