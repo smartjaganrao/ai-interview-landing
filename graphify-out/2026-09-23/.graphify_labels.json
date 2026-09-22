@@ -161,7 +161,6 @@
   "159": "page.tsx",
   "160": "page.tsx",
   "161": "page.tsx",
-  "162": "groq-sdk",
   "163": "page.tsx",
   "164": "Building ai-interview-helper locally",
   "165": "Security Scanning",
@@ -306,6 +305,7 @@
   "309": "code-reviewer.md",
   "310": "Em Dashes: The Primary AI Tell",
   "311": "ThemeScope.tsx",
+  "312": "react",
   "315": "page.tsx",
   "316": "page.tsx"
 }

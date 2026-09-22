@@ -7,9 +7,10 @@ import Footer from '@/components/Footer';
 import { useGatedDownload } from '@/hooks/useGatedDownload';
 import { onOfferPopupChecked } from '@/lib/offer-popup-events';
 import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
-import { SiZoom, SiGooglemeet, SiWebex } from 'react-icons/si';
+import { SiZoom, SiGooglemeet, SiWebex, SiGooglecloud, SiComptia, SiCisco } from 'react-icons/si';
 import { BsMicrosoftTeams } from 'react-icons/bs';
-import { FaSkype, FaSlack } from 'react-icons/fa6';
+import { FaSkype, FaSlack, FaAws } from 'react-icons/fa6';
+import { TbBrandAzure } from 'react-icons/tb';
 import { FAQ_ITEMS } from '@/lib/homepage-schema';
 
 // Code-split: none of these render anything on initial paint (each is
@@ -49,6 +50,21 @@ const VIDEO_CALL_APPS = [
   { Icon: SiWebex, name: 'Webex', color: '#049FD9' },
   { Icon: FaSkype, name: 'Skype', color: '#00AFF0' },
   { Icon: FaSlack, name: 'Slack Huddles', color: '#4A154B' },
+];
+
+// Certification exams — same underlying mechanism as the /coding-platforms
+// page's "Screenshot Solve" (reads whatever's on screen, works on any
+// browser-based platform, not a per-provider integration), just applied to
+// browser-based certification exams instead of coding-round platforms. No
+// icon exists for PMP in any installed react-icons set, so that one is a
+// text-only pill like the others still render with an icon.
+const CERT_EXAMS = [
+  { Icon: FaAws, name: 'AWS Certification', color: '#FF9900' },
+  { Icon: TbBrandAzure, name: 'Microsoft Azure', color: '#0078D4' },
+  { Icon: SiGooglecloud, name: 'Google Cloud', color: '#4285F4' },
+  { Icon: SiComptia, name: 'CompTIA', color: '#C8202F' },
+  { Icon: SiCisco, name: 'Cisco', color: '#1BA0D7' },
+  { Icon: null, name: 'PMP', color: '#4B0082' },
 ];
 
 interface PricingData {
@@ -227,14 +243,15 @@ export default function LandingClient(props: LandingClientProps) {
 
   return (
     <>
-      {/* `.home-light` is now applied site-wide by ThemeScope.tsx (see
-          app/layout.tsx) for every page except /checkout and /dashboard —
-          this wrapper is kept as a harmless no-op (nesting `.home-light`
-          inside `.home-light` changes nothing) rather than risk a
-          mismatched-tag edit hunting for its closing tag in this file.
-          Every visual rule for this scope lives in the additive
-          ".home-light" section at the bottom of app/globals.css. */}
-      <div className="home-light">
+      {/* `.home-light` is applied site-wide by ThemeScope.tsx for every page
+          except /checkout and /dashboard — that ancestor keeps applying here
+          too (harmless), but `.home-hud` on this SAME element adds a second,
+          homepage-only dark sci-fi HUD theme on top of it. Every `.home-hud`
+          selector in globals.css mirrors a `.home-light` one at equal
+          specificity and is declared later in the file, so it wins the
+          cascade tie for this subtree only — every other page, which never
+          renders inside this div, is completely unaffected. */}
+      <div className="home-light home-hud">
 
         {/* ═══════════════════════════════════════════════════════════
             HERO — one headline, one subheadline, one primary CTA, one
@@ -268,11 +285,13 @@ export default function LandingClient(props: LandingClientProps) {
                 </div>
 
                 <h1 className="hl-heading text-4xl tablet:text-5xl laptop-sm:text-5xl laptop-lg:text-6xl font-black tracking-tight mb-5 animate-fade-in-up leading-tight" style={{ animationDelay: '0.1s' }}>
-                  Ace Your Next Interview <span className="text-gradient animate-gradient">With AI</span>
+                  Your Real-Time <span className="text-gradient animate-gradient">AI</span>
+                  <br />
+                  Interview &amp; Coding Copilot
                 </h1>
 
                 <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-lg mb-6 max-w-2xl mx-auto laptop-sm:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                  Real-time AI answers while you interview — 100% invisible on screen share. Free forever to start, no credit card needed.
+                  Get real-time AI assistance during your job interviews and coding rounds — 100% invisible on screen share. Fast, accurate, and private. Free forever to start, no credit card needed.
                 </p>
 
                 {/* Compact version of 4 of the 6 "What It Does" cards below
@@ -280,7 +299,7 @@ export default function LandingClient(props: LandingClientProps) {
                     full descriptions, so the hero's core differentiators
                     (speed, stealth, audio, Desi Mode) are visible before a
                     visitor decides whether to keep scrolling. */}
-                <div className="flex flex-wrap items-center justify-center laptop-sm:justify-start gap-x-5 gap-y-2 text-[#1A1512] text-sm font-semibold mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <div className="flex flex-wrap items-center justify-center laptop-sm:justify-start gap-x-5 gap-y-2 text-[#EAF6FF] text-sm font-semibold mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                   <span className="flex items-center gap-1.5">⚡ Sub-2s Answers</span>
                   <span className="flex items-center gap-1.5">🥷 100% Invisible</span>
                   <span className="flex items-center gap-1.5">🎧 System Audio</span>
@@ -288,17 +307,28 @@ export default function LandingClient(props: LandingClientProps) {
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:flex-wrap items-center laptop-sm:items-start justify-center laptop-sm:justify-start gap-3 mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-                  <button
-                    type="button"
-                    onClick={() => requestDownload(detectedOS === 'mac' ? 'mac' : 'windows')}
-                    className="btn btn-primary text-sm px-6 py-3 shadow-lg hover:shadow-blue-500/25"
-                  >
-                    <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 3a1 1 0 011 1v8.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V4a1 1 0 011-1z" clipRule="evenodd" />
-                      <path d="M4 15a1 1 0 011 1v1a1 1 0 001 1h8a1 1 0 001-1v-1a1 1 0 112 0v1a3 3 0 01-3 3H6a3 3 0 01-3-3v-1a1 1 0 011-1z" />
-                    </svg>
-                    Download for {detectedOS === 'mac' ? 'Mac' : 'Windows'} — Free
-                  </button>
+                  {/* Bold highlight stack under the primary CTA — same
+                      pattern as ghostai.one's "Try for Free / START WITH
+                      25 FREE MINUTES / One-time trial · No credit card"
+                      under their primary button, but with our own real
+                      free-tier terms (3 AI answers/day, forever — see the
+                      "How It Works" section below) rather than a trial
+                      that expires. */}
+                  <div className="flex flex-col items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => requestDownload(detectedOS === 'mac' ? 'mac' : 'windows')}
+                      className="btn btn-primary text-sm px-6 py-3 shadow-lg hover:shadow-blue-500/25 animate-pulse-glow"
+                    >
+                      <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 3a1 1 0 011 1v8.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V4a1 1 0 011-1z" clipRule="evenodd" />
+                        <path d="M4 15a1 1 0 011 1v1a1 1 0 001 1h8a1 1 0 001-1v-1a1 1 0 112 0v1a3 3 0 01-3 3H6a3 3 0 01-3-3v-1a1 1 0 011-1z" />
+                      </svg>
+                      Try for Free
+                    </button>
+                    <span className="hl-heading text-[11px] font-bold tracking-wide uppercase">Free Forever · No Credit Card</span>
+                    <span className="hl-text-muted text-[10px]">3 AI answers every day, forever</span>
+                  </div>
                   {/* Same real WhatsApp community group used in the
                       "Join Candidates on WhatsApp" section further down —
                       not a new/invented link. */}
@@ -319,9 +349,20 @@ export default function LandingClient(props: LandingClientProps) {
                   </div>
                 </div>
 
+                {/* Compact trust line directly under the CTAs — same real
+                    numbers already shown in the hero stat grid on the right
+                    (2,400+ candidates, 4.9★ rating), just surfaced here too
+                    since that grid can be a full scroll away on mobile. */}
+                <p className="hl-heading text-sm font-bold flex items-center justify-center laptop-sm:justify-start gap-1.5 mb-3 animate-fade-in-up" style={{ animationDelay: '0.28s' }}>
+                  <span className="text-yellow-500">★</span>
+                  <Link href="/#reviews" className="hover:opacity-70 transition-opacity">
+                    4.9 rating · 2,400+ candidates helped
+                  </Link>
+                </p>
+
                 <p className="hl-text-muted text-xs mb-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                   Sign in with Google, then your download starts · Free forever for freshers · No card needed ·{' '}
-                  <Link href="/install" className="underline underline-offset-2 hover:text-[#1A1512]">Other platforms</Link>
+                  <Link href="/install" className="underline underline-offset-2 hover:text-[#EAF6FF]">Other platforms</Link>
                 </p>
 
               </div>
@@ -333,39 +374,50 @@ export default function LandingClient(props: LandingClientProps) {
                   instead of a flat rectangle sitting on the page. */}
               <div className="relative animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                 <div className="absolute -inset-6 bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent rounded-[2rem] blur-2xl -z-10" aria-hidden="true" />
-                <div id="hero-video" className="relative aspect-video w-full bg-slate-950 rounded-2xl overflow-hidden border border-[rgba(26,21,18,0.1)] shadow-2xl">
-                  {heroVideoPlaying ? (
-                    <iframe
-                      src="https://www.youtube-nocookie.com/embed/QeZDYWtKnsY?autoplay=1&mute=1&playsinline=1"
-                      title="JavihAI Product Demo"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full border-0"
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setHeroVideoPlaying(true)}
-                      className="w-full h-full relative block text-left group/hero-play focus:outline-none cursor-pointer"
-                      aria-label="Play JavihAI Product Demo Video"
-                    >
-                      <img
-                        src="https://img.youtube.com/vi/QeZDYWtKnsY/hqdefault.jpg"
-                        alt="JavihAI Product Walkthrough Video"
-                        className="w-full h-full object-cover opacity-85 group-hover/hero-play:opacity-100 transition-opacity"
+                {/* Terminal-style window chrome around the real product demo —
+                    purely a framing device (three dots + title bar), not a
+                    simulated terminal with invented content. */}
+                <div id="hero-video" className="relative w-full bg-slate-950 rounded-2xl overflow-hidden border border-[rgba(34,211,238,0.18)] shadow-2xl">
+                  <div className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border-b border-white/10">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" aria-hidden="true" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400/80" aria-hidden="true" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" aria-hidden="true" />
+                    <span className="ml-2 text-[11px] font-medium text-slate-400 tracking-wide truncate">JavihAI — Live Product Demo</span>
+                  </div>
+                  <div className="relative aspect-video w-full">
+                    {heroVideoPlaying ? (
+                      <iframe
+                        src="https://www.youtube-nocookie.com/embed/QeZDYWtKnsY?autoplay=1&mute=1&playsinline=1"
+                        title="JavihAI Product Demo"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full border-0"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex items-center justify-center">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl shadow-red-600/50 group-hover/hero-play:scale-110 transition-transform border-2 border-white/20">
-                          <svg className="w-8 h-8 sm:w-10 sm:h-10 fill-current ml-1" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setHeroVideoPlaying(true)}
+                        className="w-full h-full relative block text-left group/hero-play focus:outline-none cursor-pointer"
+                        aria-label="Play JavihAI Product Demo Video"
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/QeZDYWtKnsY/hqdefault.jpg"
+                          alt="JavihAI Product Walkthrough Video"
+                          className="w-full h-full object-cover opacity-85 group-hover/hero-play:opacity-100 transition-opacity"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex items-center justify-center">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl shadow-red-600/50 group-hover/hero-play:scale-110 transition-transform border-2 border-white/20">
+                            <svg className="w-8 h-8 sm:w-10 sm:h-10 fill-current ml-1" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
                         </div>
-                      </div>
-                      <div className="absolute bottom-3 left-4 text-white text-sm font-semibold drop-shadow">
-                        ▶ 90-second walkthrough
-                      </div>
-                    </button>
-                  )}
+                        <div className="absolute bottom-3 left-4 text-white text-sm font-semibold drop-shadow">
+                          ▶ 90-second walkthrough
+                        </div>
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Trust stats — moved here from their own full-width
@@ -405,7 +457,7 @@ export default function LandingClient(props: LandingClientProps) {
                       );
                     })}
                   </div>
-                  <p className="hl-text-muted text-[10px] text-center mt-3 pt-3 border-t border-[rgba(26,21,18,0.08)]">
+                  <p className="hl-text-muted text-[10px] text-center mt-3 pt-3 border-t border-[rgba(34,211,238,0.14)]">
                     * Self-reported figures from JavihAI users at signup, not an independently audited count.
                   </p>
                 </div>
@@ -416,11 +468,11 @@ export default function LandingClient(props: LandingClientProps) {
                     Moved here (from the left column) to balance the two
                     sides of the hero — left carries the pitch + CTA, right
                     carries the proof (demo, stats, trust, compatibility). */}
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#57534E] text-xs mt-4 animate-fade-in-up" style={{ animationDelay: '0.45s' }}>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🔒</span> 256-bit encryption</span>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">🛡️</span> 7-day money-back guarantee</span>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">💳</span> Razorpay secured</span>
-                  <span className="flex items-center gap-1.5"><span className="text-[#15803D]">✓</span> Cancel anytime</span>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[#8FA8C2] text-xs mt-4 animate-fade-in-up" style={{ animationDelay: '0.45s' }}>
+                  <span className="flex items-center gap-1.5"><span className="text-[#4ADE80]">🔒</span> 256-bit encryption</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#4ADE80]">🛡️</span> 7-day money-back guarantee</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#4ADE80]">💳</span> Razorpay secured</span>
+                  <span className="flex items-center gap-1.5"><span className="text-[#4ADE80]">✓</span> Cancel anytime</span>
                 </div>
 
                 {/* Links to the "Privacy You Can Verify" section further
@@ -430,7 +482,7 @@ export default function LandingClient(props: LandingClientProps) {
                     visibility from the hero where people actually decide. */}
                 <Link
                   href="/#privacy"
-                  className="inline-flex items-center gap-1.5 text-xs text-[#57534E] hover:text-[#1A1512] underline underline-offset-2 mt-3 animate-fade-in-up"
+                  className="inline-flex items-center gap-1.5 text-xs text-[#8FA8C2] hover:text-[#EAF6FF] underline underline-offset-2 mt-3 animate-fade-in-up"
                   style={{ animationDelay: '0.47s' }}
                 >
                   🔐 See how we protect your privacy →
@@ -448,7 +500,7 @@ export default function LandingClient(props: LandingClientProps) {
                     <span
                       key={app.name}
                       title={app.name}
-                      className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/70 border border-[rgba(26,21,18,0.08)]"
+                      className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[rgba(10,16,28,0.7)] border border-[rgba(34,211,238,0.14)]"
                     >
                       <app.Icon size={16} color={app.color} aria-label={app.name} />
                     </span>
@@ -467,7 +519,7 @@ export default function LandingClient(props: LandingClientProps) {
             Merges the old separate "Interactive Live Demo" section and
             3-video "Video Tutorials" grid into a single tab switch.
             ═══════════════════════════════════════════════════════════ */}
-        <section id="live-demo" className="section-py section-alt relative overflow-hidden border-y border-[rgba(26,21,18,0.06)]">
+        <section id="live-demo" className="section-py section-alt relative overflow-hidden border-y border-[rgba(34,211,238,0.10)]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 relative">
             <div className="text-center max-w-2xl mx-auto mb-10">
               <div className="section-label">⚡ See It Live</div>
@@ -479,12 +531,12 @@ export default function LandingClient(props: LandingClientProps) {
               </p>
             </div>
 
-            <div className="flex items-center justify-center gap-1 bg-white/70 border border-[rgba(26,21,18,0.08)] p-1 rounded-xl mb-8 max-w-xs mx-auto">
+            <div className="flex items-center justify-center gap-1 bg-[rgba(10,16,28,0.7)] border border-[rgba(34,211,238,0.14)] p-1 rounded-xl mb-8 max-w-xs mx-auto">
               <button
                 type="button"
                 onClick={() => setDemoView('simulator')}
                 className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
-                  demoView === 'simulator' ? 'bg-blue-600 text-white shadow-sm' : 'hl-text-secondary hover:text-[#1A1512]'
+                  demoView === 'simulator' ? 'bg-blue-600 text-white shadow-sm' : 'hl-text-secondary hover:text-[#EAF6FF]'
                 }`}
               >
                 💻 Try It Now
@@ -493,7 +545,7 @@ export default function LandingClient(props: LandingClientProps) {
                 type="button"
                 onClick={() => { setDemoView('video'); setDemoVideoPlaying(true); }}
                 className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
-                  demoView === 'video' ? 'bg-red-600 text-white shadow-sm' : 'hl-text-secondary hover:text-[#1A1512]'
+                  demoView === 'video' ? 'bg-red-600 text-white shadow-sm' : 'hl-text-secondary hover:text-[#EAF6FF]'
                 }`}
               >
                 🎬 Watch It
@@ -507,7 +559,7 @@ export default function LandingClient(props: LandingClientProps) {
                     publish real release notes, so pointing directly at
                     exactly what shipped and when is a transparency signal,
                     not just decorative version text. */}
-                <Link href="/changelog" className="underline underline-offset-2 hover:text-[#1A1512]">
+                <Link href="/changelog" className="underline underline-offset-2 hover:text-[#EAF6FF]">
                   JavihAI {appVersion} · View public changelog
                 </Link>
                 {isNewRelease && (
@@ -519,36 +571,44 @@ export default function LandingClient(props: LandingClientProps) {
             {demoView === 'simulator' ? (
               <LiveGuideModeDemo appVersion={appVersion} />
             ) : (
-              <div className="relative aspect-video w-full max-w-3xl mx-auto bg-slate-950 rounded-2xl overflow-hidden border border-[rgba(26,21,18,0.1)] shadow-xl">
-                {demoVideoPlaying ? (
-                  <iframe
-                    src="https://www.youtube-nocookie.com/embed/QeZDYWtKnsY?autoplay=1&mute=1&loop=1&playlist=QeZDYWtKnsY&playsinline=1"
-                    title="JavihAI Product Demo"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full border-0"
-                  />
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setDemoVideoPlaying(true)}
-                    className="w-full h-full relative block text-left group/demo-play focus:outline-none cursor-pointer"
-                    aria-label="Play JavihAI Product Demo Video"
-                  >
-                    <img
-                      src="https://img.youtube.com/vi/QeZDYWtKnsY/hqdefault.jpg"
-                      alt="JavihAI Product Walkthrough Video"
-                      className="w-full h-full object-cover opacity-85 group-hover/demo-play:opacity-100 transition-opacity"
+              <div className="relative w-full max-w-3xl mx-auto bg-slate-950 rounded-2xl overflow-hidden border border-[rgba(34,211,238,0.18)] shadow-xl">
+                <div className="flex items-center gap-2 px-4 py-2.5 bg-white/5 border-b border-white/10">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" aria-hidden="true" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400/80" aria-hidden="true" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" aria-hidden="true" />
+                  <span className="ml-2 text-[11px] font-medium text-slate-400 tracking-wide truncate">JavihAI — Product Walkthrough</span>
+                </div>
+                <div className="relative aspect-video w-full">
+                  {demoVideoPlaying ? (
+                    <iframe
+                      src="https://www.youtube-nocookie.com/embed/QeZDYWtKnsY?autoplay=1&mute=1&loop=1&playlist=QeZDYWtKnsY&playsinline=1"
+                      title="JavihAI Product Demo"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full border-0"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl shadow-red-600/50 group-hover/demo-play:scale-110 transition-transform border-2 border-white/20">
-                        <svg className="w-8 h-8 fill-current ml-1" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setDemoVideoPlaying(true)}
+                      className="w-full h-full relative block text-left group/demo-play focus:outline-none cursor-pointer"
+                      aria-label="Play JavihAI Product Demo Video"
+                    >
+                      <img
+                        src="https://img.youtube.com/vi/QeZDYWtKnsY/hqdefault.jpg"
+                        alt="JavihAI Product Walkthrough Video"
+                        className="w-full h-full object-cover opacity-85 group-hover/demo-play:opacity-100 transition-opacity"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl shadow-red-600/50 group-hover/demo-play:scale-110 transition-transform border-2 border-white/20">
+                          <svg className="w-8 h-8 fill-current ml-1" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
                       </div>
-                    </div>
-                  </button>
-                )}
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -609,17 +669,59 @@ export default function LandingClient(props: LandingClientProps) {
             ═══════════════════════════════════════════════════════════ */}
         <section className="pb-16 md:pb-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <p className="hl-text-muted text-sm font-medium mb-5 uppercase tracking-wide">
-              Works With Your Video Call App
+            <div className="section-label">🔒 Compatibility</div>
+            <h2 className="section-heading mb-4">
+              100% Private &amp; Invisible <span className="text-gradient">On Every App</span>
+            </h2>
+            {/* "Tested" is scoped to the 4 platforms already asserted
+                elsewhere on this page (see "What It Does" feature grid:
+                "invisible on Zoom, Google Meet, Teams & Webex") — the rest
+                work via the same OS-level exclusion + system audio, not a
+                per-app integration, so they're described that way instead
+                of folded into the same "tested" claim. */}
+            <p className="hl-text-secondary section-subheading mx-auto mb-8">
+              Tested on Zoom, Google Meet, Microsoft Teams &amp; Webex — and works anywhere else too, since it runs at the OS level, not as a per-app plugin.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               {VIDEO_CALL_APPS.map((app) => (
                 <div
                   key={app.name}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/70 border border-[rgba(26,21,18,0.08)] shadow-sm"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-[rgba(10,16,28,0.7)] border border-[rgba(34,211,238,0.14)] shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-500/30 hover:shadow-md"
                 >
                   <app.Icon size={18} color={app.color} aria-hidden="true" />
                   <span className="hl-heading text-sm font-semibold">{app.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            CERTIFICATION EXAMS — same Screenshot Solve mechanism as
+            /coding-platforms (reads whatever's on screen, works on any
+            browser-based platform), applied to certification exams
+            instead of coding rounds. Kept to the same honest "browser-
+            based platform" scoping /coding-platforms already uses,
+            rather than claiming to defeat any specific proctoring
+            software, which isn't a real, verifiable claim.
+            ═══════════════════════════════════════════════════════════ */}
+        <section className="section-py section-alt">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <div className="section-label">🎓 Certification Exams</div>
+            <h2 className="section-heading mb-4">
+              Works During <span className="text-gradient">Certification Exams Too</span>
+            </h2>
+            <p className="hl-text-secondary section-subheading mx-auto mb-8">
+              The same on-screen reading technology that solves coding rounds also works for any browser-based certification exam — AWS, Microsoft Azure, Google Cloud, CompTIA, Cisco, PMP, and more.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {CERT_EXAMS.map((exam) => (
+                <div
+                  key={exam.name}
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-[rgba(10,16,28,0.7)] border border-[rgba(34,211,238,0.14)] shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-500/30 hover:shadow-md"
+                >
+                  {exam.Icon && <exam.Icon size={18} color={exam.color} aria-hidden="true" />}
+                  <span className="hl-heading text-sm font-semibold">{exam.name}</span>
                 </div>
               ))}
             </div>
@@ -685,7 +787,7 @@ export default function LandingClient(props: LandingClientProps) {
               ))}
             </div>
             <p className="text-center mt-8">
-              <Link href="/privacy" className="text-sm hl-text-secondary underline underline-offset-2 hover:text-[#1A1512]">
+              <Link href="/privacy" className="text-sm hl-text-secondary underline underline-offset-2 hover:text-[#EAF6FF]">
                 Read the full privacy policy →
               </Link>
             </p>
@@ -812,7 +914,7 @@ export default function LandingClient(props: LandingClientProps) {
                       <div className="hl-text-muted text-xs mb-2 font-medium uppercase tracking-wide">Interviewer asks:</div>
                       <div className="hl-text-secondary italic leading-relaxed">&ldquo;What is your current CTC and what are your expectations?&rdquo;</div>
                     </div>
-                    <div className="border-t border-[rgba(26,21,18,0.08)] pt-5">
+                    <div className="border-t border-[rgba(34,211,238,0.14)] pt-5">
                       <div className="hl-text-muted text-xs mb-2 font-medium uppercase tracking-wide flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-orange-400 inline-block animate-pulse" />
                         JavihAI · Desi Mode answer:
@@ -823,8 +925,8 @@ export default function LandingClient(props: LandingClientProps) {
                     </div>
                     <div className="flex gap-2 pt-1 flex-wrap">
                       <span className="text-xs px-2.5 py-1 rounded-lg bg-orange-500/10 text-orange-700 border border-orange-500/20">₹ in LPA</span>
-                      <span className="text-xs px-2.5 py-1 rounded-lg bg-[rgba(26,21,18,0.04)] hl-text-secondary border border-[rgba(26,21,18,0.08)]">Notice period</span>
-                      <span className="text-xs px-2.5 py-1 rounded-lg bg-[rgba(26,21,18,0.04)] hl-text-secondary border border-[rgba(26,21,18,0.08)]">Indian norms</span>
+                      <span className="text-xs px-2.5 py-1 rounded-lg bg-[rgba(34,211,238,0.08)] hl-text-secondary border border-[rgba(34,211,238,0.14)]">Notice period</span>
+                      <span className="text-xs px-2.5 py-1 rounded-lg bg-[rgba(34,211,238,0.08)] hl-text-secondary border border-[rgba(34,211,238,0.14)]">Indian norms</span>
                     </div>
                   </div>
                 </div>
@@ -851,7 +953,7 @@ export default function LandingClient(props: LandingClientProps) {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm min-w-[560px]">
                   <thead>
-                    <tr className="border-b border-[rgba(26,21,18,0.08)]">
+                    <tr className="border-b border-[rgba(34,211,238,0.14)]">
                       <th className="text-left px-5 py-4 hl-text-secondary font-semibold w-44">Feature</th>
                       <th className="px-4 py-4 text-center">
                         <div className="hl-heading font-bold text-base">JavihAI</div>
@@ -879,7 +981,7 @@ export default function LandingClient(props: LandingClientProps) {
                       ['₹ LPA salary & notice norms', '✅', '❌', '❌', '❌'],
                       ['Free plan (no time limit)', '✅', '❌', '❌', '❌'],
                     ].map(([feature, ...vals], i) => (
-                      <tr key={i} className={`border-b border-[rgba(26,21,18,0.06)] ${i % 2 === 0 ? 'bg-[rgba(26,21,18,0.02)]' : ''}`}>
+                      <tr key={i} className={`border-b border-[rgba(34,211,238,0.10)] ${i % 2 === 0 ? 'bg-[rgba(34,211,238,0.05)]' : ''}`}>
                         <td className="px-5 py-3.5 hl-text-secondary font-medium">{feature}</td>
                         {vals.map((v, j) => (
                           <td key={j} className={`px-4 py-3.5 text-center ${j === 0 ? 'bg-blue-500/5' : ''}`}>
@@ -948,8 +1050,9 @@ export default function LandingClient(props: LandingClientProps) {
                   stars: 5,
                 },
               ].map((t, i) => (
-                <div key={i} className="glass-card p-6 flex flex-col gap-4">
-                  <div className="flex justify-between items-start">
+                <div key={i} className="glass-card p-6 flex flex-col gap-4 relative overflow-hidden transition-transform hover:-translate-y-1">
+                  <span className="absolute -top-2 -right-1 text-6xl font-black text-blue-500/10 leading-none select-none" aria-hidden="true">&rdquo;</span>
+                  <div className="flex justify-between items-start relative">
                     <div className="testimonial-avatar">{t.emoji}</div>
                     <div className="flex gap-0.5">
                       {Array.from({ length: t.stars }).map((_, j) => (
@@ -957,8 +1060,8 @@ export default function LandingClient(props: LandingClientProps) {
                       ))}
                     </div>
                   </div>
-                  <p className="hl-text-secondary leading-relaxed text-sm flex-1 italic">&ldquo;{t.quote}&rdquo;</p>
-                  <div className="border-t border-[rgba(26,21,18,0.08)] pt-4">
+                  <p className="hl-text-secondary leading-relaxed text-sm flex-1 italic relative">&ldquo;{t.quote}&rdquo;</p>
+                  <div className="border-t border-[rgba(34,211,238,0.14)] pt-4 relative">
                     <div className="hl-heading font-semibold text-sm">{t.name}</div>
                     <div className="hl-text-muted text-xs">{t.role}</div>
                     <div className="text-blue-600 text-xs mt-1 font-medium">{t.company}</div>
@@ -1003,6 +1106,41 @@ export default function LandingClient(props: LandingClientProps) {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            REFER & EARN — surfaces the existing creator/affiliate
+            program (already live at /creator, powered by
+            CREATOR_COMMISSION_BPS in lib/firebase-admin.ts) on the
+            homepage. The number below (20%) is that real default rate,
+            not an invented figure — per-creator overrides exist but the
+            default is what's advertised here, same as /creator itself.
+            ═══════════════════════════════════════════════════════════ */}
+        <section className="section-py section-alt">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6">
+            <div className="glass-card p-8 md:p-12 text-center border border-blue-500/15">
+              <div className="section-label">🤝 Refer & Earn</div>
+              <h2 className="section-heading mb-4">
+                Turn Your Audience Into <span className="text-gradient">Recurring Income</span>
+              </h2>
+              <p className="hl-text-secondary text-lg mb-8 max-w-xl mx-auto leading-relaxed">
+                Built for content creators, students, and communities. Share your link and earn a recurring cash commission on every payment your referred users make — including renewals.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-8 mb-8">
+                <div className="text-center">
+                  <div className="hl-heading text-4xl font-black text-gradient">20%</div>
+                  <div className="hl-text-muted text-xs font-medium mt-1 uppercase tracking-wide">Recurring commission</div>
+                </div>
+                <div className="text-center">
+                  <div className="hl-heading text-4xl font-black">Monthly</div>
+                  <div className="hl-text-muted text-xs font-medium mt-1 uppercase tracking-wide">UPI payout</div>
+                </div>
+              </div>
+              <Link href="/creator" className="btn btn-primary btn-lg">
+                See How It Works →
+              </Link>
             </div>
           </div>
         </section>

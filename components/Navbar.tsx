@@ -241,15 +241,17 @@ function SupportNumberLink({ compact = false, isLightPage = false }: { compact?:
 import { AudioDiagnosticModal } from '@/components/AudioDiagnosticModal';
 
 const APP_PATHS = ['/dashboard', '/resume', '/jobs', '/mock-interview', '/creator'];
-// Same exclusion list as ThemeScope.tsx (app/layout.tsx) — every page is
-// light except /checkout (real payment flow) and /dashboard (signed-in
-// account area), which stay on the dark theme for now.
-const DARK_PATHS = ['/checkout', '/dashboard'];
 
 export default function Navbar() {
   const pathname = usePathname();
   const isAppPage = APP_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'));
-  const isLightPage = !DARK_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'));
+  // Every page now renders the dark "HUD" theme (see `.home-hud` in
+  // globals.css, applied site-wide by ThemeScope.tsx) instead of the old
+  // per-route light/dark split, so the navbar's every isLightPage branch
+  // (logo color, dividers, buttons, mobile menu, support link, bell) now
+  // always takes the dark path. Kept as a named const, not inlined, so
+  // none of those branches below need touching individually.
+  const isLightPage = false;
   const { user, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -389,9 +391,6 @@ export default function Navbar() {
           <Link href="/pricing" className={marketingLinkClass}>
             Pricing
           </Link>
-          <Link href="/compare" className={marketingLinkClass}>
-            Compare
-          </Link>
           <Link href="/resume" className={marketingLinkClass}>
             Resume
           </Link>
@@ -399,7 +398,7 @@ export default function Navbar() {
             Jobs
           </Link>
           <Link href="/mock-interview" className={marketingLinkClass}>
-            Mocks
+            Mock Interview
           </Link>
           <Link href="/creator" className={marketingLinkClass}>
             Creator
@@ -478,9 +477,6 @@ export default function Navbar() {
             <Link href="/pricing" onClick={() => setMobileOpen(false)} className={marketingMobileLinkClass}>
               Pricing
             </Link>
-            <Link href="/compare" onClick={() => setMobileOpen(false)} className={marketingMobileLinkClass}>
-              Compare
-            </Link>
             <Link href="/resume" onClick={() => setMobileOpen(false)} className={marketingMobileLinkClass}>
               Resume
             </Link>
@@ -488,7 +484,7 @@ export default function Navbar() {
               Jobs
             </Link>
             <Link href="/mock-interview" onClick={() => setMobileOpen(false)} className={marketingMobileLinkClass}>
-              Mocks
+              Mock Interview
             </Link>
             <Link href="/creator" onClick={() => setMobileOpen(false)} className={marketingMobileLinkClass}>
               Creator

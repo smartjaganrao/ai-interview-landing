@@ -31,12 +31,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "JavihAI — India's 1st Unlimited AI Interview Copilot & Coach | 100% Invisible",
+    default: "JavihAI — India's 1st Unlimited AI Interview & Coding Copilot | 100% Invisible",
     template: '%s | JavihAI',
   },
 
   description:
-    "India's 1st unlimited AI interview copilot & coach — 100% invisible desktop overlay for Zoom, Meet & Teams. Zero-downtime AI engine with 13 live models, system audio capture, camera teleprompter, multi-format resume parser (.pdf, .docx), CTC in ₹ LPA context, and 10+ regional languages. Free forever plan available.",
+    "India's 1st unlimited AI interview & coding copilot — 100% invisible desktop overlay for Zoom, Meet & Teams, plus browser-based coding rounds and certification exams (AWS, Azure, Google Cloud, CompTIA, Cisco). Zero-downtime AI engine with 13 live models, system audio capture, camera teleprompter, multi-format resume parser (.pdf, .docx), CTC in ₹ LPA context, and 10+ regional languages. Free forever plan available.",
 
   keywords: [
     'AI interview assistant India',
@@ -51,6 +51,10 @@ export const metadata: Metadata = {
     'Interview Coder alternative India',
     'system audio AI interview helper',
     'camera dock teleprompter AI',
+    'AI assistant for coding rounds',
+    'AWS certification exam AI assistant',
+    'AI helper for Azure Google Cloud CompTIA Cisco exams',
+    'browser-based certification exam AI',
   ],
 
   authors: [{ name: 'JavihAI', url: BASE_URL }],
@@ -74,9 +78,9 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: BASE_URL,
     siteName: 'JavihAI',
-    title: "JavihAI — India's 1st Unlimited AI Interview Copilot & Coach | 100% Invisible",
+    title: "JavihAI — India's 1st Unlimited AI Interview & Coding Copilot | 100% Invisible",
     description:
-      "India's 1st unlimited AI interview copilot — 100% invisible on Zoom, Meet & Teams. Zero-downtime 13 AI models, camera teleprompter, free forever plan for freshers.",
+      "India's 1st unlimited AI interview & coding copilot — 100% invisible on Zoom, Meet, Teams, and browser-based coding & certification exam platforms. Zero-downtime 13 AI models, camera teleprompter, free forever plan for freshers.",
     images: [
       {
         url: '/og-home.png',
@@ -92,9 +96,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@javihai',
     creator: '@javihai',
-    title: "JavihAI — India's 1st Unlimited AI Interview Copilot & Coach",
+    title: "JavihAI — India's 1st Unlimited AI Interview & Coding Copilot",
     description:
-      "India's 1st unlimited AI interview copilot. 100% invisible desktop overlay for Zoom, Meet & Teams. Hears questions and streams answers in under 2 seconds.",
+      "India's 1st unlimited AI interview & coding copilot. 100% invisible desktop overlay for Zoom, Meet, Teams & certification exam platforms. Hears questions and streams answers in under 2 seconds.",
     images: ['/og-home.png'],
   },
 
@@ -124,7 +128,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'JavihAI',
   url: BASE_URL,
-  description: "India's 1st real-time AI interview copilot & coach — free plan, stealth overlay, Desi Mode.",
+  description: "India's 1st real-time AI interview & coding copilot — free plan, stealth overlay, Desi Mode, certification exam support.",
   potentialAction: {
     '@type': 'SearchAction',
     target: { '@type': 'EntryPoint', urlTemplate: `${BASE_URL}/jobs?q={search_term_string}` },
@@ -140,7 +144,7 @@ const orgSchema = {
   url: BASE_URL,
   logo: `${BASE_URL}/logo.svg`,
   description:
-    'Real-time AI interview copilot and coach for India — stealth desktop overlay with instant AI answers, camera teleprompter, Desi Mode, and mock interviews.',
+    'Real-time AI interview and coding copilot for India — stealth desktop overlay with instant AI answers for interviews, coding rounds, and certification exams (AWS, Azure, Google Cloud, CompTIA, Cisco), plus camera teleprompter, Desi Mode, and mock interviews.',
   foundingDate: '2024',
   areaServed: 'IN',
   address: {
@@ -171,10 +175,10 @@ const appSchema = {
   name: 'JavihAI',
   operatingSystem: 'Windows 10, Windows 11, macOS',
   applicationCategory: 'BusinessApplication',
-  applicationSubCategory: 'Interview Preparation',
+  applicationSubCategory: 'Interview & Certification Exam Preparation',
   url: BASE_URL,
   description:
-    'A stealth desktop overlay that listens to your interview, detects questions, and generates structured AI answers in under 2 seconds using 13 live AI models.',
+    'A stealth desktop overlay that listens to your interview or reads your screen during coding rounds and certification exams, detects questions, and generates structured AI answers in under 2 seconds using 13 live AI models.',
   inLanguage: ['en', 'hi', 'ta', 'te', 'kn', 'ml', 'bn', 'mr', 'gu', 'pa'],
   author: { '@type': 'Organization', name: 'JavihAI', url: BASE_URL },
 };
