@@ -235,7 +235,7 @@
     "semantic_hash": ""
   },
   "app/layout.tsx": {
-    "mtime": 1790108605.394881,
+    "mtime": 1790121429.2997916,
     "ast_hash": "41d73eb4ca7690a45f1b2b3293b1127a",
     "semantic_hash": ""
   },
@@ -325,8 +325,8 @@
     "semantic_hash": "9365305326ba18febd595749ae5d0fbe"
   },
   "components/Navbar.tsx": {
-    "mtime": 1790107281.4052799,
-    "ast_hash": "d83cfdc63aa6273e7e408b0a3712e44f",
+    "mtime": 1790135044.2663758,
+    "ast_hash": "fb66f3e2f994b79f8107d60d162ba205",
     "semantic_hash": ""
   },
   "components/WhatsAppButton.tsx": {
@@ -455,7 +455,7 @@
     "semantic_hash": ""
   },
   "components/LandingClient.tsx": {
-    "mtime": 1790108308.9832256,
+    "mtime": 1790121429.300521,
     "ast_hash": "1645caf366173ee2e1bc2962b45f37cb",
     "semantic_hash": ""
   },
@@ -1580,7 +1580,7 @@
     "semantic_hash": ""
   },
   "components/ThemeScope.tsx": {
-    "mtime": 1790105862.373782,
+    "mtime": 1790121429.3017433,
     "ast_hash": "395aadd23aedb1b9c0491a585cd84fb1",
     "semantic_hash": ""
   },

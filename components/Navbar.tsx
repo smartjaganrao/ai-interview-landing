@@ -411,9 +411,9 @@ export default function Navbar() {
             onClick={() => setShowFeedbackModal(true)}
             className={feedbackBtnClass}
             title="Give Feedback"
+            aria-label="Give Feedback"
           >
             <span>💬</span>
-            <span>Feedback</span>
           </button>
           <SupportNumberLink isLightPage={isLightPage} />
           <WhatsNewBell isLightPage={isLightPage} />
