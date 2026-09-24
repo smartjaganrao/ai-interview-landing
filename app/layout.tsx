@@ -31,12 +31,16 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "JavihAI — India's 1st Unlimited AI Interview & Coding Copilot | 100% Invisible",
+    default: 'JavihAI — Unlimited AI Interview Copilot | 100% Invisible',
     template: '%s | JavihAI',
   },
 
+  // Kept to ~155 chars so Google doesn't truncate the CTA — the old version
+  // (418 chars) was a full feature dump that never rendered past the first
+  // sentence in search results. Full feature detail belongs on the page
+  // itself, not in the SERP snippet.
   description:
-    "India's 1st unlimited AI interview & coding copilot — 100% invisible desktop overlay for Zoom, Meet & Teams, plus browser-based coding rounds and certification exams (AWS, Azure, Google Cloud, CompTIA, Cisco). Zero-downtime AI engine with 13 live models, system audio capture, camera teleprompter, multi-format resume parser (.pdf, .docx), CTC in ₹ LPA context, and 10+ regional languages. Free forever plan available.",
+    "India's 1st unlimited AI interview & coding copilot — 100% invisible on Zoom, Meet & Teams. Real-time answers, free forever, no credit card needed.",
 
   keywords: [
     'AI interview assistant India',

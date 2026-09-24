@@ -285,7 +285,7 @@ export default function LandingClient(props: LandingClientProps) {
                 </div>
 
                 <h1 className="hl-heading text-4xl tablet:text-5xl laptop-sm:text-5xl laptop-lg:text-6xl font-black tracking-tight mb-5 animate-fade-in-up leading-tight" style={{ animationDelay: '0.1s' }}>
-                  Your Real-Time <span className="text-gradient animate-gradient">AI</span>
+                  Your Real-Time <span className="text-gradient animate-gradient">AI</span>{' '}
                   <br />
                   Interview &amp; Coding Copilot
                 </h1>
