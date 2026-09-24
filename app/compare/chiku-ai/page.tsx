@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const ROWS = [
-  { feature: 'Free plan',              javihai: '✅ 3 answers/day forever',       chiku: '⚠️ 10-min trial only' },
+  { feature: 'Free plan',              javihai: '✅ 15 answers/day forever (5/mode)', chiku: '⚠️ 10-min trial only' },
   { feature: 'Entry paid price',       javihai: '✅ ₹250 (24-hour pass)',          chiku: '❌ ₹1,199 (3 interviews only)' },
   { feature: 'Unlimited plan',         javihai: '✅ ₹2,000/month',                chiku: '❌ ₹3,499/month' },
   { feature: 'Desi Mode',             javihai: '✅ Yes — toggle in profile',      chiku: '✅ Yes' },

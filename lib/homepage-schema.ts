@@ -26,7 +26,7 @@ export const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: 'How much does JavihAI cost? Is there a free plan?',
-    a: 'JavihAI has a permanent free plan with up to 3 AI answers per day (1 screenshot solve, 1 system-audio answer, 1 mic answer) — no credit card, no time limit. Unlike other AI interview tools in India that give a one-time trial that runs out, JavihAI\'s free allowance resets every single day, forever, for every user. Paid plans unlock unlimited answers, Desi Mode, and more. Both paid plans include a 7-day money-back guarantee.',
+    a: 'JavihAI is India\'s 1st and the world\'s most affordable AI interview copilot. We have a permanent free plan with 15 AI answers per day (5 screenshot solves, 5 system-audio answers, 5 mic answers) — no credit card, resetting daily forever. For full interviews, our 100% UNLIMITED paid plans start from just ₹14/hour (Quick Pass) and ₹83/day (Monthly) — unbeatable anywhere in India or the world where competitors charge ₹3,500–₹15,000/hr with strict ticking timers. Both paid plans include a 7-day money-back guarantee.',
   },
   {
     q: 'What platforms and operating systems does JavihAI support?',
@@ -61,7 +61,7 @@ export const howToSchema = {
     {
       '@type': 'HowToStep',
       name: 'Create Free Account',
-      text: 'Sign up in 30 seconds with Google — no credit card required. Get up to 3 AI answers/day free, forever.',
+      text: 'Sign up in 30 seconds with Google — no credit card required. Get up to 15 AI answers/day free, forever.',
     },
     {
       '@type': 'HowToStep',

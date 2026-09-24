@@ -280,18 +280,18 @@ export default function LandingClient(props: LandingClientProps) {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                     </span>
-                    <span>🇮🇳 India&apos;s 1st Unlimited AI Interview Copilot</span>
+                    <span>🇮🇳 India&apos;s 1st · 🌍 World&apos;s Most Affordable Unlimited AI Copilot</span>
                   </div>
                 </div>
 
                 <h1 className="hl-heading text-4xl tablet:text-5xl laptop-sm:text-5xl laptop-lg:text-6xl font-black tracking-tight mb-5 animate-fade-in-up leading-tight" style={{ animationDelay: '0.1s' }}>
-                  Your Real-Time <span className="text-gradient animate-gradient">AI</span>{' '}
-                  <br />
-                  Interview &amp; Coding Copilot
+                  India&apos;s 1st &amp; World&apos;s Most Affordable <br />
+                  <span className="text-gradient animate-gradient">100% Unlimited AI</span>{' '}
+                  Interview Copilot
                 </h1>
 
                 <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-lg mb-6 max-w-2xl mx-auto laptop-sm:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                  Get real-time AI assistance during your job interviews and coding rounds — 100% invisible on screen share. Fast, accurate, and private. Free forever to start, no credit card needed.
+                  Built for Indian tech interviews with <strong>Desi Mode</strong> (CTC in ₹ LPA, notice periods &amp; Indian languages). While global competitors charge ₹3,000–₹15,000/hour or meter every minute, JavihAI gives you <strong>100% UNLIMITED</strong> answers starting at just <strong>₹14/hr</strong>. 100% invisible on screen share.
                 </p>
 
                 {/* Compact version of 4 of the 6 "What It Does" cards below
@@ -300,6 +300,7 @@ export default function LandingClient(props: LandingClientProps) {
                     (speed, stealth, audio, Desi Mode) are visible before a
                     visitor decides whether to keep scrolling. */}
                 <div className="flex flex-wrap items-center justify-center laptop-sm:justify-start gap-x-5 gap-y-2 text-[#EAF6FF] text-sm font-semibold mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <span className="flex items-center gap-1.5">♾️ 100% Unlimited</span>
                   <span className="flex items-center gap-1.5">⚡ Sub-2s Answers</span>
                   <span className="flex items-center gap-1.5">🥷 100% Invisible</span>
                   <span className="flex items-center gap-1.5">🎧 System Audio</span>
@@ -311,7 +312,7 @@ export default function LandingClient(props: LandingClientProps) {
                       pattern as ghostai.one's "Try for Free / START WITH
                       25 FREE MINUTES / One-time trial · No credit card"
                       under their primary button, but with our own real
-                      free-tier terms (3 AI answers/day, forever — see the
+                      free-tier terms (15 AI answers/day, forever — see the
                       "How It Works" section below) rather than a trial
                       that expires. */}
                   <div className="flex flex-col items-center gap-1.5">
@@ -327,7 +328,7 @@ export default function LandingClient(props: LandingClientProps) {
                       Try for Free
                     </button>
                     <span className="hl-heading text-[11px] font-bold tracking-wide uppercase">Free Forever · No Credit Card</span>
-                    <span className="hl-text-muted text-[10px]">3 AI answers every day, forever</span>
+                    <span className="hl-text-muted text-[10px]">15 AI answers every day, forever</span>
                   </div>
                   {/* Same real WhatsApp community group used in the
                       "Join Candidates on WhatsApp" section further down —
@@ -345,7 +346,7 @@ export default function LandingClient(props: LandingClientProps) {
                     <Link href="/pricing" className="btn btn-secondary text-sm px-6 py-3">
                       See Pricing
                     </Link>
-                    <span className="hl-text-muted text-[10px]">Plans start from ₹250</span>
+                    <span className="text-emerald-400 font-semibold text-[10px]">From ₹14/hr · 100% Unlimited</span>
                   </div>
                 </div>
 
@@ -505,6 +506,34 @@ export default function LandingClient(props: LandingClientProps) {
                       <app.Icon size={16} color={app.color} aria-label={app.name} />
                     </span>
                   ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Global Disruption Value Proposition Banner */}
+            <div className="mt-10 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-950/80 via-slate-900/90 to-purple-950/80 border border-blue-500/25 backdrop-blur-md shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-5 animate-fade-in-up" style={{ animationDelay: '0.52s' }}>
+              <div className="flex items-center gap-4 text-center lg:text-left">
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-2xl flex-shrink-0">
+                  🇮🇳
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-blue-400 font-bold">🇮🇳 Built For India · 🌍 Unbeatable Global Value</div>
+                  <h3 className="text-base sm:text-lg font-black text-white">
+                    Nobody in India or the world gives 100% Unlimited AI at this price
+                  </h3>
+                  <p className="text-xs text-[#8FA8C2] mt-0.5">
+                    Foreign tools charge per-hour meters (₹3,500–₹15,000/hr) with zero Indian company context. JavihAI gives 100% unlimited answers with Desi Mode &amp; 1-click UPI.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-3 flex-shrink-0 text-xs">
+                <div className="px-3.5 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 flex items-center gap-1.5">
+                  <span>⏱️ Foreign Tools:</span>
+                  <span className="font-semibold line-through text-red-400">₹3,500 – ₹15,000 / hr</span>
+                </div>
+                <div className="px-3.5 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold flex items-center gap-1.5 shadow-sm">
+                  <span>⚡ JavihAI:</span>
+                  <span>From ₹14 / hr · 100% Unlimited</span>
                 </div>
               </div>
             </div>
@@ -942,11 +971,11 @@ export default function LandingClient(props: LandingClientProps) {
         <section id="compare" className="section-py section-alt">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-10">
-              <div className="section-label">⚖️ Compare</div>
+              <div className="section-label">🇮🇳 India&apos;s #1 · 🌍 Global Disruption</div>
               <h2 className="section-heading mb-4">
-                JavihAI vs <span className="text-gradient">Every Other Tool</span>
+                JavihAI vs <span className="text-gradient">Every Global Tool</span>
               </h2>
-              <p className="hl-text-secondary">India&apos;s first unlimited AI interview plan — priced for India, ~7× cheaper than the rest.</p>
+              <p className="hl-text-secondary">Built for Indian tech interviews with Desi Mode, and ~7× to 10× cheaper than US tools with zero hourly ticking meters.</p>
             </div>
 
             <div className="glass-card overflow-hidden">
@@ -975,11 +1004,13 @@ export default function LandingClient(props: LandingClientProps) {
                   </thead>
                   <tbody>
                     {[
+                      ['100% Unlimited (No minute caps)', '✅ Yes (All paid)', '❌ 5-min sessions', '❌ 30-min block deduction', '❌ Strict limits'],
+                      ['Cost per hour of prep', '✅ ~₹14/hr', '❌ ~₹3,500/hr', '❌ ~₹4,500/hr', '❌ ~₹7,000/hr'],
                       ['Desktop app (true stealth)', '✅', '⚠️ Web', '✅', '✅'],
                       ['System audio capture', '✅', '❌', '✅', '❌'],
                       ['Indian languages (10+)', '✅', '❌', '❌', '❌'],
                       ['₹ LPA salary & notice norms', '✅', '❌', '❌', '❌'],
-                      ['Free plan (no time limit)', '✅', '❌', '❌', '❌'],
+                      ['Free plan (no time limit)', '✅ 15 answers/day', '❌ 5-min session', '❌ Free trial only', '❌ No trial'],
                     ].map(([feature, ...vals], i) => (
                       <tr key={i} className={`border-b border-[rgba(34,211,238,0.10)] ${i % 2 === 0 ? 'bg-[rgba(34,211,238,0.05)]' : ''}`}>
                         <td className="px-5 py-3.5 hl-text-secondary font-medium">{feature}</td>

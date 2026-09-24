@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const ROWS = [
-  { feature: 'Free plan',                    javihai: '✅ 3 answers/day forever',         cluely: '⚠️ 5 responses/day, 100-char limit' },
+  { feature: 'Free plan',                    javihai: '✅ 15 answers/day forever (5/mode)', cluely: '⚠️ 5 responses/day, 100-char limit' },
   { feature: 'Entry paid price',             javihai: '✅ ₹250 (24-hour pass)',             cluely: '⚠️ $20/month (no undetectability)' },
   { feature: 'Invisible / undetectable tier',javihai: '✅ Included at every paid tier',    cluely: '❌ $149.99/month add-on' },
   { feature: 'Built for Indian interviews',   javihai: '✅ Yes — ₹ CTC, Indian companies',  cluely: '❌ No India-specific focus' },

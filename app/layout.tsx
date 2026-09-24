@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: 'JavihAI — Unlimited AI Interview Copilot | 100% Invisible',
+    default: "JavihAI — India's 1st & World's Most Affordable Unlimited AI Interview Copilot",
     template: '%s | JavihAI',
   },
 
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   // sentence in search results. Full feature detail belongs on the page
   // itself, not in the SERP snippet.
   description:
-    "India's 1st unlimited AI interview & coding copilot — 100% invisible on Zoom, Meet & Teams. Real-time answers, free forever, no credit card needed.",
+    "India's 1st & world's most affordable unlimited AI interview copilot with Desi Mode. 100% invisible on Zoom & Teams. Real-time answers, free to start.",
 
   keywords: [
     'AI interview assistant India',
