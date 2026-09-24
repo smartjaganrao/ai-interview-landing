@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const ROWS = [
-  { feature: 'Free plan',                    javihai: '✅ 3 answers/day forever',         parakeet: '⚠️ Free trial only, no card' },
+  { feature: 'Free plan',                    javihai: '✅ 15 answers/day forever (5/mode)', parakeet: '⚠️ Free trial only, no card' },
   { feature: 'Pricing model',                javihai: '✅ Simple flat plans',              parakeet: '❌ Credit-based (0.5 credit/30 min)' },
   { feature: 'Unlimited plan (monthly)',     javihai: '✅ ₹2,000/month',                   parakeet: '❌ ~$149.90/month (~₹14,240)' },
   { feature: 'Session limits',                javihai: '✅ None while subscribed',          parakeet: '⚠️ Credits deducted per 30-min block' },

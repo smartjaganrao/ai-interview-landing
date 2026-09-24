@@ -104,12 +104,12 @@ export async function verifyIdToken(token: string): Promise<{ uid: string; email
 // ── AI quota (mirrors the desktop's useQuota model) ───────────────────────────
 // Three independent daily buckets instead of one combined counter — a
 // screenshot solve, a system-audio (Listen) answer, and a mic/typed answer
-// each draw from their own pool. Free users get up to 3/day total.
+// each draw from their own pool. Free users get up to 15/day total (5 each).
 export type QuotaFeature = 'screenshot' | 'system_audio' | 'mic';
 const FREE_FEATURE_LIMITS: Record<QuotaFeature, number> = {
-  screenshot: 1,
-  system_audio: 1,
-  mic: 1,
+  screenshot: 5,
+  system_audio: 5,
+  mic: 5,
 };
 // Which usage_tracking/{uid}/days/{day} field each feature's count lives in.
 // `screenshotsUsed`/`systemAudioUsed`/`micUsed` are plain per-answer counts —
