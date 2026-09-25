@@ -12,6 +12,7 @@ import { BsMicrosoftTeams } from 'react-icons/bs';
 import { FaSkype, FaSlack, FaAws } from 'react-icons/fa6';
 import { TbBrandAzure } from 'react-icons/tb';
 import { FAQ_ITEMS } from '@/lib/homepage-schema';
+import LiveSocialProofTicker from '@/components/LiveSocialProofTicker';
 
 // Code-split: none of these render anything on initial paint (each is
 // gated behind state that starts false/null, or is the always-null-until-
@@ -274,37 +275,32 @@ export default function LandingClient(props: LandingClientProps) {
                   laptop-sm — the classic SaaS hero split instead of one
                   long centered column with the video buried at the bottom. */}
               <div className="text-center laptop-sm:text-left">
-                <div className="mb-6 animate-fade-in-up flex justify-center laptop-sm:justify-start">
+                <div className="mb-4 animate-fade-in-up flex flex-col sm:flex-row items-center justify-center laptop-sm:justify-start gap-3">
                   <div className="badge-glow inline-flex items-center gap-2 text-xs sm:text-sm font-semibold py-1 px-3 rounded-full backdrop-blur-md">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                     </span>
-                    <span>🇮🇳 India&apos;s 1st · 🌍 World&apos;s Most Affordable Unlimited AI Copilot</span>
+                    <span>🇮🇳 India&apos;s 1st · 🌍 World&apos;s Most Affordable Plan</span>
                   </div>
                 </div>
 
                 <h1 className="hl-heading text-4xl tablet:text-5xl laptop-sm:text-5xl laptop-lg:text-6xl font-black tracking-tight mb-5 animate-fade-in-up leading-tight" style={{ animationDelay: '0.1s' }}>
-                  India&apos;s 1st &amp; World&apos;s Most Affordable <br />
-                  <span className="text-gradient animate-gradient">100% Unlimited AI</span>{' '}
-                  Interview Copilot
+                  Real-Time <span className="text-gradient animate-gradient">Unlimited AI Copilot</span> <br />
+                  For Interviews, Coding &amp; Exams
                 </h1>
 
                 <p className="hl-text-secondary text-base tablet:text-lg laptop-sm:text-lg mb-6 max-w-2xl mx-auto laptop-sm:mx-0 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-                  Built for Indian tech interviews with <strong>Desi Mode</strong> (CTC in ₹ LPA, notice periods &amp; Indian languages). While global competitors charge ₹3,000–₹15,000/hour or meter every minute, JavihAI gives you <strong>100% UNLIMITED</strong> answers starting at just <strong>₹14/hr</strong>. 100% invisible on screen share.
+                  100% invisible live copilot for Zoom/Meet interviews, live coding rounds &amp; exam certifications (AWS, Azure, GCP, CompTIA &amp; OAs). Real-time answers with <strong>zero hourly limits</strong> from just <strong>₹14/hr</strong>.
                 </p>
 
-                {/* Compact version of 4 of the 6 "What It Does" cards below
-                    (id="features") — same names/claims, just without the
-                    full descriptions, so the hero's core differentiators
-                    (speed, stealth, audio, Desi Mode) are visible before a
-                    visitor decides whether to keep scrolling. */}
+                {/* Compact version of core use-cases & differentiators */}
                 <div className="flex flex-wrap items-center justify-center laptop-sm:justify-start gap-x-5 gap-y-2 text-[#EAF6FF] text-sm font-semibold mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                  <span className="flex items-center gap-1.5">♾️ 100% Unlimited</span>
-                  <span className="flex items-center gap-1.5">⚡ Sub-2s Answers</span>
+                  <span className="flex items-center gap-1.5">💼 Live Interviews</span>
+                  <span className="flex items-center gap-1.5">💻 Coding Rounds &amp; OAs</span>
+                  <span className="flex items-center gap-1.5">📜 Exam Certifications</span>
                   <span className="flex items-center gap-1.5">🥷 100% Invisible</span>
-                  <span className="flex items-center gap-1.5">🎧 System Audio</span>
-                  <span className="flex items-center gap-1.5">🇮🇳 Desi Mode</span>
+                  <span className="flex items-center gap-1.5">♾️ 100% Unlimited</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:flex-wrap items-center laptop-sm:items-start justify-center laptop-sm:justify-start gap-3 mb-4 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
@@ -366,6 +362,10 @@ export default function LandingClient(props: LandingClientProps) {
                   <Link href="/install" className="underline underline-offset-2 hover:text-[#EAF6FF]">Other platforms</Link>
                 </p>
 
+                {/* Live Social Proof Activity Ticker directly below hero CTA */}
+                <div className="flex justify-center laptop-sm:justify-start animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
+                  <LiveSocialProofTicker />
+                </div>
               </div>
 
               {/* RIGHT — hero demo video. Same click-to-play YouTube embed
@@ -519,10 +519,10 @@ export default function LandingClient(props: LandingClientProps) {
                 <div>
                   <div className="text-xs uppercase tracking-wider text-blue-400 font-bold">🇮🇳 Built For India · 🌍 Unbeatable Global Value</div>
                   <h3 className="text-base sm:text-lg font-black text-white">
-                    Nobody in India or the world gives 100% Unlimited AI at this price
+                    One Unlimited AI Copilot for Interviews, Coding &amp; Certifications
                   </h3>
                   <p className="text-xs text-[#8FA8C2] mt-0.5">
-                    Foreign tools charge per-hour meters (₹3,500–₹15,000/hr) with zero Indian company context. JavihAI gives 100% unlimited answers with Desi Mode &amp; 1-click UPI.
+                    Foreign tools charge per-hour meters (₹3,500–₹15,000/hr) with zero Indian company context. JavihAI gives 100% unlimited answers for job interviews, coding rounds, and certification exams with Desi Mode &amp; 1-click UPI.
                   </p>
                 </div>
               </div>
@@ -558,6 +558,22 @@ export default function LandingClient(props: LandingClientProps) {
               <p className="hl-text-secondary text-base sm:text-lg leading-relaxed">
                 Switch between a real interactive simulator and the full product walkthrough.
               </p>
+            </div>
+
+            {/* 60-Second In-App Sound & Stealth Test */}
+            <div className="mb-8 p-4 rounded-xl bg-blue-500/5 border border-blue-500/20 max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">⚡</span>
+                <div>
+                  <div className="text-xs font-bold text-blue-400 uppercase tracking-wider">60-Second Confidence Test</div>
+                  <div className="text-xs text-[#EAF6FF]">
+                    1. Open desktop app → 2. Audio &amp; mic auto-sync → 3. Answer streams in &lt;1.5s
+                  </div>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-bold whitespace-nowrap">
+                100% Invisible to Zoom / Meet
+              </span>
             </div>
 
             <div className="flex items-center justify-center gap-1 bg-[rgba(10,16,28,0.7)] border border-[rgba(34,211,238,0.14)] p-1 rounded-xl mb-8 max-w-xs mx-auto">

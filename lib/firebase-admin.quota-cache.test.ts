@@ -51,7 +51,7 @@ describe('checkAiQuota caching (banCache 10s / quotaCache 2min split)', () => {
     usageGet.mockResolvedValue(usage(0));
 
     const first = await checkAiQuota('uid-fresh', 'mic');
-    expect(first).toEqual({ allowed: true, plan: 'free', used: 0, limit: 10, feature: 'mic' });
+    expect(first).toEqual({ allowed: true, plan: 'free', used: 0, limit: 5, feature: 'mic' });
     expect(usersGet).toHaveBeenCalledTimes(1);
     expect(usageGet).toHaveBeenCalledTimes(1);
 
@@ -75,7 +75,7 @@ describe('checkAiQuota caching (banCache 10s / quotaCache 2min split)', () => {
 
     expect(usersGet).toHaveBeenCalledTimes(2); // ban re-checked
     expect(usageGet).toHaveBeenCalledTimes(1); // usage/quota still cached
-    expect(result).toMatchObject({ allowed: true, used: 1, limit: 10 });
+    expect(result).toMatchObject({ allowed: true, used: 1, limit: 5 });
   });
 
   it('blocks a banned user immediately and re-verifies the ban within ~10s, not 2 minutes', async () => {
