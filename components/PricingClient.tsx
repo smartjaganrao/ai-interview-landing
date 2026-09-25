@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { cachedGetDoc } from '@/lib/firestore-cache';
 import Footer from '@/components/Footer';
+import LiveSocialProofTicker from '@/components/LiveSocialProofTicker';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 import {
   PLANS,
   PlanId,
@@ -184,16 +186,16 @@ export default function PricingClient({ initialPricing }: PricingClientProps) {
       <section className="pt-12 sm:pt-16 md:pt-20 pb-20">
         <div className="max-w-7xl mx-auto px-6">
           {/* Header */}
-          <div className="text-center mb-16">
-            <div className="badge mb-4">🇮🇳 The World&apos;s Only Truly Unlimited AI Interview Copilot</div>
+          <div className="text-center mb-10">
+            <div className="badge mb-4">🇮🇳 For Interviews, Coding Rounds &amp; Certification Exams</div>
             <h1 className="text-4xl md:text-6xl font-black mb-6">
-              India&apos;s 1st <span className="text-gradient">Unlimited Plan</span>
+              India&apos;s 1st <span className="text-gradient">Unlimited Copilot Plan</span>
             </h1>
-            <p className="text-lg md:text-xl text-[#57534E] max-w-2xl mx-auto mb-6">
-              Other tools charge $150–$300/mo by the hour and cut off mid-interview. JavihAI gives you 100% Unlimited Interview Time, Zero Hourly Caps, and Full Indian Context (CTC in LPA, 90-day notice period) at the world&apos;s most affordable price.
+            <p className="text-base sm:text-lg text-[#57534E] max-w-2xl mx-auto mb-6">
+              Zero hourly meters. Never cuts off mid-interview or mid-exam. 100% unlimited answers for live interviews, coding OAs &amp; cloud certifications at the world&apos;s lowest price.
             </p>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-[#0B63C7] text-xs sm:text-sm font-bold">
-              ♾️ ZERO HOURLY CAPS · NO TICKING TIMERS · NEVER CUTS OFF MID-INTERVIEW
+              ♾️ ZERO HOURLY CAPS · LIVE INTERVIEWS · CODING ROUNDS · EXAM CERTIFICATIONS
             </div>
           </div>
 
@@ -204,7 +206,7 @@ export default function PricingClient({ initialPricing }: PricingClientProps) {
               plan-specific coupon shouldn't hide the offer from visitors
               browsing a different plan the coupon doesn't cover. */}
           {featuredCoupon && (
-            <div className="max-w-2xl mx-auto mb-4 -mt-6">
+            <div className="max-w-2xl mx-auto mb-6">
               <div className="card text-center bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30 py-4">
                 <span className="text-[#8B2BE2] font-semibold">
                   🎟️ Use code{' '}
@@ -231,7 +233,7 @@ export default function PricingClient({ initialPricing }: PricingClientProps) {
           {(!featuredCoupon || featuredCoupon.appliesTo !== 'all') &&
             pricing?.offer?.active && pricing.offer.percentOff > 0 &&
             (!pricing.offer.expiresAt || Date.now() < pricing.offer.expiresAt) && (
-              <div className="max-w-2xl mx-auto mb-10 -mt-6">
+              <div className="max-w-2xl mx-auto mb-8">
                 <div className="card text-center bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-green-500/30 py-4">
                   <span className="text-[#15803D] font-semibold">
                     🎉 {pricing.offer.label || `Limited offer — ${pricing.offer.percentOff}% off`}
@@ -239,6 +241,11 @@ export default function PricingClient({ initialPricing }: PricingClientProps) {
                 </div>
               </div>
             )}
+
+          {/* Live Social Proof Activity Ticker - Right above plan cards */}
+          <div className="flex justify-center mb-8">
+            <LiveSocialProofTicker />
+          </div>
 
           {/* Pricing cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -458,6 +465,90 @@ export default function PricingClient({ initialPricing }: PricingClientProps) {
               >
                 <span>💬</span>
                 <span>Share Split Deal with 4 Roommates</span>
+              </a>
+            </div>
+
+            {/* Campus Ambassador & College Placement (TPO) Lead Banner */}
+            <div className="card bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-cyan-500/10 border-blue-500/25 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-xl flex-shrink-0">
+                  🎓
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-[#1A1512]">
+                    College Placement Coordinator (TPO) or Hostel Lead?
+                  </h4>
+                  <p className="text-xs text-[#57534E]">
+                    Get official batch-wide pass codes for your college branch and earn an exclusive <strong>25% recurring UPI commission</strong> on every student signup.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://api.whatsapp.com/send?phone=917995812399&text=Hi%20Jagan%2C%20I%20am%20a%20College%20Placement%20Coordinator%20%2F%20Hostel%20Lead%20and%20want%20to%20register%20as%20a%20Campus%20Ambassador%20for%20JavihAI."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary text-xs font-bold whitespace-nowrap py-2 px-4 flex items-center gap-1.5"
+              >
+                <span>💬</span>
+                <span>Chat with Founder on WhatsApp</span>
+              </a>
+            </div>
+
+            {/* Free Tier +5 Bonus Answers for 1 Invite */}
+            <div className="card bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 border-amber-500/25 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-xl flex-shrink-0">
+                  🎁
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-[#1A1512]">
+                    Need More Free Practice Today? Invite 1 Friend for +5 Bonus Answers
+                  </h4>
+                  <p className="text-xs text-[#57534E]">
+                    Forward JavihAI to a batchmate or college group. When they sign up with Google, you instantly unlock +5 bonus answers for today.
+                  </p>
+                </div>
+              </div>
+              <a
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                  "Hey! Test your live coding rounds & technical interviews with this free invisible AI copilot: https://javihai.in"
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary text-xs font-bold whitespace-nowrap py-2 px-4 flex items-center gap-1.5"
+              >
+                <span>📲</span>
+                <span>Invite 1 Friend (+5 Answers)</span>
+              </a>
+            </div>
+
+            {/* Founder WhatsApp Support & 7-Day UPI Refund Assurance Box */}
+            <div className="card bg-white/90 border border-green-500/30 p-6 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
+              <div className="flex items-center gap-4 text-center sm:text-left">
+                <div className="w-12 h-12 rounded-2xl bg-green-500/15 border border-green-500/30 flex items-center justify-center text-2xl flex-shrink-0">
+                  🛡️
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-green-500/20 text-[#15803D] text-[11px] font-bold mb-1">
+                    100% Risk-Free Guarantee
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-[#1A1512]">
+                    7-Day No-Questions-Asked UPI Refund + Direct Founder WhatsApp
+                  </h3>
+                  <p className="text-xs text-[#57534E] mt-0.5 max-w-lg leading-relaxed">
+                    If JavihAI does not give you complete confidence in your interview, message founder Jagan directly on WhatsApp. We process full refunds directly to your UPI ID within minutes.
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://api.whatsapp.com/send?phone=917995812399&text=Hi%20Jagan%2C%20I%20have%20a%20question%20about%20JavihAI%20pricing%20and%20plans."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 px-5 text-xs whitespace-nowrap flex items-center gap-2 shadow-sm flex-shrink-0"
+              >
+                <WhatsAppIcon glyphOnly className="w-4 h-4" />
+                <span>WhatsApp Founder directly</span>
               </a>
             </div>
           </div>
