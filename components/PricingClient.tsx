@@ -484,7 +484,7 @@ export default function PricingClient({ initialPricing }: PricingClientProps) {
                 </div>
               </div>
               <a
-                href="https://api.whatsapp.com/send?phone=917995812399&text=Hi%20Jagan%2C%20I%20am%20a%20College%20Placement%20Coordinator%20%2F%20Hostel%20Lead%20and%20want%20to%20register%20as%20a%20Campus%20Ambassador%20for%20JavihAI."
+                href="https://api.whatsapp.com/send?phone=919884160332&text=Hi%20Jagan%2C%20I%20am%20a%20College%20Placement%20Coordinator%20%2F%20Hostel%20Lead%20and%20want%20to%20register%20as%20a%20Campus%20Ambassador%20for%20JavihAI."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-secondary text-xs font-bold whitespace-nowrap py-2 px-4 flex items-center gap-1.5"
@@ -542,7 +542,7 @@ export default function PricingClient({ initialPricing }: PricingClientProps) {
               </div>
 
               <a
-                href="https://api.whatsapp.com/send?phone=917995812399&text=Hi%20Jagan%2C%20I%20have%20a%20question%20about%20JavihAI%20pricing%20and%20plans."
+                href="https://api.whatsapp.com/send?phone=919884160332&text=Hi%20Jagan%2C%20I%20have%20a%20question%20about%20JavihAI%20pricing%20and%20plans."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 px-5 text-xs whitespace-nowrap flex items-center gap-2 shadow-sm flex-shrink-0"
