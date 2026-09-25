@@ -6,8 +6,8 @@ Built specifically for the Indian job market: answers reference CTC in ₹ LPA (
 
 ## Key facts
 
-- Free plan: up to 25 AI answers per day (5 screenshot solves, 10 system-audio answers, 10 mic answers) — no credit card, no expiry, resets every day forever. Unlike most competitors' one-time trials that run out, this is a genuinely recurring daily allowance.
-- Paid plans (INR, via Razorpay/UPI): ₹250 one-hour pass, ₹1,000 for 7 days unlimited, ₹2,000/month for the Power plan (fully unlimited). All paid plans include a 7-day money-back guarantee.
+- Free plan: up to 15 AI answers per day (5 screenshot solves, 5 system-audio answers, 5 mic answers) — no credit card, no expiry, resets every day forever. Unlike most competitors' one-time trials that run out, this is a genuinely recurring daily allowance.
+- Paid plans (INR, via Razorpay/UPI): ₹349 one-time for a 24-hour unlimited Quick Pass, ₹1,299 one-time for 7 days unlimited (Pro), ₹2,499/month for the Power plan (fully unlimited, cancel anytime). All paid plans include a 7-day money-back guarantee. Full machine-readable breakdown at https://javihai.in/pricing.md.
 - Typically 2×–14× cheaper than international alternatives (Final Round AI, Cluely, Interview Coder) at comparable feature levels.
 - ~2,400 candidates helped, hired at companies including Google India, Flipkart, Razorpay, CRED, Meesho, and Accenture.
 - Core features: system-audio capture (hears the interviewer directly, no mic needed), screenshot-and-solve for coding/system-design problems, live caption transcript, voice-driven mock interviews with scoring, resume builder, and job recommendations.
