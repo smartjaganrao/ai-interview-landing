@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-// Vercel Cron calls this daily (configured in vercel.json) to generate one
-// fresh blog draft — never auto-published. Reuses /api/blog/generate's
-// existing Groq prompt/logic rather than duplicating it; just adds topic
-// rotation and the Firestore write on top.
+// Vercel Cron calls this daily (configured in vercel.json) to generate and
+// publish one fresh blog post, live with no manual review step. Reuses
+// /api/blog/generate's existing Groq prompt/logic rather than duplicating
+// it; just adds topic rotation and the Firestore write on top. Safe to run
+// unattended only because /api/blog/generate's system prompt (as of
+// 2026-09-25) is constrained to real JavihAI facts/features/domain and
+// forbids fabricated quotes/stats — this route trusts that constraint
+// instead of gating on a human review step.
 
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -80,10 +84,10 @@ export async function GET(req: NextRequest) {
       seoDescription: post.seoDescription,
       tags: Array.isArray(post.tags) ? post.tags : [],
       authorName: 'JavihAI Team',
-      published: false,
+      published: true,
       createdAt: now,
       updatedAt: now,
-      publishedAt: null,
+      publishedAt: now,
     });
 
     await stateRef.set({ nextIndex: idx + 1, lastRunAt: now, lastIdea: idea }, { merge: true });
