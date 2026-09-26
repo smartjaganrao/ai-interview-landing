@@ -23,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: base },
     { url: `${base}/about` },
+    { url: `${base}/best-ai-interview-copilot-india` },
     { url: `${base}/indian-languages` },
     { url: `${base}/programming-languages` },
     { url: `${base}/dsa-topics` },

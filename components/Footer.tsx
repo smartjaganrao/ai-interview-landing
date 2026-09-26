@@ -72,6 +72,7 @@ export default function Footer() {
               <li><Link href="/about" className="text-slate-400 hover:text-white transition">About Us</Link></li>
               <li><Link href="/blog" className="text-slate-400 hover:text-white transition">Blog</Link></li>
               <li><Link href="/indian-languages" className="text-slate-400 hover:text-white transition">9 Indian Languages 🇮🇳</Link></li>
+              <li><Link href="/best-ai-interview-copilot-india" className="text-slate-400 hover:text-white transition">Best AI Interview Copilot in India</Link></li>
               <li><Link href="/compare" className="text-slate-400 hover:text-white transition">Compare</Link></li>
               <li><Link href="/creator" className="text-slate-400 hover:text-white transition">Creator Program 💸</Link></li>
               <li><Link href="/compare/chiku-ai" className="text-slate-400 hover:text-white transition">vs Chiku AI</Link></li>
