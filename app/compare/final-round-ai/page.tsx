@@ -30,9 +30,40 @@ const ROWS = [
   { feature: 'Works in India (payments)', javihai: '✅ Razorpay — UPI, cards',    fra: '⚠️ USD only' },
 ];
 
+const comparisonSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: [
+    {
+      '@type': 'Product',
+      position: 1,
+      name: 'JavihAI',
+      additionalProperty: ROWS.map((r) => ({
+        '@type': 'PropertyValue',
+        name: r.feature,
+        value: r.javihai.replace(/^[^\w₹$]+\s*/, ''),
+      })),
+    },
+    {
+      '@type': 'Product',
+      position: 2,
+      name: 'Final Round AI',
+      additionalProperty: ROWS.map((r) => ({
+        '@type': 'PropertyValue',
+        name: r.feature,
+        value: r.fra.replace(/^[^\w₹$]+\s*/, ''),
+      })),
+    },
+  ],
+};
+
 export default function FinalRoundAIComparePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(comparisonSchema).replace(/</g, '\\u003c') }}
+      />
       <div className="pt-12 sm:pt-16 md:pt-20 pb-20 max-w-5xl mx-auto px-6">
 
         {/* Hero */}

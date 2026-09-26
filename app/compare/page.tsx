@@ -18,9 +18,24 @@ const COMPETITORS = [
   { name: 'Parakeet AI',     price: '$149.90/mo (~₹14,240)', savings: '~7×', slug: 'parakeet-ai',    tag: '🦜 Credit-based tool' },
 ];
 
+const comparisonListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: COMPETITORS.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: `JavihAI vs ${c.name}`,
+    url: `https://javihai.in/compare/${c.slug}`,
+  })),
+};
+
 export default function ComparePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(comparisonListSchema).replace(/</g, '\\u003c') }}
+      />
       <div className="pt-12 sm:pt-16 md:pt-20 pb-20 max-w-4xl mx-auto px-6">
         <div className="text-center mb-16">
           <div className="badge mb-4">⚔️ Comparisons</div>
